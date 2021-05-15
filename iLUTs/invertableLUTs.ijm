@@ -1,3 +1,4 @@
+<fromString>
 /*
 2021/05/15 Terretaz Kevin @kWolbachia
 
@@ -15,8 +16,6 @@ these are the rules :
 overwise the result won't be satisfying.
 
 */
-run("Action Bar","/plugins/ActionBar/invertableLUTs.ijm");
-exit();
 
 <stickToImageJ>
 <noGrid>
