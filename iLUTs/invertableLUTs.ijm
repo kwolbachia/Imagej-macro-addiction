@@ -1,22 +1,4 @@
 <fromString>
-/*
-2021/05/15 Terretaz Kevin @kWolbachia
-
-ActionBar toolset for :
-- personnalisation of linear LUTs combinaison
-- possibility* to invert LUTs and see them displayed in imageJ whithout RGB conversion
-- A splitview to see all channels and overlay in one window, reversible
-- generate random invertable LUTs for inspiration ;)
-- reorder LUTs in a similar way than the Arrange Channels tool.
-
-note : the invert iLUTs tool will work from 2 to 4 channels.
-these are the rules : 
-- for 2 channel images the sum of all Reds, Greens and Blues must be == 255.
-- for 3 and 4 channels, the sum must be 510 each.
-overwise the result won't be satisfying.
-
-*/
-
 <stickToImageJ>
 <noGrid>
 <line>
