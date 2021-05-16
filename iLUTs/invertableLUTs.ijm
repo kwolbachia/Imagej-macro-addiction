@@ -436,10 +436,10 @@ function good_iLUTs(){
 		Stack.setChannel(3); LUTmaker(248,188,100);
 	}
 	if (channels==4) {
-		Stack.setChannel(1); LUTmaker(0,110,240);
-		Stack.setChannel(2); LUTmaker(190,2,208);
-		Stack.setChannel(3); LUTmaker(252,182,50);
-		Stack.setChannel(4); LUTmaker(68,216,12);
+		Stack.setChannel(1); LUTmaker(0,130,240);
+		Stack.setChannel(2); LUTmaker(240,2,178);
+		Stack.setChannel(3); LUTmaker(242,162,20);
+		Stack.setChannel(4); LUTmaker(28,216,72);
 	}
 	if (channels>4) exit("this tool works with up to 4 channels");
 }
