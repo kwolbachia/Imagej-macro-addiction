@@ -101,7 +101,7 @@ function LUTbaker(){
 	while ( preview ) { //LUT baking
 		setBatchMode(1);
 		totR = 0; totG = 0; totB = 0;
-		if (getInfo("os.name")!="Mac OS X") Dialog.createNonBlocking("§ The LUT baker §");
+		if (getInfo("os.name")!="Mac OS X") Dialog.createNonBlocking("The LUT baker");
 		else Dialog.createNonBlocking("◊ The LUT baker ◊");
 		Dialog.setLocation(x+w,y);
 		for(i=0; i<CH; i++) {
