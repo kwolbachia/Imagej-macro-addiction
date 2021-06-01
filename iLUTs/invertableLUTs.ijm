@@ -356,6 +356,7 @@ function SplitviewInteractor(){
 	getDimensions(w, h, ch, s, f);
 	w=w/(ch+1);	overlay = (ch*w); id=getImageID();
 	while (isOpen(id)) {
+		if (!startsWith(getTitle(), "Splitview")) exit;
 		getCursorLoc(x, y, z, flags);
 		if (flags==16&&getImageID()==id) {
 			if(x<overlay){
