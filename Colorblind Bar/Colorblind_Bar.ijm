@@ -1,4 +1,4 @@
-run("Action Bar","/plugins/ActionBar/CB_Bar.ijm");
+run("Action Bar","/plugins/ActionBar/Colorblind_Bar.ijm");
 exit;
 
 <stickToImageJ>
