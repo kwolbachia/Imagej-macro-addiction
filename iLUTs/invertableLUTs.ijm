@@ -19,7 +19,7 @@ these are the rules :
 overwise the result won't be satisfying.
 
 Installation : provided you have the ActionBar plugin from @jmutterer installed and thanks to his magic, 
-you just have to run this macro command line: 
+you just need to run this macro command line: 
 
 run("Action Bar",File.openUrlAsString("https://raw.githubusercontent.com/kwolbachia/Imagej-macro-addiction/main/iLUTs/invertableLUTs.ijm"));
 
@@ -266,18 +266,20 @@ function invert4_iLUTs() {
 		for(i=0; i<CH; i++) {
 			Stack.setChannel(i+1);
 			getLut(r,g,b);
-			if(!is("Inverting LUT")){ 
+			if (!is("Inverting LUT")){ 
 				R=((256-r[255]/2)-128);
 				G=((256-g[255]/2)-128);
 				B=((256-b[255]/2)-128);
 				LUTmaker(R,G,B);
-				run("Invert LUT");		}
-			else {
-				R=((256-r[0])-128)*2;
-				G=((256-g[0])-128)*2;
-				B=((256-b[0])-128)*2;	
-				LUTmaker(R,G,B);		}
+				run("Invert LUT");		
 			}
+			else {
+				if (r[0]==128) R=0; else if (r[0]==0) R=255; else R=((256-r[0])-128)*2;
+				if (g[0]==128) G=0; else if (g[0]==0) G=255; else G=((256-g[0])-128)*2;
+				if (b[0]==128) B=0; else if (b[0]==0) B=255; else B=((256-b[0])-128)*2;
+				LUTmaker(R,G,B);		
+			}
+		}
 		if(CH>1)Stack.setChannel(ch); 
 	setBatchMode(0);
 }
