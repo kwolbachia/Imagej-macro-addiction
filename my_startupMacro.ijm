@@ -14,7 +14,7 @@ var pencilWidth=1,eraserWidth=10,leftClick=16,alt=8,brushWidth=10,floodType="8-c
 //------SHORTCUTS
 var ShortcutsMenu = newMenu("Custom Menu Tool",
 	newArray("Max from virtual stack","Set selection size...","Note in infos","Rotate 90 Degrees Right","Rotate 90 Degrees Left","Plot Z-axis Profile","make my LUTs","-","Gaussian Blur...","Gaussian Blur 3D...","Gamma...",
-		 "-","test all Z project", "test CLAHE options","slow CLAHE","Tempo color no Zproject","test all color blindness","gauss correction","mean corr by slices","-","Batch convert ims to tif","Batch convert 32 to 16-bit",
+		 "-","test all Z project", "test CLAHE options","slow CLAHE","Tempo color no Zproject","test all color blindness","gauss correction","-","Batch convert ims to tif","Batch convert 32 to 16-bit",
 		 "-","Neuron (5 channels)","HeLa Cells (48-bit RGB)","Fluorescent Cells", "Confocal Series","Mitosis (5D stack)","M51 Galaxy (16-bits)","-","invertedOverlay2","invertableLUTs","CB_Bar","JeromesWheel","RGBtimeIsOver"));
 macro "Custom Menu Tool - C000D16D17D18D19D24D25D26D27D33D34D35D36D42D43D44D52D53D5bD5cD61D69D6aD6cD6dD6eD74D78D79D7bD7cD7dD7eD81D87D88D8aD8bD8cD8dD8eD91D9bD9cD9dD9eDaaDabDacDadDbaDbbDbcDbdDc8Dc9DcaDcbDccDd7Dd8Dd9DdaDdbDe6De7De8De9C000D28D54D71D7aD9aDb9Dc7Dd6C000D45Db2C000D15D1aD51D5eDa1De5DeaC000D29D5dDaeC000Da2C000D23D2aD32D6bDc2DcdDdcC000D2bD89C000D07D08D37D70D80Df7Df8C000D7fD8fDd3Dd5C000C111D2cC111Db8C111D62C111D92C111D14D1bD41DbeDe4DebC111D4eDb1C111Dd4C222Da9C222D64Dc3C222Dc6C222D63C222D55C222D46C222C333D3dC333D06D09D60D6fD90D9fDf6Df9C333D38C333D4dC333D82C333C444D99C444Db3C444C555D22Dd2DddC555D2dC555D72C555Db7C555C666D39C666D05D0aD50D5fDa0DafDf5DfaC666C777D3cC777D13D1cD31Dc1DceDe3DecC777D3eC777Da3C777Dc5C777C888D3aC888D3bC888D47Da8C888C999D65C999CaaaD56CaaaDc4CaaaD4cCaaaCbbbD93CbbbD04D0bD40D4fDb0DbfDf4DfbCbbbDb6CbbbCcccD73CcccCdddD5aD98CdddD48CdddD12D1dD21D2eDd1DdeDe2DedCdddD83CdddCeeeD00D01D02D03D0cD0dD0eD0fD10D11D1eD1fD20D2fD30D3fDc0DcfDd0DdfDe0De1DeeDefDf0Df1Df2Df3DfcDfdDfeDffCeeeD4bCeeeDa7CeeeD75D77Db4CeeeCfffD68CfffD59CfffDb5CfffD57CfffD4aD66D97CfffD49CfffDa4CfffDa6CfffD84D94CfffD58D67D85D86D96CfffD76D95Da5" {
 	cmd = getArgument(); if (cmd!="-") run(cmd);	}
@@ -117,7 +117,7 @@ macro "CB_Bar" { 	   run("Action Bar",File.openUrlAsString("https://git.io/JZUZw
 
 macro "auto 	  [A]"	{ if (isKeyDown("alt"))		run("Enhance all contrasts");				else if (isKeyDown("space")) run("Enhance on all channels");  else run("Enhance Contrast", "saturated=0.03");}
 macro "Adjust 	  [R]"	{ if (isKeyDown("space"))	run("Reset all contrasts"); 				else run("Auto-contrast on all channels");}
-macro "Adjust 	  [r]"	{ if (isKeyDown("alt"))	resetMinAndMax; else if (isKeyDown("space")) run("Install...","install=["+getDirectory("macros")+"/StartupMacros.fiji.ijm]");	else Adjust_Contrast();}
+macro "Adjust 	  [r]"	{ if (isKeyDown("alt"))		resetMinAndMax; 							else if (isKeyDown("space")) run("Install...","install=["+getDirectory("macros")+"/StartupMacros.fiji.ijm]");	else Adjust_Contrast();}
 macro "pasta	  [v]"	{ if (isKeyDown("space"))	run("System Clipboard");					else run("Paste");}
 macro "Tile 	  [E]"	{ 							run("cool Tile");}
 macro "edit lut   [e]"	{ if (isKeyDown("space"))	run("Show LUT");							else run("Edit LUT...");}
@@ -246,6 +246,7 @@ macro "Note in infos"{
 }
 
 macro "gauss correction"{
+	setBatchMode(1);
 	title=getTitle();
 	run("Duplicate...", "title=gaussed duplicate");
 	getDimensions(width, height, channels, slices, frames);
@@ -255,20 +256,7 @@ macro "gauss correction"{
 	imageCalculator("Subtract create stack", title, "gaussed");
 	rename(title+"_corrected")
 	setOption("Changes", 0);
-}
-
-macro"mean corr by slices"{
-	if (selectionType == -1) exit("This macro requires a background area selection");
-	run("Duplicate...", "duplicate");
-	for (j=1; j<=nSlices; j++) {
-		setSlice(j);
-		getStatistics(area, mean);
-		print("Slice" +j+ " mean subtracted = " + mean);
-		run("Select None");
-		run("Subtract...", "value=" + mean);
-		run("Restore Selection");
-		setOption("Changes", 0);
-	}
+	setBatchMode(0);
 }
 
 macro "test CLAHE options" {
@@ -854,7 +842,7 @@ function Setup_Splitview(color,labels){
 	if (ch > 5)  exit("5 channels max");
 	run("Duplicate...", "title=image duplicate");
 	if ((Z>1)&&(T==1)) {T=Z; Z=1; Stack.setDimensions(ch,Z,T); } 
-	tile = newArray(ch);	channels = ch;
+	tile = newArray(ch+1);	channels = ch;
 	getDimensions(w,h,ch,Z,T);
 	fontS = h/9;
 	run("Duplicate...", "title=split duplicate");
@@ -1412,20 +1400,30 @@ macro "rajout de bout" {
 
 macro "make my LUTs" {
 	lutsFolder = getDirectory("luts");
-	run("Neuron (5 channels)");
-	run("Arrange Channels...","new=1234");
+	newImage("bo", "8-bit composite-mode", 400, 400, 4, 1, 1);
+	setBackgroundColor(255,255,255);
 	Stack.setChannel(1);
+	makeRectangle(0, 0, 213, 213);
+	run("Clear", "slice");
 	LUTmaker(0,155,255);
 	saveAs("LUT", lutsFolder + "/kb.lut");
 	Stack.setChannel(2);
+	makeRectangle(187, 0, 213, 213);
+	run("Clear", "slice");
 	LUTmaker(255,100,0);
 	saveAs("LUT", lutsFolder + "/ko.lut");
 	Stack.setChannel(3);
+	makeRectangle(187, 187, 213, 213);
+	run("Clear", "slice");
 	LUTmaker(205,50,255);
 	saveAs("LUT", lutsFolder + "/km.lut");
 	Stack.setChannel(4);
+	makeRectangle(0, 187, 213, 213);
+	run("Clear", "slice");
 	LUTmaker(50,205,0);
 	saveAs("LUT", lutsFolder + "/kg.lut");
+	run("Select None");
+	setOption("Changes", 0);
 }
 
 /*macro "print title and minMax" {
@@ -1466,8 +1464,8 @@ macro "copy paste minMax"{
 //--------------------------------------------------------------------------------------------------------------------------------------
 macro "AutoRun" {
 	// run all the .ijm scripts provided in macros/AutoRun/
-	autoRunDirectory = getDirectory("imagej") + "/macros/AutoRun/";
-	if (File.isDirectory(autoRunDirectory)) { list = getFileList(autoRunDirectory); Array.sort(list); for (i = 0; i < list.length; i++) {if (endsWith(list[i], ".ijm")) {runMacro(autoRunDirectory + list[i]);}}}
+	//autoRunDirectory = getDirectory("imagej") + "/macros/AutoRun/";
+	//if (File.isDirectory(autoRunDirectory)) { list = getFileList(autoRunDirectory); Array.sort(list); for (i = 0; i < list.length; i++) {if (endsWith(list[i], ".ijm")) {runMacro(autoRunDirectory + list[i]);}}}
 	eval("js", "javax.swing.UIManager.setLookAndFeel('javax.swing.plaf.metal.MetalLookAndFeel');");//------------------------------------------------
 }
 function UseHEFT {requires("1.38f");state = call("ij.io.Opener.getOpenUsingPlugins");if (state=="false") {setOption("OpenUsingPlugins", true);showStatus("TRUE (images opened by HandleExtraFileTypes)");} else {setOption("OpenUsingPlugins", false);showStatus("FALSE (images opened by ImageJ)");}}
