@@ -97,7 +97,7 @@ macro "composite switch  [Q]" 	{if (!is("composite")) exit; Stack.getDisplayMode
 macro "my default LUTs   [1]"	{if (isKeyDown("space")) SetAllLUTs(); 		else if (isKeyDown("alt")) perso_Ask_LUTs(); else Set_LUTs();}
 macro "good size  		 [2]"	{if (isKeyDown("space"))run("full screen"); else run("good size");}
 macro "3D Zproject++     [3]"	{run("3D project++");}
-macro "full scale montage[4]"	{run("Make Montage...", "scale=1");}
+macro "full scale montage[4]"	{run("Make Montage...", "scale=1"); setOption("Changes", 0);}
 macro "25x25 selection   [5]"	{size=25; toUnscaled(size); size = round(size); makeRectangle(5,5,size,size); showStatus(size+"x"+size);}
 macro "make it look good [6]"	{for (i=0; i<nImages; i++) { setBatchMode(1); selectImage(i+1); run("Appearance...", "  "); run("Appearance...", "black no"); setBatchMode("exit and display"); }}
 macro "set destination   [7]" 	{showStatus("Destination set");	run("Alert ", "object=Image color=Orange duration=0"); call("ij.Prefs.set","Destination.title",getTitle());}
@@ -143,6 +143,41 @@ macro "open paste [o]"	{ 							open(String.paste);}
 
 //--------------------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------------------------------
+
+macro "3 channels roll [x]" {
+	id = getImageID();
+	if(bitDepth() != 24) run("Stack to RGB");
+	newList = newArray(132,213,231,321,312);
+	for (i = 0; i < 5; i++) {
+		setBatchMode(1);
+		selectImage(id);
+		run("Duplicate...","duplicate");
+		if(bitDepth() == 24) run("Make Composite");
+		reorderLUTs(newList[i]);
+		run("Stack to RGB");
+		setOption("Changes", 0);
+		setBatchMode(0);
+	}
+	run("Images to Stack");
+}
+
+function reorderLUTs(order) {
+	Stack.getPosition(Channel, slice, frame);
+	getDimensions(width, height, channels, slices, frames);
+	order = toString(order);
+	title=getTitle();
+	run("Duplicate...","title=dup duplicate frames=1 slices=1");
+	run("Arrange Channels...", "new=&order");
+	for (i = 1; i <= channels; i++) {
+		selectWindow("dup");
+		Stack.setChannel(i);
+		getLut(r, g, b);
+		selectWindow(title);
+		Stack.setChannel(i);
+		setLut(r, g, b);
+	}
+	Stack.setPosition(Channel, slice, frame);
+}
 
 function fastMerge(){
 	if (nImages>4) {run("Merge Channels..."); exit();}
@@ -423,9 +458,6 @@ macro "Batch convert 32 to 16-bit" {
 	dir = getDirectory("Select A folder");
 	// get the list of files (& folders) in it
 	fileList = getFileList(dir);
-	// prepare a folder to output the images
-	output_dir = dir + File.separator + " output" + File.separator ;
-	File.makeDirectory(output_dir);
 	setBatchMode(true);
 	for (i = 0; i < lengthOf(fileList); i++) {
 		current_imagePath = dir + fileList[i];
@@ -446,7 +478,7 @@ macro "Batch convert 32 to 16-bit" {
 				}
 			}
 			currentImage_name = getTitle();
-			saveAs("tiff", output_dir+currentImage_name);
+			saveAs("tiff", dir+currentImage_name);
 			run("Close All");
 		}
 	}
