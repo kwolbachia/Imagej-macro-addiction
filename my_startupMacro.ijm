@@ -2,6 +2,7 @@
 //StartupMacros perso
 //210411 SplitView2.0! en 12h...
 //210515 Splitview 3.0, invertable LUTs
+//210922 100 macros
 
 var chosen_LUTs = newArray("kb","ko","km","kg","Grays");
 var ChLabels = newArray("CidB","CidA","DNA","H4Ac","DIC");
@@ -15,7 +16,7 @@ var pencilWidth=1,eraserWidth=10,leftClick=16,alt=8,brushWidth=10,floodType="8-c
 var ShortcutsMenu = newMenu("Custom Menu Tool",
 	newArray("Max from virtual stack","Set selection size...","Note in infos","Rotate 90 Degrees Right","Rotate 90 Degrees Left","Plot Z-axis Profile","make my LUTs","-","Gaussian Blur...","Gaussian Blur 3D...","Gamma...",
 		 "-","test all Z project", "test CLAHE options","slow CLAHE","Tempo color no Zproject","test all color blindness","gauss correction","-","Batch convert ims to tif","Batch convert 32 to 16-bit",
-		 "-","Neuron (5 channels)","HeLa Cells (48-bit RGB)","Fluorescent Cells", "Confocal Series","Mitosis (5D stack)","M51 Galaxy (16-bits)","-","invertedOverlay2","invertableLUTs","CB_Bar","JeromesWheel","RGBtimeIsOver"));
+		 "-","Neuron (5 channels)","HeLa Cells (48-bit RGB)","Fluorescent Cells", "Confocal Series","Mitosis (5D stack)","M51 Galaxy (16-bits)","-","invertedOverlay2","invertableLUTs_Bar","CB_Bar","JeromesWheel","RGBtimeIsOver"));
 macro "Custom Menu Tool - C000D16D17D18D19D24D25D26D27D33D34D35D36D42D43D44D52D53D5bD5cD61D69D6aD6cD6dD6eD74D78D79D7bD7cD7dD7eD81D87D88D8aD8bD8cD8dD8eD91D9bD9cD9dD9eDaaDabDacDadDbaDbbDbcDbdDc8Dc9DcaDcbDccDd7Dd8Dd9DdaDdbDe6De7De8De9C000D28D54D71D7aD9aDb9Dc7Dd6C000D45Db2C000D15D1aD51D5eDa1De5DeaC000D29D5dDaeC000Da2C000D23D2aD32D6bDc2DcdDdcC000D2bD89C000D07D08D37D70D80Df7Df8C000D7fD8fDd3Dd5C000C111D2cC111Db8C111D62C111D92C111D14D1bD41DbeDe4DebC111D4eDb1C111Dd4C222Da9C222D64Dc3C222Dc6C222D63C222D55C222D46C222C333D3dC333D06D09D60D6fD90D9fDf6Df9C333D38C333D4dC333D82C333C444D99C444Db3C444C555D22Dd2DddC555D2dC555D72C555Db7C555C666D39C666D05D0aD50D5fDa0DafDf5DfaC666C777D3cC777D13D1cD31Dc1DceDe3DecC777D3eC777Da3C777Dc5C777C888D3aC888D3bC888D47Da8C888C999D65C999CaaaD56CaaaDc4CaaaD4cCaaaCbbbD93CbbbD04D0bD40D4fDb0DbfDf4DfbCbbbDb6CbbbCcccD73CcccCdddD5aD98CdddD48CdddD12D1dD21D2eDd1DdeDe2DedCdddD83CdddCeeeD00D01D02D03D0cD0dD0eD0fD10D11D1eD1fD20D2fD30D3fDc0DcfDd0DdfDe0De1DeeDefDf0Df1Df2Df3DfcDfdDfeDffCeeeD4bCeeeDa7CeeeD75D77Db4CeeeCfffD68CfffD59CfffDb5CfffD57CfffD4aD66D97CfffD49CfffDa4CfffDa6CfffD84D94CfffD58D67D85D86D96CfffD76D95Da5" {
 	cmd = getArgument(); if (cmd!="-") run(cmd);	}
 
@@ -42,7 +43,7 @@ macro"All opened images tools Menu Tool - N55C000D0dD0eD1dD1eD2dD3dD3eD4dD4eD59D
 
 //------POPUP
 var pmCmds = newMenu("Popup Menu",
-	newArray("copy paste LUT set", "copy paste minMax", "print title and minMax", "Rename...", "Duplicate...","Set LUTs","Set active path",
+	newArray("copy paste LUT set", "Rename...", "Duplicate...","Set LUTs","Set active path",
 	"rajout de bout","-", "CLAHE","gauss correction", "test all color blindness",
 	"-", "Record...", "Monitor Memory...","Control Panel...", "Startup Macros..."));
 macro "Popup Menu" { cmd = getArgument(); if (cmd!="-") run(cmd); }
@@ -97,7 +98,7 @@ macro "composite switch  [Q]" 	{if (!is("composite")) exit; Stack.getDisplayMode
 macro "my default LUTs   [1]"	{if (isKeyDown("space")) SetAllLUTs(); 		else if (isKeyDown("alt")) perso_Ask_LUTs(); else Set_LUTs();}
 macro "good size  		 [2]"	{if (isKeyDown("space"))run("full screen"); else run("good size");}
 macro "3D Zproject++     [3]"	{run("3D project++");}
-macro "full scale montage[4]"	{run("Make Montage...", "scale=1"); setOption("Changes", 0);}
+macro "full scale montage[4]"	{if (Image.title=="Montage") {id=getImageID(); run("Montage to Stack..."); selectImage(id);	close();} else run("Make Montage...", "scale=1"); setOption("Changes", 0);}
 macro "25x25 selection   [5]"	{size=25; toUnscaled(size); size = round(size); makeRectangle(5,5,size,size); showStatus(size+"x"+size);}
 macro "make it look good [6]"	{for (i=0; i<nImages; i++) { setBatchMode(1); selectImage(i+1); run("Appearance...", "  "); run("Appearance...", "black no"); setBatchMode("exit and display"); }}
 macro "set destination   [7]" 	{showStatus("Destination set");	run("Alert ", "object=Image color=Orange duration=0"); call("ij.Prefs.set","Destination.title",getTitle());}
@@ -112,7 +113,7 @@ macro "Color Picker to LUT [8]" {
 	selectImage(id);
 }
 
-macro "invertableLUTs"{ run("Action Bar", File.openUrlAsString("https://raw.githubusercontent.com/kwolbachia/Imagej-macro-addiction/main/iLUTs/invertableLUTs.ijm"));}
+macro "invertableLUTs_Bar"{ run("Action Bar", File.openUrlAsString("https://raw.githubusercontent.com/kwolbachia/Imagej-macro-addiction/main/iLUTs/invertableLUTs.ijm"));}
 macro "CB_Bar" { 	   run("Action Bar",File.openUrlAsString("https://git.io/JZUZw"));}
 
 macro "auto 	  [A]"	{ if (isKeyDown("alt"))		run("Enhance all contrasts");				else if (isKeyDown("space")) run("Enhance on all channels");  else run("Enhance Contrast", "saturated=0.03");}
@@ -140,11 +141,12 @@ macro "as tiff 	  [s]"	{ if (isKeyDown("space"))	ultimateSplitview(); 						else
 macro "rgb color  [u]"  { if (isKeyDown("space"))	myRGBconverter(); 							else if (isKeyDown("alt"))	RedGreen2OrangeBlue(); 								else 	switcher(); }
 macro "b&c 		  [C]"  { 							run("B&C"); }
 macro "open paste [o]"	{ 							open(String.paste);}
-
+macro "roll & FFT [x]"  { if (isKeyDown("space"))	run("3 channels roll");						else	run("FFT");}
+macro "multiplot  [k]"  { run("Multiplot");}
 //--------------------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------------------------------
 
-macro "3 channels roll [x]" {
+macro "3 channels roll" {
 	id = getImageID();
 	if(bitDepth() != 24) run("Stack to RGB");
 	newList = newArray(132,213,231,321,312);
@@ -159,6 +161,29 @@ macro "3 channels roll [x]" {
 		setBatchMode(0);
 	}
 	run("Images to Stack");
+}
+
+macro "Multiplot" {
+	if (isOpen("MultiPlot")) close("MultiPlot");
+	getDimensions(width,  height, channels, slices, frames);
+	if (selectionType()==-1) makeRectangle(width/4, height/2, width/2, 5);
+	Stack.getPosition(Channel, slice, frame);
+	getPixelSize(unit, pixelWidth, pixelHeight);
+	Plot.create("MultiPlot", "Distance ("+unit+")", "Grey value");
+	for (i=1; i<=channels; i++) {
+		Stack.setChannel(i);
+		p = getProfile();
+		Plot.setColor(lutToHex2());
+		Plot.setLineWidth(2);
+		Plot.add("line", p);
+	}
+	Stack.setPosition(Channel, slice, frame);
+	Plot.setBackgroundColor("#2f2f2f");
+	Plot.setAxisLabelSize(14.0, "bold");
+	Plot.setFormatFlags("11001100001111");
+	Plot.show();
+	Plot.setLimitsToFit();
+	setLocation(100,300);
 }
 
 function reorderLUTs(order) {
@@ -285,11 +310,11 @@ macro "gauss correction"{
 	title=getTitle();
 	run("Duplicate...", "title=gaussed duplicate");
 	getDimensions(width, height, channels, slices, frames);
-	sigma = height/3
+	sigma = height/3;
 	run("Gaussian Blur...", "sigma="+sigma+" stack");
-	setOption("Changes", 0);
-	imageCalculator("Subtract create stack", title, "gaussed");
-	rename(title+"_corrected")
+	if(bitDepth()==24||isKeyDown("shift")) cul=""; else cul="32-bit ";
+	imageCalculator("Substract create "+cul+" stack", title, "gaussed");
+	rename(title+"_corrected");
 	setOption("Changes", 0);
 	setBatchMode(0);
 }
@@ -456,6 +481,7 @@ macro"Max from virtual stack"{ // autre idée duplicate slice et imageCalculator
 macro "Batch convert 32 to 16-bit" {
 	// ask user to select a folder
 	dir = getDirectory("Select A folder");
+	bit = getString("8 or 16 bits?", "16");
 	// get the list of files (& folders) in it
 	fileList = getFileList(dir);
 	setBatchMode(true);
@@ -467,15 +493,15 @@ macro "Batch convert 32 to 16-bit" {
 			run("Bio-Formats Importer", "open=&current_imagePath");
 			getDimensions(width, height, channels, slices, frames);
 			if (channels == 1) {
-				setMinAndMax(0, 65653);
-				run("16-bit");
+				Adjust_Contrast();
+				run(bit +"-bit");
 			}
 			else {
 				for (k = 0; k < channels; k++) {
 					Stack.setChannel(k+1);
-					setMinAndMax(0, 65653);
-					run("16-bit");
+					Adjust_Contrast();
 				}
+				run(bit +"-bit");
 			}
 			currentImage_name = getTitle();
 			saveAs("tiff", dir+currentImage_name);
@@ -517,6 +543,7 @@ function perso_Ask_LUTs(){
 	for(i=0; i<4; i++) Dialog.addRadioButtonGroup("LUT " + (i+1), LUT_list, 2, 4, chosen_LUTs[i]);
 	Dialog.show();
 	for(k=0; k<4; k++) chosen_LUTs[k] = Dialog.getRadioButton();
+	Set_LUTs();
 }
 
 function Ask_LUTs(){
@@ -1087,6 +1114,16 @@ function lutToHex(R,G,B){
 	return "#"+xR+xG+xB;
 }
 
+function lutToHex2(){
+	getLut(r,g,b);
+	if (is("Inverting LUT")) { R = r[0];   G = g[0];   B = b[0];   }
+	else 					 { R = r[255]; G = g[255]; B = b[255]; }
+	if (R<16) xR = "0" + toHex(R); else xR = toHex(R);
+	if (G<16) xG = "0" + toHex(G); else xG = toHex(G);
+	if (B<16) xB = "0" + toHex(B); else xB = toHex(B);
+	return "#"+xR+xG+xB;
+}
+
 function is_InvertableLUTs(){ //invertable LUTs check
 	setBatchMode(1);
 	getDimensions(w,h,CH,s,f);
@@ -1265,7 +1302,7 @@ macro "invert all LUTs" {
 	}
 }
 
-macro"random invertable LUTs [k]"{
+macro"random invertable LUTs [K]"{
 	getDimensions(w,h,CH,s,f);
 	Rz = randomArrayTo255(CH); Gz = randomArrayTo255(CH); Bz = randomArrayTo255(CH);
 	setBatchMode(0);
