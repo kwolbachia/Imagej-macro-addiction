@@ -1,4 +1,5 @@
 About preview Opener :   
+First:   
 open all the images of one directory or just the ones you want,   
 no problem if they are virtual stacks.  
 Adjust the display you want (slice, contrast, LUTs..) because the snapshots will show the current views.   
