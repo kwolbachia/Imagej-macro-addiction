@@ -1,14 +1,19 @@
 About preview Opener :   
-First:   
-open all the images of one directory or just the ones you want,   
+First : open all the images of one directory or just the ones you want,   
 no problem if they are virtual stacks.  
 Adjust the display you want (slice, contrast, LUTs..) because the snapshots will show the current views.   
-Then double clic on the tool to create the snapshot montage. It's supposed to work on any image format.    
+Then double click on the tool to create the snapshot montage. It's supposed to work on any image format.    
 save it as tiff on the same directory, don't rename it!    
-Now when you click on this preview montage with the tool, it will open the image you clicked ! (provided everything is on the same directory)
+Now when you click on this preview montage with the tool, it will open the image you clicked ! (provided everything is on the same directory)   
 
-About my_StartupMacros.ijm :
+About the LUTs from montage Tool :    
+Double click on the tool to get the imageJ LUTs montage : ( run("Display LUTs") )   
+select the image you want to target by clicking on it (it should blink in orange)     
+then just click on the LUT you want on the montage.     
+Also, if you click with this tool on another rgb image(ie a rainbow), it will create a linear LUT of the rgb pixel color!   
 
+
+About my_StartupMacros.ijm :    
 my own organised mess full of macros and ideas of macros..
 
 About iLUTs Action Bar : <https://twitter.com/kWolbachia/status/1393689396570955779?s=20>
