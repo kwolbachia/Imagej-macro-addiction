@@ -1,3 +1,5 @@
+how to install macro tools : <https://imagej.nih.gov/ij/docs/guide/146-20.html>
+
 About preview Opener :   
 First : open all the images of one directory or just the ones you want,   
 no problem if they are virtual stacks.  
