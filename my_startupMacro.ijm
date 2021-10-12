@@ -190,7 +190,7 @@ macro "set LUT from montage Tool - N55C169C168CfffD00D01D02D03D04D05D06D07D08D09
 }
 
 
-macro "set LUT from display Tool Options" 	{
+macro "set LUT from montage Tool Options" 	{
 	run("Display LUTs");
 }
 
