@@ -33,11 +33,11 @@ macro "set LUT from montage Tool - N55C169C168CfffD00D01D02D03D04D05D06D07D08D09
 
 macro "set LUT from montage Tool Options" {
 	run("Display LUTs");
+	run("Set... ", "zoom=75");
 }
 
 function setTargetImage() {
-	showStatus("Destination set");
-	run("Alert ", "object=Image color=Orange duration=200");
+	showStatus("Target image = "+ getTitle(), "flash image orange 200ms");
 	call("ij.Prefs.set","Destination.title",getTitle());
 }
 
