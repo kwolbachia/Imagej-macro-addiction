@@ -22,8 +22,12 @@ macro "set LUT from montage Tool - N55C169C168CfffD00D01D02D03D04D05D06D07D08D09
 		linePosition = floor(y/YblocSize);
 		rowPosition = floor(x/XblocSize);
 		index = (linePosition*rows)+rowPosition;
-		selectWindow(call("ij.Prefs.get","Destination.title",""));
-		run(all_LUTs[index]);
+		targetImage=call("ij.Prefs.get","Destination.title","");
+		if (isOpen(targetImage)){
+			selectWindow(targetImage);
+			run(all_LUTs[index]);
+		}
+		showStatus("LUT = " + all_LUTs[index]);
 	}
 }
 
@@ -41,8 +45,12 @@ function rgbPixel2LUT() {
 	getCursorLoc(x, y, z, modifiers);
 	c = getPixel(x, y);
 	r = (c>>16)&0xff; 	g = (c>>8)&0xff; b = c & 0xff; //black magic...
-	selectWindow(call("ij.Prefs.get","Destination.title",""));
-	LUTmaker(r,g,b);
+	targetImage=call("ij.Prefs.get","Destination.title","");
+	if (isOpen(targetImage)){
+		selectWindow(targetImage);
+		LUTmaker(r,g,b);
+	}
+	showStatus("LUT = " + r + "," + g+ "," + b);
 }
 
 function LUTmaker(r,g,b) {
