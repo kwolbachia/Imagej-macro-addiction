@@ -32,6 +32,7 @@ macro "Cool 3D montage" {
 		top = Combine_Horizontally("3D2","3D1");
 		bottom =  Combine_Horizontally("3D4","3D3");
 		Combine_Vertically(top,bottom);
+		rename("Cool 3D montage");
 	setBatchMode(0);
 }
 
