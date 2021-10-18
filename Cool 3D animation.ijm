@@ -2,8 +2,8 @@
 //makes the same 3D animation than Andy Moore there : https://twitter.com/aaandmoore/status/1450089224452063236?s=20
 
 //two next lines only for demo:
-run("Confocal Series");
-run("Properties...", "voxel_depth=0.3544550");
+run("T1 Head (16-bits)");
+run("Fire");
 
 macro "Cool 3D montage" {
 	setBatchMode(1);
