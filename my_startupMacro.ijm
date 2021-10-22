@@ -36,6 +36,7 @@ macro"All opened images tools Menu Tool - N55C000D0dD0eD1dD1eD2dD3dD3eD4dD4eD59D
 	else if (cmd=="Reset all contrasts") { Reset_All_Contrasts();}
 	else if (cmd=="Save all elsewhere") { Save_all_opened_images_elsewhere();}
 	else if (cmd=="Basic save all") { Basic_save_all();}
+	else if (cmd=="Maximum Z project all") { Maximum_Z_project_all();}
 	else run(cmd);	}
 
 //------POPUP
@@ -50,6 +51,7 @@ macro "Popup Menu" {
 	else if (cmd=="gauss correction") gaussCorrection();
 	else if (cmd=="test all color blindness") test_all_color_blindness();
 	else if (cmd=="Set LUTs") {Ask_LUTs(); Set_LUTs();}
+	else if (cmd=="RGB to Luminance") luminance();
 	else run(cmd); 
 }
 
@@ -73,7 +75,7 @@ macro "Preview Opener Tool Options"{
 //--------------------------------------------------------------------------------------------------------------------------------------
 
 //CHANNELS
-macro "myTurbo 	[n0]"{ culRoll();}
+macro "myTurbo 	[n0]"{ splineRoll();}
 macro "Gray 	[n1]"{ if (isKeyDown("space")) toggleChannel(1); else if (isKeyDown("alt")) toggleAllchannels(1); else run("Grays");}
 macro "Green 	[n2]"{ if (isKeyDown("space")) toggleChannel(2); else if (isKeyDown("alt")) toggleAllchannels(2); else run("kg");	}
 macro "Red 		[n3]"{ if (isKeyDown("space")) toggleChannel(3); else if (isKeyDown("alt")) toggleAllchannels(3); else run("Red");	}
@@ -148,6 +150,7 @@ macro "Adjust 	  [R]"	{ if (isKeyDown("space"))	Reset_All_Contrasts(); 						els
 macro "Adjust 	  [r]"	{ if (isKeyDown("alt"))		resetMinAndMax; 							else if (isKeyDown("space")) run("Install...","install=["+getDirectory("macros")+"/StartupMacros.fiji.ijm]");	else Adjust_Contrast();}
 macro "Splitview  [S]"	{ if (isKeyDown("alt"))   	getSplitViewPrefs();						else if (isKeyDown("space")) SplitView(1,0,0); 							else SplitView(1,1,0); }
 macro "as tiff 	  [s]"	{ if (isKeyDown("space"))	ultimateSplitview(); 						else if (isKeyDown("alt")) Basic_save_all(); 							else	saveAs("Tiff");}
+macro "test.ijm   [t]"	{ if (isKeyDown("space"))	runMacroFromUrl();							else if (isKeyDown("alt")) installMacroFromUrl();						else eval(String.paste);}
 macro "rgb color  [u]"  { if (isKeyDown("space"))	myRGBconverter(); 							else if (isKeyDown("alt"))	RedGreen2OrangeBlue(); 						else 	switcher(); }
 macro "pasta	  [v]"	{ if (isKeyDown("space"))	run("System Clipboard");					else 	run("Paste");}
 macro "roll & FFT [x]"  { if (isKeyDown("space"))	channelsRoll();								else	run("FFT");}
@@ -155,10 +158,23 @@ macro "sync 	  [y]"	{ 							run("Synchronize Windows");}
 
 //--------------------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------------------------------
+
+function runMacroFromUrl() {
+	script = File.openUrlAsString(getString("run macro from URL", ""));
+	String.copy(script);
+	eval(script);
+}
+
+function installMacroFromUrl() {
+	path = getDirectory("temp")+File.separator+"fromURL.ijm";
+	File.saveString(File.openUrlAsString(getString("Install macro from URL", "")), path);
+	run("Install...","install=["+path+"]");
+}
+
 var splineLUTs=newArray("2darkblue2beige","2ghost","2kevidis_splined","2moonlight","2Spline","2pinky","1a myTurbo");
 var splineLUT = 3;
 
-function culRoll(){
+function splineRoll(){
 	splineLUT++
 	if (splineLUT<splineLUTs.length) run(splineLUTs[splineLUT]);
 	else {
@@ -379,7 +395,7 @@ function multiPlot(){
 	alreadyOpenPlot = 0;
 	if (isOpen("MultiPlot")) alreadyOpenPlot = 1;
 	getDimensions(width,  height, channels, slices, frames);
-	if (selectionType()==-1) run("Select All");
+	if (selectionType()==-1) { run("Select All"); selectNone = true;}
 	Stack.getPosition(Channel, slice, frame);
 	Plot.create("MultiPlot", "Pixels", "Grey value");
 	for (i=1; i<=channels; i++) {
@@ -390,6 +406,7 @@ function multiPlot(){
 		Plot.add("line", p);
 	}
 	Stack.setPosition(Channel, slice, frame);
+	if (selectNone) run("Select None");
 	if (channels>1) {Stack.setDisplayMode("color");	Stack.setDisplayMode("composite");}
 	Plot.setBackgroundColor("#2f2f2f");
 	Plot.setAxisLabelSize(14.0, "bold");
@@ -571,12 +588,19 @@ function test_All_Zprojections(){
 	setOption("Changes", 0);
 }
 
+function luminance(){
+	setBatchMode(1);
+	if (bitDepth()!= 24) rgbSnapshot();
+	run("RGB to Luminance");
+	setOption("Changes", 0);
+	setBatchMode(0);
+}
+
 function test_all_color_blindness(){
 	if (nImages == 0) exit("no image");
 	setBatchMode(1);
 	getDimensions(width, height, channels, slices, frames);
-	if (slices*frames > 1) exit("can't test stacks, please extract one slice");
-	if (bitDepth()!= 24) switcher();
+	if (bitDepth()!= 24) rgbSnapshot();
 	showStatus("test all color blindness");
 	inTitle = getTitle();
 	inID = getImageID();
@@ -597,6 +621,7 @@ function test_all_color_blindness(){
 	}
 	Property.setSliceLabel("original", 4);
 	setSlice(1);
+	run("Select None");
 	setOption("Changes", 0);
 	setBatchMode(0);
 }
@@ -907,12 +932,13 @@ function Enhance_all_contrasts() {
 }
 
 function Maximum_Z_project_all() {
-	setBatchMode(1);
+	
 	all_IDs = newArray(nImages);
 	for (i=0; i<nImages ; i++) {			
 		selectImage(i+1);
 		all_IDs[i] = getImageID(); 
 	} 
+	setBatchMode(1);
 	for (i=0; i<all_IDs.length; i++) {
 		selectImage(all_IDs[i]);
 		getDimensions(w, h, channels, slices, frames);
