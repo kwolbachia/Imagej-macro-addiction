@@ -12,7 +12,7 @@ var channels = 1;
 
 //------SHORTCUTS
 var ShortcutsMenu = newMenu("Custom Menu Tool",
-	newArray("Max from virtual stack","Specify...","Note in infos","Remove Overlay","Rotate 90 Degrees Right","Rotate 90 Degrees Left","Plot Z-axis Profile","make my LUTs","-","Gaussian Blur...","Gaussian Blur 3D...","Gamma...",
+	newArray("Max from virtual stack","Specify...","Note in infos","correct copied path","Remove Overlay","Rotate 90 Degrees Right","Rotate 90 Degrees Left","Plot Z-axis Profile","make my LUTs","-","Gaussian Blur...","Gaussian Blur 3D...","Gamma...",
 		 "-","Start CLIJ2-Assistant","test all Z project", "test CLAHE options","Tempo color no Zproject","-","Batch convert ims to tif","Batch convert 32 to 16-bit",
 		 "-","Neuron (5 channels)","HeLa Cells (48-bit RGB)","Fluorescent Cells", "Confocal Series","Mitosis (5D stack)","M51 Galaxy (16-bits)",
 		 "-","invertedOverlay2","invertableLUTs_Bar","CB_Bar","JeromesWheel","RGBtimeIsOver"));
@@ -150,7 +150,7 @@ macro "Adjust 	  [R]"	{ if (isKeyDown("space"))	Reset_All_Contrasts(); 						els
 macro "Adjust 	  [r]"	{ if (isKeyDown("alt"))		resetMinAndMax; 							else if (isKeyDown("space")) run("Install...","install=["+getDirectory("macros")+"/StartupMacros.fiji.ijm]");	else Adjust_Contrast();}
 macro "Splitview  [S]"	{ if (isKeyDown("alt"))   	getSplitViewPrefs();						else if (isKeyDown("space")) SplitView(1,0,0); 							else SplitView(1,1,0); }
 macro "as tiff 	  [s]"	{ if (isKeyDown("space"))	ultimateSplitview(); 						else if (isKeyDown("alt")) Basic_save_all(); 							else	saveAs("Tiff");}
-macro "test.ijm   [t]"	{ if (isKeyDown("space"))	runMacroFromUrl();							else if (isKeyDown("alt")) installMacroFromUrl();						else eval(String.paste);}
+macro "test.ijm   [t]"	{ if (isKeyDown("alt"))	runMacroFromUrl();							else if (isKeyDown("space")) installMacroFromUrl();						else eval(String.paste);}
 macro "rgb color  [u]"  { if (isKeyDown("space"))	myRGBconverter(); 							else if (isKeyDown("alt"))	RedGreen2OrangeBlue(); 						else 	switcher(); }
 macro "pasta	  [v]"	{ if (isKeyDown("space"))	run("System Clipboard");					else 	run("Paste");}
 macro "roll & FFT [x]"  { if (isKeyDown("space"))	channelsRoll();								else	run("FFT");}
@@ -158,6 +158,76 @@ macro "sync 	  [y]"	{ 							run("Synchronize Windows");}
 
 //--------------------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------------------------------
+
+macro "correct copied path" {
+	copiedPath = getString("paste your path", "");
+	replace(copiedPath, "\\", "/");
+	print(copiedPath);
+}
+
+function fastColorCode(Glut) {
+	Stack.getDimensions(ww, hh, channels, slices, frames);
+	title = getTitle();
+	zoom = getZoom();
+	if (channels > 1)
+		exit("Cannot color-code multi-channel images!");
+	//swap slices and frames in case:
+	if ((slices > 1) && (frames == 1)) {
+		frames = slices;
+		slices = 1;
+		Stack.setDimensions(1, slices, frames);
+	}
+	totalframes = frames;
+	calcslices = slices * totalframes;
+	imgID = getImageID();
+	setBatchMode(true);
+	newImage("colored", "RGB White", ww, hh, calcslices);
+	run("Stack to Hyperstack...", "order=xyczt(default) channels=1 slices="	+ slices + " frames=" + totalframes + " display=Color");
+	newimgID = getImageID();
+	selectImage(imgID);
+	run("Duplicate...", "duplicate");
+	run("8-bit");
+	imgID = getImageID();
+	newImage("stamp", "8-bit White", 10, 10, 1);
+	run(Glut);
+	getLut(rA, gA, bA);
+	close();
+	nrA = newArray(256);	ngA = newArray(256);	nbA = newArray(256);
+	newImage("temp", "8-bit White", ww, hh, 1);
+	tempID = getImageID();
+	for (i = 0; i < totalframes; i++) {
+		colorscale = floor((256 / totalframes) * i);
+		for (j = 0; j < 256; j++) {
+			intensityfactor = j / 255;
+			nrA[j] = round(rA[colorscale] * intensityfactor);	ngA[j] = round(gA[colorscale] * intensityfactor);	nbA[j] = round(bA[colorscale] * intensityfactor);
+		}
+		for (j = 0; j < slices; j++) {
+			selectImage(imgID);
+			Stack.setPosition(1, j + 1, i + 1);
+			run("Select All");
+			run("Copy");
+			selectImage(tempID);
+			run("Paste");
+			setLut(nrA, ngA, nbA);
+			run("RGB Color");
+			run("Select All");
+			run("Copy");
+			run("8-bit");
+			selectImage(newimgID);
+			Stack.setPosition(1, j + 1, i + 1);
+			run("Select All");
+			run("Paste");
+		}
+	}
+	slices = frames;
+    frames = 1;
+	Stack.setDimensions(1, slices, frames);
+	run("Z Project...", "projection=[Max Intensity] all");
+	rename("Tempo_color_code_"+Glut+"_"+title);
+	setBatchMode(0);
+	run("Set... ", "zoom="+zoom*100);
+	setOption("Changes", 0);
+}
 
 function runMacroFromUrl() {
 	script = File.openUrlAsString(getString("run macro from URL", ""));
@@ -241,7 +311,13 @@ macro "set LUT from montage Tool - N55C000D37D38D39CfffD00D01D02D03D04D05D06D07D
 		rowPosition = floor(x/XblocSize);
 		index = (linePosition*rows)+rowPosition;
 		targetImage=call("ij.Prefs.get","Destination.title","");
-		if (isOpen(targetImage)){
+		if (isKeyDown("shift")) {
+			selectWindow(targetImage);
+			fastColorCode(all_LUTs[index]);
+			showStatus("color code with LUT = " + all_LUTs[index]);
+			exit;
+		}
+		else if (isOpen(targetImage)){
 			selectWindow(targetImage);
 			run(all_LUTs[index]);
 		}
@@ -392,7 +468,7 @@ function channelsRoll(){
 function multiPlot(){
 	if (bitDepth()==24){ run("Plot Profile"); exit;}
 	id=getImageID();
-	alreadyOpenPlot = 0;
+	alreadyOpenPlot = 0; selectNone = false;
 	if (isOpen("MultiPlot")) alreadyOpenPlot = 1;
 	getDimensions(width,  height, channels, slices, frames);
 	if (selectionType()==-1) { run("Select All"); selectNone = true;}
