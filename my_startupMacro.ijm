@@ -12,16 +12,20 @@ var channels = 1;
 
 //------SHORTCUTS
 var ShortcutsMenu = newMenu("Custom Menu Tool",
-	newArray("Max from virtual stack","Specify...","Note in infos","correct copied path","Remove Overlay","Rotate 90 Degrees Right","Rotate 90 Degrees Left","Plot Z-axis Profile","make my LUTs","-","Gaussian Blur...","Gaussian Blur 3D...","Gamma...",
+	newArray("Fetch or pull StartupMacros","Specify...","Note in infos","correct copied path","Remove Overlay","Rotate 90 Degrees Right","Rotate 90 Degrees Left","Plot Z-axis Profile","make my LUTs","-","Median...","Median 3D...","Gaussian Blur...","Gaussian Blur 3D...","Gamma...",
 		 "-","Start CLIJ2-Assistant","test all Z project", "test CLAHE options","Tempo color no Zproject","-","Batch convert ims to tif","Batch convert 32 to 16-bit",
 		 "-","Neuron (5 channels)","HeLa Cells (48-bit RGB)","Fluorescent Cells", "Confocal Series","Mitosis (5D stack)","M51 Galaxy (16-bits)",
-		 "-","invertedOverlay2","invertableLUTs_Bar","CB_Bar","JeromesWheel","RGBtimeIsOver"));
-macro "Custom Menu Tool - C000D16D17D18D19D24D25D26D27D33D34D35D36D42D43D44D52D53D5bD5cD61D69D6aD6cD6dD6eD74D78D79D7bD7cD7dD7eD81D87D88D8aD8bD8cD8dD8eD91D9bD9cD9dD9eDaaDabDacDadDbaDbbDbcDbdDc8Dc9DcaDcbDccDd7Dd8Dd9DdaDdbDe6De7De8De9C000D28D54D71D7aD9aDb9Dc7Dd6C000D45Db2C000D15D1aD51D5eDa1De5DeaC000D29D5dDaeC000Da2C000D23D2aD32D6bDc2DcdDdcC000D2bD89C000D07D08D37D70D80Df7Df8C000D7fD8fDd3Dd5C000C111D2cC111Db8C111D62C111D92C111D14D1bD41DbeDe4DebC111D4eDb1C111Dd4C222Da9C222D64Dc3C222Dc6C222D63C222D55C222D46C222C333D3dC333D06D09D60D6fD90D9fDf6Df9C333D38C333D4dC333D82C333C444D99C444Db3C444C555D22Dd2DddC555D2dC555D72C555Db7C555C666D39C666D05D0aD50D5fDa0DafDf5DfaC666C777D3cC777D13D1cD31Dc1DceDe3DecC777D3eC777Da3C777Dc5C777C888D3aC888D3bC888D47Da8C888C999D65C999CaaaD56CaaaDc4CaaaD4cCaaaCbbbD93CbbbD04D0bD40D4fDb0DbfDf4DfbCbbbDb6CbbbCcccD73CcccCdddD5aD98CdddD48CdddD12D1dD21D2eDd1DdeDe2DedCdddD83CdddCeeeD00D01D02D03D0cD0dD0eD0fD10D11D1eD1fD20D2fD30D3fDc0DcfDd0DdfDe0De1DeeDefDf0Df1Df2Df3DfcDfdDfeDffCeeeD4bCeeeDa7CeeeD75D77Db4CeeeCfffD68CfffD59CfffDb5CfffD57CfffD4aD66D97CfffD49CfffDa4CfffDa6CfffD84D94CfffD58D67D85D86D96CfffD76D95Da5" {
+		 "-","invertableLUTs_Bar","CB_Bar","JeromesWheel","RGBtimeIsOver"));
+macro "Custom Menu Tool - N55C000D1aD1bD1cD1dD29D2dD39D3dD49D4dD4eD59D5eD69D75D76D77D78D79D85D88D89D94D98D99Da4Da7Da8Da9Db3Db7Db8Dc3Dc6Dc7DccDcdDd3Dd6Dd8DdbDdcDe2De3De6De8De9DeaDebDecCfffD0dD3cD5cD6dD7bD8bD8cD96D9aD9bDa5DacDadDb5DcaDd4Dd9DdaDe4CdddD0aD1eD2bD6aD74D7aD95Dc4Dc5DeeC333D67D68DbeDd2DddCeeeD00D01D02D03D04D05D06D07D08D09D0eD10D11D12D13D14D15D16D17D18D20D21D22D23D24D25D26D27D30D31D32D33D34D35D36D37D3aD3bD40D41D42D43D44D45D46D47D4bD50D51D52D53D54D55D56D57D60D61D62D63D64D65D6eD70D71D72D73D80D81D82D83D86D8aD8dD90D91D92D97Da0Da1Da2Da6DaaDb0Db1DbbDc0Dc1Dc9Dd0Dd1De0De1C111D38D5bD6bD7dDabDbaDd7C999D4cD58D5aD5dD93DceDd5C777D0bD2eD4aD6cD7cD7eD9cD9dD9eDbdDc8C222D8eDa3DbcCcccD2cDdeDe7C666D19Db4DcbCbbbD0cD87DaeDb2C888D66De5C555D28D2aD84Dc2CaaaDb9DedC444D3eD48Db6Bf0C000D03D06D0cD13D16D1bD23D26D2aD33D37D39D43D44D47D48D54D65D76D77D87D88D89D8aD8bD8cD8dD8eD9bCfffD04D08D0dD0eD14D18D19D24D28D2cD35D3bD3cD3dD3eD45D46D4aD4bD4cD4eD56D57D5aD5bD5cD5dD5eD68D69D6aD6bD6cD6dD7cD7dCdddD1cD25D63D7eD97C333D99CeeeD00D01D07D10D11D1dD20D21D2eD30D31D40D41D42D4dD50D51D52D59D60D61D62D67D6eD70D71D72D73D74D79D7aD7bD80D81D82D83D84D85D90D91D92D93D94D95D96Da0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaDabDacDadDaeC111D02D0bD36C999D1aD2bD58D9eC777D27D3aC222D64D66D9aCcccD09D17C666D12D38D78CbbbD0aD15D1eD2dD32D34C888D98C555D49D55D86D9cD9dCaaaD05D29D53C444D22D75B0fC000D02D03D04D05D08D09D18D27D28D36D37D45D46D54D55D63D64D71D72D80D81CfffD06D07D16D25D30D34D35D40D43D44D52D57D60D61D66D75D83D85CdddD10D22D32D33D42D74C333CeeeD0aD1aD21D29D2aD31D38D39D3aD48D49D4aD50D51D53D58D59D5aD67D68D69D6aD76D77D78D79D7aD84D86D87D88D89D8aD91D92D93D94D95D96D97D98D99D9aDa0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaC111C999D62D65C777D00C222D01D13D14D73CcccD11D26D90C666CbbbD12D15D19D20D23D24D41D82C888D47D56D70C555D17CaaaC444Nf0C000D33D34D35D36D42D43D46D50D51D55D64D65D66D67D73D74D78D88D96D97Da4Da5Db4Dc4Dd4Dd6Dd7Dd8De3De4De6De8De9CfffD15D31D44D53D54D58D62D84D85D86D92D93Da2Db2Dc2Dd2De7CdddD63Da1Da7Dc1Dd0De2C333D25D47D56D77Da0CeeeD00D01D02D03D04D05D06D07D08D09D0aD10D11D12D13D14D16D17D18D19D1aD20D21D22D27D28D29D2aD30D38D39D3aD48D49D4aD59D5aD69D6aD71D7aD82D8aD99D9aDa8Da9DaaDb1Db6Db7Db8Db9DbaDc9DcaDd1DdaDe0DeaC111C999D37D76D90Da6Db5Dc6Dc8Dd3C777D41D81D91D98Dc7De5C222D75D95Db3CcccD61D72D79D83D89Dc5Dd5Dd9De1C666D40D52D57CbbbD70D80D94C888D23D32D45Dc3C555D60D87Da3Db0CaaaD26Dc0C444D24D68" {
 	cmd = getArgument(); 
 	if 		(cmd=="Note in infos") Note_in_infos();
 	else if (cmd=="test CLAHE options") testCLAHE_options();
 	else if (cmd=="test all Z project") test_All_Zprojections();
-	else run(cmd); 
+	else run(cmd);
+	call("ij.gui.Toolbar.setIcon", "Custom Menu Tool", "N55C000D1aD1bD1cD29D2dD39D3dD49D4dD4eD59D5eD69D79D99Da7Da8Da9Db3Db7Db8Dc7DccDcdDd8DdbDdcDe2De3De9DeaDebCcccD2cCa00D08D09D18D27D28D37D57D66D67D76D87D96D97Da5Db5Dc5Dd5De7CfffD3cD5cD6dD7bD8bD8cD9aD9bDacDadDcaDd9DdaC111D5bD6bD7dDabDbaCeeeD00D01D02D03D04D05D06D10D11D12D13D14D15D16D20D21D22D23D24D25D30D31D32D33D34D35D3aD3bD40D41D42D43D44D45D4bD50D51D52D53D54D55D60D61D62D63D64D6eD70D71D72D73D74D80D81D82D83D84D8aD8dD90D91D92Da0Da1Da2DaaDb0Db1DbbDc0Dc1Dc9Dd0Dd1De0De1Cb11DdeDedDeeCdddD2bD6aD7aCb00D07D0aD0bD0cD0dD0eD17D19D1dD1eD26D2eD36D38D3eD46D47D48D56D58D65D68D75D77D78D85D86D88D89D94D95D98Da4Da6Db4Db6Dc3Dc4Dc6DceDd3Dd4Dd6Dd7DddDe4De5De6De8DecC777D4aD6cD7cD7eD9cD9dD9eDbdDc8CaaaDb9Cb00C444C999D4cD5aD5dD93CbbbDaeDb2C333DbeDd2C888C666DcbC222D8eDa3DbcC555D2aDc2Bf0C000D03D13D16D23D26D33D37D43D44D47D48D54D65D76D77D87D88D89D8aD8bD8cD8dD8eD9bCcccCa00D07D0bD17CfffD14D24D35D3bD3cD3dD3eD45D46D4aD4bD4cD4eD56D57D5aD5bD5cD5dD5eD68D69D6aD6bD6cD6dD7cD7dC111D02D36CeeeD00D01D10D11D20D21D2eD30D31D40D41D42D4dD50D51D52D59D60D61D62D67D6eD70D71D72D73D74D79D7aD7bD80D81D82D83D84D85D90D91D92D93D94D95D96Da0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaDabDacDadDaeCb11D0dD19D1dD29CdddD25D63D7eD97Cb00D04D05D06D08D09D0aD0cD0eD15D18D1aD1bD1cD1eD27D28D2aD2cD39C777D3aCaaaD53Cb00C444D22D75C999D2bD58D9eCbbbD2dD32D34C333D99C888D98C666D12D38D78C222D64D66D9aC555D49D55D86D9cD9dB0fC000D02D03D04D05D08D09D18D27D28D36D37D45D46D54D55D63D64D71D72D80D81CcccD11D26D90Ca00CfffD06D07D16D25D30D34D35D40D43D44D52D57D60D61D66D75D83D85C111CeeeD0aD1aD21D29D2aD31D38D39D3aD48D49D4aD50D51D53D58D59D5aD67D68D69D6aD76D77D78D79D7aD84D86D87D88D89D8aD91D92D93D94D95D96D97D98D99D9aDa0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaCb11CdddD10D22D32D33D42D74Cb00C777D00CaaaCb00C444C999D62D65CbbbD12D15D19D20D23D24D41D82C333C888D47D56D70C666C222D01D13D14D73C555D17Nf0C000D33D34D35D36D46D50D55D66D67D78D88D96D97Da5Db4Dc4Dd4Dd6Dd7Dd8De3De4De6De8De9CcccD79D89Dc5Dd5Dd9Ca00D20D30D41D65D74D84Da4Db1CfffD15D58D85D86De7C111CeeeD00D02D03D04D05D06D07D08D09D0aD12D13D14D16D17D18D19D1aD27D28D29D2aD38D39D3aD48D49D4aD59D5aD69D6aD7aD8aD99D9aDa8Da9DaaDb6Db7Db8Db9DbaDc9DcaDdaDeaCb11D42D52D54D63D64D73D83D93D94Da1Da3Db3Dc1Dc2Dc3Dd0Dd1De0De1CdddDa7De2Cb00D01D10D11D21D22D31D40D43D44D51D53D61D62D71D72D82D91D92Da2Db0Db2Dc0Dd2C777D81D98Dc7De5CaaaD26Cb00D32C444D24D68C999D37D76D90Da6Db5Dc6Dc8Dd3CbbbD70D80C333D25D47D56D77Da0C888D23D45C666D57C222D75D95C555D60D87");
+ 	wait(4000);
+ 	call("ij.gui.Toolbar.setIcon", "Custom Menu Tool", "N55C000D1aD1bD1cD1dD29D2dD39D3dD49D4dD4eD59D5eD69D75D76D77D78D79D85D88D89D94D98D99Da4Da7Da8Da9Db3Db7Db8Dc3Dc6Dc7DccDcdDd3Dd6Dd8DdbDdcDe2De3De6De8De9DeaDebDecCfffD0dD3cD5cD6dD7bD8bD8cD96D9aD9bDa5DacDadDb5DcaDd4Dd9DdaDe4CdddD0aD1eD2bD6aD74D7aD95Dc4Dc5DeeC333D67D68DbeDd2DddCeeeD00D01D02D03D04D05D06D07D08D09D0eD10D11D12D13D14D15D16D17D18D20D21D22D23D24D25D26D27D30D31D32D33D34D35D36D37D3aD3bD40D41D42D43D44D45D46D47D4bD50D51D52D53D54D55D56D57D60D61D62D63D64D65D6eD70D71D72D73D80D81D82D83D86D8aD8dD90D91D92D97Da0Da1Da2Da6DaaDb0Db1DbbDc0Dc1Dc9Dd0Dd1De0De1C111D38D5bD6bD7dDabDbaDd7C999D4cD58D5aD5dD93DceDd5C777D0bD2eD4aD6cD7cD7eD9cD9dD9eDbdDc8C222D8eDa3DbcCcccD2cDdeDe7C666D19Db4DcbCbbbD0cD87DaeDb2C888D66De5C555D28D2aD84Dc2CaaaDb9DedC444D3eD48Db6Bf0C000D03D06D0cD13D16D1bD23D26D2aD33D37D39D43D44D47D48D54D65D76D77D87D88D89D8aD8bD8cD8dD8eD9bCfffD04D08D0dD0eD14D18D19D24D28D2cD35D3bD3cD3dD3eD45D46D4aD4bD4cD4eD56D57D5aD5bD5cD5dD5eD68D69D6aD6bD6cD6dD7cD7dCdddD1cD25D63D7eD97C333D99CeeeD00D01D07D10D11D1dD20D21D2eD30D31D40D41D42D4dD50D51D52D59D60D61D62D67D6eD70D71D72D73D74D79D7aD7bD80D81D82D83D84D85D90D91D92D93D94D95D96Da0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaDabDacDadDaeC111D02D0bD36C999D1aD2bD58D9eC777D27D3aC222D64D66D9aCcccD09D17C666D12D38D78CbbbD0aD15D1eD2dD32D34C888D98C555D49D55D86D9cD9dCaaaD05D29D53C444D22D75B0fC000D02D03D04D05D08D09D18D27D28D36D37D45D46D54D55D63D64D71D72D80D81CfffD06D07D16D25D30D34D35D40D43D44D52D57D60D61D66D75D83D85CdddD10D22D32D33D42D74C333CeeeD0aD1aD21D29D2aD31D38D39D3aD48D49D4aD50D51D53D58D59D5aD67D68D69D6aD76D77D78D79D7aD84D86D87D88D89D8aD91D92D93D94D95D96D97D98D99D9aDa0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaC111C999D62D65C777D00C222D01D13D14D73CcccD11D26D90C666CbbbD12D15D19D20D23D24D41D82C888D47D56D70C555D17CaaaC444Nf0C000D33D34D35D36D42D43D46D50D51D55D64D65D66D67D73D74D78D88D96D97Da4Da5Db4Dc4Dd4Dd6Dd7Dd8De3De4De6De8De9CfffD15D31D44D53D54D58D62D84D85D86D92D93Da2Db2Dc2Dd2De7CdddD63Da1Da7Dc1Dd0De2C333D25D47D56D77Da0CeeeD00D01D02D03D04D05D06D07D08D09D0aD10D11D12D13D14D16D17D18D19D1aD20D21D22D27D28D29D2aD30D38D39D3aD48D49D4aD59D5aD69D6aD71D7aD82D8aD99D9aDa8Da9DaaDb1Db6Db7Db8Db9DbaDc9DcaDd1DdaDe0DeaC111C999D37D76D90Da6Db5Dc6Dc8Dd3C777D41D81D91D98Dc7De5C222D75D95Db3CcccD61D72D79D83D89Dc5Dd5Dd9De1C666D40D52D57CbbbD70D80D94C888D23D32D45Dc3C555D60D87Da3Db0CaaaD26Dc0C444D24D68");
+
 }
 
 macro "Stacks Menu Built-in Tool" {}
@@ -86,43 +90,17 @@ macro "Cyan		[n7]"{ if (isKeyDown("space")) toggleChannel(7); else if (isKeyDown
 macro "Magenta 	[n8]"{ run("Magenta");	}
 macro "Yellow 	[n9]"{ run("Yellow");	}
 
-//toggle channel number (i)
-function toggleChannel(i) { //modified from J.Mutterer
-	if (nImages<1) exit; 
-	if (is("composite")) {
-		Stack.getActiveChannels(s);
-		c = s.substring(i-1,i);
-		Stack.setActiveChannels(s.substring(0,i-1)+!c+s.substring(i)); //at the end it looks like Stack.setActiveChannels(1101);
-		showStatus("Channel "+i+" toggled"); 
-	}
-}
-
-function toggleAllchannels(i) {
-	setBatchMode(1);
-	for (k=0; k<nImages; k++) {
-		selectImage(k+1);
-		toggleChannel(i);	
-	}
-	showStatus("Channel "+i+" toggled");
-	setBatchMode(0);
-}
-
-
-
 //--------------------------------------------------------------------------------------------------------------------------------------
 //NOICE TOOLS
-macro "composite switch  [Q]" 	{if (!is("composite")) exit; Stack.getDisplayMode(mode); if (mode=="color"||mode=="greyscale")Stack.setDisplayMode("composite"); else Stack.setDisplayMode("color");}
-macro "my default LUTs   [1]"	{if (isKeyDown("space")) SetAllLUTs(); 		else if (isKeyDown("alt")) perso_Ask_LUTs(); else Set_LUTs();}
-macro "good size  		 [2]"	{if (isKeyDown("space")) fullScreen(); else goodSize();}
-macro "3D Zproject++     [3]"	{if (isKeyDown("space")) Cool_3D_montage(); else my3D_project();}
-macro "full scale montage[4]"	{if (Image.title=="Montage") {id=getImageID(); run("Montage to Stack..."); selectImage(id);	close();} else run("Make Montage...", "scale=1"); setOption("Changes", 0);}
+macro "composite switch  [Q]" 	{if (!is("composite")) exit; Stack.getDisplayMode(mode); if (mode=="color"||mode=="greyscale")Stack.setDisplayMode("composite");	else Stack.setDisplayMode("color");}
+macro "my default LUTs   [1]"	{if (isKeyDown("space")) SetAllLUTs(); 			else if (isKeyDown("alt")) perso_Ask_LUTs(); 										else Set_LUTs();}
+macro "good size  		 [2]"	{if (isKeyDown("space")) fullScreen(); 			else goodSize();}
+macro "3D Zproject++     [3]"	{if (isKeyDown("space")) Cool_3D_montage();		else my3D_project();}
+macro "full scale montage[4]"	{if (Image.title=="Montage") {id=getImageID(); run("Montage to Stack..."); selectImage(id);	close();} 								else run("Make Montage...", "scale=1"); setOption("Changes", 0);}
 macro "25x25 selection   [5]"	{size=400; /*toUnscaled(size); size = round(size);*/ getCursorLoc(x, y, null, null); makeRectangle(x,y,size,size); showStatus(size+"x"+size);}
 macro "make it look good [6]"	{for (i=0; i<nImages; i++) { setBatchMode(1); selectImage(i+1); run("Appearance...", "  "); run("Appearance...", "black no"); setBatchMode("exit and display"); }}
 macro "set destination   [7]" 	{showStatus("Destination set");	run("Alert ", "object=Image color=Orange duration=5000"); call("ij.Prefs.set","Destination.title",getTitle());}
 macro "rename w/ id      [8]"	{rename(getImageID());}
-
-macro "invertableLUTs_Bar"{ run("Action Bar", File.openUrlAsString("https://raw.githubusercontent.com/kwolbachia/Imagej-macro-addiction/main/iLUTs/invertableLUTs.ijm"));}
-macro "CB_Bar" { 	   		run("Action Bar", File.openUrlAsString("https://git.io/JZUZw"));}
 
 macro "auto 	  [A]"	{ if (isKeyDown("alt"))		Enhance_all_contrasts();	  				else if (isKeyDown("space")) Enhance_on_all_channels();  else run("Enhance Contrast", "saturated=0.03");}
 macro "Splitview  [b]"	{ if (isKeyDown("space")) 	SplitView(0,2,0);							else 	SplitView(1,2,0); }
@@ -131,10 +109,10 @@ macro "duplicat	  [D]"	{ 	run("Duplicate...", "duplicate");}
 macro "Spliticate [d]"	{ if (isKeyDown("space"))	run("Duplicate...", " ");	 				else if (isKeyDown("alt")) {Stack.getPosition(ch, slice, frame); run("Duplicate...", "duplicate slices=&slice frames=&frame");}	else run("Split Channels");}
 macro "Tile 	  [E]"	{ 	myTile();}
 macro "edit lut   [e]"	{ if (isKeyDown("space"))	run("Show LUT");							else 	run("Edit LUT...");}
-macro "toolSwitch [F]"	{ if (IJ.getToolName() =="rectangle") 										{	run("Line Width...", "line=30");	setTool(4);}				else  	setTool(0);}
+macro "toolSwitch [F]"	{ if (IJ.getToolName() =="rectangle") 										{	run("Line Width...", "line=25");	setTool(4);}				else  	setTool(0);}
 macro "gammaLUT	  [f]"	{ if (bitDepth() == 24) 	run("Gamma..."); 							else if (isKeyDown("space")) setGammaLUTAllch(getNumber("gamma",0.7));	else 	interactiveGamma(); }
 macro "Max 		  [G]"	{ if (isKeyDown("space"))	Maximum_Z_project_all();					else run("Z Project...", "projection=[Max Intensity] all");}
-macro "Z Project  [g]"	{ if (isKeyDown("alt"))		test_All_Zprojections();					else run("Z Project...");}
+macro "Z Project  [g]"	{ if (isKeyDown("alt"))		test_All_Zprojections();					else if (isKeyDown("space")) fastColorCode("current");					else	run("Z Project...");}
 macro "overlay I  [i]"	{ if (isKeyDown("space"))	invertedOverlay3(); 						else if (isKeyDown("alt")) invert_invertable_LUTs();	 				else 	invert_all_LUTs();}
 macro "New Macro  [J]"	{ 	run("Macro");}
 macro "JPEG		  [j]"  { 	run("Input/Output...", "jpeg=100"); saveAs("Jpeg");}
@@ -156,21 +134,60 @@ macro "pasta	  [v]"	{ if (isKeyDown("space"))	run("System Clipboard");					else 
 macro "roll & FFT [x]"  { if (isKeyDown("space"))	channelsRoll();								else	run("FFT");}
 macro "sync 	  [y]"	{ 							run("Synchronize Windows");}
 
+macro "invertableLUTs_Bar"{ run("Action Bar", File.openUrlAsString("https://raw.githubusercontent.com/kwolbachia/Imagej-macro-addiction/main/iLUTs/invertableLUTs.ijm"));}
+macro "CB_Bar" { 	   		run("Action Bar", File.openUrlAsString("https://git.io/JZUZw"));}
+
 //--------------------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------------------------------
 
+macro "Fetch or pull StartupMacros" {
+	Dialog.createNonBlocking("Fetch or pull?");
+	Dialog.addRadioButtonGroup("Fetch or pull?", newArray("Fetch","Pull"), 1, 2, "Fetch");
+	Dialog.show();
+	choice = Dialog.getRadioButton();
+	if (choice == "Fetch"){
+		File.saveString(File.openAsString(getDirectory("home")+"/Nextcloud/sync/FIJI/StartupMacros.fiji.ijm"), getDirectory("macros")+"/StartupMacros.fiji.ijm");
+		run("Install...","install=["+getDirectory("macros")+"/StartupMacros.fiji.ijm]");
+	}
+	else {
+		File.saveString(File.openAsString(getDirectory("macros")+"/StartupMacros.fiji.ijm"), getDirectory("home")+"/Nextcloud/sync/FIJI/StartupMacros.fiji.ijm");
+		run("Install...","install=["+getDirectory("macros")+"/StartupMacros.fiji.ijm]");
+	}
+}
+//toggle channel number (i)
+function toggleChannel(i) { //modified from J.Mutterer
+	if (nImages<1) exit; 
+	if (is("composite")) {
+		Stack.getActiveChannels(s);
+		c = s.substring(i-1,i);
+		Stack.setActiveChannels(s.substring(0,i-1)+!c+s.substring(i)); //at the end it looks like Stack.setActiveChannels(1101);
+		showStatus("Channel "+i+" toggled"); 
+	}
+}
+
+function toggleAllchannels(i) {
+	setBatchMode(1);
+	for (k=0; k<nImages; k++) {
+		selectImage(k+1);
+		toggleChannel(i);	
+	}
+	showStatus("Channel "+i+" toggled");
+	setBatchMode(0);
+}
+
 macro "correct copied path" {
-	copiedPath = getString("paste your path", "");
-	replace(copiedPath, "\\", "/");
+	copiedPath = replace(getString("paste your path", ""), "\\", "/");
 	print(copiedPath);
 }
 
 function fastColorCode(Glut) {
-	Stack.getDimensions(ww, hh, channels, slices, frames);
-	title = getTitle();
+	if (Glut == "current") getLut(r,g,b);
 	zoom = getZoom();
-	if (channels > 1)
-		exit("Cannot color-code multi-channel images!");
+	setBatchMode(true);
+	Stack.getDimensions(ww, hh, channels, slices, frames);
+	Stack.getPosition(channel, slice, frame);
+	if (channels > 1) run("Duplicate...", "duplicate channels=&channel");
+	title = getTitle();
 	//swap slices and frames in case:
 	if ((slices > 1) && (frames == 1)) {
 		frames = slices;
@@ -180,7 +197,6 @@ function fastColorCode(Glut) {
 	totalframes = frames;
 	calcslices = slices * totalframes;
 	imgID = getImageID();
-	setBatchMode(true);
 	newImage("colored", "RGB White", ww, hh, calcslices);
 	run("Stack to Hyperstack...", "order=xyczt(default) channels=1 slices="	+ slices + " frames=" + totalframes + " display=Color");
 	newimgID = getImageID();
@@ -189,7 +205,8 @@ function fastColorCode(Glut) {
 	run("8-bit");
 	imgID = getImageID();
 	newImage("stamp", "8-bit White", 10, 10, 1);
-	run(Glut);
+	if (Glut == "current") setLut(r,g,b);
+	else run(Glut);
 	getLut(rA, gA, bA);
 	close();
 	nrA = newArray(256);	ngA = newArray(256);	nbA = newArray(256);
@@ -227,6 +244,7 @@ function fastColorCode(Glut) {
 	setBatchMode(0);
 	run("Set... ", "zoom="+zoom*100);
 	setOption("Changes", 0);
+	run("Enhance Contrast", "saturated=0 use");
 }
 
 function runMacroFromUrl() {
@@ -311,7 +329,7 @@ macro "set LUT from montage Tool - N55C000D37D38D39CfffD00D01D02D03D04D05D06D07D
 		rowPosition = floor(x/XblocSize);
 		index = (linePosition*rows)+rowPosition;
 		targetImage=call("ij.Prefs.get","Destination.title","");
-		if (isKeyDown("shift")) {
+		if (isKeyDown("shift")&&isOpen(targetImage)) {
 			selectWindow(targetImage);
 			fastColorCode(all_LUTs[index]);
 			showStatus("color code with LUT = " + all_LUTs[index]);
@@ -1807,6 +1825,7 @@ macro "AutoRun" {
 	// run all the .ijm scripts provided in macros/AutoRun/
 	//autoRunDirectory = getDirectory("imagej") + "/macros/AutoRun/";
 	//if (File.isDirectory(autoRunDirectory)) { list = getFileList(autoRunDirectory); Array.sort(list); for (i = 0; i < list.length; i++) {if (endsWith(list[i], ".ijm")) {runMacro(autoRunDirectory + list[i]);}}}
+	run("Roi Defaults...", "color=orange stroke=2 group=0");
 	eval("js", "javax.swing.UIManager.setLookAndFeel('javax.swing.plaf.metal.MetalLookAndFeel');");//------------------------------------------------
 }
 function UseHEFT {requires("1.38f");state = call("ij.io.Opener.getOpenUsingPlugins");if (state=="false") {setOption("OpenUsingPlugins", true);showStatus("TRUE (images opened by HandleExtraFileTypes)");} else {setOption("OpenUsingPlugins", false);showStatus("FALSE (images opened by ImageJ)");}}
