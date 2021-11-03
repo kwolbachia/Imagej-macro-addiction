@@ -12,7 +12,7 @@ About the LUTs from montage Tool :
 Double click on the tool to get the imageJ LUTs montage
 select the image you want to target by clicking on it (it should blink in orange)     
 then just click on the LUT you want on the montage.     
-Also, if you click with this tool on another rgb image(ie a rainbow), it will create a linear LUT of the rgb pixel color!   
+Also, if you click with this tool on another rgb image(ie a rainbow), it will create a linear LUT from the rgb pixel color!   
 
 
 About my_StartupMacros.ijm :    
