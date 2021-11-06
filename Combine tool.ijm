@@ -14,5 +14,6 @@ macro "Combine Tool Options"{
 		txt += " stack"+i+1+"=["+list[i]+"]";
 	}
 	run("Combine...", txt);
+	list = newArray("");
 }
 
