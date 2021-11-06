@@ -9,11 +9,8 @@ macro "Combine Tool - CfffCfc9D25D26D27D28D29D2aD2bD34D36D37D38D39D3aD3bD3cD44D4
 	n++;
 }
 macro "Combine Tool Options"{
-	txt = "";
-	for (i = 0; i < lengthOf(list); i++) {
-		txt += " stack"+i+1+"=["+list[i]+"]";
-	}
-	run("Combine...", txt);
+	run("Combine...", " stack1=[" + list[0] + "] stack2=[" + list[1] + "]");
+	rename(list[0] + " + " + list[1]);
 	list = newArray("");
+	n = 0;
 }
-
