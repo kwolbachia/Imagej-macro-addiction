@@ -1,23 +1,31 @@
-how to install macro tools : <https://imagej.nih.gov/ij/docs/guide/146-20.html>
+[how to install macro tools](https://imagej.nih.gov/ij/docs/guide/146-20.html)
 
-About preview Opener :   
-First : open all the images of one directory or just the ones you want,   
-no problem if they are virtual stacks.  
+About the [Preview Opener](https://github.com/kwolbachia/Imagej-macro-addiction/blob/main/Preview%20Opener.ijm) :   
+First : open all the images of one directory or just the ones you want, it can be virtual stacks.  
 Adjust the display you want (slice, contrast, LUTs..) because the snapshots will show the current views.   
-Then double click on the tool to create the snapshot montage. It's supposed to work on any image format.    
-save it as tiff on the same directory, don't rename it!    
+Then double click (or right click) on the tool to create the snapshot montage. It's supposed to work on any image format.    
+Save it as tiff on the same directory, don't rename it!    
 Now when you click on this preview montage with the tool, it will open the image you clicked ! (provided everything is on the same directory)   
 
-About the LUTs from montage Tool :    
-Double click on the tool to get the imageJ LUTs montage
-select the image you want to target by clicking on it (it should blink in orange)     
+About the [LUTs from montage Tool](https://github.com/kwolbachia/Imagej-macro-addiction/blob/main/Preview%20Opener.ijm) :    
+Double click (or right click) on the tool to get the imageJ LUTs montage.    
+Select the image you want to target by clicking on it (it should blink in orange)     
 then just click on the LUT you want on the montage.     
 Also, if you click with this tool on another rgb image(ie a rainbow), it will create a linear LUT from the rgb pixel color!   
 
+About [iLUTs Action Bar](https://github.com/kwolbachia/Imagej-macro-addiction/blob/main/iLUTs/invertableLUTs.ijm) : <https://twitter.com/kWolbachia/status/1393689396570955779?s=20>
 
-About my_StartupMacros.ijm :    
-my own organised mess full of macros and ideas of macros..
+About [Colorblind Action Bar](https://github.com/kwolbachia/Imagej-macro-addiction/tree/main/Colorblind%20Bar) : <https://twitter.com/kWolbachia/status/1401707267976802306?s=20>
 
-About iLUTs Action Bar : <https://twitter.com/kWolbachia/status/1393689396570955779?s=20>
+About the [Merge Tool](https://github.com/kwolbachia/Imagej-macro-addiction/blob/main/Merge%20Tool.ijm) :    
+Click sequencially on the images you want to merge, in the right order     
+Double click (or right click) on the tool to merge them.     
+If you miss clicked, double click (or right click) on the tool with the shift key pressed.
 
-About Colorblind Action Bar : <https://twitter.com/kWolbachia/status/1401707267976802306?s=20>
+About the [Combine Tool](https://github.com/kwolbachia/Imagej-macro-addiction/blob/main/Combine%20tool.ijm) :    
+Click sequencially on the two images you want to combine, in the right order     
+Double click (or right click) on the tool to combine them.     
+If you miss clicked, double click (or right click) on the tool with the shift key pressed.
+
+About [my_StartupMacros.ijm](https://github.com/kwolbachia/Imagej-macro-addiction/blob/main/my_startupMacro.ijm):    
+this is my own 'organised' mess full of macros and ideas of macros..
