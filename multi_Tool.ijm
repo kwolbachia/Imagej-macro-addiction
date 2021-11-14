@@ -25,8 +25,8 @@ function multiTool(){ //avec menu "que faire avec le middle click? **"
 	getCursorLoc(x, y, z, flags);
 	if (flags == 48)				{run("Select None"); exit;}		// click on a selection
 	if (flags == 26||flags == 28)	close();						// shift + alt + click
-	if (flags == 8 )												// middle click
-	if (flags == 10||flags == 12)									// ctrl + middle click
+	if (flags == 8 )				exit;								// middle click
+	if (flags == 10||flags == 12)	exit;							// ctrl + middle click
 	if (flags == 16)				moveWindows();					// regular long click
 	if (flags == 17)				liveContrast();					// shift + long click
 	if (flags == 18||flags == 20)	liveGamma();					// ctrl + long click
