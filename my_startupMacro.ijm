@@ -10,40 +10,60 @@ var fontS = 30;
 var tile = newArray(1);
 var channels = 1;
 
+macro "Multitool Tool - N55C000D3dD4bD4cD4dD4eD5aD5bD5cD5dD5eDa5Db4Db5Dc4Dc5Dd4Dd5De4De5CeeeD95Cfc0D46D55D64Da2Da7Da8Da9Db6Db7Db8Db9DcaDcbDdbDdcDdeDe6DecDedDeeC940D2cDc2Dd2De3CfffD1bD1eD97Db1DbdDe1DeaCfc1C520D2dDc6Dc8Dd6Dd7Dd8CffeC984CfeaD47D74D99C100Dc3Dd3CfffD59Cfb0D2aD2bD2eD37D38D39D73D83D92D93Db2DbaDccDdaDddDe2De7Cfd5De8C332D3cD3eD6dD7dD8dCffeD98CaaaD9cCffdD45D54Cfb0Cfd4D29DbbDcdC720Dc7Dc9Dd9C997Db3CffcD36D48D63D84D96DceDebCfd8D3aD56D65Da3DaaC777D6cD7cD8cD9dCbbbD4aDa4Cd80Da6Cfc1DbcC985D3bBf0C000D05D5aD5bD5cD5dD5eD6bD6cD6dD6eD7dCeeeCfc0D02D03D0dD0eD14D16D17D1eD24D25D26D2eD35D36D37D39D3eD46D47D48D49D4aD4bD4eD57D58D68D69D7aD8aC940D1cD7bD8cCfffD0bD9bD9eCfc1D44D55D66C520D8dCffeC984CfeaD08D18D29D2aC100D2dD3dD4dD7cCfffCfb0D07D0cD27D38D3aD3bD45D56D8bD8eCfd5D23D2bD33D77D78C332CffeCaaaCffdD43D54D65D76Cfb0D06D13D34D59D67D79Cfd4D12D89C720D1dD2cD3cD4cD7eC997CffcCfd8C777CbbbCd80D04D15D6aCfc1D28C985B0fC000D50CeeeCfc0D00D01D02D03D04D07D08D10D11D12D13D14D16D20D21D22D23D24D25D26D30D31D32D33D34D35D40D41D42D43D44D52D53D62D70D80C940D60CfffCfc1D46D55D64C520CffeC984CfeaC100D05CfffCfb0D45D54Cfd5D27D37D72D73C332CffeCaaaCffdD47D56D65D74Cfb0D17D36D61D63D71Cfd4D18D81C720D06C997CffcCfd8C777CbbbCd80D15D51Cfc1C985Nf0C000D50Db6Dc5Dc6Dc7Dd5Dd6Dd7De6CeeeD95Cfc0D44D55D66D72D81D82D83D91D92Da8De0C940CfffDb9De9Cfc1C520Db7Dd8De7CffeD61D94C984Dd1CfeaD70Da3Dc0C100De5CfffCfb0D20D31D32D33D43D54D65D76D87D97D98Db8De1De4De8Cfd5D90Da1C332Da5Db5Dc2Dd2Dd3Dd4CffeCaaaDc1CffdD45D56Cfb0D71D93Dd0Cfd4D21D77C720Dc8C997D40CffcD34D42D67D86Cfd8D30D80Da2Da7C777Da6Dc3Dc4CbbbD51Cd80Cfc1D73De2De3C985" {
+	multiTool();
+}
+
+//--------------------------------------------------------------------------------------------------------------------------------------
 //------SHORTCUTS
+//--------------------------------------------------------------------------------------------------------------------------------------
 var ShortcutsMenu = newMenu("Custom Menu Tool",
-	newArray("Fetch or pull StartupMacros","Specify...","Note in infos","correct copied path","Remove Overlay","Rotate 90 Degrees Right","Rotate 90 Degrees Left","Plot Z-axis Profile","make my LUTs","-","Median...","Median 3D...","Gaussian Blur...","Gaussian Blur 3D...","Gamma...",
-		 "-","3D Manager","Start CLIJ2-Assistant","test all Z project", "test CLAHE options","Tempo color no Zproject","-","Batch convert ims to tif","Batch convert 32 to 16-bit",
+	newArray("Catch or pull StartupMacros","Specify...", "Note in infos", "correct copied path", "Remove Overlay", "Rotate 90 Degrees Right","Rotate 90 Degrees Left","Plot Z-axis Profile","make my LUTs",
+		 "-","Median...","Median 3D...","Gaussian Blur...","Gaussian Blur 3D...","Gamma...",
+		 "-","3D Manager","Start CLIJ2-Assistant","test all Z project", "test CLAHE options","Tempo color no Zproject",
+		 "-","Batch convert ims to tif","Batch convert 32 to 16-bit","Combine tool", "Merge tool",
 		 "-","Neuron (5 channels)","HeLa Cells (48-bit RGB)","Fluorescent Cells", "Confocal Series","Mitosis (5D stack)","M51 Galaxy (16-bits)",
-		 "-","invertableLUTs_Bar","CB_Bar","JeromesWheel","RGBtimeIsOver"));
+		 "-","invertableLUTs_Bar","CB_Bar","New_Bar","JeromesWheel","RGBtimeIsOver"));
 macro "Custom Menu Tool - N55C000D1aD1bD1cD1dD29D2dD39D3dD49D4dD4eD59D5eD69D75D76D77D78D79D85D88D89D94D98D99Da4Da7Da8Da9Db3Db7Db8Dc3Dc6Dc7DccDcdDd3Dd6Dd8DdbDdcDe2De3De6De8De9DeaDebDecCfffD0dD3cD5cD6dD7bD8bD8cD96D9aD9bDa5DacDadDb5DcaDd4Dd9DdaDe4CdddD0aD1eD2bD6aD74D7aD95Dc4Dc5DeeC333D67D68DbeDd2DddCeeeD00D01D02D03D04D05D06D07D08D09D0eD10D11D12D13D14D15D16D17D18D20D21D22D23D24D25D26D27D30D31D32D33D34D35D36D37D3aD3bD40D41D42D43D44D45D46D47D4bD50D51D52D53D54D55D56D57D60D61D62D63D64D65D6eD70D71D72D73D80D81D82D83D86D8aD8dD90D91D92D97Da0Da1Da2Da6DaaDb0Db1DbbDc0Dc1Dc9Dd0Dd1De0De1C111D38D5bD6bD7dDabDbaDd7C999D4cD58D5aD5dD93DceDd5C777D0bD2eD4aD6cD7cD7eD9cD9dD9eDbdDc8C222D8eDa3DbcCcccD2cDdeDe7C666D19Db4DcbCbbbD0cD87DaeDb2C888D66De5C555D28D2aD84Dc2CaaaDb9DedC444D3eD48Db6Bf0C000D03D06D0cD13D16D1bD23D26D2aD33D37D39D43D44D47D48D54D65D76D77D87D88D89D8aD8bD8cD8dD8eD9bCfffD04D08D0dD0eD14D18D19D24D28D2cD35D3bD3cD3dD3eD45D46D4aD4bD4cD4eD56D57D5aD5bD5cD5dD5eD68D69D6aD6bD6cD6dD7cD7dCdddD1cD25D63D7eD97C333D99CeeeD00D01D07D10D11D1dD20D21D2eD30D31D40D41D42D4dD50D51D52D59D60D61D62D67D6eD70D71D72D73D74D79D7aD7bD80D81D82D83D84D85D90D91D92D93D94D95D96Da0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaDabDacDadDaeC111D02D0bD36C999D1aD2bD58D9eC777D27D3aC222D64D66D9aCcccD09D17C666D12D38D78CbbbD0aD15D1eD2dD32D34C888D98C555D49D55D86D9cD9dCaaaD05D29D53C444D22D75B0fC000D02D03D04D05D08D09D18D27D28D36D37D45D46D54D55D63D64D71D72D80D81CfffD06D07D16D25D30D34D35D40D43D44D52D57D60D61D66D75D83D85CdddD10D22D32D33D42D74C333CeeeD0aD1aD21D29D2aD31D38D39D3aD48D49D4aD50D51D53D58D59D5aD67D68D69D6aD76D77D78D79D7aD84D86D87D88D89D8aD91D92D93D94D95D96D97D98D99D9aDa0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaC111C999D62D65C777D00C222D01D13D14D73CcccD11D26D90C666CbbbD12D15D19D20D23D24D41D82C888D47D56D70C555D17CaaaC444Nf0C000D33D34D35D36D42D43D46D50D51D55D64D65D66D67D73D74D78D88D96D97Da4Da5Db4Dc4Dd4Dd6Dd7Dd8De3De4De6De8De9CfffD15D31D44D53D54D58D62D84D85D86D92D93Da2Db2Dc2Dd2De7CdddD63Da1Da7Dc1Dd0De2C333D25D47D56D77Da0CeeeD00D01D02D03D04D05D06D07D08D09D0aD10D11D12D13D14D16D17D18D19D1aD20D21D22D27D28D29D2aD30D38D39D3aD48D49D4aD59D5aD69D6aD71D7aD82D8aD99D9aDa8Da9DaaDb1Db6Db7Db8Db9DbaDc9DcaDd1DdaDe0DeaC111C999D37D76D90Da6Db5Dc6Dc8Dd3C777D41D81D91D98Dc7De5C222D75D95Db3CcccD61D72D79D83D89Dc5Dd5Dd9De1C666D40D52D57CbbbD70D80D94C888D23D32D45Dc3C555D60D87Da3Db0CaaaD26Dc0C444D24D68" {
 	cmd = getArgument(); 
-	if 		(cmd=="Note in infos") Note_in_infos();
-	else if (cmd=="test CLAHE options") testCLAHE_options();
-	else if (cmd=="test all Z project") test_All_Zprojections();
+	if 		(cmd=="Note in infos") 					Note_in_infos();
+	else if (cmd=="Catch or pull StartupMacros") 	catchOrPullStartupMacros();
+	else if (cmd=="correct copied path")			{copiedPath = replace(getString("paste your path", ""), "\\", "/");	print(copiedPath);}
+	else if (cmd=="test CLAHE options") 			testCLAHE_options();
+	else if (cmd=="test all Z project") 			test_All_Zprojections();
+	else if (cmd=="Combine tool") 					{String.copy(File.openUrlAsString("https://git.io/JXvva")); installMacroFromClipboard();}
+	else if (cmd=="Merge tool") 					{String.copy(File.openUrlAsString("https://git.io/JXoBT")); installMacroFromClipboard();}
+	else if (cmd=="invertableLUTs_Bar")				{run("Action Bar", File.openUrlAsString("https://git.io/JXoB2"));}
+	else if (cmd=="CB_Bar") 						{run("Action Bar", File.openUrlAsString("https://git.io/JZUZw"));}
+	else if (cmd=="New_Bar") 						{run("Action Bar", File.openUrlAsString("https://gist.githubusercontent.com/kwolbachia/86fa900000d19bdfed0809f7a55ddfb9/raw/501a8c28ff90262b2df9c68620bb694a05e5dd76/K%2520LUTs%2520Bar.ijm"));}
+	
 	else run(cmd);
 	call("ij.gui.Toolbar.setIcon", "Custom Menu Tool", "N55C000D1aD1bD1cD29D2dD39D3dD49D4dD4eD59D5eD69D79D99Da7Da8Da9Db3Db7Db8Dc7DccDcdDd8DdbDdcDe2De3De9DeaDebCcccD2cCa00D08D09D18D27D28D37D57D66D67D76D87D96D97Da5Db5Dc5Dd5De7CfffD3cD5cD6dD7bD8bD8cD9aD9bDacDadDcaDd9DdaC111D5bD6bD7dDabDbaCeeeD00D01D02D03D04D05D06D10D11D12D13D14D15D16D20D21D22D23D24D25D30D31D32D33D34D35D3aD3bD40D41D42D43D44D45D4bD50D51D52D53D54D55D60D61D62D63D64D6eD70D71D72D73D74D80D81D82D83D84D8aD8dD90D91D92Da0Da1Da2DaaDb0Db1DbbDc0Dc1Dc9Dd0Dd1De0De1Cb11DdeDedDeeCdddD2bD6aD7aCb00D07D0aD0bD0cD0dD0eD17D19D1dD1eD26D2eD36D38D3eD46D47D48D56D58D65D68D75D77D78D85D86D88D89D94D95D98Da4Da6Db4Db6Dc3Dc4Dc6DceDd3Dd4Dd6Dd7DddDe4De5De6De8DecC777D4aD6cD7cD7eD9cD9dD9eDbdDc8CaaaDb9Cb00C444C999D4cD5aD5dD93CbbbDaeDb2C333DbeDd2C888C666DcbC222D8eDa3DbcC555D2aDc2Bf0C000D03D13D16D23D26D33D37D43D44D47D48D54D65D76D77D87D88D89D8aD8bD8cD8dD8eD9bCcccCa00D07D0bD17CfffD14D24D35D3bD3cD3dD3eD45D46D4aD4bD4cD4eD56D57D5aD5bD5cD5dD5eD68D69D6aD6bD6cD6dD7cD7dC111D02D36CeeeD00D01D10D11D20D21D2eD30D31D40D41D42D4dD50D51D52D59D60D61D62D67D6eD70D71D72D73D74D79D7aD7bD80D81D82D83D84D85D90D91D92D93D94D95D96Da0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaDabDacDadDaeCb11D0dD19D1dD29CdddD25D63D7eD97Cb00D04D05D06D08D09D0aD0cD0eD15D18D1aD1bD1cD1eD27D28D2aD2cD39C777D3aCaaaD53Cb00C444D22D75C999D2bD58D9eCbbbD2dD32D34C333D99C888D98C666D12D38D78C222D64D66D9aC555D49D55D86D9cD9dB0fC000D02D03D04D05D08D09D18D27D28D36D37D45D46D54D55D63D64D71D72D80D81CcccD11D26D90Ca00CfffD06D07D16D25D30D34D35D40D43D44D52D57D60D61D66D75D83D85C111CeeeD0aD1aD21D29D2aD31D38D39D3aD48D49D4aD50D51D53D58D59D5aD67D68D69D6aD76D77D78D79D7aD84D86D87D88D89D8aD91D92D93D94D95D96D97D98D99D9aDa0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaCb11CdddD10D22D32D33D42D74Cb00C777D00CaaaCb00C444C999D62D65CbbbD12D15D19D20D23D24D41D82C333C888D47D56D70C666C222D01D13D14D73C555D17Nf0C000D33D34D35D36D46D50D55D66D67D78D88D96D97Da5Db4Dc4Dd4Dd6Dd7Dd8De3De4De6De8De9CcccD79D89Dc5Dd5Dd9Ca00D20D30D41D65D74D84Da4Db1CfffD15D58D85D86De7C111CeeeD00D02D03D04D05D06D07D08D09D0aD12D13D14D16D17D18D19D1aD27D28D29D2aD38D39D3aD48D49D4aD59D5aD69D6aD7aD8aD99D9aDa8Da9DaaDb6Db7Db8Db9DbaDc9DcaDdaDeaCb11D42D52D54D63D64D73D83D93D94Da1Da3Db3Dc1Dc2Dc3Dd0Dd1De0De1CdddDa7De2Cb00D01D10D11D21D22D31D40D43D44D51D53D61D62D71D72D82D91D92Da2Db0Db2Dc0Dd2C777D81D98Dc7De5CaaaD26Cb00D32C444D24D68C999D37D76D90Da6Db5Dc6Dc8Dd3CbbbD70D80C333D25D47D56D77Da0C888D23D45C666D57C222D75D95C555D60D87");
- 	wait(4000);
+ 	wait(3000);
  	call("ij.gui.Toolbar.setIcon", "Custom Menu Tool", "N55C000D1aD1bD1cD1dD29D2dD39D3dD49D4dD4eD59D5eD69D75D76D77D78D79D85D88D89D94D98D99Da4Da7Da8Da9Db3Db7Db8Dc3Dc6Dc7DccDcdDd3Dd6Dd8DdbDdcDe2De3De6De8De9DeaDebDecCfffD0dD3cD5cD6dD7bD8bD8cD96D9aD9bDa5DacDadDb5DcaDd4Dd9DdaDe4CdddD0aD1eD2bD6aD74D7aD95Dc4Dc5DeeC333D67D68DbeDd2DddCeeeD00D01D02D03D04D05D06D07D08D09D0eD10D11D12D13D14D15D16D17D18D20D21D22D23D24D25D26D27D30D31D32D33D34D35D36D37D3aD3bD40D41D42D43D44D45D46D47D4bD50D51D52D53D54D55D56D57D60D61D62D63D64D65D6eD70D71D72D73D80D81D82D83D86D8aD8dD90D91D92D97Da0Da1Da2Da6DaaDb0Db1DbbDc0Dc1Dc9Dd0Dd1De0De1C111D38D5bD6bD7dDabDbaDd7C999D4cD58D5aD5dD93DceDd5C777D0bD2eD4aD6cD7cD7eD9cD9dD9eDbdDc8C222D8eDa3DbcCcccD2cDdeDe7C666D19Db4DcbCbbbD0cD87DaeDb2C888D66De5C555D28D2aD84Dc2CaaaDb9DedC444D3eD48Db6Bf0C000D03D06D0cD13D16D1bD23D26D2aD33D37D39D43D44D47D48D54D65D76D77D87D88D89D8aD8bD8cD8dD8eD9bCfffD04D08D0dD0eD14D18D19D24D28D2cD35D3bD3cD3dD3eD45D46D4aD4bD4cD4eD56D57D5aD5bD5cD5dD5eD68D69D6aD6bD6cD6dD7cD7dCdddD1cD25D63D7eD97C333D99CeeeD00D01D07D10D11D1dD20D21D2eD30D31D40D41D42D4dD50D51D52D59D60D61D62D67D6eD70D71D72D73D74D79D7aD7bD80D81D82D83D84D85D90D91D92D93D94D95D96Da0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaDabDacDadDaeC111D02D0bD36C999D1aD2bD58D9eC777D27D3aC222D64D66D9aCcccD09D17C666D12D38D78CbbbD0aD15D1eD2dD32D34C888D98C555D49D55D86D9cD9dCaaaD05D29D53C444D22D75B0fC000D02D03D04D05D08D09D18D27D28D36D37D45D46D54D55D63D64D71D72D80D81CfffD06D07D16D25D30D34D35D40D43D44D52D57D60D61D66D75D83D85CdddD10D22D32D33D42D74C333CeeeD0aD1aD21D29D2aD31D38D39D3aD48D49D4aD50D51D53D58D59D5aD67D68D69D6aD76D77D78D79D7aD84D86D87D88D89D8aD91D92D93D94D95D96D97D98D99D9aDa0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaC111C999D62D65C777D00C222D01D13D14D73CcccD11D26D90C666CbbbD12D15D19D20D23D24D41D82C888D47D56D70C555D17CaaaC444Nf0C000D33D34D35D36D42D43D46D50D51D55D64D65D66D67D73D74D78D88D96D97Da4Da5Db4Dc4Dd4Dd6Dd7Dd8De3De4De6De8De9CfffD15D31D44D53D54D58D62D84D85D86D92D93Da2Db2Dc2Dd2De7CdddD63Da1Da7Dc1Dd0De2C333D25D47D56D77Da0CeeeD00D01D02D03D04D05D06D07D08D09D0aD10D11D12D13D14D16D17D18D19D1aD20D21D22D27D28D29D2aD30D38D39D3aD48D49D4aD59D5aD69D6aD71D7aD82D8aD99D9aDa8Da9DaaDb1Db6Db7Db8Db9DbaDc9DcaDd1DdaDe0DeaC111C999D37D76D90Da6Db5Dc6Dc8Dd3C777D41D81D91D98Dc7De5C222D75D95Db3CcccD61D72D79D83D89Dc5Dd5Dd9De1C666D40D52D57CbbbD70D80D94C888D23D32D45Dc3C555D60D87Da3Db0CaaaD26Dc0C444D24D68");
 }
 
 macro "Stacks Menu Built-in Tool" {}
 macro "Developer Menu Built-in Tool" {}
 
+//--------------------------------------------------------------------------------------------------------------------------------------
 //------ALL OPENED TOOLS
-var ACmds = newMenu("All opened images tools Menu Tool",
+//--------------------------------------------------------------------------------------------------------------------------------------
+var ACmds = newMenu("All opened images Menu Tool",
 	newArray("Reset all contrasts","Set all LUTs","Z projection all","Save all elsewhere", "Basic save all"));
-macro"All opened images tools Menu Tool - N55C000D0dD0eD1dD1eD2dD3dD3eD4dD4eD59D5aD5bD5dD5eD6bD6dD6eD73D77D78D79D7bD7dD83D84D85D88D8bD8dD8eD94D99D9dD9eDa3Da6Da8Da9DadDaeDb3Db8Db9Dc3Dc6Dc8Dc9DcdDd4Dd9DdbDdcDddDe3De4De5De8DebDecDedC4cfCe16D74D75D76D86D87D89D93D95D96D97D98Da4Da5Da7Db4Db5Db6Db7Dc4Dc5Dc7Dd3Dd5Dd6Dd7Dd8De6De7De9CfffD0cD1cD2cD3cD48D49D4aD4bD4cD58D5cD62D63D64D65D66D67D68D69D6aD6cD72D7aD7cD82D8aD8cD92D9aD9cDa2DaaDacDb2DbaDbcDbdDbeDc2DcaDceDd2DdaDdeDe1De2DeaDeeCeeeD00D01D02D03D04D05D06D07D08D09D0aD0bD10D11D12D13D14D15D16D17D18D19D1aD1bD20D21D22D23D24D25D26D27D28D29D2aD2bD30D31D32D33D34D35D36D37D38D39D3aD3bD40D41D42D43D44D45D46D47D50D51D52D53D54D55D56D57D60D61D70D71D80D81D90D91Da0Da1Db0Db1Dc0Dc1Dd0Dd1De0Cfe3D9bDabDbbDcbDccCc15C4deC8c4D2eD7eBf0C000D03D07D08D09D13D14D15D16D17D18D19D1dD1eD2eD32D34D35D36D3dD42D45D46D4dD52D55D56D5dD62D63D64D65D66D6eD72D73D74D75D76D7dD7eD8dD8eC4cfD33D43D44D53D54Ce16D04D05D06CfffD01D02D0aD0bD0cD0dD0eD11D12D1aD1cD21D22D23D24D25D26D27D28D29D2aD2cD31D37D3cD41D47D4cD51D57D5cD61D67D6cD71D77D7cD81D82D83D84D85D86D87D8cD9cD9dD9eCeeeD00D10D1bD20D2bD30D38D39D3aD3bD40D48D49D4aD4bD50D58D59D5aD5bD60D68D69D6aD6bD70D78D79D7aD7bD80D88D89D8aD8bD90D91D92D93D94D95D96D97D98D99D9aD9bDa0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaDabDacDadDaeCfe3Cc15C4deD2dD3eD4eD5eD6dC8c4B0fC000D00D01D02D03D04D05D10D11D12D15D23D24D25D35D43D44D45D55D63D64D65D70D71D72D75D80D81D82D83D84D85C4cfCe16CfffD06D16D26D36D46D56D66D76D86D90D91D92D93D94D95D96CeeeD07D08D09D0aD17D18D19D1aD27D28D29D2aD37D38D39D3aD47D48D49D4aD57D58D59D5aD67D68D69D6aD77D78D79D7aD87D88D89D8aD97D98D99D9aDa0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaCfe3Cc15D31D51C4deD13D14D20D21D22D30D32D33D34D40D41D42D50D52D53D54D60D61D62D73D74C8c4Nf0C000D00D01D02D05D06D07D10D11D14D15D16D17D20D25D27D32D36D37D40D45D46D47D50D55D56D57D62D66D67D70D75D77D80D81D84D85D86D87D90D91D92D95D96D97Da0Da1Da2Da3Da4Da5Da6Da7C4cfCe16CfffD08D18D28D38D48D58D68D78D88D98Da8Db0Db1Db2Db3Db4Db5Db6Db7Db8De0De1De2De3De4De5De6CeeeD09D0aD19D1aD29D2aD39D3aD49D4aD59D5aD69D6aD79D7aD89D8aD99D9aDa9DaaDb9DbaDc0Dc1Dc2Dc3Dc4Dc5Dc6Dc7Dc8Dc9DcaDd0Dd1Dd2Dd3Dd4Dd5Dd6Dd7Dd8Dd9DdaDe7De8De9DeaCfe3Cc15C4deC8c4D03D04D12D13D21D22D23D24D26D30D31D33D34D35D41D42D43D44D51D52D53D54D60D61D63D64D65D71D72D73D74D76D82D83D93D94"{
+macro "All opened images Menu Tool - N55C000D0dD0eD1dD1eD2dD3dD3eD4dD4eD59D5aD5bD5dD5eD6bD6dD6eD73D77D78D79D7bD7dD83D84D85D88D8bD8dD8eD94D99D9dD9eDa3Da6Da8Da9DadDaeDb3Db8Db9Dc3Dc6Dc8Dc9DcdDd4Dd9DdbDdcDddDe3De4De5De8DebDecDedC4cfCe16D74D75D76D86D87D89D93D95D96D97D98Da4Da5Da7Db4Db5Db6Db7Dc4Dc5Dc7Dd3Dd5Dd6Dd7Dd8De6De7De9CfffD0cD1cD2cD3cD48D49D4aD4bD4cD58D5cD62D63D64D65D66D67D68D69D6aD6cD72D7aD7cD82D8aD8cD92D9aD9cDa2DaaDacDb2DbaDbcDbdDbeDc2DcaDceDd2DdaDdeDe1De2DeaDeeCeeeD00D01D02D03D04D05D06D07D08D09D0aD0bD10D11D12D13D14D15D16D17D18D19D1aD1bD20D21D22D23D24D25D26D27D28D29D2aD2bD30D31D32D33D34D35D36D37D38D39D3aD3bD40D41D42D43D44D45D46D47D50D51D52D53D54D55D56D57D60D61D70D71D80D81D90D91Da0Da1Db0Db1Dc0Dc1Dd0Dd1De0Cfe3D9bDabDbbDcbDccCc15C4deC8c4D2eD7eBf0C000D03D07D08D09D13D14D15D16D17D18D19D1dD1eD2eD32D34D35D36D3dD42D45D46D4dD52D55D56D5dD62D63D64D65D66D6eD72D73D74D75D76D7dD7eD8dD8eC4cfD33D43D44D53D54Ce16D04D05D06CfffD01D02D0aD0bD0cD0dD0eD11D12D1aD1cD21D22D23D24D25D26D27D28D29D2aD2cD31D37D3cD41D47D4cD51D57D5cD61D67D6cD71D77D7cD81D82D83D84D85D86D87D8cD9cD9dD9eCeeeD00D10D1bD20D2bD30D38D39D3aD3bD40D48D49D4aD4bD50D58D59D5aD5bD60D68D69D6aD6bD70D78D79D7aD7bD80D88D89D8aD8bD90D91D92D93D94D95D96D97D98D99D9aD9bDa0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaDabDacDadDaeCfe3Cc15C4deD2dD3eD4eD5eD6dC8c4B0fC000D00D01D02D03D04D05D10D11D12D15D23D24D25D35D43D44D45D55D63D64D65D70D71D72D75D80D81D82D83D84D85C4cfCe16CfffD06D16D26D36D46D56D66D76D86D90D91D92D93D94D95D96CeeeD07D08D09D0aD17D18D19D1aD27D28D29D2aD37D38D39D3aD47D48D49D4aD57D58D59D5aD67D68D69D6aD77D78D79D7aD87D88D89D8aD97D98D99D9aDa0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaCfe3Cc15D31D51C4deD13D14D20D21D22D30D32D33D34D40D41D42D50D52D53D54D60D61D62D73D74C8c4Nf0C000D00D01D02D05D06D07D10D11D14D15D16D17D20D25D27D32D36D37D40D45D46D47D50D55D56D57D62D66D67D70D75D77D80D81D84D85D86D87D90D91D92D95D96D97Da0Da1Da2Da3Da4Da5Da6Da7C4cfCe16CfffD08D18D28D38D48D58D68D78D88D98Da8Db0Db1Db2Db3Db4Db5Db6Db7Db8De0De1De2De3De4De5De6CeeeD09D0aD19D1aD29D2aD39D3aD49D4aD59D5aD69D6aD79D7aD89D8aD99D9aDa9DaaDb9DbaDc0Dc1Dc2Dc3Dc4Dc5Dc6Dc7Dc8Dc9DcaDd0Dd1Dd2Dd3Dd4Dd5Dd6Dd7Dd8Dd9DdaDe7De8De9DeaCfe3Cc15C4deC8c4D03D04D12D13D21D22D23D24D26D30D31D33D34D35D41D42D43D44D51D52D53D54D60D61D63D64D65D71D72D73D74D76D82D83D93D94"{
 	cmd = getArgument();
-	if 		(cmd=="Set LUTs") { Ask_LUTs(); SetAllLUTs();}
-	else if (cmd=="Reset all contrasts") { Reset_All_Contrasts();}
-	else if (cmd=="Save all elsewhere") { Save_all_opened_images_elsewhere();}
-	else if (cmd=="Basic save all") { Basic_save_all();}
-	else if (cmd=="Z projection all") { Z_project_all();}
-	else if (cmd=="Set all LUTs") { Ask_LUTs(); SetAllLUTs();}
+	if 		(cmd=="Set LUTs") 				{ Ask_LUTs(); SetAllLUTs();}
+	else if (cmd=="Reset all contrasts") 	{ Reset_All_Contrasts();}
+	else if (cmd=="Save all elsewhere") 	{ Save_all_opened_images_elsewhere();}
+	else if (cmd=="Basic save all") 		{ Basic_save_all();}
+	else if (cmd=="Z projection all") 		{ Z_project_all();}
+	else if (cmd=="Set all LUTs") 			{ Ask_LUTs(); SetAllLUTs();}
 	else run(cmd);	}
 
+//--------------------------------------------------------------------------------------------------------------------------------------
 //------POPUP
+//--------------------------------------------------------------------------------------------------------------------------------------
 var pmCmds = newMenu("Popup Menu",
 	newArray("copy paste LUT set", "Rename...", "Duplicate...","Set LUTs","Set active path",
 	"rajout de bout","Copy to System","-", "CLAHE","gauss correction", "test all color blindness","RGB to Luminance","rgb LUT to LUT","rotate LUT",
@@ -55,12 +75,11 @@ macro "Popup Menu" {
 	else if (cmd=="gauss correction") gaussCorrection();
 	else if (cmd=="test all color blindness") test_all_color_blindness();
 	else if (cmd=="Set LUTs") {Ask_LUTs(); Set_LUTs();}
-	else if (cmd=="RGB to Luminance") luminance();
+	else if (cmd=="RGB to Luminance") rgb2Luminance();
 	else run(cmd); 
 }
 
 macro "LUT Menu Built-in Tool" {}
-
 
 macro "Preview Opener Tool - N66C000D34D35D36D37D38D39D3aD3bD3cD3dD3eD44D49D4eD54D59D5eD64D69D6eD74D79D7eD84D85D86D87D88D89D8aD8bD8cD8dD8eD94D99D9eDa4Da9DaeDb4Db9DbeDc4Dc9DceDd4Dd5Dd6Dd7Dd8Dd9DdaDdbDdcDddDdeDe4De9DeeC95fD4aD4bD4cD4dD5aD5bD5cD5dD6aD6bD6cD6dD7aD7bD7cD7dC09bC5ffCf05Cf85C8bfDeaDebDecDedCfc0D9aD9bD9cD9dDaaDabDacDadDbaDbbDbcDbdDcaDcbDccDcdCf5bCaf8Cfb8Ccf8D95D96D97D98Da5Da6Da7Da8Db5Db6Db7Db8Dc5Dc6Dc7Dc8Cf5dDe5De6De7De8C8fdCfa8D45D46D47D48D55D56D57D58D65D66D67D68D75D76D77D78Bf0C000D04D09D0eD14D19D1eD24D29D2eD34D35D36D37D38D39D3aD3bD3cD3dD3eD44D49D4eD54D59D5eD64D69D6eD74D79D7eD84D85D86D87D88D89D8aD8bD8cD8dD8eC95fC09bC5ffCf05Cf85D45D46D47D48D55D56D57D58D65D66D67D68D75D76D77D78C8bfD0aD0bD0cD0dD1aD1bD1cD1dD2aD2bD2cD2dCfc0Cf5bCaf8Cfb8Ccf8Cf5dD05D06D07D08D15D16D17D18D25D26D27D28C8fdD4aD4bD4cD4dD5aD5bD5cD5dD6aD6bD6cD6dD7aD7bD7cD7dCfa8B0fC000D03D07D13D17D23D27D30D31D32D33D34D35D36D37D43D47D53D57D63D67D73D77D80D81D82D83D84D85D86D87C95fC09bC5ffCf05Cf85C8bfCfc0D44D45D46D54D55D56D64D65D66D74D75D76Cf5bD04D05D06D14D15D16D24D25D26Caf8Cfb8D40D41D42D50D51D52D60D61D62D70D71D72Ccf8Cf5dC8fdD00D01D02D10D11D12D20D21D22Cfa8Nf0C000D30D31D32D33D34D35D36D37D43D47D53D57D63D67D73D77D80D81D82D83D84D85D86D87D93D97Da3Da7Db3Db7Dc3Dc7Dd0Dd1Dd2Dd3Dd4Dd5Dd6Dd7De3De7C95fC09bD94D95D96Da4Da5Da6Db4Db5Db6Dc4Dc5Dc6C5ffD40D41D42D50D51D52D60D61D62D70D71D72Cf05D90D91D92Da0Da1Da2Db0Db1Db2Dc0Dc1Dc2Cf85C8bfCfc0Cf5bDe4De5De6Caf8D44D45D46D54D55D56D64D65D66D74D75D76Cfb8Ccf8Cf5dC8fdDe0De1De2Cfa8"{
 	title = getTitle();
@@ -69,12 +88,10 @@ macro "Preview Opener Tool - N66C000D34D35D36D37D38D39D3aD3bD3cD3dD3eD44D49D4eD5
 }
 macro "Preview Opener Tool Options"{ if (!isOpen("Preview Opener.tif")) makePreviewOpener();}
 
-
 macro "set LUT from montage Tool - N55C000D37D38D39CfffD00D01D02D03D04D05D06D07D08D09D0aD0bD0cD0dD0eD10D11D12D13D14D15D16D17D18D19D1aD1bD1cD1dD1eD20D21D22D23D24D25D26D27D28D29D2aD2bD2cD2dD2eD30D31D32D36D3aD3eD40D41D42D46D4aD4eD50D51D52D56D5aD5eD60D61D62D66D6aD6eD70D71D72D76D7aD7eD80D81D82D86D8aD8eD90D91D92D96D9aD9eDa0Da1Da2Da6DaaDaeDb0Db1Db2Db6DbaDbeDc0Dc1Dc2Dc6DcaDceDd0Dd1Dd2Dd6DdaDdeDe0De1De2De6DeaDeeC338C047Db7Db8Db9C557D73D74D75D83D84D85C500D5bD5cD5dC198Ce50Cb87C024D77D78D79C278Cd51DdbDdcDddC438Cb00D9bD9cD9dC18cCfb3Cda7C100D3bD3cD3dC158Dd7Dd8Dd9C157Dc7Dc8Dc9C877Db3Db4Db5Dc3Dc4Dc5C900C3b7Ce82Cc97C013D33D34D35C17aCaf3C448Cd30DbbDbcDbdC1dcCfb4Cfd8C012D57D58D59C358C347D53D54D55C667D93D94D95C800D7bD7cD7dC2a8Ce71DebDecDedC49fC035D97D98D99C288Ccd1Ca87De3De4De5Cb10C19dCee1Cfb7C300D4bD4cD4dC368C8d4C977Dd3Dd4Dd5C427C1eaCfa3Cd97C406C18bCce3C47fCd40DcbDccDcdC1afCfc6CfebC011D47D48D49C457D63D64D65C247D43D44D45C600D6bD6cD6dC298Cf61C4f7C034D87D88D89C169De7De8De9C9d3Cc00DabDacDadC19dCed3Cea7C022D67D68D69C268C6c5Ca00D8bD8cD8dC4b7Cf92C045Da7Da8Da9C8f5C46dC2ceCfb5C667Da3Da4Da5Bf0C000CfffD00D01D02D06D0aD0eD10D11D12D16D1aD1eD20D21D22D26D2aD2eD30D31D32D36D3aD3eD40D41D42D46D4aD4eD50D51D52D56D5aD5eD60D61D62D66D6aD6eD70D71D72D76D7aD7eD80D81D82D83D84D85D86D87D88D89D8aD8bD8cD8dD8eD90D91D92D93D94D95D96D97D98D99D9aD9bD9cD9dD9eDa0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaDabDacDadDaeC338C047C557C500C198Ce50Cb87D13D14D15C024C278Cd51C438Cb00C18cD37D38D39Cfb3Cda7D43D44D45C100C158C157C877C900C3b7Ce82D0bD0cD0dCc97D23D24D25C013C17aD07D08D09D17D18D19Caf3C448Cd30C1dcCfb4D2bD2cD2dCfd8D5bD5cD5dC012C358C347C667C800C2a8Ce71C49fC035C288Ccd1Ca87D03D04D05Cb10C19dD57D58D59Cee1Cfb7D63D64D65D73D74D75C300C368C8d4C977C427C1eaCfa3Cd97D33D34D35C406C18bD27D28D29Cce3C47fCd40C1afD67D68D69D77D78D79Cfc6D4bD4cD4dCfebD6bD6cD6dD7bD7cD7dC011C457C247C600C298Cf61C4f7C034C169C9d3Cc00C19dD47D48D49Ced3Cea7D53D54D55C022C268C6c5Ca00C4b7Cf92D1bD1cD1dC045C8f5C46dC2ceCfb5D3bD3cD3dC667B0fC000CfffD03D07D08D09D0aD13D17D18D19D1aD23D27D28D29D2aD33D37D38D39D3aD43D47D48D49D4aD53D57D58D59D5aD63D67D68D69D6aD73D77D78D79D7aD80D81D82D83D84D85D86D87D88D89D8aD90D91D92D93D94D95D96D97D98D99D9aDa0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaC338C047C557C500C198Ce50D30D31D32Cb87C024C278Cd51C438Cb00C18cCfb3D00D01D02Cda7C100C158C157C877C900D60D61D62D70D71D72C3b7D04D05D06Ce82Cc97C013C17aCaf3C448Cd30D40D41D42C1dcCfb4Cfd8C012C358C347C667C800C2a8Ce71C49fC035C288Ccd1D54D55D56Ca87Cb10D50D51D52C19dCee1D64D65D66D74D75D76Cfb7C300C368C8d4D34D35D36C977C427C1eaCfa3D10D11D12Cd97C406C18bCce3C47fCd40C1afCfc6CfebC011C457C247C600C298Cf61D20D21D22C4f7C034C169C9d3D44D45D46Cc00C19dCed3Cea7C022C268C6c5D24D25D26Ca00C4b7D14D15D16Cf92C045C8f5C46dC2ceCfb5C667Nf0C000CfffD00D01D02D03D04D05D06D07D08D09D0aD10D11D12D13D14D15D16D17D18D19D1aD20D21D22D23D24D25D26D27D28D29D2aD33D37D38D39D3aD43D47D48D49D4aD53D57D58D59D5aD63D67D68D69D6aD73D77D78D79D7aD83D87D88D89D8aD93D97D98D99D9aDa3Da7Da8Da9DaaDb3Db7Db8Db9DbaDc3Dc7Dc8Dc9DcaDd3Dd7Dd8Dd9DdaDe3De7De8De9DeaC338D30D31D32C047C557C500C198Dd4Dd5Dd6Ce50Cb87C024C278Da4Da5Da6Cd51C438D54D55D56Cb00C18cCfb3Cda7C100C158C157C877C900C3b7Ce82Cc97C013C17aCaf3Dc0Dc1Dc2C448D64D65D66Cd30C1dcD80D81D82Cfb4Cfd8C012C358D74D75D76C347C667C800C2a8De4De5De6Ce71C49fD60D61D62C035C288Db4Db5Db6Ccd1Ca87Cb10C19dCee1Cfb7C300C368D84D85D86C8d4C977C427D44D45D46C1eaD90D91D92Cfa3Cd97C406D34D35D36C18bCce3Dd0Dd1Dd2C47fD50D51D52Cd40C1afCfc6CfebC011C457C247C600C298Dc4Dc5Dc6Cf61C4f7Da0Da1Da2C034C169C9d3Cc00C19dCed3De0De1De2Cea7C022C268D94D95D96C6c5Ca00C4b7Cf92C045C8f5Db0Db1Db2C46dD40D41D42C2ceD70D71D72Cfb5C667" 	{
 	setLutFromMontageTool();
 }
 macro "set LUT from montage Tool Options" {	displayLUTs();}
-
 
 //--------------------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------------------------------
@@ -82,67 +99,261 @@ macro "set LUT from montage Tool Options" {	displayLUTs();}
 //--------------------------------------------------------------------------------------------------------------------------------------
 
 //CHANNELS
-macro "myTurbo 	[n0]"{ if (isKeyDown("space")) run("glasbey_on_dark");	else splineRoll();}
-macro "Gray 	[n1]"{ if (isKeyDown("space")) toggleChannel(1); else if (isKeyDown("alt")) toggleAllchannels(1); else run("Grays");}
-macro "Green 	[n2]"{ if (isKeyDown("space")) toggleChannel(2); else if (isKeyDown("alt")) toggleAllchannels(2); else run("kg");	}
-macro "Red 		[n3]"{ if (isKeyDown("space")) toggleChannel(3); else if (isKeyDown("alt")) toggleAllchannels(3); else run("Red");	}
-macro "Bop 		[n4]"{ if (isKeyDown("space")) toggleChannel(4); else if (isKeyDown("alt")) toggleAllchannels(4); else run("kb");	}
-macro "boP 		[n5]"{ if (isKeyDown("space")) toggleChannel(5); else if (isKeyDown("alt")) toggleAllchannels(5); else run("km");	}
-macro "bOp 		[n6]"{ if (isKeyDown("space")) toggleChannel(6); else if (isKeyDown("alt")) toggleAllchannels(6); else run("ko");	}
-macro "Cyan		[n7]"{ if (isKeyDown("space")) toggleChannel(7); else if (isKeyDown("alt")) toggleAllchannels(7); else run("Cyan");	}
-macro "Magenta 	[n8]"{ run("Magenta");	}
+macro "show all [F1]"{ run("Show All");}
+
+macro "myTurbo 	[n0]"{ if (isKeyDown("space")) random150lumLUT(2);	else if (isKeyDown("alt")) createOppositeLUT(); else randomAwesomeLUT(4);}
+macro "Gray 	[n1]"{ if (isKeyDown("space")) toggleChannel(1); 	else if (isKeyDown("alt")) toggleAllchannels(1); else run("Grays");}
+macro "Green 	[n2]"{ if (isKeyDown("space")) toggleChannel(2); 	else if (isKeyDown("alt")) toggleAllchannels(2); else run("kg");	}
+macro "Red 		[n3]"{ if (isKeyDown("space")) toggleChannel(3); 	else if (isKeyDown("alt")) toggleAllchannels(3); else run("Red");	}
+macro "Bop 		[n4]"{ if (isKeyDown("space")) toggleChannel(4); 	else if (isKeyDown("alt")) toggleAllchannels(4); else run("kb");	}
+macro "boP 		[n5]"{ if (isKeyDown("space")) toggleChannel(5); 	else if (isKeyDown("alt")) toggleAllchannels(5); else run("km");	}
+macro "bOp 		[n6]"{ if (isKeyDown("space")) toggleChannel(6); 	else if (isKeyDown("alt")) toggleAllchannels(6); else run("ko");	}
+macro "Cyan		[n7]"{ if (isKeyDown("space")) toggleChannel(7);	else if (isKeyDown("alt")) toggleAllchannels(7); else run("Cyan");	}
+macro "Magenta 	[n8]"{ if (isKeyDown("space")) run("8-bit"); 		else run("Magenta");	}
 macro "Yellow 	[n9]"{ run("Yellow");	}
 
 //--------------------------------------------------------------------------------------------------------------------------------------
 //NOICE TOOLS
 macro "composite switch  [Q]" 	{if (!is("composite")) exit; Stack.getDisplayMode(mode); if (mode=="color"||mode=="greyscale")Stack.setDisplayMode("composite");	else Stack.setDisplayMode("color");}
-macro "ClearVolume	     [0]"	{run("Open in ClearVolume");}
-macro "my default LUTs   [1]"	{if (isKeyDown("space")) SetAllLUTs(); 			else if (isKeyDown("alt")) perso_Ask_LUTs(); 										else Set_LUTs();}
+macro "ClearVolume	     [0]"	{fauteDeClearVolume();}
+macro "my default LUTs   [1]"	{if (isKeyDown("space")) SetAllLUTs(); 			else if (isKeyDown("alt")) perso_Ask_LUTs(); 		else Set_LUTs();}
 macro "good size  		 [2]"	{if (isKeyDown("space")) fullScreen(); 			else goodSize();}
 macro "3D Zproject++     [3]"	{if (isKeyDown("space")) Cool_3D_montage();		else my3D_project();}
 macro "full scale montage[4]"	{if (Image.title=="Montage") {id=getImageID(); run("Montage to Stack..."); selectImage(id);	close();} 								else run("Make Montage...", "scale=1"); setOption("Changes", 0);}
 macro "25x25 selection   [5]"	{size=400; /*toUnscaled(size); size = round(size);*/ getCursorLoc(x, y, null, null); makeRectangle(x,y,size,size); showStatus(size+"x"+size);}
 macro "make it look good [6]"	{for (i=0; i<nImages; i++) { setBatchMode(1); selectImage(i+1); run("Appearance...", "  "); run("Appearance...", "black no"); setBatchMode("exit and display"); }}
-macro "set destination   [7]" 	{showStatus("Destination set");	run("Alert ", "object=Image color=Orange duration=5000"); call("ij.Prefs.set","Destination.title",getTitle());}
+macro "set destination   [7]" 	{if (isKeyDown("space")) { showStatus("Source set");	run("Alert ", "object=Image color=Orange duration=1000"); source = getTitle();} else setTargetImage();}
 macro "rename w/ id      [8]"	{rename(getImageID());}
-
-macro "auto 	  [A]"	{ if (isKeyDown("alt"))		Enhance_all_contrasts();	  				else if (isKeyDown("space")) Enhance_on_all_channels();  else run("Enhance Contrast", "saturated=0.03");}
-macro "Splitview  [b]"	{ if (isKeyDown("space")) 	SplitView(0,2,0);							else 	SplitView(1,2,0); }
+macro "coolify      	 [9]"	{moveWindows();}
+// Set_noice_LUTs();
+macro "auto 	  [A]"	{ if (isKeyDown("alt"))		Enhance_all_contrasts();	  	else if (isKeyDown("space")) Enhance_on_all_channels();  else run("Enhance Contrast", "saturated=0.03");}
+macro "Splitview  [b]"	{ if (isKeyDown("space")) 	SplitView(0,2,0);				else 	SplitView(1,2,0); }
+marco "copy       [c]"	{   run("Copy");}
 macro "b&c 		  [C]"  { 	B_and_C(); }
 macro "duplicat	  [D]"	{ 	run("Duplicate...", "duplicate");}
-macro "Spliticate [d]"	{ if (isKeyDown("space"))	run("Duplicate...", " ");	 				else if (isKeyDown("alt")) {Stack.getPosition(ch, slice, frame); run("Duplicate...", "duplicate slices=&slice frames=&frame");}	else run("Split Channels");}
+macro "Spliticate [d]"	{ if (isKeyDown("space"))	run("Duplicate...", " ");	 	else if (isKeyDown("alt")) {Stack.getPosition(ch, slice, frame); run("Duplicate...", "duplicate slices=&slice frames=&frame");}	else run("Split Channels");}
 macro "Tile 	  [E]"	{ 	myTile();}
-macro "edit lut   [e]"	{ if (isKeyDown("space"))	{run("Show LUT"); wait(100); close("LUT");}							else 	run("Edit LUT...");}
-macro "toolSwitch [F]"	{ if (IJ.getToolName() =="rectangle") 										{	run("Line Width...", "line=25");	setTool(4);}				else  	setTool(0);}
-macro "gammaLUT	  [f]"	{ if (bitDepth() == 24) 	run("Gamma..."); 							else if (isKeyDown("space")) setGammaLUTAllch(getNumber("gamma",0.7));	else 	interactiveGamma(); }
-macro "Max 		  [G]"	{ if (isKeyDown("space"))	Z_project_all();							else run("Z Project...", "projection=[Max Intensity] all");}
-macro "Z Project  [g]"	{ if (isKeyDown("alt"))		test_All_Zprojections();					else if (isKeyDown("space")) fastColorCode("current");					else	run("Z Project...");}
-macro "overlay I  [i]"	{ if (isKeyDown("space"))	invertedOverlay3(); 						else if (isKeyDown("alt")) invert_invertable_LUTs();	 				else 	invert_all_LUTs();}
-macro "New Macro  [J]"	{ 	run("Macro");}
-macro "JPEG		  [j]"  { 	run("Input/Output...", "jpeg=100"); saveAs("Jpeg");}
+macro "edit lut   [e]"	{ if (isKeyDown("alt")) run("Edit LUT...");					else if (isKeyDown("space"))	seeAllLUTs();							else 	plotLUT();}
+macro "toolSwitch [F]"	{ toolRoll();}
+macro "gammaLUT	  [f]"	{ if (bitDepth() == 24) 	run("Gamma..."); 				else if (isKeyDown("space")) setGammaLUTAllch(getNumber("gamma",0.7));	else 	interactiveGamma(); }
+macro "Max 		  [G]"	{ if (isKeyDown("space"))	Z_project_all();				else run("Z Project...", "projection=[Max Intensity] all");}
+macro "Z Project  [g]"	{ if (isKeyDown("alt"))		test_All_Zprojections();		else if (isKeyDown("space")) fastColorCode("current");					else	run("Z Project...");}
+macro "overlay I  [i]"	{ if (isKeyDown("space"))	invertedOverlay3(); 			else if (isKeyDown("alt")) invert_invertable_LUTs();	 				else 	invert_all_LUTs();}
+macro "New Macro  [J]"	{ 	run("Input/Output...", "jpeg=100"); saveAs("Jpeg");}
+macro "JPEG		  [j]"  { 	run("Macro");}
 macro "multiplot  [k]"  { 	multiPlot();}
-macro "Cmd finder [l]"	{ if (isKeyDown("space"))	labelSumProject(); 							else 	run("Find Commands...");}
-macro "Merge 	  [M]"	{ if (isKeyDown("space"))	run("Merge Channels..."); 					else 	fastMerge();} 
+macro "Cmd finder [l]"	{ if (isKeyDown("space"))	labelSumProject(); 				else 	run("Find Commands...");}
+macro "Merge 	  [M]"	{ if (isKeyDown("space"))	run("Merge Channels..."); 		else 	fastMerge();} 
 macro "LUT baker  [m]"	{	LUTbaker();}
-macro "Hela       [n]"	{	Hela();}
-macro "open paste [o]"	{ if (isKeyDown("space")) 	makePreviewOpener();						else if (isKeyDown("alt")) open(String.paste);							else openFromPreview();}
-macro "Splitview  [p]"	{ if (isKeyDown("space")) 	SplitView(0,1,0); 							else 	SplitView(0,0,0); }
-macro "Arrange ch [q]"	{ if (isKeyDown("space"))	ReorderLUTsAsk(); 							else 	run("Arrange Channels...");}
-macro "Adjust 	  [R]"	{ if (isKeyDown("space"))	Reset_All_Contrasts(); 						else 	Auto_Contrast_on_all_channels();}
-macro "Adjust 	  [r]"	{ if (isKeyDown("alt"))		reduceMax();	 							else if (isKeyDown("space")) run("Install...","install=["+getDirectory("macros")+"/StartupMacros.fiji.ijm]");	else Adjust_Contrast();}
-macro "Splitview  [S]"	{ if (isKeyDown("alt"))   	getSplitViewPrefs();						else if (isKeyDown("space")) SplitView(1,0,0); 							else SplitView(1,1,0); }
-macro "as tiff 	  [s]"	{ if (isKeyDown("space"))	ultimateSplitview(); 						else if (isKeyDown("alt")) Basic_save_all(); 							else	saveAs("Tiff");}
-macro "test.ijm   [t]"	{ if (isKeyDown("alt"))		installMacroFromClipboard();				else if (isKeyDown("space")) {setBatchMode(1); eval(String.paste); setBatchMode(0);}	else eval(String.paste);}
-macro "rgb color  [u]"  { if (isKeyDown("space"))	myRGBconverter(); 							else if (isKeyDown("alt"))	RedGreen2OrangeBlue(); 						else 	switcher(); }
-macro "pasta	  [v]"	{ if (isKeyDown("space"))	run("System Clipboard");					else 	run("Paste");}
-macro "roll & FFT [x]"  { if (isKeyDown("space"))	channelsRoll();								else	run("FFT");}
+macro "Hela       [n]"	{ if (isKeyDown("space")) {cul = 0; if(nImages>0){getLut(r,g,b); cul=1;} newImage("lut"+round(random*100), "8-bit ramp", 256, 32, 1); if(cul)setLut(r,g,b);} else Hela();}
+macro "open paste [o]"	{ if (isKeyDown("space")) 	makePreviewOpener();			else if (isKeyDown("alt")) open(String.paste);							else openFromPreview();}
+macro "Splitview  [p]"	{ if (isKeyDown("space")) 	SplitView(0,1,0); 				else 	SplitView(0,0,0); }
+macro "Arrange ch [q]"	{ if (isKeyDown("space"))	ReorderLUTsAsk(); 				else 	run("Arrange Channels...");}
+macro "Adjust 	  [R]"	{ if (isKeyDown("space"))	Reset_All_Contrasts(); 			else 	Auto_Contrast_on_all_channels();}
+macro "Adjust 	  [r]"	{ if (isKeyDown("alt"))		reduceMax();	 				else if (isKeyDown("space")) run("Install...","install=["+getDirectory("macros")+"/StartupMacros.fiji.ijm]");	else Adjust_Contrast();}
+macro "Splitview  [S]"	{ if (isKeyDown("alt"))   	getSplitViewPrefs();			else if (isKeyDown("space")) SplitView(1,0,0); 							else SplitView(1,1,0); }
+macro "as tiff 	  [s]"	{ if (isKeyDown("space"))	ultimateSplitview(); 			else if (isKeyDown("alt")) Basic_save_all(); 							else	saveAs("Tiff");}
+//macro "test.ijm   [t]"	{ if (isKeyDown("alt"))		installMacroFromClipboard();	else if (isKeyDown("space")) {setBatchMode(1); eval(String.paste); setBatchMode(0);}	else eval(String.paste);}
+macro "test.ijm   [t]"	{ if (isKeyDown("alt"))		installMacroFromClipboard();	else if (isKeyDown("space")) run("Action Bar", String.paste);	else eval(String.paste);}
+macro "rgb color  [u]"  { if (isKeyDown("space"))	myRGBconverter(); 				else if (isKeyDown("alt"))	RedGreen2OrangeBlue(); 						else 	switcher(); }
+macro "pasta	  [v]"	{ if (isKeyDown("space"))	run("System Clipboard");		else if (isKeyDown("alt"))	open(getDirectory("temp")+"/copiedLut.lut");else 	run("Paste");}
+macro "roll & FFT [x]"  { if (isKeyDown("alt"))	saveAs("lut", getDirectory("temp")+"/copiedLut.lut"); else if (isKeyDown("space"))	channelsRoll();					else	run("FFT");}
 macro "sync 	  [y]"	{ 							run("Synchronize Windows");}
 
-macro "invertableLUTs_Bar"{ run("Action Bar", File.openUrlAsString("https://raw.githubusercontent.com/kwolbachia/Imagej-macro-addiction/main/iLUTs/invertableLUTs.ijm"));}
-macro "CB_Bar" { 	   		run("Action Bar", File.openUrlAsString("https://git.io/JZUZw"));}
 
 //--------------------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------------------------------
+
+function toolRoll() {
+	if 		(toolID == 0) {run("Line Width...", "line=25"); setTool(15);	}
+	else if (toolID == 15)  setTool(4);
+	else setTool(0);
+}
+
+//ispired by Robert Haase Windows Position tool from clij
+function multiTool(){ //avec menu "que faire avec le middle click? **"
+	/*
+	 * shift = 1;
+	 * ctrl = 2;
+	 * alt = 8; middle click is just 8
+	 * leftClick = 16;
+	 * e.g leftclick + alt = 24
+	 */
+	getCursorLoc(x, y, z, flags);
+	if (flags == 48) {run("Select None"); exit;}	// click on a selection
+	if (flags == 26) close();						// shift + ctrl + click
+	if (flags == 8 ) copyLUT();						// middle click
+	if (flags == 10 ) pasteLUT();					// ctrl + middle click
+	if (flags == 16) moveWindows();					// regular long click
+	if (flags == 17) liveContrast();				// shift + long click
+	if (flags == 18) liveGamma();					// ctrl + long click
+	if (flags == 24) liveScroll();					// alt + long click
+}
+
+function moveWindows() {
+	getCursorLoc(x2, y2, z2, flags2);
+	zoom = getZoom();
+	getCursorLoc(x, y, z, flags);
+	while (flags == 16) {
+		getLocationAndSize(wx, wy, null, null);
+		getCursorLoc(x, y, z, flags);
+		wx = wx-(x2*zoom-x*zoom);
+		wy = wy-(y2*zoom-y*zoom);
+		setLocation(wx, wy);
+		wait(10);
+	}
+}
+
+function liveContrast() {
+	getDimensions(width, height, channels, slices, frames);
+	getMinAndMax(min, max);
+	getCursorLoc(x, y, z, flags);
+	while (flags == 17) {				
+		if (bitDepth() == 24) exit;
+		getCursorLoc(x, y, z, flags);
+		newMax = (x/width)*max;
+		newMin = ((height-y)/height)*max/2;
+		if (newMax < 0) newMax = 0;
+		if (newMin < 0) newMin = 0;
+		if (newMin > newMax) newMin = newMax;
+		setMinAndMax(newMin, newMax);
+		wait(10);
+	}
+}
+
+function liveGamma(){
+	setBatchMode(1);
+	getLut(r, g, b);
+	copyLUT();
+	setColor("white");
+	setFont("SansSerif", Image.height/20, "bold antialiased");
+	getCursorLoc(x, y, z, flags);
+	while (flags==18) {
+		getCursorLoc(x, y, z, flags);
+		gamma = d2s((x/Image.width)*2, 2); if (gamma<0) gamma=0;
+		gammaLUT(gamma,r, g, b);
+		Overlay.remove;
+		Overlay.drawString("gamma = "+gamma, Image.height/30,Image.height/20);
+		Overlay.show;
+		wait(10);
+	}
+	setBatchMode(0);
+	Overlay.remove;
+	run("Select None");
+}
+
+function liveScroll() {
+	getDimensions(width, height, channels, slices, frames);
+	if(slices==1&&frames==1) exit;
+	getCursorLoc(x, y, z, flags);
+	while(flags == 24) {
+		getCursorLoc(x, y, z, flags);
+		if (frames>1) Stack.setFrame((x/width)*frames);
+		else Stack.setSlice((x/width)*slices);
+	}
+}
+
+function copyLUT() {
+	saveAs("lut", getDirectory("temp")+"/copiedLut.lut");
+	showStatus("Copy LUT");
+}
+
+function pasteLUT(){
+	open(getDirectory("temp")+"/copiedLut.lut");
+	showStatus("Paste LUT");
+}
+
+function fauteDeClearVolume(){//...
+	title = getTitle();
+	run("3D Viewer");
+	call("ij3d.ImageJ3DViewer.setCoordinateSystem", "false");
+	call("ij3d.ImageJ3DViewer.add", title, "None", title, "0", "true", "true", "true", "2", "0");
+	close("Console");
+}
+
+function seeAllLUTs(){
+	setBatchMode(1);
+	title = getTitle();
+	getDimensions(width, height, channels, slices, frames);
+	id = getImageID();
+	newImage("LUTs", "8-bit color-mode", 256, 32*(channels+1), channels, 1, 1);
+	id2 = getImageID();
+	newImage("ramp", "8-bit Ramp", 256, 32, 1);
+	run("Copy");
+	selectImage(id2);
+	y = -32;
+	for (i = 0; i < channels; i++) {
+		y += 32;
+		selectImage(id);
+		Stack.setChannel(i+1);
+		getLut(reds, greens, blues);
+		selectImage(id2);
+		Stack.setChannel(i+1);
+		setLut(reds, greens, blues);
+		makeRectangle(0, y, 256, 32);
+		run("Paste");
+		makeRectangle(0, channels*32, 256, 32);
+		run("Paste");
+	}
+	run("Select None");
+	Stack.setDisplayMode("composite");
+	setOption("Changes", 0);
+	setBatchMode(0);
+}
+
+//proto
+macro "Batch merge decon" {
+	directory = getDirectory("Select A folder");
+	fileList = getFileList(directory);
+	Dialog.createNonBlocking("deconvolution merge");
+	Dialog.addNumber("how many channels?", 2);
+	Dialog.addString("prefix to remove", fileList[0], fileList[0].length);
+	Dialog.addString("suffix to remove", fileList[0], fileList[0].length);
+	Dialog.show();
+	channels = Dialog.getNumber();
+	prefix = Dialog.getString();
+	suffix = Dialog.getString();
+	merge_options = "";
+	//setBatchMode(true);
+	//for (i = 0; i < fileList.length/channels; i++) {
+	for (i = 0; i < channels; i++) {
+		for (k = 0; k < channels; k++) {
+			current_imagePath = directory + fileList[k+i];
+			run("Bio-Formats Importer", "open=&current_imagePath");
+			merge_options += "c" + k+1 + "=[" + fileList[k+i] + "] ";
+		}
+		run("Merge Channels...", merge_options);
+		currentImage_name = File.getNameWithoutExtension(current_imagePath);
+		currentImage_name.substring(prefix.lenght - 1 , currentImage_name.length - suffix.length);
+		print(currentImage_name);
+		File.makeDirectory(directory + "/output");
+		saveAs("tiff", directory + currentImage_name);
+		run("Close All");
+	}
+	print("done");
+	setBatchMode(false);
+}
+macro "Batch rename" {
+	directory =File.getDirectory(File.openDialog("Select any image of the folder"));
+	fileList = getFileList(directory);
+	Dialog.createNonBlocking("batch name crop");
+	Dialog.addString("prefix to remove", fileList[0], fileList[0].length);
+	Dialog.addString("suffix to remove", fileList[0], fileList[0].length);
+	Dialog.show();
+	prefix =lengthOf(Dialog.getString());
+	suffix = lengthOf(Dialog.getString());
+	new_names = newArray(fileList.length);
+	for (i = 0; i < fileList.length; i++) {
+		i1 = prefix;
+		i2 = lengthOf(fileList[i]) - (suffix+1);
+		new_names[i] = substring( fileList[i], i1, i2);
+	}
+	Array.show(new_names);
+	waitForUser("check the new names, is everythig OK?");
+	for (i = 0; i < fileList.length; i++) {
+		File.rename(directory +File.separator+ fileList[i], directory +File.separator+ new_names[i]+".tif");
+	}
+}
 
 function labelSumProject(){
 	setBatchMode(1);
@@ -152,20 +363,23 @@ function labelSumProject(){
 	setBatchMode(0);
 }
 
-macro "Fetch or pull StartupMacros" {
-	Dialog.createNonBlocking("Fetch or pull?");
-	Dialog.addRadioButtonGroup("Fetch or pull?", newArray("Fetch","Pull"), 1, 2, "Fetch");
-	Dialog.show();
-	choice = Dialog.getRadioButton();
-	if (choice == "Fetch"){
-		File.saveString(File.openAsString(getDirectory("home")+"/Nextcloud/sync/FIJI/StartupMacros.fiji.ijm"), getDirectory("macros")+"/StartupMacros.fiji.ijm");
-		run("Install...","install=["+getDirectory("macros")+"/StartupMacros.fiji.ijm]");
+function catchOrPullStartupMacros() {
+	sync_path = getDirectory("home") + "/Nextcloud/sync/FIJI/StartupMacros.fiji.ijm";
+	if (!File.exists(sync_path)) sync_path = getDirectory("home") + "/Nextcloud2/sync/FIJI/StartupMacros.fiji.ijm";
+	fiji_startup_path = getDirectory("macros")+"/StartupMacros.fiji.ijm";
+	 //return true for Catch and false for pull
+	choice = getBoolean("Catch or pull?", "Pull", "Catch");
+	if (!choice){
+		File.saveString(File.openAsString(sync_path), fiji_startup_path);
+		run("Install...","install=["+fiji_startup_path+"]");
+		showStatus("Catch them all");
 	}
 	else {
-		File.saveString(File.openAsString(getDirectory("macros")+"/StartupMacros.fiji.ijm"), getDirectory("home")+"/Nextcloud/sync/FIJI/StartupMacros.fiji.ijm");
-		run("Install...","install=["+getDirectory("macros")+"/StartupMacros.fiji.ijm]");
+		File.saveString(File.openAsString(fiji_startup_path), sync_path);
+		showStatus("Pull!");
 	}
 }
+
 //toggle channel number (i)
 function toggleChannel(i) { //modified from J.Mutterer
 	if (nImages<1) exit; 
@@ -185,11 +399,6 @@ function toggleAllchannels(i) {
 	}
 	showStatus("Channel "+i+" toggled");
 	setBatchMode(0);
-}
-
-macro "correct copied path" {
-	copiedPath = replace(getString("paste your path", ""), "\\", "/");
-	print(copiedPath);
 }
 
 function fastColorCode(Glut) {
@@ -266,30 +475,6 @@ function installMacroFromClipboard() {
 	run("Install...","install=["+path+"]");
 }
 
-var splineLUTs=newArray("2darkblue2beige","2ghost","2kevidis_splined","2moonlight","2Spline","2pinky","1a myTurbo");
-var splineLUT = 3;
-
-function splineRoll(){
-	splineLUT++
-	if (splineLUT<splineLUTs.length) run(splineLUTs[splineLUT]);
-	else {
-		splineLUT = 0;
-		run(splineLUTs[splineLUT]);
-	}
-	showStatus(splineLUTs[splineLUT]);
-}
-
-/*
-getLut(reds, greens, blues);
-run("Duplicate...","duplicate");
-cul=newArray(1);
-for (i = 0; i < 256; i++) cul[i]=maxOf(reds[i],maxOf(greens[i],blues[i]));
-for (i = 0; i < 256; i++) if (cul[i]>reds[i]) reds[i]=cul[i]-reds[i]; else reds[i]=255-reds[i];
-for (i = 0; i < 256; i++) if (cul[i]>greens[i]) greens[i]=cul[i]-greens[i]; else greens[i]=255-greens[i];
-for (i = 0; i < 256; i++) if (cul[i]>blues[i]) blues[i]=cul[i]-blues[i]; else blues[i]=255-blues[i];
-setLut(reds, greens, blues);
-*/
-
 macro "rotate LUT" {
 	setBatchMode(1);
 	getLut(reds, greens, blues);
@@ -336,6 +521,7 @@ function setLutFromMontageTool(){
 		linePosition = floor(y/YblocSize);
 		rowPosition = floor(x/XblocSize);
 		index = (linePosition*rows)+rowPosition;
+		if (index >= all_LUTs.length) exit;
 		targetImage=call("ij.Prefs.get","Destination.title","");
 		if (isKeyDown("shift")&&isOpen(targetImage)) {
 			selectWindow(targetImage);
@@ -394,7 +580,7 @@ function displayLUTs(){
 	      run("Paste");
 	      setJustification("center");
 	      setColor(0,0,0);
-	      setFont("Arial", 12, "bold");
+	      setFont("Arial", 14, "bold");
 	      //drawString(list[i],128, 48, "Black");
 	      drawString(list[i], 128, 48);
 	      run("Add Slice");
@@ -494,19 +680,22 @@ function Hela(){
 
 function channelsRoll(){
 	id = getImageID();
-	if(bitDepth() != 24) run("Stack to RGB");
-	newList = newArray(132,213,231,321,312);
-	for (i = 0; i < 5; i++) {
-		setBatchMode(1);
+	txt = "open";
+	newList = newArray(123,132,213,231,321,312);
+	for (i = 0; i < 6; i++) {
+	setBatchMode(1);
 		selectImage(id);
 		run("Duplicate...","duplicate");
 		if(bitDepth() == 24) run("Make Composite");
 		reorderLUTs(newList[i]);
 		run("Stack to RGB");
+		rename(i);
 		setOption("Changes", 0);
-		setBatchMode(0);
+		txt += " image" + i+1 + "=[" + i + "]";
+	setBatchMode(0);
 	}
-	run("Images to Stack");
+	run("Concatenate...", txt);
+	rename("rolled");
 
 	function reorderLUTs(order) {//for channelsRoll
 		Stack.getPosition(Channel, slice, frame);
@@ -528,17 +717,19 @@ function channelsRoll(){
 }//channelsRoll end
 
 function multiPlot(){
+	close("LUT Profile");
 	alreadyOpenPlot = 0; selectNone = 0; activeChannels="1"; normalize = 0;
 	if (isKeyDown("space")) normalize = 1;
 	getDimensions(width,  height, channels, slices, frames);
 	Stack.getPosition(Channel, slice, frame);
-	if (selectionType()==-1) {showStatus("Needs a selection","flash #e14250 2000ms"); exit;}
+	//if (selectionType()==-1) {showStatus("Needs a selection","flash #e14250 2000ms"); exit;}
+	if (selectionType()==-1) {run("Select All");}
 	if (bitDepth()==24){ run("Plot Profile"); exit;}
 	if (isOpen("MultiPlot")) alreadyOpenPlot = 1;
 	if (channels>1) Stack.getActiveChannels(activeChannels);
 	id=getImageID();
 	
-	run("Plots...", "width=600 height=300");
+	run("Plots...", "width=300 height=150");
 	Plot.create("MultiPlot", "Pixels", "Grey value");
 	for (i=1; i<=channels; i++) {
 		if (channels>1) Stack.setChannel(i);
@@ -574,6 +765,58 @@ function lutToHex2(){
 	if (G<16) xG = "0" + toHex(G); else xG = toHex(G);
 	if (B<16) xB = "0" + toHex(B); else xB = toHex(B);
 	return "#"+xR+xG+xB;
+}
+
+function plotLUT(){
+	close("MultiPlot");
+	if (nImages == 0) exit;
+	alreadyOpenPlot = 0;
+	if (bitDepth()==24) exit;
+	if (isOpen("LUT Profile")) alreadyOpenPlot = 1;
+	id=getImageID();
+	lutinance = newArray(0); //luminance of LUT...
+	getLut(r,g,b);
+	setBatchMode(1);
+		newImage("LUT for plot", "8-bit ramp", 385, 14, 1);
+		setLut(r,g,b);
+		run("Copy");
+		close("LUT for plot");
+	setBatchMode(0);
+	run("Plots...", "width=400 height=200");
+	Plot.create("LUT Profile", "Grey Value", "value");
+	Plot.setColor("#ff4a4a");
+	Plot.setLineWidth(2);
+	Plot.add("line", r);
+	Plot.setColor("#8ce400");
+	Plot.setLineWidth(2);
+	Plot.add("line", g);
+	Plot.setColor("#60c3ff");
+	Plot.setLineWidth(2);
+	Plot.add("line", b);
+	lutinance = getLUTinance(r,g,b);
+	Plot.setColor("white");
+	Plot.setLineWidth(2);
+	Plot.add("line", lutinance);
+	Plot.setBackgroundColor("#2f2f2f");
+	Plot.setAxisLabelSize(14.0, "bold");
+	Plot.setFormatFlags("0");
+	Plot.addLegend("1__reds\n2__greens\n3__blues\n4__luminance", "Top-Left Transparent");
+	Plot.update();
+	selectWindow("LUT Profile");
+	if (!alreadyOpenPlot) setLocation(50,300);
+	Plot.setLimits(-5, 260, -25, 260);
+	makeRectangle(82, 200, 385, 14);
+	run("Paste"); run("Select None"); 
+	setOption("Changes",0);
+	selectImage(id);
+}
+function getLUTinance(reds,greens,blues){
+	lutinance = newArray(0);
+	for (i = 0; i < 256; i++) {
+		rgb = newArray(reds[i],greens[i],blues[i]);
+		lutinance[i] = getLum(rgb);
+	}
+	return lutinance;
 }
 
 function fastMerge(){
@@ -649,13 +892,19 @@ function B_and_C(){
 }
 
 function goodSize() {
-	getDimensions(W, H, null, null, null);
-	newH = (screenHeight/10) * 8;
-	newW = W * (newH / H);
-	x = (screenWidth - newW) / 2;
-	y = (screenHeight - newH) / 2;
-	setLocation(x, y, newW, newH);
-	run("Set... ", "zoom="+(getZoom()*100)-2);
+	getDimensions(width, height, null, null, null);
+	if (width/height <= 2.5) {
+		newHeight = (screenHeight/10) * 8;
+		newWidth = width * (newHeight / height);
+		x = (screenWidth - newWidth) / 2;
+		y = (screenHeight - newHeight) / 2;
+		setLocation(x, y, newWidth, newHeight);
+		run("Set... ", "zoom="+(getZoom()*100)-2);
+	}
+	else {
+		run("Maximize");
+		setLocation(0, 200);
+	}
 }
 
 function fullScreen() {
@@ -737,12 +986,14 @@ function test_All_Zprojections(){
 	setOption("Changes", 0);
 }
 
-function luminance(){
-	setBatchMode(1);
-	if (bitDepth()!= 24) rgbSnapshot();
-	run("RGB to Luminance");
+function rgb2Luminance(){
+	title=getTitle();
+	rgbSnapshot();
+	rename(title+"_lum");
+	run("8-bit");
 	setOption("Changes", 0);
-	setBatchMode(0);
+	multiPlot();
+	run("Select None");
 }
 
 function test_all_color_blindness(){
@@ -870,21 +1121,18 @@ macro "Batch convert 32 to 16-bit" {
 
 macro "Batch convert ims to tif" {
 	// ask user to select a folder
-	dir = getDirectory("Select A folder");
+	directory = getDirectory("Select A folder");
 	// get the list of files (& folders) in it
-	fileList = getFileList(dir);
+	fileList = getFileList(directory);
 	setBatchMode(true);
 	for (i = 0; i < lengthOf(fileList); i++) {
-		current_imagePath = dir + fileList[i];
-		// check that the currentFile is not a directory
-		if (!File.isDirectory(current_imagePath)||endsWith(fileList[i], "txt")) {
-			print("opening "+ fileList[i]);
-			run("Bio-Formats Importer", "open=&current_imagePath");
-			rename(fileList[i]);
-			currentImage_name = getTitle();
-			saveAs("tiff", dir+currentImage_name);
-			run("Close All");
-		}
+		current_imagePath = directory + fileList[i];
+		print("opening "+ fileList[i]);
+		run("Bio-Formats Importer", "open=&current_imagePath");
+		rename(fileList[i]);
+		currentImage_name = getTitle();
+		saveAs("tiff", directory + currentImage_name);
+		run("Close All");
 	}
 	print("done");
 	setBatchMode(false);
@@ -894,11 +1142,13 @@ macro "Batch convert ims to tif" {
 Set LUTs
 --------*/
 function perso_Ask_LUTs(){
-	LUT_list = newArray("kb","ko","km","kg","Grays",splineLUTs[splineLUT],"glasbey_on_dark");
+	LUT_list = newArray("kb","ko","km","kg","Grays", "a_Spline","glasbey_on_dark");
 	Dialog.create("Set all LUTs");
 	for(i=0; i<4; i++) Dialog.addRadioButtonGroup("LUT " + (i+1), LUT_list, 2, 4, chosen_LUTs[i]);
+	Dialog.addCheckbox("noice?", 0);
 	Dialog.show();
 	for(k=0; k<4; k++) chosen_LUTs[k] = Dialog.getRadioButton();
+	if (Dialog.getCheckbox()) for(k=0; k<4; k++) chosen_LUTs[k] = chosen_LUTs[k] + "_noice"; 
 	Set_LUTs();
 }
 
@@ -923,6 +1173,13 @@ function Set_LUTs(){
 		Stack.setChannel(ch);
 	}
 	else run(chosen_LUTs[0]);
+}
+
+function Set_noice_LUTs(){
+	chosen_LUTs_backup = chosen_LUTs;
+	chosen_LUTs = newArray("kb_noice","ko_noice","km_noice","kg_noice","Grays");
+	Set_LUTs();
+	chosen_LUTs = chosen_LUTs_backup;
 }
 
 function SetAllLUTs(){
@@ -969,7 +1226,7 @@ function interactiveGamma(){
 	run("Select None");
 }
 
-//for args give gamma number, and r,g,b obtained by getLut(r,g,b) command.
+//for args give gamma value, and r,g,b obtained by getLut(r,g,b) command.
 function gammaLUT(gamma, r, g, b) {
 	R = newArray(256); G = newArray(256); B = newArray(256); Gam = newArray(256);
 	for (i=0; i<256; i++) Gam[i] = pow(i, gamma);
@@ -1107,7 +1364,7 @@ function Z_project_all() {
 	for (i=0; i<all_IDs.length; i++) {
 		selectImage(all_IDs[i]);
 		getDimensions(w, h, channels, slices, frames);
-		if (channels*slices*frames!=1) run("Z Project...", "projection=" + Method_choice);
+		if (channels*slices*frames!=1) run("Z Project...", "projection=" + Method_choice + " all");
 	}
 	for (i=0; i<all_IDs.length ; i++) {	//Close not projected images
 		selectImage(all_IDs[i]);
@@ -1192,7 +1449,7 @@ function ultimateSplitview() {
 	Stack.setDisplayMode("composite");
 	Stack.setPosition(channel,slice,frame);
 	setBatchMode(0);
-	SplitviewInteractor();
+	//SplitviewInteractor();
 
 	function SplitviewInteractor(){
 	getDimensions(w, h, ch, s, f);
@@ -1209,25 +1466,25 @@ function ultimateSplitview() {
 				if (x > w*4 && x <= w*5) Stack.setChannel(5);
 			}
 		}
-	Stack.setDisplayMode("color");
-	Stack.setDisplayMode("composite");
-	wait(60);
-	}
+		Stack.setDisplayMode("color");
+		Stack.setDisplayMode("composite");
+		wait(60);
+		}
 	}
 	
 	function revertSplitview(){
-	getDimensions(w, h, ch, s, f);
-	w=w/(ch+1);	overlay = (ch*w); id=getImageID();
-	makeRectangle(overlay, 0, w, h);
-	run("Crop");
-	title=getTitle();
-	rename(title.substring(10,(title.length)));
-	setOption("Changes", 0);
+		getDimensions(w, h, ch, s, f);
+		w=w/(ch+1);	overlay = (ch*w); id=getImageID();
+		makeRectangle(overlay, 0, w, h);
+		run("Crop");
+		title=getTitle();
+		rename(title.substring(10,(title.length)));
+		setOption("Changes", 0);
 	}
 	
 	function noRGB_errorCheck(){
-	if (nImages==0) exit("No opened image");
-	if(bitDepth()==24) exit("won't work on RGB image");
+		if (nImages==0) exit("No opened image");
+		if(bitDepth()==24) exit("won't work on RGB image");
 	}
 }
 
@@ -1399,6 +1656,7 @@ function LUTbaker(){
 			Dialog.addSlider("red",	 0,255, R);
 			Dialog.addSlider("green",0,255, G);
 			Dialog.addSlider("blue", 0,255, B);
+			Dialog.addMessage("sum =" + R+G+B);
 		}
 		if(CH>1)Stack.setChannel(ch); 
 		Dialog.setInsets(20, 0, 0);
@@ -1567,16 +1825,16 @@ var source=0;
 
 macro "copy paste LUT set"{
 	title=getTitle();
-	getDimensions(w,h,CH,s,f);
 	list = getList("image.titles");
 	Dialog.create("apply LUTs");
 	Dialog.addChoice("source", list, source);
 	Dialog.addChoice("destination",list,title);
-	Dialog.show();
+	if (!isKeyDown("shift")) Dialog.show();
 	setBatchMode(1);
 	source = Dialog.getChoice();
 	dest = Dialog.getChoice();
-	selectWindow(source);
+	selectWindow(dest);
+	getDimensions(w,h,CH,s,f);
 	for (i = 0; i < CH; i++) {
 		selectWindow(source);
 		Stack.setChannel(i+1);
@@ -1643,7 +1901,7 @@ function invert_all_LUTs() {
 	}
 }
 
-macro"random invertable LUTs [K]"{
+/*macro"random invertable LUTs [K]"{
 	getDimensions(w,h,CH,s,f);
 	Rz = randomArrayTo255(CH); Gz = randomArrayTo255(CH); Bz = randomArrayTo255(CH);
 	setBatchMode(0);
@@ -1657,6 +1915,16 @@ macro"random invertable LUTs [K]"{
 			if(!is("Inverting LUT"))	LUTmaker(Rz[k]*2,Gz[k]*2,Bz[k]*2);
 			else 					{	LUTmaker(Rz[k],Gz[k],Bz[k]); run("Invert LUT");}
 		}
+	}
+	setBatchMode(0);
+}*/
+macro"random light LUTs [K]"{
+	getDimensions(w,h,CH,s,f);
+	setBatchMode(1);
+	for(k=0; k<CH; k++){
+		Stack.setChannel(k+1);
+		color = randomColorByLuminance(165);
+		LUTmaker(color[0],color[1],color[2]);
 	}
 	setBatchMode(0);
 }
@@ -1845,6 +2113,266 @@ macro "rgb LUT to LUT" {
 	newImage("LUT from RGB", "8-bit ramp", 256, 32, 1);
 	setLut(R, G, B);
 }
+
+function randomFuzzyLUT(){
+	basicErrorCheck();
+	R = newArray(256); G = newArray(256); B = newArray(256);
+	for(i=0; i<256; i++) { 
+		color = randomColorByLuminance(i);
+		R[i] = color[0];
+		G[i] = color[1];
+		B[i] = color[2];
+		showProgress(i, 255);
+	}
+	setLut(R, G, B);
+	copyLUT();
+}
+
+function lutSplineFit(steps){
+	basicErrorCheck();
+	if (isKeyDown("shift")) steps = getNumber("how many steps?", 3);
+	getLut(r,g,b);
+	newImage("Smoothed LUT", "8-bit ramp", 256, 64, 1);
+	R = newArray(256); G = newArray(256); B = newArray(256);
+	R = splineColor(r,steps);
+	G = splineColor(g,steps);
+	B = splineColor(b,steps);
+	setLut(R, G, B);
+	run("Select None");
+	run("Remove Overlay");
+	plotLUT();
+}
+
+function randomAwesomeLUT(steps) {
+	basicErrorCheck();
+	if (isKeyDown("shift")) steps = getNumber("how many steps?", steps);
+	setBatchMode(1);
+	R = newArray(256); G = newArray(256); B = newArray(256);
+	for(i=0; i<=steps; i++) { 
+		color = randomColorByLuminance(i*(255/steps));
+		R[i*(255/steps)] = color[0];
+		G[i*(255/steps)] = color[1];
+		B[i*(255/steps)] = color[2]; 
+		showProgress(i/steps);
+	}
+	R = splineColor(R,steps);
+	G = splineColor(G,steps);
+	B = splineColor(B,steps);
+	setLut(R, G, B);
+	run("Select None");
+	run("Remove Overlay");
+	setBatchMode(0);
+	plotLUT();
+	copyLUT();
+}
+
+function coolifyLUT(steps) {
+	basicErrorCheck();
+	if (isKeyDown("shift")) steps = getNumber("how many steps?", 3);
+	setBatchMode(1);
+	R = newArray(256); G = newArray(256); B = newArray(256);
+	getLut(r, g, b);
+	lum = 0.299*r[255] + g[255]*0.587 + b[255]* 0.114;
+	for(i=0; i<=steps; i++) { 
+		color = randomColorByLuminance(i*(lum/steps)); 
+		R[i*(255/steps)] = color[0]; R[0] = 0; R[255] = r[255];
+		G[i*(255/steps)] = color[1]; G[0] = 0; G[255] = g[255];
+		B[i*(255/steps)] = color[2]; B[0] = 0; B[255] = b[255];
+		showProgress(i/steps);
+	}
+	R = splineColor(R,steps);
+	G = splineColor(G,steps);
+	B = splineColor(B,steps);
+	setLut(R, G, B);
+	run("Select None");
+	run("Remove Overlay");
+	plotLUT();
+	setBatchMode(0);
+	copyLUT();
+}
+
+function random150lumLUT(steps) {
+	basicErrorCheck();
+	setBatchMode(1);
+	R = newArray(256); G = newArray(256); B = newArray(256);
+	for(i=0; i<=steps; i++) { 
+		color = randomColorByLuminance(i*(150/steps)); 
+		R[i*(255/steps)] = color[0]; R[0] = 0;
+		G[i*(255/steps)] = color[1]; G[0] = 0;
+		B[i*(255/steps)] = color[2]; B[0] = 0;
+		showProgress(i/steps);
+	}
+	R = splineColor(R,steps);
+	G = splineColor(G,steps);
+	B = splineColor(B,steps);
+	setLut(R, G, B);
+	run("Select None");
+	run("Remove Overlay");
+	plotLUT();
+	setBatchMode(0);
+	copyLUT();
+}
+
+function randomViridis(steps) {
+	basicErrorCheck();
+	if (isKeyDown("shift")) steps = getNumber("how many steps?", 3);
+	R = newArray(256); G = newArray(256); B = newArray(256);
+	baseColor = randomColorByLuminance(50);
+	for(i=0; i<=steps; i++) { 
+		color = randomColorByLuminance(i*(170/steps)+50);
+		R[i*(255/steps)] = color[0]; R[0] = baseColor[0];
+		G[i*(255/steps)] = color[1]; G[0] = baseColor[1];
+		B[i*(255/steps)] = color[2]; B[0] = baseColor[2];
+		showProgress(i/steps);
+	}
+	R = splineColor(R,steps);
+	G = splineColor(G,steps);
+	B = splineColor(B,steps);
+	setLut(R, G, B);
+	run("Select None");
+	run("Remove Overlay");
+	plotLUT();
+	setBatchMode(0);
+	copyLUT();
+}
+
+function createOppositeLUT(){
+	basicErrorCheck();
+	setBatchMode(1);
+	getLut(reds, greens, blues);
+	newImage("Complementary LUT", "8-bit ramp", 256, 64, 1);
+	comp = newArray(0);
+	for (i = 0; i < 256; i++) {
+		comp = complementary(reds[i],greens[i],blues[i]);
+		reds[i] = comp[0];
+		greens[i] = comp[1];
+		blues[i] = comp[2];
+		showProgress(i/255);
+	}
+	setLut(reds, greens, blues);
+	lutSplineFit(20);
+	rename("Complementary LUT");
+	setBatchMode(0);
+	copyLUT();
+}
+
+function enluminateLUT(){
+	basicErrorCheck();
+	lum = getNumber("target luminance?", 255);
+	setBatchMode(1);
+	getLut(reds, greens, blues);
+	comp = newArray(0);
+	for (i = 0; i < 256; i++) {
+		rgb = newArray(reds[i],greens[i],blues[i]);
+		comp = adjustColorToLuminance(rgb,(lum/256)*i);
+		reds[i] = comp[0];
+		greens[i] = comp[1];
+		blues[i] = comp[2];
+		showProgress(i/255);
+	}
+	setLut(reds, greens, blues);
+	rename("Complementary LUT");
+	setBatchMode(0);
+	copyLUT();
+}
+
+//--------------------------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------
+
+function basicErrorCheck(){
+	if (nImages == 0) newImage("LUT", "8-bit ramp", 256, 64, 1);
+	if (nImages > 0) {
+		if (getTitle() == "LUT Profile") close("LUT Profile");
+		if (nImages == 0) newImage("LUT", "8-bit ramp", 256, 64, 1);
+		if (bitDepth()==24) newImage("LUT", "8-bit ramp", 256, 64, 1);
+	}
+}
+
+function randomColorByLuminance(lum){ 
+	rgb = newArray(3); loop=1; rgb_weight = newArray(0.299,0.587,0.114);
+	luminance = 0;
+	while (loop) {
+		for (i = 0; i < 3; i++) {
+			rgb[i] = round(random*255);
+			luminance += round(rgb[i]*rgb_weight[i]);
+		}
+		if (luminance>=lum-1 && luminance<=lum+1)loop=0;
+		luminance = 0;
+	}
+	return rgb;
+}
+
+function adjustColorToLuminance(rgb,lum){
+	lum2 = getLum(rgb); rgb_weight = newArray(0.299,0.587,0.114);
+	loop=1; luminance = 0; i=-1;
+	while (loop) {
+		if (i==2) i = -1;
+		if (lum2<lum) {
+			i++;
+			rgb[i]++;
+			if (rgb[i]>255) rgb[i] = 255;
+		}
+		else if (lum2>lum){
+			i++;
+			rgb[i]--;
+			if (rgb[i]<0) rgb[i] = 0;
+		}
+		for (k = 0; k < 3; k++) luminance += round(rgb[k]*rgb_weight[k]);
+		if (luminance>=lum-1 && luminance<=lum+1)loop=0;
+		luminance = 0;
+	}
+	return rgb;
+}
+
+//color = reds, greens or blues from getLut
+function splineColor(color,steps){
+	Overlay.remove;
+	X = newArray(0); Y = newArray(0);
+	for (i = 0; i <= steps; i++) X[i] = (255/steps)*i;
+	for (i = 0; i <= steps; i++) Y[i] = color[X[i]];
+	makeSelection("polyline", X,Y);
+	run("Fit Spline");
+	Overlay.addSelection("white");
+	getSelectionCoordinates(splinedX, splinedY);
+	splinedY = Array.resample(splinedY,256);
+	Array.getStatistics(splinedY, min, max, mean, stdDev);
+	for (k=0;k<256;k++) splinedY[k] = 255-(maxOf(0,minOf(255,255-splinedY[k])));
+	X = Array.resample(X,256);
+	return splinedY;
+}
+
+function getLUTinance(reds,greens,blues){
+	lutinance = newArray(0);
+	for (i = 0; i < 256; i++) {
+		rgb = newArray(reds[i],greens[i],blues[i]);
+		lutinance[i] = getLum(rgb);
+	}
+	return lutinance;
+}
+
+function complementary(r,g,b){
+	rgb = newArray(r,g,b);
+	lum = getLum(rgb);
+	Array.getStatistics(rgb, min, max, mean, stdDev);
+	third_number = (rgb[0]+rgb[1]+rgb[2])-(min+max);
+	for (i = 0; i < 3; i++) {
+		if      (rgb[i] == min) rgb[i] = max;
+		else if (rgb[i] == third_number) rgb[i] = (max+min)-third_number;
+		else if (rgb[i] == max) rgb[i] = min;
+	}
+	rgb2 = adjustColorToLuminance(rgb,lum);
+	return rgb2;
+}
+
+function getLum(rgb){
+	rgb_weight = newArray(0.299,0.587,0.114);
+	luminance = 0;
+	for (i = 0; i < 3; i++) luminance += round(rgb[i]*rgb_weight[i]);
+	return luminance;
+}
+
 /*
 macro "copy paste minMax"{
 	title=getTitle();
@@ -1889,10 +2417,15 @@ macro "AutoRun" {
 	//autoRunDirectory = getDirectory("imagej") + "/macros/AutoRun/";
 	//if (File.isDirectory(autoRunDirectory)) { list = getFileList(autoRunDirectory); Array.sort(list); for (i = 0; i < list.length; i++) {if (endsWith(list[i], ".ijm")) {runMacro(autoRunDirectory + list[i]);}}}
 	run("Roi Defaults...", "color=orange stroke=2 group=0");
-	eval("js", "javax.swing.UIManager.setLookAndFeel('javax.swing.plaf.metal.MetalLookAndFeel');");//------------------------------------------------
+	eval("js", "javax.swing.UIManager.setLookAndFeel('javax.swing.plaf.metal.MetalLookAndFeel');");
+	setTool(15);
+	//UseHEFT();
 }
+function UseHEFT() {state = call("ij.io.Opener.getOpenUsingPlugins");if (state=="false") {setOption("OpenUsingPlugins", true);showStatus("TRUE (images opened by HandleExtraFileTypes)");} else {setOption("OpenUsingPlugins", false);showStatus("FALSE (images opened by ImageJ)");}}
+
 var pencilWidth=1,eraserWidth=10,leftClick=16,alt=8,brushWidth=10,floodType="8-connected";
 macro 'Pencil Tool Options...' {pencilWidth = getNumber("Pencil Width (pixels):", pencilWidth);}
 macro 'Paintbrush Tool Options...' {brushWidth = getNumber("Brush Width (pixels):", brushWidth);call("ij.Prefs.set", "startup.brush", brushWidth);}
 macro 'Flood Fill Tool Options...' {Dialog.create("Flood Fill Tool");Dialog.addChoice("Flood Type:", newArray("4-connected", "8-connected"), floodType);Dialog.show();floodType = Dialog.getChoice();call("ij.Prefs.set", "startup.flood",floodType);}
 macro "Set Drawing Color..."{run("Color Picker...");}
+
