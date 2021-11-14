@@ -13,9 +13,11 @@ Select the image you want to target by clicking on it (it should blink in orange
 then just click on the LUT you want on the montage.     
 Also, if you click with this tool on another rgb image(ie a rainbow), it will create a linear LUT from the rgb pixel color!   
 
-About [iLUTs Action Bar](https://github.com/kwolbachia/Imagej-macro-addiction/blob/main/iLUTs/invertableLUTs.ijm) : <https://twitter.com/kWolbachia/status/1393689396570955779?s=20>
+About [iLUTs Action Bar](https://github.com/kwolbachia/Imagej-macro-addiction/blob/main/iLUTs/invertableLUTs.ijm) : <https://twitter.com/kWolbachia/status/1393689396570955779?s=20>    
+inverted LUTs Action Bar
 
-About [Colorblind Action Bar](https://github.com/kwolbachia/Imagej-macro-addiction/tree/main/Colorblind%20Bar) : <https://twitter.com/kWolbachia/status/1401707267976802306?s=20>
+About [Colorblind Action Bar](https://github.com/kwolbachia/Imagej-macro-addiction/tree/main/Colorblind%20Bar) : <https://twitter.com/kWolbachia/status/1401707267976802306?s=20>     
+Colorblind correction tools Action Bar
 
 About the [Merge Tool](https://github.com/kwolbachia/Imagej-macro-addiction/blob/main/Merge%20Tool.ijm) :    
 Click sequencially on the images you want to merge, in the right order     
@@ -25,7 +27,16 @@ If you miss clicked, double click (or right click) on the tool with the shift ke
 About the [Combine Tool](https://github.com/kwolbachia/Imagej-macro-addiction/blob/main/Combine%20tool.ijm) :    
 Click sequencially on the two images you want to combine, in the right order     
 Double click (or right click) on the tool to combine them.     
-If you miss clicked, double click (or right click) on the tool with the shift key pressed.
+If you miss clicked, double click (or right click) on the tool with the shift key pressed.   
+
+About the [Multi Tool](https://github.com/kwolbachia/Imagej-macro-addiction/blob/main/multi_Tool.ijm) :   
+A all in one tool :    
+normal click to move freely images windows    
+shift + click to adjust min and max contrast     
+ctrl or cmd + click to adjust gamma on the LUT, not on pixels    
+alt + click to navigate slices or frames in stacks    
+shift + alt + click to close image window    
+room for anything you want to add!    
 
 About [my_StartupMacros.ijm](https://github.com/kwolbachia/Imagej-macro-addiction/blob/main/my_startupMacro.ijm):    
 this is my own 'organised' mess full of macros and ideas of macros..
