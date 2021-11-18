@@ -32,9 +32,9 @@ If you miss clicked, double click (or right click) on the tool with the shift ke
 About the [Multi Tool](https://github.com/kwolbachia/Imagej-macro-addiction/blob/main/multi_Tool.ijm) :   
 A all in one tool :    
 normal click to move freely images windows    
-shift + click to adjust min and max contrast     
-ctrl or cmd + click to adjust gamma on the LUT, not on pixels    
-alt + click to navigate slices or frames in stacks    
+shift + drag to adjust min and max contrast     
+ctrl or cmd + drag to adjust gamma on the LUT, not on pixels    
+alt + drag to navigate slices or frames in stacks    
 shift + alt + click to close image window    
 room for anything you want to add!    
 
