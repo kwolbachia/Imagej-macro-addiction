@@ -9,20 +9,29 @@ var ChLabels = newArray("CidB","CidA","DNA","H4Ac","DIC");
 var fontS = 30;
 var tile = newArray(1);
 var channels = 1;
+var mainTool = "Move Windows";
+
+var toolList = newArray("Move Windows",	"Contrast Adjuster", "Gamma on LUT", "splice / frame scroll", "explorer", "My Magic Wand" );
 
 macro "Multitool Tool - N55C000DdeCf00Db8Db9DbaDc7Dc8DcaDcbDd7DdbDe7De8DeaDebCfffDc9Dd8Dd9DdaDe9C777D02D11D12D17D18D21D28D2bD31D36D39D3aD3bD3eD41D42D46D47D4cD4dD4eD51D52D57D5bD5dD62D63D67D6dD72D73D74D75D76D77D83D85D86D94Cf90Da6Da7Da8Da9DaaDabDacDadDaeDb4Db5Dc4Dd4De4C444D03D19D22D29D2cD32D3cD43D4bD53D58D5eD64D68D6eD78D87Cf60D95D96D97D98D99D9aD9bD9cD9dD9eDa4Da5Db3Db6DbcDbdDbeDc3Dc5Dc6DccDcdDceDd3Dd5Dd6DdcDe3De5De6DecDedDeeC333Cf40Db7DbbDddBf0C000Cf00D08D09D0aCfffC777D13D22D23D24D32D33D35D36D37D38D39D3aD3bD42D43D46D47D48D49D4cD4dD52D53D54D58D59D5aD5dD5eD62D63D6aD6bD6cD6dD72D7cD7dD7eD82D8eD92Da2Cf90D05C444Cf60D03D04D06D0cD0dD0eD14D15D16D17D18D19D1aD1bD1cD1dD1eD25D26D27D28D29D2aD2bD2cD2dD2eC333D34D3cD3dD44D4eD64D73D83D93Da3Cf40D07D0bB0fC000D12Cf00CfffC777D50D60D61D62D70D72D73D74D80D81D82D83D84D85D86D91D92D93D94D95D96D97Da3Da4Da5Da6Da7Da8Cf90C444Cf60D00D04D05D06D09D10D18D20D21D23D24D25D26D27C333D01D02D03D40D51D52D63D64D75D76D87D98Da9Cf40D07D08D11D13D14D15D16D17D22Nf0C000Da2Dd2Dd5Cf00CfffC777D42D52D60D61D65D71D73D74D83D85D86Cf90Da0Da5Da6Db7Dc8C444D40D50D53D62D63D72D75D84Cf60D90D91D93D94D95D96D97Da1Da3Da4Da7Da8Db0Db4Db5Db6Db8Db9Dc5Dc6Dc7Dc9Dd7Dd8Dd9De5De6De7De9C333Db1Db2Db3Dc0Dc4Dd0Dd4De0De4Cf40D92Dc1Dc2Dc3Dd1Dd3Dd6De1De2De3De8" {
-	multiTool();
+	if 		(mainTool=="Move Windows")           moveWindows();
+	else if (mainTool=="Contrast Adjuster")      liveContrast();
+	else if (mainTool=="Gamma on LUT")           liveGamma();
+	else if (mainTool=="splice / frame scroll")  liveScroll();
+	else if (mainTool=="explorer")               explorer();
+	else if (mainTool=="My Magic Wand")          magicWand();
 }
 macro "Multitool Tool Options" {
 	Dialog.createNonBlocking("Options");
-	Dialog.addMessage("Wand Tool");
-	Dialog.addNumber("roi size to target on short click in pixels", 600);
+	Dialog.addRadioButtonGroup("Main Tool : ", toolList, toolList.length,1, mainTool);
+	Dialog.addMessage("Magic Wand options :");
+	Dialog.addNumber("roi size to target in pixels", 600);
 	Dialog.addChoice("Fit selection? How?", newArray("None","Fit Spline","Fit Ellipse"), fit);
 	Dialog.show();
+	mainTool = Dialog.getRadioButton();
 	targetSize = Dialog.getNumber();
 	fit = Dialog.getChoice();
 }
-
 //--------------------------------------------------------------------------------------------------------------------------------------
 //------SHORTCUTS
 //--------------------------------------------------------------------------------------------------------------------------------------
@@ -56,7 +65,7 @@ macro "Custom Menu Tool - N55C000D1aD1bD1cD1dD29D2dD39D3dD49D4dD4eD59D5eD69D75D7
 }
 
 macro "Stacks Menu Built-in Tool" {}
-macro "Developer Menu Built-in Tool" {}
+// macro "Developer Menu Built-in Tool" {}
 
 //--------------------------------------------------------------------------------------------------------------------------------------
 //------ALL OPENED TOOLS
@@ -88,6 +97,8 @@ macro "Popup Menu" {
 	else if (cmd=="test all color blindness") test_all_color_blindness();
 	else if (cmd=="Set LUTs") {Ask_LUTs(); Set_LUTs();}
 	else if (cmd=="RGB to Luminance") rgb2Luminance();
+	else if (cmd=="copy paste LUT set") copyPasteLUTset();
+	else if (cmd=="rotate LUT") rotateLUT();
 	else run(cmd); 
 }
 
@@ -164,11 +175,11 @@ macro "open paste [o]"	{ if (isKeyDown("alt")) open(String.paste);					else if (
 macro "Splitview  [p]"	{ if (isKeyDown("space")) 	SplitView(0,1,0); 				else 	SplitView(0,0,0); }
 macro "Arrange ch [q]"	{ if (isKeyDown("space"))	ReorderLUTsAsk(); 				else 	run("Arrange Channels...");}
 macro "Adjust 	  [R]"	{ if (isKeyDown("space"))	Reset_All_Contrasts(); 			else 	Auto_Contrast_on_all_channels();}
-macro "Adjust 	  [r]"	{ if (isKeyDown("alt"))		reduceMax();	 				else if (isKeyDown("space")) {run("Install...","install=["+getDirectory("macros")+"/StartupMacros.fiji.ijm]"); setTool(15);}	else Adjust_Contrast();}
+macro "r 	 	  [r]"	{ if (isKeyDown("alt"))		reduceMax();	 				else if (isKeyDown("space")) {run("Install...","install=["+getDirectory("macros")+"/StartupMacros.fiji.ijm]"); setTool(15);}	else Adjust_Contrast();}
 macro "Splitview  [S]"	{ if (isKeyDown("alt"))   	getSplitViewPrefs();			else if (isKeyDown("space")) SplitView(1,0,0); 							else SplitView(1,1,0); }
 macro "as tiff 	  [s]"	{ if (isKeyDown("space"))	ultimateSplitview(); 			else if (isKeyDown("alt")) Basic_save_all(); 							else	saveAs("Tiff");}
-//macro "test.ijm   [t]"	{ if (isKeyDown("alt"))		installMacroFromClipboard();	else if (isKeyDown("space")) {setBatchMode(1); eval(String.paste); setBatchMode(0);}	else eval(String.paste);}
-macro "test.ijm   [t]"	{ if (isKeyDown("alt"))		installMacroFromClipboard();	else if (isKeyDown("space")) run("Action Bar", String.paste);	else eval(String.paste);}
+macro "test.ijm   [t]"	{ if (isKeyDown("alt"))		installMacroFromClipboard();	else if (isKeyDown("space")) {run("Install...","install=["+getDirectory("macros")+"/testing.ijm]");}	else eval(String.paste);}
+//macro "test.ijm   [t]"	{ if (isKeyDown("alt"))		installMacroFromClipboard();	else if (isKeyDown("space")) run("Action Bar", String.paste);	else eval(String.paste);}
 macro "rgb color  [u]"  { if (isKeyDown("space"))	myRGBconverter(); 				else if (isKeyDown("alt"))	RedGreen2OrangeBlue(); 						else 	switcher(); }
 macro "pasta	  [v]"	{ if (isKeyDown("space"))	run("System Clipboard");		else if (isKeyDown("alt"))	open(getDirectory("temp")+"/copiedLut.lut");else 	run("Paste");}
 macro "roll & FFT [x]"  { if (isKeyDown("alt"))	saveAs("lut", getDirectory("temp")+"/copiedLut.lut"); else if (isKeyDown("space"))	channelsRoll();					else	run("FFT");}
@@ -238,16 +249,15 @@ function multiTool(){ //avec menu "que faire avec le middle click? **"
 	if (flags == 19||flags == 21)	explorer();						// ctrl + shift + long click
 	if (flags == 25)				liveGamma();					// shift + alt + long click
 }
-
 function moveWindows() {
 	getCursorLoc(x2, y2, z2, flags2);
 	zoom = getZoom();
 	getCursorLoc(x, y, z, flags);
-	if (flags == 48) flags = 16; //ignore selection tag
+	if (flags>=32) flags -= 32; //remove "cursor in selection" flag
 	while (flags == 16) {
 		getLocationAndSize(wx, wy, null, null);
 		getCursorLoc(x, y, z, flags);
-		if (flags == 48) flags = 16; //ignore selection tag
+		if (flags>=32) flags -= 32; //remove "cursor in selection" flag
 		wx = wx-(x2*zoom-x*zoom);
 		wy = wy-(y2*zoom-y*zoom);
 		setLocation(wx, wy);
@@ -255,13 +265,16 @@ function moveWindows() {
 	}
 }
 
-function liveContrast() {
+function liveContrast() {	
+	if (bitDepth() == 24) exit;
 	getDimensions(width, height, channels, slices, frames);
+	resetMinAndMax();
 	getMinAndMax(min, max);
 	getCursorLoc(x, y, z, flags);
-	while (flags == 17) {				
-		if (bitDepth() == 24) exit;
+	if (flags>=32) flags -= 32; //remove "cursor in selection" flag
+	while (flags == 16) {			
 		getCursorLoc(x, y, z, flags);
+		if (flags>=32) flags -= 32; //remove "cursor in selection" flag
 		newMax = (x/width)*max;
 		newMin = ((height-y)/height)*max/2;
 		if (newMax < 0) newMax = 0;
@@ -271,16 +284,31 @@ function liveContrast() {
 		wait(10);
 	}
 }
-
+//for args give gamma value, and r,g,b obtained by getLut(r,g,b) command.
+function gammaLUT(gamma, r, g, b) {
+	R = newArray(256); G = newArray(256); B = newArray(256); Gam = newArray(256);
+	for (i=0; i<256; i++) Gam[i] = pow(i, gamma);
+	scale = 255/Gam[255];
+	for (i=0; i<256; i++) Gam[i] = round(Gam[i] * scale);
+	for (i=0; i<256; i++) {
+		j = Gam[i];
+		R[i] = r[j];
+		G[i] = g[j];
+		B[i] = b[j];
+	}
+	setLut(R, G, B);
+}
 function liveGamma(){
 	setBatchMode(1);
 	getLut(r, g, b);
-	copyLUT();
+	setupUndo();
 	setColor("white");
 	setFont("SansSerif", Image.height/20, "bold antialiased");
 	getCursorLoc(x, y, z, flags);
-	while (flags==18||flags  == 20) {
+	if (flags>=32) flags -= 32; //remove "cursor in selection" flag
+	while (flags==16) {
 		getCursorLoc(x, y, z, flags);
+		if (flags>=32) flags -= 32; //remove "cursor in selection" flag
 		gamma = d2s((x/Image.width)*2, 2); if (gamma<0) gamma=0;
 		gammaLUT(gamma,r, g, b);
 		Overlay.remove;
@@ -297,8 +325,10 @@ function liveScroll() {
 	getDimensions(width, height, channels, slices, frames);
 	if(slices==1&&frames==1) exit;
 	getCursorLoc(x, y, z, flags);
-	while(flags == 24) {
+	if (flags>=32) flags -= 32; //remove "cursor in selection" flag
+	while(flags == 16) {
 		getCursorLoc(x, y, z, flags);
+		if (flags>=32) flags -= 32; //remove "cursor in selection" flag
 		if (frames>1) Stack.setFrame((x/width)*frames);
 		else Stack.setSlice((x/width)*slices);
 	}
@@ -322,15 +352,19 @@ function explorer() {
 	}
 }
 
-
 var targetSize = 500;
 var tolerance = 100;
 var nPixels = 500;
 var newTolerance = tolerance;
-var fit = "None";
+var fit = "Fit Spline";
+
 function magicWand() {
 	getCursorLoc(x2, y2, z2, flags2);
 	getCursorLoc(x, y, z, flags);
+	if (flags>=32) flags -= 32; //remove "cursor in selection" flag
+	if (flags==8) {
+		doWand(x, y, newTolerance, "Legacy");
+	}
 	zoom = getZoom();
 	factor = 3;
 	newTolerance = tolerance;
@@ -339,8 +373,7 @@ function magicWand() {
 	getMinAndMax(min, max);
 	while (flags >= 16) {
 		getCursorLoc(x, y, z, flags);
-		if (flags>=32) flags -= 32;
-		//if (flags==32||flags==48) flags = 0; //ignore the flag "cursor on selection"
+		if (flags>=32) flags -= 32; //remove "cursor in selection" flag
 		newTolerance = tolerance + (x*zoom-x2*zoom) * factor;
 		run("Wand Tool...", "tolerance=&newTolerance mode=Legacy");
 		wait(30);
@@ -362,7 +395,7 @@ function estimateTolerance(){
 	getMinAndMax(min, max);
 	getRawStatistics(nPixels);
 	while (nPixels<=targetSize) {
-		tolerance += targetSize/10;
+		tolerance += max/10;
 		run("Wand Tool...", "tolerance=&tolerance");
 		getRawStatistics(nPixels);
 		if (tolerance > max) exit;
@@ -442,28 +475,6 @@ function batchMerge() {
 	print("done");
 	setBatchMode(false);
 }
-
-// macro "Batch rename" {
-// 	directory =File.getDirectory(File.openDialog("Select any image of the folder"));
-// 	fileList = getFileList(directory);
-// 	Dialog.createNonBlocking("batch name crop");
-// 	Dialog.addString("prefix to remove", fileList[0], fileList[0].length);
-// 	Dialog.addString("suffix to remove", fileList[0], fileList[0].length);
-// 	Dialog.show();
-// 	prefix =lengthOf(Dialog.getString());
-// 	suffix = lengthOf(Dialog.getString());
-// 	new_names = newArray(fileList.length);
-// 	for (i = 0; i < fileList.length; i++) {
-// 		i1 = prefix;
-// 		i2 = lengthOf(fileList[i]) - (suffix+1);
-// 		new_names[i] = substring( fileList[i], i1, i2);
-// 	}
-// 	Array.show(new_names);
-// 	waitForUser("check the new names, is everythig OK?");
-// 	for (i = 0; i < fileList.length; i++) {
-// 		File.rename(directory +File.separator+ fileList[i], directory +File.separator+ new_names[i]+".tif");
-// 	}
-// }
 
 function labelSumProject(){
 	setBatchMode(1);
@@ -586,7 +597,7 @@ function installMacroFromClipboard() {
 	setTool(23);
 }
 
-macro "rotate LUT" {
+function rotateLUT() {
 	setBatchMode(1);
 	getLut(reds, greens, blues);
 	newImage("r1", "8-bit ramp", 256, 32, 1);
@@ -658,7 +669,8 @@ function setTargetImage() {
 	call("ij.Prefs.set","Destination.title",getTitle());
 }
 
-function rgbPixel2LUT() {//if on a rgb image,get current pixel color and use it to create the LUT of destination image with setTargetImage()
+//if on a rgb image,get current pixel color and use it to create the LUT of destination image with setTargetImage()
+function rgbPixel2LUT() {
 	getCursorLoc(x, y, z, modifiers);
 	c = getPixel(x, y);
 	r = (c>>16)&0xff; 	g = (c>>8)&0xff; b = c & 0xff; //black magic...
@@ -1745,7 +1757,6 @@ function getSplitViewPrefs(){
 //--------------------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------------------------------
-
 function LUTbaker(){
 	noRGB_errorCheck();
 	Rz = newArray(4); Gz = newArray(4); Bz = newArray(4); preview = 1; inv = 0;
@@ -1786,7 +1797,7 @@ function LUTbaker(){
 		Dialog.addMessage("Reds= "+totR+"   Greens= "+totG+"   Blues= "+totB);
 		if (is_InvertableLUTs()) Dialog.addMessage("These LUTs are invertable ;)");
 		else Dialog.addMessage("These LUTs won't be invertable :s");
-		Dialog.addCheckbox("update changes", 1); 
+		Dialog.addCheckbox("update changes", preview); 
 		Dialog.addCheckbox("inverted LUTs", inv); 
 		Dialog.addCheckbox("Reset all", 0);
 		setBatchMode(0);
@@ -1946,7 +1957,7 @@ function invert4_iLUTs() {
 
 var source=0;
 
-macro "copy paste LUT set"{
+function copyPasteLUTset(){
 	title=getTitle();
 	list = getList("image.titles");
 	Dialog.create("apply LUTs");
@@ -2044,16 +2055,55 @@ function invert_all_LUTs() {
 	}
 	setBatchMode(0);
 }*/
+
+
 macro"random light LUTs [K]"{
-	getDimensions(w,h,CH,s,f);
-	setBatchMode(1);
-	for(k=0; k<CH; k++){
-		Stack.setChannel(k+1);
-		color = randomColorByLuminance(165);
-		LUTmaker(color[0],color[1],color[2]);
+	Types = newArray("blue","orange","magenta","green","any","any","any");
+	getDimensions(w,h,channels,s,f);
+	if (channels>1){
+		Stack.setDisplayMode("composite");
+		for(i=1; i<=channels; i++){
+			Stack.setChannel(i);
+			rgb = randomColorByTypeAndLum(150, Types[i-1]);
+			LUTmaker(rgb[0],rgb[1],rgb[2]);
+		}
 	}
-	setBatchMode(0);
 }
+
+function randomColorByTypeAndLum(lum, targetColorType) {
+	rgb = newArray(3); loop=1; rgb_weight = newArray(0.299,0.587,0.114);
+	luminance = 0;
+	colorType = "";
+	count = 0;
+	while (loop) {
+		if (count>20000) exit("can't generate color "+targetColorType+" with a luminance of "+lum);
+		if (targetColorType == "gray") rgb = newArray(lum,lum,lum);
+		else rgb=randomColorByLuminance(lum);
+		Array.getStatistics(rgb, min, max, mean, stdDev);
+		red = rgb[0]; green = rgb[1]; blue = rgb[2];
+		if (red==max && blue<135 && (green/red)<0.5)  
+			colorType = "red";
+		if (green==max && (red/green)<0.75 && (blue/green)<0.75) 	colorType = "green";
+		if (blue==max && red==min && red<100 && (green/blue)<0.8)	colorType = "blue";
+		if (blue==max && red==min && red<50 && (green/blue)>0.85)	colorType = "cyan";
+		if (green==min && (green/red)<0.75 && (green/blue)<0.6) 	colorType = "magenta";
+		if (red==max && blue==min && blue<50 && (green/red)<0.75)  	colorType = "orange";
+		if (red==max && blue==min && blue<50 && (green/red)>0.9) 	colorType = "yellow";
+		if (red==green && blue==green) 								colorType = "gray";
+		if (colorType == targetColorType) loop = 0;
+		if (targetColorType == "any") loop = 0;
+		count++;
+	}
+	/*
+	print(colorType);
+	s=""; for (i = 0; i < red; i+=2) s+="|"; print(s,red);
+	s=""; for (i = 0; i < green; i+=2) s+="|"; print(s,green);
+	s=""; for (i = 0; i < blue; i+=2) s+="|"; print(s,blue);
+	"     ";
+	*/
+	return rgb;
+}
+
 
 function randomArrayTo255(arraySize){ 
 	array = newArray(arraySize); loop=1;
@@ -2554,3 +2604,4 @@ macro 'Pencil Tool Options...' {pencilWidth = getNumber("Pencil Width (pixels):"
 macro 'Paintbrush Tool Options...' {brushWidth = getNumber("Brush Width (pixels):", brushWidth);call("ij.Prefs.set", "startup.brush", brushWidth);}
 macro 'Flood Fill Tool Options...' {Dialog.create("Flood Fill Tool");Dialog.addChoice("Flood Type:", newArray("4-connected", "8-connected"), floodType);Dialog.show();floodType = Dialog.getChoice();call("ij.Prefs.set", "startup.flood",floodType);}
 macro "Set Drawing Color..."{run("Color Picker...");}
+
