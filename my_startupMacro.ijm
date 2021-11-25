@@ -14,18 +14,13 @@ var mainTool = "Move Windows";
 var toolList = newArray("Move Windows",	"Contrast Adjuster", "Gamma on LUT", "splice / frame scroll", "explorer", "My Magic Wand" );
 
 macro "Multitool Tool - N55C000DdeCf00Db8Db9DbaDc7Dc8DcaDcbDd7DdbDe7De8DeaDebCfffDc9Dd8Dd9DdaDe9C777D02D11D12D17D18D21D28D2bD31D36D39D3aD3bD3eD41D42D46D47D4cD4dD4eD51D52D57D5bD5dD62D63D67D6dD72D73D74D75D76D77D83D85D86D94Cf90Da6Da7Da8Da9DaaDabDacDadDaeDb4Db5Dc4Dd4De4C444D03D19D22D29D2cD32D3cD43D4bD53D58D5eD64D68D6eD78D87Cf60D95D96D97D98D99D9aD9bD9cD9dD9eDa4Da5Db3Db6DbcDbdDbeDc3Dc5Dc6DccDcdDceDd3Dd5Dd6DdcDe3De5De6DecDedDeeC333Cf40Db7DbbDddBf0C000Cf00D08D09D0aCfffC777D13D22D23D24D32D33D35D36D37D38D39D3aD3bD42D43D46D47D48D49D4cD4dD52D53D54D58D59D5aD5dD5eD62D63D6aD6bD6cD6dD72D7cD7dD7eD82D8eD92Da2Cf90D05C444Cf60D03D04D06D0cD0dD0eD14D15D16D17D18D19D1aD1bD1cD1dD1eD25D26D27D28D29D2aD2bD2cD2dD2eC333D34D3cD3dD44D4eD64D73D83D93Da3Cf40D07D0bB0fC000D12Cf00CfffC777D50D60D61D62D70D72D73D74D80D81D82D83D84D85D86D91D92D93D94D95D96D97Da3Da4Da5Da6Da7Da8Cf90C444Cf60D00D04D05D06D09D10D18D20D21D23D24D25D26D27C333D01D02D03D40D51D52D63D64D75D76D87D98Da9Cf40D07D08D11D13D14D15D16D17D22Nf0C000Da2Dd2Dd5Cf00CfffC777D42D52D60D61D65D71D73D74D83D85D86Cf90Da0Da5Da6Db7Dc8C444D40D50D53D62D63D72D75D84Cf60D90D91D93D94D95D96D97Da1Da3Da4Da7Da8Db0Db4Db5Db6Db8Db9Dc5Dc6Dc7Dc9Dd7Dd8Dd9De5De6De7De9C333Db1Db2Db3Dc0Dc4Dd0Dd4De0De4Cf40D92Dc1Dc2Dc3Dd1Dd3Dd6De1De2De3De8" {
-	if 		(mainTool=="Move Windows")           moveWindows();
-	else if (mainTool=="Contrast Adjuster")      liveContrast();
-	else if (mainTool=="Gamma on LUT")           liveGamma();
-	else if (mainTool=="splice / frame scroll")  liveScroll();
-	else if (mainTool=="explorer")               explorer();
-	else if (mainTool=="My Magic Wand")          magicWand();
+	multiTool();
 }
 macro "Multitool Tool Options" {
 	Dialog.createNonBlocking("Options");
 	Dialog.addRadioButtonGroup("Main Tool : ", toolList, toolList.length,1, mainTool);
 	Dialog.addMessage("Magic Wand options :");
-	Dialog.addNumber("roi size to target in pixels", 600);
+	Dialog.addNumber("roi size to target in pixels", nPixels);
 	Dialog.addChoice("Fit selection? How?", newArray("None","Fit Spline","Fit Ellipse"), fit);
 	Dialog.show();
 	mainTool = Dialog.getRadioButton();
@@ -54,7 +49,7 @@ macro "Custom Menu Tool - N55C000D1aD1bD1cD1dD29D2dD39D3dD49D4dD4eD59D5eD69D75D7
 	else if (cmd=="my Wand tool") 					{String.copy(File.openUrlAsString("https://raw.githubusercontent.com/kwolbachia/Imagej-macro-addiction/main/Yet_another_magic_wand.ijm")); installMacroFromClipboard();}
 	else if (cmd=="invertableLUTs_Bar")				{run("Action Bar", File.openUrlAsString("https://git.io/JXoB2"));}
 	else if (cmd=="CB_Bar") 						{run("Action Bar", File.openUrlAsString("https://git.io/JZUZw"));}
-	else if (cmd=="New_Bar") 						{run("Action Bar", File.openUrlAsString("https://gist.githubusercontent.com/kwolbachia/86fa900000d19bdfed0809f7a55ddfb9/raw/501a8c28ff90262b2df9c68620bb694a05e5dd76/K%2520LUTs%2520Bar.ijm"));}
+	else if (cmd=="New_Bar") 						{run("Action Bar", File.openUrlAsString("https://gist.githubusercontent.com/kwolbachia/86fa900000d19bdfed0809f7a55ddfb9/raw/8dfa7ecd5987210395306cec198bee5e1d883576/K%2520LUTs%2520Bar.ijm"));}
 	else if (cmd=="BioFormats_Bar") 				{BioformatsBar();}
 	else if (cmd=="Batch Merge") 					{batchMerge();}
 	
@@ -138,13 +133,12 @@ macro "Yellow 	[n9]"{ run("glasbey_on_dark");	}
 
 //--------------------------------------------------------------------------------------------------------------------------------------
 //NOICE TOOLS
-macro "composite switch  [Q]" 	{if (!is("composite")) exit; Stack.getDisplayMode(mode); if (mode=="color"||mode=="greyscale")Stack.setDisplayMode("composite");	else Stack.setDisplayMode("color");}
 macro "ClearVolume	     [0]"	{fauteDeClearVolume();}
 macro "my default LUTs   [1]"	{if (isKeyDown("space")) SetAllLUTs(); 			else if (isKeyDown("alt")) perso_Ask_LUTs(); 		else Set_LUTs();}
 macro "good size  		 [2]"	{if (isKeyDown("space")) restorePosition(); 			else if (isKeyDown("alt")) fullScreen();		else goodSize();}
 macro "3D Zproject++     [3]"	{if (isKeyDown("space")) Cool_3D_montage();		else my3D_project();}
 macro "full scale montage[4]"	{if (Image.title=="Montage") {id=getImageID(); run("Montage to Stack..."); selectImage(id);	close();} 								else run("Make Montage...", "scale=1"); setOption("Changes", 0);}
-macro "25x25 selection   [5]"	{size=400; /*toUnscaled(size); size = round(size);*/ getCursorLoc(x, y, null, null); makeRectangle(x,y,size,size); showStatus(size+"x"+size);}
+macro "25x25 selection   [5]"	{size=100; /*toUnscaled(size); size = round(size);*/ getCursorLoc(x, y, null, null); makeRectangle(x-(size/2),y-(size/2),size,size); showStatus(size+"x"+size);}
 macro "make it look good [6]"	{for (i=0; i<nImages; i++) { setBatchMode(1); selectImage(i+1); run("Appearance...", "  "); run("Appearance...", "black no"); setBatchMode("exit and display"); }}
 macro "set destination   [7]" 	{if (isKeyDown("space")) { showStatus("Source set");	run("Alert ", "object=Image color=Orange duration=1000"); source = getTitle();} else setTargetImage();}
 macro "rename w/ id      [8]"	{rename(getImageID());}
@@ -173,13 +167,14 @@ macro "LUT baker  [m]"	{	LUTbaker();}
 macro "Hela       [n]"	{ if (isKeyDown("space")) {cul = 0; if(nImages>0){getLut(r,g,b); cul=1;} newImage("lut"+round(random*100), "8-bit ramp", 256, 32, 1); if(cul)setLut(r,g,b);} else Hela();}
 macro "open paste [o]"	{ if (isKeyDown("alt")) open(String.paste);					else if (startsWith(getTitle(), "Preview Opener")) openFromPreview();  else if (startsWith(getTitle(), "Lookup Tables")) setLutFromMontageTool();}
 macro "Splitview  [p]"	{ if (isKeyDown("space")) 	SplitView(0,1,0); 				else 	SplitView(0,0,0); }
+macro "composite  [Q]" 	{if (!is("composite")) exit; Stack.getDisplayMode(mode); if (mode=="color"||mode=="greyscale")Stack.setDisplayMode("composite");	else Stack.setDisplayMode("color");}
 macro "Arrange ch [q]"	{ if (isKeyDown("space"))	ReorderLUTsAsk(); 				else 	run("Arrange Channels...");}
 macro "Adjust 	  [R]"	{ if (isKeyDown("space"))	Reset_All_Contrasts(); 			else 	Auto_Contrast_on_all_channels();}
 macro "r 	 	  [r]"	{ if (isKeyDown("alt"))		reduceMax();	 				else if (isKeyDown("space")) {run("Install...","install=["+getDirectory("macros")+"/StartupMacros.fiji.ijm]"); setTool(15);}	else Adjust_Contrast();}
 macro "Splitview  [S]"	{ if (isKeyDown("alt"))   	getSplitViewPrefs();			else if (isKeyDown("space")) SplitView(1,0,0); 							else SplitView(1,1,0); }
 macro "as tiff 	  [s]"	{ if (isKeyDown("space"))	ultimateSplitview(); 			else if (isKeyDown("alt")) Basic_save_all(); 							else	saveAs("Tiff");}
-macro "test.ijm   [t]"	{ if (isKeyDown("alt"))		installMacroFromClipboard();	else if (isKeyDown("space")) {run("Install...","install=["+getDirectory("macros")+"/testing.ijm]");}	else eval(String.paste);}
-//macro "test.ijm   [t]"	{ if (isKeyDown("alt"))		installMacroFromClipboard();	else if (isKeyDown("space")) run("Action Bar", String.paste);	else eval(String.paste);}
+// macro "test.ijm   [t]"	{ if (isKeyDown("alt"))		installMacroFromClipboard();	else if (isKeyDown("space")) {run("Install...","install=["+getDirectory("macros")+"/testing.ijm]");}	else eval(String.paste);}
+macro "test.ijm   [t]"	{ if (isKeyDown("alt"))		installMacroFromClipboard();	else if (isKeyDown("space")) run("Action Bar", String.paste);	else eval(String.paste);}
 macro "rgb color  [u]"  { if (isKeyDown("space"))	myRGBconverter(); 				else if (isKeyDown("alt"))	RedGreen2OrangeBlue(); 						else 	switcher(); }
 macro "pasta	  [v]"	{ if (isKeyDown("space"))	run("System Clipboard");		else if (isKeyDown("alt"))	open(getDirectory("temp")+"/copiedLut.lut");else 	run("Paste");}
 macro "roll & FFT [x]"  { if (isKeyDown("alt"))	saveAs("lut", getDirectory("temp")+"/copiedLut.lut"); else if (isKeyDown("space"))	channelsRoll();					else	run("FFT");}
@@ -212,7 +207,7 @@ function BioformatsBar(){
 	"</line>\n"+
 	"<DnDAction>\n"+
 	"path = getArgument();\n"+
-	"if (endsWith(path, '.mp4')) run('Compressed video', 'open=C:/Users/kterretaz/Desktop/temp-1-1_stack_export.mp4');\n"+
+	"if (endsWith(path, '.mp4')) run('Compressed video', 'open=[' + path + ']');\n"+
 	"else run('Bio-Formats Importer', 'open=[' + path + ']');\n"+
 	"</DnDAction>\n";
 	run("Action Bar",BioFormats_Bar);
@@ -237,24 +232,29 @@ function multiTool(){ //avec menu "que faire avec le middle click? **"
 	setupUndo();
 	getCursorLoc(x, y, z, flags);
 	if (flags>=32) flags -= 32;
-	//if (flags == 48) moveWindows();
-	if (flags == 26||flags == 28)	close();						// shift + alt + click
-	if (flags == 8 ||flags == 40)	copyLUT();						// middle click
-	if (flags == 10||flags == 12)	pasteLUT();						// ctrl + middle click
-	if (flags == 16)				moveWindows();					// regular long click
+	if (flags == 8) {if (!is("composite")) exit; Stack.getDisplayMode(mode); if (mode=="color"||mode=="greyscale")Stack.setDisplayMode("composite");	else Stack.setDisplayMode("color"); exit;}
+	if (flags == 16) {
+		if 		(mainTool=="Move Windows")           moveWindows();
+		else if (mainTool=="Contrast Adjuster")      liveContrast();
+		else if (mainTool=="Gamma on LUT")           liveGamma();
+		else if (mainTool=="splice / frame scroll")  liveScroll();
+		else if (mainTool=="explorer")               explorer();
+		else if (mainTool=="My Magic Wand")          magicWand();
+	}
+	if (flags == 26||flags == 28)	close();						// ctrl + alt + click
 	if (flags == 17)				liveContrast();					// shift + long click
-	if (flags == 18||flags == 20)	magicWand();					// ctrl + long click
-	//if (flags == 50||flags == 52)	magicWand();					// ctrl + long click in selection
+	if (flags == 18||flags == 20)	liveGamma();					// ctrl + long click
 	if (flags == 24)				liveScroll();					// alt + long click
-	if (flags == 19||flags == 21)	explorer();						// ctrl + shift + long click
-	if (flags == 25)				liveGamma();					// shift + alt + long click
+	//if (flags == 19||flags == 21)	magicWand();					// ctrl + shift + long click
+	if (flags == 25)				explorer();						// shift + alt + long click
 }
+
 function moveWindows() {
 	getCursorLoc(x2, y2, z2, flags2);
 	zoom = getZoom();
 	getCursorLoc(x, y, z, flags);
 	if (flags>=32) flags -= 32; //remove "cursor in selection" flag
-	while (flags == 16) {
+	while (flags >= 16) {
 		getLocationAndSize(wx, wy, null, null);
 		getCursorLoc(x, y, z, flags);
 		if (flags>=32) flags -= 32; //remove "cursor in selection" flag
@@ -267,16 +267,16 @@ function moveWindows() {
 
 function liveContrast() {	
 	if (bitDepth() == 24) exit;
-	getDimensions(width, height, channels, slices, frames);
 	resetMinAndMax();
 	getMinAndMax(min, max);
 	getCursorLoc(x, y, z, flags);
 	if (flags>=32) flags -= 32; //remove "cursor in selection" flag
-	while (flags == 16) {			
+	while (flags >= 16) {			
 		getCursorLoc(x, y, z, flags);
+		getDisplayedArea(ax, ay, width, height);
 		if (flags>=32) flags -= 32; //remove "cursor in selection" flag
-		newMax = (x/width)*max;
-		newMin = ((height-y)/height)*max/2;
+		newMax = ((x-ax)/width)*max;
+		newMin = ((height-(y-ay))/height)*max/2;
 		if (newMax < 0) newMax = 0;
 		if (newMin < 0) newMin = 0;
 		if (newMin > newMax) newMin = newMax;
@@ -284,32 +284,20 @@ function liveContrast() {
 		wait(10);
 	}
 }
-//for args give gamma value, and r,g,b obtained by getLut(r,g,b) command.
-function gammaLUT(gamma, r, g, b) {
-	R = newArray(256); G = newArray(256); B = newArray(256); Gam = newArray(256);
-	for (i=0; i<256; i++) Gam[i] = pow(i, gamma);
-	scale = 255/Gam[255];
-	for (i=0; i<256; i++) Gam[i] = round(Gam[i] * scale);
-	for (i=0; i<256; i++) {
-		j = Gam[i];
-		R[i] = r[j];
-		G[i] = g[j];
-		B[i] = b[j];
-	}
-	setLut(R, G, B);
-}
+
 function liveGamma(){
 	setBatchMode(1);
 	getLut(r, g, b);
-	setupUndo();
+	copyLUT();
 	setColor("white");
 	setFont("SansSerif", Image.height/20, "bold antialiased");
 	getCursorLoc(x, y, z, flags);
 	if (flags>=32) flags -= 32; //remove "cursor in selection" flag
-	while (flags==16) {
+	while (flags>=16) {
 		getCursorLoc(x, y, z, flags);
+		getDisplayedArea(ax, ay, width, height);
 		if (flags>=32) flags -= 32; //remove "cursor in selection" flag
-		gamma = d2s((x/Image.width)*2, 2); if (gamma<0) gamma=0;
+		gamma = d2s(((x-ax)/width)*2, 2); if (gamma<0) gamma=0;
 		gammaLUT(gamma,r, g, b);
 		Overlay.remove;
 		Overlay.drawString("gamma = "+gamma, Image.height/30,Image.height/20);
@@ -326,17 +314,18 @@ function liveScroll() {
 	if(slices==1&&frames==1) exit;
 	getCursorLoc(x, y, z, flags);
 	if (flags>=32) flags -= 32; //remove "cursor in selection" flag
-	while(flags == 16) {
+	while(flags>= 16) {
 		getCursorLoc(x, y, z, flags);
+		getDisplayedArea(ax, ay, width, height);
 		if (flags>=32) flags -= 32; //remove "cursor in selection" flag
-		if (frames>1) Stack.setFrame((x/width)*frames);
-		else Stack.setSlice((x/width)*slices);
+		if (frames>1) Stack.setFrame(((x-ax)/width)*frames);
+		else Stack.setSlice(((x-ax)/width)*slices);
 	}
 }
 
 function explorer() {
 	if (bitDepth==24) exit("This macro only works with grayscale images");
-	size=50;
+	size=150;
 	x2=-1;y2=-1;
 	while (true) {
 		getCursorLoc(x, y, z, flags);
@@ -366,7 +355,8 @@ function magicWand() {
 		doWand(x, y, newTolerance, "Legacy");
 	}
 	zoom = getZoom();
-	factor = 3;
+	getMinAndMax(min, max);
+	factor = max/500;
 	newTolerance = tolerance;
 	run("Select None");
 	estimateTolerance();
@@ -374,7 +364,9 @@ function magicWand() {
 	while (flags >= 16) {
 		getCursorLoc(x, y, z, flags);
 		if (flags>=32) flags -= 32; //remove "cursor in selection" flag
-		newTolerance = tolerance + (x*zoom-x2*zoom) * factor;
+		distance = (x*zoom-x2*zoom);
+		if (distance<0) newTolerance = tolerance - pow(abs(distance), 1.5);
+		else newTolerance = tolerance + pow(abs(distance), 1.5);
 		run("Wand Tool...", "tolerance=&newTolerance mode=Legacy");
 		wait(30);
 	}
@@ -1277,7 +1269,7 @@ macro "Batch convert ims to tif" {
 Set LUTs
 --------*/
 function perso_Ask_LUTs(){
-	LUT_list = newArray("kb","ko","km","kg","Grays", "a_Spline","glasbey_on_dark");
+	LUT_list = newArray("kb","ko","km","kg","Grays", "a magic bleen","a magic orink");
 	Dialog.create("Set all LUTs");
 	for(i=0; i<4; i++) Dialog.addRadioButtonGroup("LUT " + (i+1), LUT_list, 2, 4, chosen_LUTs[i]);
 	Dialog.addCheckbox("noice?", 0);
@@ -1306,6 +1298,7 @@ function Set_LUTs(){
 			run(chosen_LUTs[i-1]);
 		}
 		Stack.setChannel(ch);
+		Stack.setDisplayMode("color");Stack.setDisplayMode("composite");
 	}
 	else run(chosen_LUTs[0]);
 }
@@ -2258,22 +2251,22 @@ macro "make my LUTs" {
 	Stack.setChannel(1);
 	makeRectangle(0, 0, 213, 213);
 	run("Clear", "slice");
-	LUTmaker(50,155,255);
+	LUTmaker(10,163,255);
 	saveAs("LUT", lutsFolder + "/kb.lut");
 	Stack.setChannel(2);
 	makeRectangle(187, 0, 213, 213);
 	run("Clear", "slice");
-	LUTmaker(255,150,40);
+	LUTmaker(255,102,10);
 	saveAs("LUT", lutsFolder + "/ko.lut");
 	Stack.setChannel(3);
 	makeRectangle(187, 187, 213, 213);
 	run("Clear", "slice");
-	LUTmaker(195,65,215);
+	LUTmaker(225,96,183);
 	saveAs("LUT", lutsFolder + "/km.lut");
 	Stack.setChannel(4);
 	makeRectangle(0, 187, 213, 213);
 	run("Clear", "slice");
-	LUTmaker(10,140,0);
+	LUTmaker(58,187,100);
 	saveAs("LUT", lutsFolder + "/kg.lut");
 	run("Select None");
 	setOption("Changes", 0);
@@ -2338,7 +2331,7 @@ function randomAwesomeLUT(steps) {
 	run("Select None");
 	run("Remove Overlay");
 	setBatchMode(0);
-	plotLUT();
+	//plotLUT();
 	copyLUT();
 }
 
@@ -2604,4 +2597,3 @@ macro 'Pencil Tool Options...' {pencilWidth = getNumber("Pencil Width (pixels):"
 macro 'Paintbrush Tool Options...' {brushWidth = getNumber("Brush Width (pixels):", brushWidth);call("ij.Prefs.set", "startup.brush", brushWidth);}
 macro 'Flood Fill Tool Options...' {Dialog.create("Flood Fill Tool");Dialog.addChoice("Flood Type:", newArray("4-connected", "8-connected"), floodType);Dialog.show();floodType = Dialog.getChoice();call("ij.Prefs.set", "startup.flood",floodType);}
 macro "Set Drawing Color..."{run("Color Picker...");}
-
