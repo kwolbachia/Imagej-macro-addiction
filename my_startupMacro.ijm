@@ -4,7 +4,7 @@
 //210515 Splitview 3.0, invertable LUTs
 //210922 100 macros -> functions instead
 
-var chosen_LUTs = newArray("kb","ko","km","kg","Grays");
+var chosen_LUTs = newArray("KBlue","KMagenta","KOrange","KGreen","Grays");
 var ChLabels = newArray("CidB","CidA","DNA","H4Ac","DIC");
 var fontS = 30;
 var tile = newArray(1);
@@ -122,11 +122,11 @@ macro "results to label [F2]"{ result2label();}
 
 macro "myTurbo 	[n0]"{ if (isKeyDown("space")) random150lumLUT(2);	else if (isKeyDown("alt")) createOppositeLUT(); else randomAwesomeLUT(4);}
 macro "Gray 	[n1]"{ if (isKeyDown("space")) toggleChannel(1); 	else if (isKeyDown("alt")) toggleAllchannels(1); else run("Grays");}
-macro "Green 	[n2]"{ if (isKeyDown("space")) toggleChannel(2); 	else if (isKeyDown("alt")) toggleAllchannels(2); else run("kg");	}
+macro "Green 	[n2]"{ if (isKeyDown("space")) toggleChannel(2); 	else if (isKeyDown("alt")) toggleAllchannels(2); else run("KGreen");	}
 macro "Red 		[n3]"{ if (isKeyDown("space")) toggleChannel(3); 	else if (isKeyDown("alt")) toggleAllchannels(3); else run("Red");	}
-macro "Bop 		[n4]"{ if (isKeyDown("space")) toggleChannel(4); 	else if (isKeyDown("alt")) toggleAllchannels(4); else run("kb");	}
-macro "boP 		[n5]"{ if (isKeyDown("space")) toggleChannel(5); 	else if (isKeyDown("alt")) toggleAllchannels(5); else run("km");	}
-macro "bOp 		[n6]"{ if (isKeyDown("space")) toggleChannel(6); 	else if (isKeyDown("alt")) toggleAllchannels(6); else run("ko");	}
+macro "Bop 		[n4]"{ if (isKeyDown("space")) toggleChannel(4); 	else if (isKeyDown("alt")) toggleAllchannels(4); else run("KBlue");	}
+macro "boP 		[n5]"{ if (isKeyDown("space")) toggleChannel(5); 	else if (isKeyDown("alt")) toggleAllchannels(5); else run("KMagenta");	}
+macro "bOp 		[n6]"{ if (isKeyDown("space")) toggleChannel(6); 	else if (isKeyDown("alt")) toggleAllchannels(6); else run("KOrange");	}
 macro "Cyan		[n7]"{ if (isKeyDown("space")) toggleChannel(7);	else if (isKeyDown("alt")) toggleAllchannels(7); else run("Cyan");	}
 macro "Magenta 	[n8]"{ if (isKeyDown("space")) run("8-bit"); 		else run("Magenta");	}
 macro "Yellow 	[n9]"{ run("glasbey_on_dark");	}
@@ -138,14 +138,14 @@ macro "my default LUTs   [1]"	{if (isKeyDown("space")) SetAllLUTs(); 			else if 
 macro "good size  		 [2]"	{if (isKeyDown("space")) restorePosition(); 			else if (isKeyDown("alt")) fullScreen();		else goodSize();}
 macro "3D Zproject++     [3]"	{if (isKeyDown("space")) Cool_3D_montage();		else my3D_project();}
 macro "full scale montage[4]"	{if (Image.title=="Montage") {id=getImageID(); run("Montage to Stack..."); selectImage(id);	close();} 								else run("Make Montage...", "scale=1"); setOption("Changes", 0);}
-macro "25x25 selection   [5]"	{size=100; /*toUnscaled(size); size = round(size);*/ getCursorLoc(x, y, null, null); makeRectangle(x-(size/2),y-(size/2),size,size); showStatus(size+"x"+size);}
-macro "make it look good [6]"	{for (i=0; i<nImages; i++) { setBatchMode(1); selectImage(i+1); run("Appearance...", "  "); run("Appearance...", "black no"); setBatchMode("exit and display"); }}
+macro "25x25 selection   [5]"	{size=25; toUnscaled(size); size = round(size); getCursorLoc(x, y, null, null); makeRectangle(x-(size/2),y-(size/2),size,size); showStatus(size+"x"+size); setTool(0);}
+macro "make it look good [6]"	{for (i=0; i<nImages; i++) { setBatchMode(1); selectImage(i+1); run("Appearance...", "  "); run("Appearance...", "black no"); setBatchMode(0);}}
 macro "set destination   [7]" 	{if (isKeyDown("space")) { showStatus("Source set");	run("Alert ", "object=Image color=Orange duration=1000"); source = getTitle();} else setTargetImage();}
 macro "rename w/ id      [8]"	{rename(getImageID());}
 macro "coolify      	 [9]"	{moveWindows();}
 // Set_noice_LUTs();
 macro "selections [a]"	{ if (isKeyDown("alt"))		run("Select None");	  			else if (isKeyDown("space")) run("Restore Selection");	else run("Select All"); }
-macro "auto 	  [A]"	{ if (isKeyDown("alt"))		Enhance_all_contrasts();	  	else if (isKeyDown("space")) Enhance_on_all_channels();	else run("Enhance Contrast", "saturated=0.03");}
+macro "auto 	  [A]"	{ if (isKeyDown("alt"))		Enhance_all_contrasts();	  	else if (isKeyDown("space")) Enhance_on_all_channels();	else {run("Enhance Contrast", "saturated=0.03"); eval("bsh", "ij.plugin.frame.ContrastAdjuster.update()");}}
 macro "Splitview  [b]"	{ if (isKeyDown("space")) 	SplitView(0,2,0);				else 	SplitView(1,2,0); }
 marco "copy       [c]"	{   run("Copy");}
 macro "b&c 		  [C]"  { 	B_and_C(); }
@@ -154,12 +154,12 @@ macro "Spliticate [d]"	{ if (isKeyDown("space"))	run("Duplicate...", " ");	 	els
 macro "Tile 	  [E]"	{ 	myTile();}
 macro "edit lut   [e]"	{ if (isKeyDown("alt")) run("Edit LUT...");					else if (isKeyDown("space"))	seeAllLUTs();							else 	plotLUT();}
 macro "toolSwitch [F]"	{ toolRoll();}
-macro "gammaLUT	  [f]"	{ if (bitDepth() == 24) 	run("Gamma..."); 				else if (isKeyDown("space")) setGammaLUTAllch(getNumber("gamma",0.7));	else 	interactiveGamma(); }
+macro "gammaLUT	  [f]"	{ if (bitDepth() == 24) 	run("Gamma..."); 				else if (isKeyDown("space")) setGammaLUTAllch(getNumber("gamma",0.7));}
 macro "Max 		  [G]"	{ if (isKeyDown("space"))	Z_project_all();				else run("Z Project...", "projection=[Max Intensity] all");}
 macro "Z Project  [g]"	{ if (isKeyDown("alt"))		test_All_Zprojections();		else if (isKeyDown("space")) fastColorCode("current");					else	run("Z Project...");}
 macro "overlay I  [i]"	{ if (isKeyDown("space"))	invertedOverlay3(); 			else if (isKeyDown("alt")) invert_invertable_LUTs();	 				else 	invert_all_LUTs();}
 macro "New Macro  [J]"	{ 	run("Input/Output...", "jpeg=100"); saveAs("Jpeg");}
-macro "JPEG		  [j]"  { 	run("Macro");}
+macro "JPEG		  [j]"  { if (isKeyDown("space")) run("Text Window...", "name=poil width=40 height=7 menu"); else run("Macro");}
 macro "multiplot  [k]"  { 	multiPlot();}
 macro "Cmd finder [l]"	{ if (isKeyDown("space"))	labelSumProject(); 				else 	run("Find Commands...");}
 macro "Merge 	  [M]"	{ if (isKeyDown("space"))	run("Merge Channels..."); 		else 	fastMerge();} 
@@ -171,7 +171,8 @@ macro "composite  [Q]" 	{if (!is("composite")) exit; Stack.getDisplayMode(mode);
 macro "Arrange ch [q]"	{ if (isKeyDown("space"))	ReorderLUTsAsk(); 				else 	run("Arrange Channels...");}
 macro "Adjust 	  [R]"	{ if (isKeyDown("space"))	Reset_All_Contrasts(); 			else 	Auto_Contrast_on_all_channels();}
 macro "r 	 	  [r]"	{ if (isKeyDown("alt"))		reduceMax();	 				else if (isKeyDown("space")) {run("Install...","install=["+getDirectory("macros")+"/StartupMacros.fiji.ijm]"); setTool(15);}	else Adjust_Contrast();}
-macro "Splitview  [S]"	{ if (isKeyDown("alt"))   	getSplitViewPrefs();			else if (isKeyDown("space")) SplitView(1,0,0); 							else SplitView(1,1,0); }
+//macro "Splitview  [S]"	{ if (isKeyDown("alt"))   	getSplitViewPrefs();			else if (isKeyDown("space")) SplitView(1,0,0); 							else SplitView(1,1,0); }
+macro "Splitview  [S]"	{ if (isKeyDown("alt"))   	getSplitViewPrefs();			else if (isKeyDown("space")) {ChLabels = newArray("Bite","Cul","Poil","H4Ac","DIC"); SplitView(1,0,1);} 							else SplitView(1,1,0); }
 macro "as tiff 	  [s]"	{ if (isKeyDown("space"))	ultimateSplitview(); 			else if (isKeyDown("alt")) Basic_save_all(); 							else	saveAs("Tiff");}
 // macro "test.ijm   [t]"	{ if (isKeyDown("alt"))		installMacroFromClipboard();	else if (isKeyDown("space")) {run("Install...","install=["+getDirectory("macros")+"/testing.ijm]");}	else eval(String.paste);}
 macro "test.ijm   [t]"	{ if (isKeyDown("alt"))		installMacroFromClipboard();	else if (isKeyDown("space")) run("Action Bar", String.paste);	else eval(String.paste);}
@@ -230,6 +231,7 @@ function multiTool(){ //avec menu "que faire avec le middle click? **"
 	 * e.g leftclick + alt = 24
 	 */
 	setupUndo();
+	eval("bsh", "ij.plugin.frame.ContrastAdjuster.update()");
 	getCursorLoc(x, y, z, flags);
 	if (flags>=32) flags -= 32;
 	if (flags == 8) {if (!is("composite")) exit; Stack.getDisplayMode(mode); if (mode=="color"||mode=="greyscale")Stack.setDisplayMode("composite");	else Stack.setDisplayMode("color"); exit;}
@@ -796,10 +798,12 @@ function Hela(){
 }
 
 function channelsRoll(){
+	getDimensions(width,  height, channels, slices, frames);
 	id = getImageID();
 	txt = "open";
-	newList = newArray(123,132,213,231,321,312);
-	for (i = 0; i < 6; i++) {
+	if (channels == 3) newList = newArray(123,132,213,231,321,312);
+	else newList = newArray(1234,1243,1342,1324,1423,1432,2134,2143,2341,2314,2431,2413,3124,3142,3241,3214,3412,3421,4123,4132,4231,4213,4312,4321);
+	for (i = 0; i < newList.length; i++) {
 	setBatchMode(1);
 		selectImage(id);
 		run("Duplicate...","duplicate");
@@ -1012,6 +1016,7 @@ var xPositionBackup = 300;
 var yPositionBackup = 300;
 var widthPositionBackup = 400;
 var heightPositionBackup = 400;
+
 function goodSize() {
 	getLocationAndSize(xPositionBackup, yPositionBackup, widthPositionBackup, heightPositionBackup);
 	getDimensions(width, height, null, null, null);
@@ -1052,16 +1057,18 @@ function Note_in_infos(){
 }
 
 function gaussCorrection(){
+	if (isKeyDown("shift")) EXIT_MODE = "exit and display";
+	else EXIT_MODE = 0;
 	setBatchMode(1);
-	title=getTitle();
+	TITLE = getTitle();
 	run("Duplicate...", "title=gaussed duplicate");
 	getDimensions(width, height, channels, slices, frames);
-	sigma = height/3;
-	run("Gaussian Blur...", "sigma="+sigma+" stack");
-	imageCalculator("Substract create stack", title, "gaussed");
-	rename(title+"_corrected");
+	SIGMA = maxOf(height,width) / 3;
+	run("Gaussian Blur...", "sigma=" + SIGMA + " stack");
+	imageCalculator("Substract create stack", TITLE, "gaussed");
+	rename(TITLE + "_corrected");
 	setOption("Changes", 0);
-	setBatchMode(0);
+	setBatchMode(EXIT_MODE);
 }
 
 function testCLAHE_options() {
@@ -1410,6 +1417,7 @@ function Adjust_Contrast() {
 	close("temp");
 	setBatchMode("exit and display");
 	updateDisplay();
+	eval("bsh", "ij.plugin.frame.ContrastAdjuster.update()");
 }// Note : I discovered that the built-in command 'run("Enhance Contrast...", "saturated=0.001 use");' give same results
 //		  but it only works on single channel stacks so this macro is still necessary for hyperstacks.
 
@@ -1445,6 +1453,7 @@ function Enhance_on_all_channels() {
 	}
 	Stack.setPosition(ch, s, f);
 	makeRectangle(5,5,5,5); run("Select None"); //trick for display update
+	eval("bsh", "ij.plugin.frame.ContrastAdjuster.update()");
 }
 /*------------------
 All opened images
@@ -2577,6 +2586,23 @@ macro"SplitView tools Menu Tool - N55C000D00D01D02D03D04D05D06D07D08D09D0aD0bD0d
 	if (cmd=="Grayscaled squared Splitview") SplitView(0,1,0);
 	if (cmd=="Labeled Splitview")			 getSpVpref();
 }*/
+
+
+// function getAllFunctions(){
+// 	functions = File.openUrlAsString("https://imagej.nih.gov/ij/developer/macro/functions.html");
+// 	functions = replace(functions, "&quot;", "\"");
+// 	functions = split(functions, "\n");
+// 	commands = newArray(0);
+// 	c = 0;
+// 	for (i=0; i<functions.length; i++) {
+// 		line = functions[i];
+// 		if (line.startsWith("<b>")) {
+// 			commands[c]=line.substring(line.indexOf("<b>")+3,line.indexOf("</b>"));
+// 			c++;
+// 		}
+// 	}
+// 	for (i = 0; i < commands.length; i++) print(commands[i]);
+// }
 
 //--------------------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------------------------------
