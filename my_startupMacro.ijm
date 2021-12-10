@@ -11,6 +11,7 @@ var tile = newArray(1);
 var channels = 1;
 var mainTool = "Move Windows";
 
+var source="";
 var toolList = newArray("Move Windows",	"Contrast Adjuster", "Gamma on LUT", "splice / frame scroll", "explorer", "My Magic Wand" );
 
 macro "Multitool Tool - N55C000DdeCf00Db8Db9DbaDc7Dc8DcaDcbDd7DdbDe7De8DeaDebCfffDc9Dd8Dd9DdaDe9C777D02D11D12D17D18D21D28D2bD31D36D39D3aD3bD3eD41D42D46D47D4cD4dD4eD51D52D57D5bD5dD62D63D67D6dD72D73D74D75D76D77D83D85D86D94Cf90Da6Da7Da8Da9DaaDabDacDadDaeDb4Db5Dc4Dd4De4C444D03D19D22D29D2cD32D3cD43D4bD53D58D5eD64D68D6eD78D87Cf60D95D96D97D98D99D9aD9bD9cD9dD9eDa4Da5Db3Db6DbcDbdDbeDc3Dc5Dc6DccDcdDceDd3Dd5Dd6DdcDe3De5De6DecDedDeeC333Cf40Db7DbbDddBf0C000Cf00D08D09D0aCfffC777D13D22D23D24D32D33D35D36D37D38D39D3aD3bD42D43D46D47D48D49D4cD4dD52D53D54D58D59D5aD5dD5eD62D63D6aD6bD6cD6dD72D7cD7dD7eD82D8eD92Da2Cf90D05C444Cf60D03D04D06D0cD0dD0eD14D15D16D17D18D19D1aD1bD1cD1dD1eD25D26D27D28D29D2aD2bD2cD2dD2eC333D34D3cD3dD44D4eD64D73D83D93Da3Cf40D07D0bB0fC000D12Cf00CfffC777D50D60D61D62D70D72D73D74D80D81D82D83D84D85D86D91D92D93D94D95D96D97Da3Da4Da5Da6Da7Da8Cf90C444Cf60D00D04D05D06D09D10D18D20D21D23D24D25D26D27C333D01D02D03D40D51D52D63D64D75D76D87D98Da9Cf40D07D08D11D13D14D15D16D17D22Nf0C000Da2Dd2Dd5Cf00CfffC777D42D52D60D61D65D71D73D74D83D85D86Cf90Da0Da5Da6Db7Dc8C444D40D50D53D62D63D72D75D84Cf60D90D91D93D94D95D96D97Da1Da3Da4Da7Da8Db0Db4Db5Db6Db8Db9Dc5Dc6Dc7Dc9Dd7Dd8Dd9De5De6De7De9C333Db1Db2Db3Dc0Dc4Dd0Dd4De0De4Cf40D92Dc1Dc2Dc3Dd1Dd3Dd6De1De2De3De8" {
@@ -133,9 +134,9 @@ macro "Yellow 	[n9]"{ run("glasbey_on_dark");	}
 
 //--------------------------------------------------------------------------------------------------------------------------------------
 //NOICE TOOLS
-macro "ClearVolume	     [0]"	{fauteDeClearVolume();}
+macro "ClearVolume	     [0]"	{if (isKeyDown("space")) fauteDeClearVolume();  else run("Open in ClearVolume");}
 macro "my default LUTs   [1]"	{if (isKeyDown("space")) SetAllLUTs(); 			else if (isKeyDown("alt")) perso_Ask_LUTs(); 		else Set_LUTs();}
-macro "good size  		 [2]"	{if (isKeyDown("space")) restorePosition(); 			else if (isKeyDown("alt")) fullScreen();		else goodSize();}
+macro "good size  		 [2]"	{if (isKeyDown("space")) restorePosition(); 	else if (isKeyDown("alt")) fullScreen();		else goodSize();}
 macro "3D Zproject++     [3]"	{if (isKeyDown("space")) Cool_3D_montage();		else my3D_project();}
 macro "full scale montage[4]"	{if (Image.title=="Montage") {id=getImageID(); run("Montage to Stack..."); selectImage(id);	close();} 								else run("Make Montage...", "scale=1"); setOption("Changes", 0);}
 macro "25x25 selection   [5]"	{size=25; toUnscaled(size); size = round(size); getCursorLoc(x, y, null, null); makeRectangle(x-(size/2),y-(size/2),size,size); showStatus(size+"x"+size); setTool(0);}
@@ -162,12 +163,13 @@ macro "New Macro  [J]"	{ 	run("Input/Output...", "jpeg=100"); saveAs("Jpeg");}
 macro "JPEG		  [j]"  { if (isKeyDown("space")) run("Text Window...", "name=poil width=40 height=7 menu"); else run("Macro");}
 macro "multiplot  [k]"  { 	multiPlot();}
 macro "Cmd finder [l]"	{ if (isKeyDown("space"))	labelSumProject(); 				else 	run("Find Commands...");}
+macro "Copy paste [L]"  { 	copyPasteLUTset();}
 macro "Merge 	  [M]"	{ if (isKeyDown("space"))	run("Merge Channels..."); 		else 	fastMerge();} 
 macro "LUT baker  [m]"	{	LUTbaker();}
 macro "Hela       [n]"	{ if (isKeyDown("space")) {cul = 0; if(nImages>0){getLut(r,g,b); cul=1;} newImage("lut"+round(random*100), "8-bit ramp", 256, 32, 1); if(cul)setLut(r,g,b);} else Hela();}
 macro "open paste [o]"	{ if (isKeyDown("alt")) open(String.paste);					else if (startsWith(getTitle(), "Preview Opener")) openFromPreview();  else if (startsWith(getTitle(), "Lookup Tables")) setLutFromMontageTool();}
 macro "Splitview  [p]"	{ if (isKeyDown("space")) 	SplitView(0,1,0); 				else 	SplitView(0,0,0); }
-macro "composite  [Q]" 	{if (!is("composite")) exit; Stack.getDisplayMode(mode); if (mode=="color"||mode=="greyscale")Stack.setDisplayMode("composite");	else Stack.setDisplayMode("color");}
+macro "composite  [Q]" 	{	compositeSwitch();	}
 macro "Arrange ch [q]"	{ if (isKeyDown("space"))	ReorderLUTsAsk(); 				else 	run("Arrange Channels...");}
 macro "Adjust 	  [R]"	{ if (isKeyDown("space"))	Reset_All_Contrasts(); 			else 	Auto_Contrast_on_all_channels();}
 macro "r 	 	  [r]"	{ if (isKeyDown("alt"))		reduceMax();	 				else if (isKeyDown("space")) {run("Install...","install=["+getDirectory("macros")+"/StartupMacros.fiji.ijm]"); setTool(15);}	else Adjust_Contrast();}
@@ -184,6 +186,12 @@ macro "sync 	  [y]"	{ 							run("Synchronize Windows");}
 
 // macro "test Tool - C000 T0508T  T5508e  Ta508s Tg508t"{
 // }
+function compositeSwitch(){
+	if (!is("composite")) exit;
+	Stack.getDisplayMode(mode);
+	if (mode=="color"||mode=="greyscale") Stack.setDisplayMode("composite");
+	else Stack.setDisplayMode("color");
+}
 
 //--------------------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------------------------------
@@ -199,16 +207,22 @@ function result2label(){
 
 function BioformatsBar(){
 	BioFormats_Bar = 
-	"<fromString>\n"+
-	//"<stickToImageJ>\n"+
-	"<line>\n"+
-	"<separator>\n"+
-	"<text> BioFormats\n"+
-	"<separator>\n"+
-	"</line>\n"+
-	"<DnDAction>\n"+
-	"path = getArgument();\n"+
-	"if (endsWith(path, '.mp4')) run('Compressed video', 'open=[' + path + ']');\n"+
+	"<fromString>"+"\n"+
+	"<stickToImageJ>"+"\n"+
+	"<noGrid>"+"\n"+
+	"<line>"+"\n"+
+	"<separator>"+"\n"+
+	"<text> BioFormats"+"\n"+
+	"<separator>"+"\n"+
+	"<button>"+"\n"+
+	"label= X "+"\n"+
+	"bgcolor=orange"+"\n"+
+	"arg=<close>"+"\n"+
+	"</line>"+"\n"+
+	"<DnDAction>"+"\n"+
+	"path = getArgument();"+"\n"+
+	"if (endsWith(path, '.mp4')) run('Movie (FFMPEG)...', 'choose='+ path +' first_frame=0 last_frame=-1');\n"+
+	"if (endsWith(path, '.pdf')) run('PDF ...', 'choose=' + path + ' scale=400 page=0');\n"+
 	"else run('Bio-Formats Importer', 'open=[' + path + ']');\n"+
 	"</DnDAction>\n";
 	run("Action Bar",BioFormats_Bar);
@@ -798,6 +812,7 @@ function Hela(){
 }
 
 function channelsRoll(){
+	if (bitDepth()==24) run("Make Composite");
 	getDimensions(width,  height, channels, slices, frames);
 	id = getImageID();
 	txt = "open";
@@ -1126,7 +1141,6 @@ function rgb2Luminance(){
 	rename(title+"_lum");
 	run("8-bit");
 	setOption("Changes", 0);
-	multiPlot();
 	run("Select None");
 }
 
@@ -1452,7 +1466,7 @@ function Enhance_on_all_channels() {
 		run("Enhance Contrast", "saturated=0.03 use");	
 	}
 	Stack.setPosition(ch, s, f);
-	makeRectangle(5,5,5,5); run("Select None"); //trick for display update
+	compositeSwitch(); compositeSwitch(); //trick for display update
 	eval("bsh", "ij.plugin.frame.ContrastAdjuster.update()");
 }
 /*------------------
@@ -1957,7 +1971,6 @@ function invert4_iLUTs() {
 	setBatchMode(0);
 }
 
-var source=0;
 
 function copyPasteLUTset(){
 	title=getTitle();
