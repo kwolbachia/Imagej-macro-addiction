@@ -4,13 +4,14 @@
 //210515 Splitview 3.0, invertable LUTs
 //210922 100 macros -> functions instead
 
-var chosen_LUTs = newArray("kb","km","ko","kg","Grays");
+var chosen_LUTs = newArray("kb","ko","km","kg","Grays");
 var ChLabels = newArray("CidB","CidA","DNA","H4Ac","DIC");
 var fontS = 30;
 var tile = newArray(1);
 var channels = 1;
 var mainTool = "Move Windows";
-var live_autoContrast = 1;
+var live_autoContrast = 0;
+var enhance_rate = 0.03;
 var source="";
 var toolList = newArray("Move Windows",	"Contrast Adjuster", "Gamma on LUT", "slice / frame scroll", "explorer", "My Magic Wand" );
 
@@ -21,12 +22,14 @@ macro "Multitool Tool Options" {
 	Dialog.createNonBlocking("Options");
 	Dialog.addRadioButtonGroup("Main Tool : ", toolList, toolList.length,1, mainTool);
 	Dialog.addCheckbox("live auto contrast?", live_autoContrast);
+	Dialog.addSlider("%", 0, 0.5, enhance_rate);
 	Dialog.addMessage("Magic Wand options :");
 	Dialog.addNumber("roi size to target in pixels", nPixels);
 	Dialog.addChoice("Fit selection? How?", newArray("None","Fit Spline","Fit Ellipse"), fit);
 	Dialog.show();
 	mainTool = Dialog.getRadioButton();
 	live_autoContrast = Dialog.getCheckbox();
+	enhance_rate = Dialog.getNumber();
 	targetSize = Dialog.getNumber();
 	fit = Dialog.getChoice();
 }
@@ -52,7 +55,7 @@ macro "Custom Menu Tool - N55C000D1aD1bD1cD1dD29D2dD39D3dD49D4dD4eD59D5eD69D75D7
 	else if (cmd=="my Wand tool") 					{String.copy(File.openUrlAsString("https://raw.githubusercontent.com/kwolbachia/Imagej-macro-addiction/main/Yet_another_magic_wand.ijm")); installMacroFromClipboard();}
 	else if (cmd=="invertableLUTs_Bar")				{run("Action Bar", File.openUrlAsString("https://git.io/JXoB2"));}
 	else if (cmd=="CB_Bar") 						{run("Action Bar", File.openUrlAsString("https://git.io/JZUZw"));}
-	else if (cmd=="New_Bar") 						{run("Action Bar", File.openUrlAsString("https://gist.githubusercontent.com/kwolbachia/86fa900000d19bdfed0809f7a55ddfb9/raw/8dfa7ecd5987210395306cec198bee5e1d883576/K%2520LUTs%2520Bar.ijm"));}
+	else if (cmd=="New_Bar") 						{run("Action Bar", File.openUrlAsString("https://gist.githubusercontent.com/kwolbachia/86fa900000d19bdfed0809f7a55ddfb9/raw/f5afe01f4689daba0d515c095c76a804d3d51130/K%2520LUTs%2520Bar.ijm"));}
 	else if (cmd=="BioFormats_Bar") 				{BioformatsBar();}
 	else if (cmd=="Batch Merge") 					{batchMerge();}
 	else if (cmd=="quick scale bar") 				{quickScaleBar();}
@@ -144,7 +147,7 @@ macro "boP 		[n5]"{ if (isKeyDown("space")) toggleChannel(5); 	else if (isKeyDow
 macro "bOp 		[n6]"{ if (isKeyDown("space")) toggleChannel(6); 	else if (isKeyDown("alt")) toggleAllchannels(6); else run("ko");	}
 macro "Cyan		[n7]"{ if (isKeyDown("space")) toggleChannel(7);	else if (isKeyDown("alt")) toggleAllchannels(7); else run("Cyan");	}
 macro "Magenta 	[n8]"{ if (isKeyDown("space")) run("8-bit"); 		else run("Magenta");	}
-macro "Yellow 	[n9]"{ run("glasbey_on_dark");	}
+macro "Yellow 	[n9]"{ if (isKeyDown("space")) run("glasbey_on_dark");	else run("Yellow");}
 
 //--------------------------------------------------------------------------------------------------------------------------------------
 //NOICE TOOLS
@@ -153,7 +156,7 @@ macro "my default LUTs   [1]"	{if (isKeyDown("space")) SetAllLUTs(); 			else if 
 macro "good size  		 [2]"	{if (isKeyDown("space")) restorePosition(); 	else if (isKeyDown("alt")) fullScreen();		else goodSize();}
 macro "3D Zproject++     [3]"	{if (isKeyDown("space")) Cool_3D_montage();		else my3D_project();}
 macro "full scale montage[4]"	{if (Image.title=="Montage") {id=getImageID(); run("Montage to Stack..."); selectImage(id);	close();} 								else run("Make Montage...", "scale=1"); setOption("Changes", 0);}
-macro "25x25 selection   [5]"	{size=25; toUnscaled(size); size = round(size); getCursorLoc(x, y, null, null); makeRectangle(x-(size/2),y-(size/2),size,size); showStatus(size+"x"+size); setTool(0);}
+macro "25x25 selection   [5]"	{size=25; toUnscaled(size); size = round(size); getCursorLoc(x, y, null, null); call("ij.IJ.makeRectangle",x-(size/2),y-(size/2),size,size); showStatus(size+"x"+size); setTool(0);}
 macro "make it look good [6]"	{for (i=0; i<nImages; i++) { setBatchMode(1); selectImage(i+1); run("Appearance...", "  "); run("Appearance...", "black no"); setBatchMode(0);}}
 macro "set destination   [7]" 	{if (isKeyDown("space")) { showStatus("Source set");	run("Alert ", "object=Image color=Orange duration=1000"); source = getTitle();} else setTargetImage();}
 macro "rename w/ id      [8]"	{if (isKeyDown("space")) rename(getImageID()); else run("Rename...");}
@@ -430,7 +433,7 @@ function liveScroll() {
 		if (flags>=32) flags -= 32; //remove "cursor in selection" flag
 		if (frames>1) Stack.setFrame(((x-ax)/width)*frames);
 		else Stack.setSlice(((x-ax)/width)*slices);
-		if (live_autoContrast) run("Enhance Contrast", "saturated=0.03");
+		if (live_autoContrast) run("Enhance Contrast", "saturated=&enhance_rate");
 		call("ij.plugin.frame.ContrastAdjuster.update");
 	}
 }
