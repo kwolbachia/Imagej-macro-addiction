@@ -238,8 +238,10 @@ function invert_all_LUTs() {
         setLut(REDS, GREENS, BLUES);
     }
     // CompositeProjection mode switch :
-    if (Property.get("CompositeProjection") == "Invert") Property.set("CompositeProjection", "Sum");
-    else Property.set("CompositeProjection", "Invert");
+    if      (Property.get("CompositeProjection") == "Invert") Property.set("CompositeProjection", "Sum");
+    else if (Property.get("CompositeProjection") == "Min") Property.set("CompositeProjection", "Max");
+    else if (Property.get("CompositeProjection") == "Max") Property.set("CompositeProjection", "Min");
+    else Property.set("CompositeProjection", "Invert"); // if Composite Sum
     //trick to refresh the composite image :
     Stack.getDisplayMode(MODE);
     if (MODE=="composite") {
@@ -1389,9 +1391,9 @@ macro "Batch convert ims to tif" {
 Set LUTs
 --------*/
 function perso_Ask_LUTs(){
-	LUT_list = newArray("kb","ko","km","kg","Grays", "a magic bleen","a magic orink");
+	LUT_list = newArray("kb","ko","km","kg","BOP Blue","BOP Orange", "BOP Purple", "BOP Green" ,"Grays", "a magic bleen","a magic orink");
 	Dialog.create("Set all LUTs");
-	for(i=0; i<4; i++) Dialog.addRadioButtonGroup("LUT " + (i+1), LUT_list, 2, 4, chosen_LUTs[i]);
+	for(i=0; i<4; i++) Dialog.addRadioButtonGroup("LUT " + (i+1), LUT_list, 3, 4, chosen_LUTs[i]);
 	Dialog.addCheckbox("noice?", 0);
 	Dialog.show();
 	for(k=0; k<4; k++) chosen_LUTs[k] = Dialog.getRadioButton();
@@ -1907,6 +1909,8 @@ function LUTbaker(){
 			Dialog.addSlider("green",0,255, G);
 			Dialog.addSlider("blue", 0,255, B);
 			Dialog.addMessage("sum =" + R+G+B);
+			rgb = newArray(R,G,B);
+			Dialog.addMessage("luminance =" + getLum(rgb));
 		}
 		if(CH>1)Stack.setChannel(ch); 
 		Dialog.setInsets(20, 0, 0);
