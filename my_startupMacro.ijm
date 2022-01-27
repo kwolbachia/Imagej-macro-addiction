@@ -4,7 +4,7 @@
 //210515 Splitview 3.0, invertable LUTs
 //210922 100 macros -> functions instead
 
-var chosen_LUTs = newArray("kb","ko","km","kg","Grays");
+var chosen_LUTs = newArray("kb","km","ko","kg","Grays");
 var ChLabels = newArray("CidB","CidA","DNA","H4Ac","DIC");
 var fontS = 30;
 var tile = newArray(1);
@@ -127,7 +127,7 @@ macro "set LUT from montage Tool Options" {	displayLUTs();}
 // macro "show all 		[F1]"{ run("Show All");}
 // macro "results to label [F2]"{ result2label();}
 
-macro "myTurbo 	[F10]"{ if (isKeyDown("space")) random150lumLUT(2);	else if (isKeyDown("alt")) createOppositeLUT(); else randomAwesomeLUT(4);}
+macro "myTurbo 	[F10]"{ if (isKeyDown("space")) randomViridis(4);	else if (isKeyDown("alt")) createOppositeLUT(); else randomAwesomeLUT(4);}
 macro "Gray 	[F1]"{ if (isKeyDown("space")) toggleChannel(1); 	else if (isKeyDown("alt")) toggleAllchannels(1); else run("Grays");}
 macro "Green 	[F2]"{ if (isKeyDown("space")) toggleChannel(2); 	else if (isKeyDown("alt")) toggleAllchannels(2); else run("kg");	}
 macro "Red 		[F3]"{ if (isKeyDown("space")) toggleChannel(3); 	else if (isKeyDown("alt")) toggleAllchannels(3); else run("Red");	}
@@ -138,7 +138,7 @@ macro "Cyan		[F7]"{ if (isKeyDown("space")) toggleChannel(7);	else if (isKeyDown
 macro "Magenta 	[F8]"{ if (isKeyDown("space")) run("8-bit"); 		else run("Magenta");	}
 macro "Yellow 	[F9]"{ run("glasbey_on_dark");	}
 
-macro "myTurbo 	[n0]"{ if (isKeyDown("space")) random150lumLUT(2);	else if (isKeyDown("alt")) createOppositeLUT(); else randomAwesomeLUT(4);}
+macro "myTurbo 	[n0]"{ if (isKeyDown("space")) randomViridis(4);	else if (isKeyDown("alt")) createOppositeLUT(); else randomAwesomeLUT(4);}
 macro "Gray 	[n1]"{ if (isKeyDown("space")) toggleChannel(1); 	else if (isKeyDown("alt")) toggleAllchannels(1); else run("Grays");}
 macro "Green 	[n2]"{ if (isKeyDown("space")) toggleChannel(2); 	else if (isKeyDown("alt")) toggleAllchannels(2); else run("kg");	}
 macro "Red 		[n3]"{ if (isKeyDown("space")) toggleChannel(3); 	else if (isKeyDown("alt")) toggleAllchannels(3); else run("Red");	}
@@ -185,7 +185,7 @@ macro "Copy paste [L]"  { 	copyPasteLUTset();}
 macro "Merge 	  [M]"	{ if (isKeyDown("space"))	run("Merge Channels..."); 		else 	fastMerge();} 
 macro "LUT baker  [m]"	{	LUTbaker();}
 macro "Hela       [n]"	{ if (isKeyDown("space")) {cul = 0; if(nImages>0){getLut(r,g,b); cul=1;} newImage("lut"+round(random*100), "8-bit ramp", 256, 32, 1); if(cul)setLut(r,g,b);} else Hela();}
-macro "open paste [o]"	{ if (isKeyDown("alt")) open(String.paste);					else if (startsWith(getTitle(), "Preview Opener")) openFromPreview();  else if (startsWith(getTitle(), "Lookup Tables")) setLutFromMontageTool();}
+macro "open paste [o]"	{ if ( nImages!=0) { if (startsWith(getTitle(), "Preview Opener")) openFromPreview();  else if (startsWith(getTitle(), "Lookup Tables")) setLutFromMontageTool();} else open(String.paste);}
 macro "Splitview  [p]"	{ if (isKeyDown("space")) 	SplitView(0,1,0); 				else 	SplitView(0,0,0); }
 macro "composite  [Q]" 	{	compositeSwitch();	}
 macro "Arrange ch [q]"	{ if (isKeyDown("space"))	ReorderLUTsAsk(); 				else 	run("Arrange Channels...");}
@@ -193,7 +193,7 @@ macro "Adjust 	  [R]"	{ if (isKeyDown("space"))	Reset_All_Contrasts(); 			else 	
 macro "r 	 	  [r]"	{ if (isKeyDown("alt"))		reduceMax();	 				else if (isKeyDown("space")) {run("Install...","install=["+getDirectory("macros")+"/StartupMacros.fiji.ijm]"); setTool(15);}	else Adjust_Contrast();}
 macro "Splitview  [S]"	{ if (isKeyDown("alt"))   	getSplitViewPrefs();			else if (isKeyDown("space")) SplitView(1,0,0); 							else SplitView(1,1,0); }
 // macro "Splitview  [S]"	{ if (isKeyDown("alt"))   	getSplitViewPrefs();			else if (isKeyDown("space")) {ChLabels = newArray("Bite","Cul","Poil","H4Ac","DIC"); SplitView(1,0,1);} 							else SplitView(1,1,0); }
-macro "as tiff 	  [s]"	{ if (isKeyDown("space"))	ultimateSplitview(); 			else if (isKeyDown("alt")) Basic_save_all(); 							else	saveAs("Tiff");}
+macro "as tiff 	  [s]"	{ if (isKeyDown("space"))	ultimateSplitview(); 			else if (isKeyDown("alt")) Save_all_opened_images_elsewhere(); 							else	saveAs("Tiff");}
 // macro "test.ijm   [t]"	{ if (isKeyDown("alt"))		installMacroFromClipboard();	else if (isKeyDown("space")) {run("Install...","install=["+getDirectory("macros")+"/testing.ijm]");}	else eval(String.paste);}
 macro "test.ijm   [t]"	{ if (isKeyDown("alt"))		installMacroFromClipboard();	else if (isKeyDown("space")) run("Action Bar", String.paste);	else eval(String.paste);}
 macro "rgb color  [u]"  { if (isKeyDown("space"))	myRGBconverter(); 				else if (isKeyDown("alt"))	RedGreen2OrangeBlue(); 						else 	switcher(); }
@@ -213,13 +213,7 @@ function invert_all_LUTs() {
         if (is("composite")) Stack.setChannel(c);
         getLut(reds,greens,blues);
         RED = reds[255]; GREEN = greens[255]; BLUE = blues[255];
-        // if grayscale just invert
-        if(RED==GREEN && RED==BLUE) {
-        	run("Invert LUT");
-        	break;
-        }
-        // if already inverted LUT, revert it back :
-        else if (is("Inverting LUT")) {
+        if (is("Inverting LUT")) {
             for(i=0; i<256; i++) { 
                 REDS[i]   = (RED/256)*(i+1);
                 GREENS[i] = (GREEN/256)*(i+1);
@@ -242,6 +236,7 @@ function invert_all_LUTs() {
     else if (Property.get("CompositeProjection") == "Min") Property.set("CompositeProjection", "Max");
     else if (Property.get("CompositeProjection") == "Max") Property.set("CompositeProjection", "Min");
     else Property.set("CompositeProjection", "Invert"); // if Composite Sum
+    updateDisplay(); exit;
     //trick to refresh the composite image :
     Stack.getDisplayMode(MODE);
     if (MODE=="composite") {
@@ -251,12 +246,13 @@ function invert_all_LUTs() {
 }
 
 function switchCompositeMode(){
+	MODE = Property.get("CompositeProjection");
 	if (!is("Inverting LUT")) {
-		if   (Property.get("CompositeProjection") == "Max") {Property.set("CompositeProjection", "Sum"); showStatus("Sum mode");}
+		if   (MODE == "Max" || MODE == "Invert" || MODE == "Min") {Property.set("CompositeProjection", "Sum"); showStatus("Sum mode");}
 		else {Property.set("CompositeProjection", "Max"); showStatus("Max mode");}
 	}
 	else {
-		if   (Property.get("CompositeProjection") == "Invert") {Property.set("CompositeProjection", "Min"); showStatus("Min mode");}
+		if   (MODE == "Invert") {Property.set("CompositeProjection", "Min"); showStatus("Min mode");}
 		else {Property.set("CompositeProjection", "Invert"); showStatus("Invert mode");}
 	}
 	updateDisplay();
@@ -346,7 +342,8 @@ function multiTool(){ //avec menu "que faire avec le middle click? **"
 	updateDisplay();
 	getCursorLoc(x, y, z, flags);
 	if (flags>=32) flags -= 32;
-	if (flags == 8) {if (!is("composite")) exit; Stack.getDisplayMode(mode); if (mode=="color"||mode=="greyscale")Stack.setDisplayMode("composite");	else Stack.setDisplayMode("color"); exit;}
+	if (Image.height==32||Image.height==64) plotLUT();
+	if (flags == 8) { if (startsWith(getTitle(), "Preview Opener")) openFromPreview();  else if (startsWith(getTitle(), "Lookup Tables")) setLutFromMontageTool(); else compositeSwitch();}
 	if (flags == 16) {
 		if 		(mainTool=="Move Windows")           moveWindows();
 		else if (mainTool=="Contrast Adjuster")      liveContrast();
@@ -355,6 +352,7 @@ function multiTool(){ //avec menu "que faire avec le middle click? **"
 		else if (mainTool=="explorer")               explorer();
 		else if (mainTool=="My Magic Wand")          magicWand();
 	}
+	if (flags == 9) 				pasteLUT();
 	if (flags == 26||flags == 28)	close();						// ctrl + alt + click
 	if (flags == 17)				liveContrast();					// shift + long click
 	if (flags == 18||flags == 20)	liveGamma();					// ctrl + long click
@@ -988,7 +986,7 @@ function multiPlot(){
 	Plot.update();
 
 	selectWindow("MultiPlot");
-	if (!alreadyOpenPlot) setLocation(50,300);
+	if (!alreadyOpenPlot) setLocation(0,0);
 	if (normalize) Plot.setLimits(0, p.length, 0, 1.01 );
 	else  Plot.setLimitsToFit();
 	selectImage(id);
@@ -1040,7 +1038,7 @@ function plotLUT(){
 	Plot.addLegend("1__reds\n2__greens\n3__blues\n4__luminance", "Top-Left Transparent");
 	Plot.update();
 	selectWindow("LUT Profile");
-	if (!alreadyOpenPlot) setLocation(50,300);
+	if (!alreadyOpenPlot) setLocation(0,0);
 	Plot.setLimits(-5, 260, -25, 260);
 	makeRectangle(82, 200, 385, 14);
 	run("Paste"); run("Select None"); 
@@ -1281,22 +1279,22 @@ function Cool_3D_montage() {
 	getDimensions(width, height, channels, slices, frames);
 	size = maxOf(width, height);
 	id=getImageID();
-	run("3D Project...", 	"projection=[Brightest Point] axis=Y-Axis initial=0 total=360 rotation=10 interpolate");
+	run("3D Project...", 	"projection=[Mean Value] axis=Y-Axis initial=0 total=360 rotation=10 interpolate");
 		run("Canvas Size...", "width=&size height=&size position=Center zero");
 		rename("3D1");
 	selectImage(id);
-	run("3D Project...", 	"projection=[Brightest Point] axis=X-Axis initial=0 total=360 rotation=10 interpolate");
+	run("3D Project...", 	"projection=[Mean Value] axis=X-Axis initial=0 total=360 rotation=10 interpolate");
 		run("Canvas Size...", "width=&size height=&size position=Center zero");
 		rename("3D2");
 	selectImage(id);
 	run("Duplicate...","duplicate");
 	run("Reslice [/]...", "output=0.354 start=Left");
 	id=getImageID();
-	run("3D Project...", 	"projection=[Brightest Point] axis=Y-Axis initial=0 total=360 rotation=10 interpolate");
+	run("3D Project...", 	"projection=[Mean Value] axis=Y-Axis initial=0 total=360 rotation=10 interpolate");
 		run("Canvas Size...", "width=&size height=&size position=Center zero");
 		rename("3D3");
 	selectImage(id);
-	run("3D Project...", 	"projection=[Brightest Point] axis=X-Axis initial=0 total=360 rotation=10 interpolate");
+	run("3D Project...", 	"projection=[Mean Value] axis=X-Axis initial=0 total=360 rotation=10 interpolate");
 		run("Canvas Size...", "width=&size height=&size position=Center zero");
 		rename("3D4");
 		top = Combine_Horizontally("3D2","3D1");
@@ -1309,7 +1307,7 @@ function my3D_project() {
 	showStatus("3D project ++");
 	setBatchMode(1);
 	titl1 = getTitle();
-	run("3D Project...", "projection=[Brightest Point] initial=310 total=100 rotation=5 interpolate");
+	run("3D Project...", "projection=[Mean Value] initial=310 total=100 rotation=5 interpolate");
 	titl2 = getTitle(); 
 	What2Merge = "";
 	getDimensions(w, h, channels, s, f);
@@ -1649,6 +1647,7 @@ function Basic_save_all() {
 }
 
 function myTile() {
+	close("LUT profile");
 	all_IDs = newArray(nImages);
 	for (i=0; i<nImages ; i++) {			
 		selectImage(i+1);
@@ -1892,14 +1891,12 @@ function LUTbaker(){
 	while ( preview ) { //LUT baking
 		setBatchMode(1);
 		totR = 0; totG = 0; totB = 0;
-		if (getInfo("os.name")!="Mac OS X") Dialog.createNonBlocking("§ The LUT baker §");
+		if (getInfo("os.name")!="Mac OS X") Dialog.createNonBlocking("The LUT baker");
 		else Dialog.createNonBlocking("◊ The LUT baker ◊");
 		Dialog.setLocation(x+w,y);
 		for(i=0; i<CH; i++) {
 			if(CH>1)Stack.setChannel(i+1);
 			getLut(r,g,b); 
-			// if (is("Inverting LUT")) { R = r[0];   G = g[0];   B = b[0];   }
-			// else 					 { R = r[255]; G = g[255]; B = b[255]; }
 			R = r[255]; G = g[255]; B = b[255];
 			Rz[i] = R; Gz[i] = G; Bz[i] = B;
 			totR += R; totG += G; totB += B;
@@ -1908,9 +1905,8 @@ function LUTbaker(){
 			Dialog.addSlider("red",	 0,255, R);
 			Dialog.addSlider("green",0,255, G);
 			Dialog.addSlider("blue", 0,255, B);
-			Dialog.addMessage("sum =" + R+G+B);
 			rgb = newArray(R,G,B);
-			Dialog.addMessage("luminance =" + getLum(rgb));
+			Dialog.addMessage("sum =" + R+G+B + "    luminance =" + getLum(rgb));
 		}
 		if(CH>1)Stack.setChannel(ch); 
 		Dialog.setInsets(20, 0, 0);
@@ -1918,14 +1914,14 @@ function LUTbaker(){
 		if (is_InvertableLUTs()) Dialog.addMessage("These LUTs are invertable ;)");
 		else Dialog.addMessage("These LUTs won't be invertable :s");
 		Dialog.addCheckbox("update changes", preview); 
-		Dialog.addCheckbox("inverted LUTs", inv); 
-		Dialog.addCheckbox("Reset all", 0);
+		//Dialog.addCheckbox("inverted LUTs", inv); 
+		//Dialog.addCheckbox("Reset all", 0);
 		setBatchMode(0);
 		Dialog.show();
 		setBatchMode(1);
 		preview = Dialog.getCheckbox();
-		inv = Dialog.getCheckbox();
-		undo = Dialog.getCheckbox();
+		//inv = Dialog.getCheckbox();
+		//undo = Dialog.getCheckbox();
 		selectImage(id);
 		for(k=0; k<CH; k++){
 			Rz[k]=Dialog.getNumber();
@@ -1933,15 +1929,14 @@ function LUTbaker(){
 			Bz[k]=Dialog.getNumber();
 			if (CH>1) Stack.setChannel(k+1);
 			LUTmaker(Rz[k],Gz[k],Bz[k]);
-			if (inv) run("Invert LUT");
 		}
-		if (undo==1) { //Undo all modifications
-			for(k=0; k<CH; k++){
-				if (CH>1) Stack.setChannel(k+1);
-				LUTmaker(SavedRz[k],SavedGz[k],SavedBz[k]);
-			}
-			preview = 0;
-		}
+		// if (undo==1) { //Undo all modifications
+		// 	for(k=0; k<CH; k++){
+		// 		if (CH>1) Stack.setChannel(k+1);
+		// 		LUTmaker(SavedRz[k],SavedGz[k],SavedBz[k]);
+		// 	}
+		// 	preview = 0;
+		// }
 	}
 	if (CH>1) Stack.setChannel(ch);
 	setBatchMode(0);
@@ -1957,18 +1952,26 @@ function LUTmaker(r,g,b){
 	setLut(R, G, B);
 }
 
+//à revoir.
 function invertedLUTmaker(){
-	getLut(r,g,b);
-	if(r[255]==g[255]&&r[255]==b[255]) run("Invert LUT"); //grayscale case
+	getLut(reds,greens,blues);
+    RED = reds[255]; GREEN = greens[255]; BLUE = blues[255];
+    // if grayscale just invert
+    if(RED==GREEN && RED==BLUE) {
+    	run("Invert LUT");
+    	break;
+    }
 	else {
-		R = newArray(256); G = newArray(256); B = newArray(256);
-		for(i=256;i>0;i--) { 
-			R[i-1] = 256-(((256-r[255])/256)*i);
-			G[i-1] = 256-(((256-g[255])/256)*i);
-			B[i-1] = 256-(((256-b[255])/256)*i);}
-		setLut(R, G, B);
-	}
+        REDS = newArray(256); GREENS = newArray(256); BLUES = newArray(256);
+        for(i=0; i<256; i++) { 
+            REDS[i]   = 255-(((255-RED)/256)*i);
+            GREENS[i] = 255-(((255-GREEN)/256)*i);
+            BLUES[i]  = 255-(((255-BLUE)/256)*i);
+        }
+    }
+    setLut(REDS, GREENS, BLUES);
 }
+
 
 function lutToHex(R,G,B){
 	if (R<16) xR = "0" + toHex(R); else xR = toHex(R);
@@ -2414,22 +2417,22 @@ macro "make my LUTs" {
 	Stack.setChannel(1);
 	makeRectangle(0, 0, 213, 213);
 	run("Clear", "slice");
-	LUTmaker(10,163,255);
+	LUTmaker(10,183,255);//////BLUE
 	saveAs("LUT", lutsFolder + "/kb.lut");
 	Stack.setChannel(2);
 	makeRectangle(187, 0, 213, 213);
 	run("Clear", "slice");
-	LUTmaker(255,102,10);
+	LUTmaker(255,142,10);/////ORANGE
 	saveAs("LUT", lutsFolder + "/ko.lut");
 	Stack.setChannel(3);
 	makeRectangle(187, 187, 213, 213);
 	run("Clear", "slice");
-	LUTmaker(225,96,183);
+	LUTmaker(195,39,223);/////PURP
 	saveAs("LUT", lutsFolder + "/km.lut");
 	Stack.setChannel(4);
 	makeRectangle(0, 187, 213, 213);
 	run("Clear", "slice");
-	LUTmaker(58,187,100);
+	LUTmaker(50,206,22);////GREEN
 	saveAs("LUT", lutsFolder + "/kg.lut");
 	run("Select None");
 	setOption("Changes", 0);
