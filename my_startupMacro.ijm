@@ -37,9 +37,10 @@ macro "Multitool Tool Options" {
 //------SHORTCUTS
 //--------------------------------------------------------------------------------------------------------------------------------------
 var ShortcutsMenu = newMenu("Custom Menu Tool",
-	newArray("Catch or pull StartupMacros", "BioFormats_Bar", "quick scale bar", "Specify...", "Note in infos", "correct copied path", "Remove Overlay", "Rotate 90 Degrees Right","Rotate 90 Degrees Left","Plot Z-axis Profile","make my LUTs",
+	newArray("Catch or pull StartupMacros","Record...", "Monitor Memory...", "BioFormats_Bar", "quick scale bar", "Specify...", "Note in infos", "correct copied path",
+		 "-", "Remove Overlay", "Rotate 90 Degrees Right","Rotate 90 Degrees Left","Plot Z-axis Profile","make my LUTs",
 		 "-","Median...","Median 3D...","Gaussian Blur...","Gaussian Blur 3D...","Gamma...",
-		 "-","3D Manager","Start CLIJ2-Assistant","test all Z project", "test CLAHE options","Tempo color no Zproject",
+		 "-","3D Manager","Start CLIJ2-Assistant","test all Z project", "test CLAHE options","Tempo color no Zproject", "cool 3D anim",
 		 "-","Batch convert ims to tif","Batch convert 32 to 16-bit","Batch Merge","Combine tool", "Merge tool","my Wand tool",
 		 "-","Neuron (5 channels)","HeLa Cells (48-bit RGB)","Fluorescent Cells", "Confocal Series","Mitosis (5D stack)","M51 Galaxy (16-bits)",
 		 "-","invertableLUTs_Bar","CB_Bar","New_Bar","JeromesWheel","RGBtimeIsOver"));
@@ -59,6 +60,7 @@ macro "Custom Menu Tool - N55C000D1aD1bD1cD1dD29D2dD39D3dD49D4dD4eD59D5eD69D75D7
 	else if (cmd=="BioFormats_Bar") 				{BioformatsBar();}
 	else if (cmd=="Batch Merge") 					{batchMerge();}
 	else if (cmd=="quick scale bar") 				{quickScaleBar();}
+	else if (cmd=="cool 3D anim")					{Cool_3D_montage();}
 	
 	else run(cmd);
 	call("ij.gui.Toolbar.setIcon", "Custom Menu Tool", "N55C000D1aD1bD1cD29D2dD39D3dD49D4dD4eD59D5eD69D79D99Da7Da8Da9Db3Db7Db8Dc7DccDcdDd8DdbDdcDe2De3De9DeaDebCcccD2cCa00D08D09D18D27D28D37D57D66D67D76D87D96D97Da5Db5Dc5Dd5De7CfffD3cD5cD6dD7bD8bD8cD9aD9bDacDadDcaDd9DdaC111D5bD6bD7dDabDbaCeeeD00D01D02D03D04D05D06D10D11D12D13D14D15D16D20D21D22D23D24D25D30D31D32D33D34D35D3aD3bD40D41D42D43D44D45D4bD50D51D52D53D54D55D60D61D62D63D64D6eD70D71D72D73D74D80D81D82D83D84D8aD8dD90D91D92Da0Da1Da2DaaDb0Db1DbbDc0Dc1Dc9Dd0Dd1De0De1Cb11DdeDedDeeCdddD2bD6aD7aCb00D07D0aD0bD0cD0dD0eD17D19D1dD1eD26D2eD36D38D3eD46D47D48D56D58D65D68D75D77D78D85D86D88D89D94D95D98Da4Da6Db4Db6Dc3Dc4Dc6DceDd3Dd4Dd6Dd7DddDe4De5De6De8DecC777D4aD6cD7cD7eD9cD9dD9eDbdDc8CaaaDb9Cb00C444C999D4cD5aD5dD93CbbbDaeDb2C333DbeDd2C888C666DcbC222D8eDa3DbcC555D2aDc2Bf0C000D03D13D16D23D26D33D37D43D44D47D48D54D65D76D77D87D88D89D8aD8bD8cD8dD8eD9bCcccCa00D07D0bD17CfffD14D24D35D3bD3cD3dD3eD45D46D4aD4bD4cD4eD56D57D5aD5bD5cD5dD5eD68D69D6aD6bD6cD6dD7cD7dC111D02D36CeeeD00D01D10D11D20D21D2eD30D31D40D41D42D4dD50D51D52D59D60D61D62D67D6eD70D71D72D73D74D79D7aD7bD80D81D82D83D84D85D90D91D92D93D94D95D96Da0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaDabDacDadDaeCb11D0dD19D1dD29CdddD25D63D7eD97Cb00D04D05D06D08D09D0aD0cD0eD15D18D1aD1bD1cD1eD27D28D2aD2cD39C777D3aCaaaD53Cb00C444D22D75C999D2bD58D9eCbbbD2dD32D34C333D99C888D98C666D12D38D78C222D64D66D9aC555D49D55D86D9cD9dB0fC000D02D03D04D05D08D09D18D27D28D36D37D45D46D54D55D63D64D71D72D80D81CcccD11D26D90Ca00CfffD06D07D16D25D30D34D35D40D43D44D52D57D60D61D66D75D83D85C111CeeeD0aD1aD21D29D2aD31D38D39D3aD48D49D4aD50D51D53D58D59D5aD67D68D69D6aD76D77D78D79D7aD84D86D87D88D89D8aD91D92D93D94D95D96D97D98D99D9aDa0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaCb11CdddD10D22D32D33D42D74Cb00C777D00CaaaCb00C444C999D62D65CbbbD12D15D19D20D23D24D41D82C333C888D47D56D70C666C222D01D13D14D73C555D17Nf0C000D33D34D35D36D46D50D55D66D67D78D88D96D97Da5Db4Dc4Dd4Dd6Dd7Dd8De3De4De6De8De9CcccD79D89Dc5Dd5Dd9Ca00D20D30D41D65D74D84Da4Db1CfffD15D58D85D86De7C111CeeeD00D02D03D04D05D06D07D08D09D0aD12D13D14D16D17D18D19D1aD27D28D29D2aD38D39D3aD48D49D4aD59D5aD69D6aD7aD8aD99D9aDa8Da9DaaDb6Db7Db8Db9DbaDc9DcaDdaDeaCb11D42D52D54D63D64D73D83D93D94Da1Da3Db3Dc1Dc2Dc3Dd0Dd1De0De1CdddDa7De2Cb00D01D10D11D21D22D31D40D43D44D51D53D61D62D71D72D82D91D92Da2Db0Db2Dc0Dd2C777D81D98Dc7De5CaaaD26Cb00D32C444D24D68C999D37D76D90Da6Db5Dc6Dc8Dd3CbbbD70D80C333D25D47D56D77Da0C888D23D45C666D57C222D75D95C555D60D87");
@@ -173,7 +175,7 @@ macro "Spliticate [d]"	{ if (isKeyDown("space"))	run("Duplicate...", " ");	 	els
 macro "Tile 	  [E]"	{ 	myTile();}
 macro "edit lut   [e]"	{ if (isKeyDown("alt")) run("Edit LUT...");					else if (isKeyDown("space"))	seeAllLUTs();							else 	plotLUT();}
 macro "toolSwitch [F]"	{ toolRoll();}
-macro "gammaLUT	  [f]"	{ if (bitDepth() == 24) 	run("Gamma..."); 				else if (isKeyDown("space")) setGammaLUTAllch(getNumber("gamma",0.7));}
+macro "gammaLUT	  [f]"	{ if (bitDepth() == 24) 	run("Gamma..."); 				else if (isKeyDown("space")) setGammaLUTAllch(0.7);}
 macro "Max 		  [G]"	{ if (isKeyDown("space"))	Z_project_all();				else run("Z Project...", "projection=[Max Intensity] all");}
 macro "Z Project  [g]"	{ if (isKeyDown("alt"))		test_All_Zprojections();		else if (isKeyDown("space")) fastColorCode("current");					else	run("Z Project...");}
 macro "overlay I  [i]"	{ if (isKeyDown("space"))	invertedOverlay3(); 			else if (isKeyDown("alt")) invert_invertable_LUTs();	 				else 	invert_all_LUTs();}
@@ -200,7 +202,7 @@ macro "rgb color  [u]"  { if (isKeyDown("space"))	myRGBconverter(); 				else if 
 macro "pasta	  [v]"	{ if (isKeyDown("space"))	run("System Clipboard");		else if (isKeyDown("alt"))	open(getDirectory("temp")+"/copiedLut.lut");else 	run("Paste");}
 macro "roll & FFT [x]"  { if (isKeyDown("alt"))	saveAs("lut", getDirectory("temp")+"/copiedLut.lut"); else if (isKeyDown("space"))	channelsRoll();			else	run("FFT");}
 macro "sync 	  [y]"	{ 							run("Synchronize Windows");}
-macro "close      [w]"  { close();} //avoid "are you sure?"
+macro "close      [w]"  { if (isKeyDown("space")) open(call("ij.Prefs.get","last.closed","")); else {call("ij.Prefs.set","last.closed",getDirectory("image") + getTitle()); close();}} //avoid "are you sure?" and stores path in case of misclick
 
 function invert_all_LUTs() {
 	// !! only works with linear LUTs
@@ -267,13 +269,13 @@ function quickScaleBar(){
 	SCALEBAR_SIZE = 0.1;         // approximate size of the scale bar relative to image width
 	getPixelSize(unit,w,h);
 	if (unit == "pixels") exit("Image not spatially calibrated");
-	IMAGE_WIDTH = w*getWidth();  // image width in measurement units
+	IMAGE_WIDTH = w * minOf(Image.width,Image.height);  // image width in measurement units
 	SCALEBAR_LENGTH = 1;            // initial scale bar length in measurement units
 	// recursively calculate a 1-2-5 series until the length reaches SCALEBAR_SIZE, default to 1/10th of image width
 	// 1-2-5 series is calculated by repeated multiplication with 2.3, rounded to one significant digit
 	while (SCALEBAR_LENGTH < IMAGE_WIDTH * SCALEBAR_SIZE) 
 		SCALEBAR_LENGTH = round((SCALEBAR_LENGTH*2.3)/(Math.pow(10,(floor(Math.log10(abs(SCALEBAR_LENGTH*2.3)))))))*(Math.pow(10,(floor(Math.log10(abs(SCALEBAR_LENGTH*2.3))))));
-	SCALEBAR_SETTINGS = "height=" + (SCALEBAR_LENGTH/w)/6 + " font=" + Image.width/20 + " color=" + COLOR + " background=None location=[Lower Right] bold overlay";
+	SCALEBAR_SETTINGS = "height=" + (SCALEBAR_LENGTH/w)/6 + " font=" + minOf(Image.width,Image.height)/20 + " color=" + COLOR + " background=None location=[Lower Right] bold overlay";
 	run("Scale Bar...", "width=&SCALEBAR_LENGTH "+SCALEBAR_SETTINGS);
 }
 
@@ -327,6 +329,7 @@ function toolRoll() {
 }
 
 //ispired by Robert Haase Windows Position tool from clij
+//IDEA : possible to drag lines or diagonals to trigger things
 function multiTool(){ //avec menu "que faire avec le middle click? **"
 	/*
 	 * shift = 1;
@@ -349,16 +352,16 @@ function multiTool(){ //avec menu "que faire avec le middle click? **"
 		else if (mainTool=="Contrast Adjuster")      liveContrast();
 		else if (mainTool=="Gamma on LUT")           liveGamma();
 		else if (mainTool=="slice / frame scroll")   liveScroll();
-		else if (mainTool=="explorer")               explorer();
+		else if (mainTool=="explorer")               squaredAutoContrast();
 		else if (mainTool=="My Magic Wand")          magicWand();
 	}
 	if (flags == 9) 				pasteLUT();
-	if (flags == 26||flags == 28)	close();						// ctrl + alt + click
+	//if (flags == 26||flags == 28)	close();						// ctrl + alt + click
 	if (flags == 17)				liveContrast();					// shift + long click
 	if (flags == 18||flags == 20)	liveGamma();					// ctrl + long click
 	if (flags == 24)				liveScroll();					// alt + long click
 	//if (flags == 19||flags == 21)	magicWand();					// ctrl + shift + long click
-	if (flags == 25)				explorer();						// shift + alt + long click
+	if (flags == 25)				squaredAutoContrast();						// shift + alt + long click
 }
 
 function moveWindows() {
@@ -437,6 +440,17 @@ function liveScroll() {
 		call("ij.plugin.frame.ContrastAdjuster.update");
 	}
 }
+
+
+function squaredAutoContrast() {
+	if (bitDepth==24) exit("This macro won't work with rgb");
+	size=75;
+	getCursorLoc(x, y, z, flags);
+	makeRectangle(x-size/2,y-size/2,size,size);
+	Auto_Contrast_on_all_channels();
+	run("Select None");
+}
+
 
 function explorer() {
 	if (bitDepth==24) exit("This macro only works with grayscale images");
@@ -811,7 +825,7 @@ function displayLUTs(){
 	      run("Paste");
 	      setJustification("center");
 	      setColor(0,0,0);
-	      setFont("Arial", 14, "bold");
+	      setFont("Arial", 14);
 	      //drawString(list[i],128, 48, "Black");
 	      drawString(list[i], 128, 48);
 	      run("Add Slice");
@@ -1307,7 +1321,7 @@ function my3D_project() {
 	showStatus("3D project ++");
 	setBatchMode(1);
 	titl1 = getTitle();
-	run("3D Project...", "projection=[Mean Value] initial=310 total=100 rotation=5 interpolate");
+	run("3D Project...", "projection=[Mean Value] initial=280 total=160 rotation=12 interpolate");
 	titl2 = getTitle(); 
 	What2Merge = "";
 	getDimensions(w, h, channels, s, f);
@@ -1509,6 +1523,7 @@ function setGammaLUTAllch(gamma){
 Adjust the contrast window between min and max on active channel
 ----------------------------------------------------------------*/
 function Adjust_Contrast() { 
+	if (is("Virtual Stack")) {showStatus("marche pas en virtual stack!"); wait(600); exit;}
 	setBatchMode(1);
 	id = getImageID();
 	getDimensions(width, height, channels, slices, frames);
@@ -1547,6 +1562,7 @@ function reduceMax(){
 }
 
 function Auto_Contrast_on_all_channels() {
+	if (is("Virtual Stack")) {showStatus("marche pas en virtual stack!"); exit;}
 	getDimensions(w, h, CH, s, f);
 	Stack.getPosition(ch, s, f);
 	for (i = 1; i <= CH; i++) {
@@ -2497,7 +2513,7 @@ function randomAwesomeLUT(steps) {
 	run("Select None");
 	run("Remove Overlay");
 	setBatchMode(0);
-	//plotLUT();
+	if (isOpen("LUT Profile")) plotLUT();
 	copyLUT();
 }
 
