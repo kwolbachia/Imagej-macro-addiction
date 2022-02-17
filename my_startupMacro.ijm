@@ -56,7 +56,7 @@ macro "Custom Menu Tool - N55C000D1aD1bD1cD1dD29D2dD39D3dD49D4dD4eD59D5eD69D75D7
 	else if (cmd=="my Wand tool") 					{String.copy(File.openUrlAsString("https://raw.githubusercontent.com/kwolbachia/Imagej-macro-addiction/main/Yet_another_magic_wand.ijm")); installMacroFromClipboard();}
 	else if (cmd=="invertableLUTs_Bar")				{run("Action Bar", File.openUrlAsString("https://git.io/JXoB2"));}
 	else if (cmd=="CB_Bar") 						{run("Action Bar", File.openUrlAsString("https://git.io/JZUZw"));}
-	else if (cmd=="New_Bar") 						{run("Action Bar", File.openUrlAsString("https://gist.githubusercontent.com/kwolbachia/86fa900000d19bdfed0809f7a55ddfb9/raw/f5afe01f4689daba0d515c095c76a804d3d51130/K%2520LUTs%2520Bar.ijm"));}
+	else if (cmd=="New_Bar") 						{run("Action Bar", File.openUrlAsString("https://gist.githubusercontent.com/kwolbachia/86fa900000d19bdfed0809f7a55ddfb9/raw/e60c7b6cd9c958ab2a5f04b57d10f5b2d90b9c6a/K%2520LUTs%2520Bar.ijm"));}
 	else if (cmd=="BioFormats_Bar") 				{BioformatsBar();}
 	else if (cmd=="Batch Merge") 					{batchMerge();}
 	else if (cmd=="quick scale bar") 				{quickScaleBar();}
@@ -126,7 +126,7 @@ macro "set LUT from montage Tool Options" {	displayLUTs();}
 //--------------------------------------------------------------------------------------------------------------------------------------
 
 //CHANNELS
-// macro "show all 		[F1]"{ run("Show All");}
+
 // macro "results to label [F2]"{ result2label();}
 
 macro "myTurbo 	[F10]"{ if (isKeyDown("space")) randomViridis(4);	else if (isKeyDown("alt")) createOppositeLUT(); else randomAwesomeLUT(4);}
@@ -140,7 +140,7 @@ macro "Cyan		[F7]"{ if (isKeyDown("space")) toggleChannel(7);	else if (isKeyDown
 macro "Magenta 	[F8]"{ if (isKeyDown("space")) run("8-bit"); 		else run("Magenta");	}
 macro "Yellow 	[F9]"{ run("glasbey_on_dark");	}
 
-macro "myTurbo 	[n0]"{ if (isKeyDown("space")) randomViridis(4);	else if (isKeyDown("alt")) createOppositeLUT(); else randomAwesomeLUT(4);}
+macro "myTurbo 	[n0]"{ if (isKeyDown("space")) randomViridis(4);	else if (isKeyDown("alt")) convertTo_iMQ_Style(); else randomAwesomeLUT(4);}
 macro "Gray 	[n1]"{ if (isKeyDown("space")) toggleChannel(1); 	else if (isKeyDown("alt")) toggleAllchannels(1); else run("Grays");}
 macro "Green 	[n2]"{ if (isKeyDown("space")) toggleChannel(2); 	else if (isKeyDown("alt")) toggleAllchannels(2); else run("kg");	}
 macro "Red 		[n3]"{ if (isKeyDown("space")) toggleChannel(3); 	else if (isKeyDown("alt")) toggleAllchannels(3); else run("Red");	}
@@ -176,8 +176,9 @@ macro "Tile 	  [E]"	{ 	myTile();}
 macro "edit lut   [e]"	{ if (isKeyDown("alt")) run("Edit LUT...");					else if (isKeyDown("space"))	seeAllLUTs();							else 	plotLUT();}
 macro "toolSwitch [F]"	{ toolRoll();}
 macro "gammaLUT	  [f]"	{ if (bitDepth() == 24) 	run("Gamma..."); 				else if (isKeyDown("space")) setGammaLUTAllch(0.7);}
-macro "Max 		  [G]"	{ if (isKeyDown("space"))	Z_project_all();				else run("Z Project...", "projection=[Max Intensity] all");}
+macro "Max 		  [G]"	{ if (isKeyDown("space"))	Z_project_all();				else if (isKeyDown("alt")) run("Z Project...", "projection=[Sum Slices] all"); else run("Z Project...", "projection=[Max Intensity] all");}
 macro "Z Project  [g]"	{ if (isKeyDown("alt"))		test_All_Zprojections();		else if (isKeyDown("space")) fastColorCode("current");					else	run("Z Project...");}
+macro "show all   [H]"	{ run("Show All");}
 macro "overlay I  [i]"	{ if (isKeyDown("space"))	invertedOverlay3(); 			else if (isKeyDown("alt")) invert_invertable_LUTs();	 				else 	invert_all_LUTs();}
 macro "New Macro  [J]"	{ 	run("Input/Output...", "jpeg=100"); saveAs("Jpeg");}
 macro "JPEG		  [j]"  { if (isKeyDown("space")) run("Text Window...", "name=poil width=40 height=7 menu"); else run("Macro");}
@@ -195,7 +196,7 @@ macro "Adjust 	  [R]"	{ if (isKeyDown("space"))	Reset_All_Contrasts(); 			else 	
 macro "r 	 	  [r]"	{ if (isKeyDown("alt"))		reduceMax();	 				else if (isKeyDown("space")) {run("Install...","install=["+getDirectory("macros")+"/StartupMacros.fiji.ijm]"); setTool(15);}	else Adjust_Contrast();}
 macro "Splitview  [S]"	{ if (isKeyDown("alt"))   	getSplitViewPrefs();			else if (isKeyDown("space")) SplitView(1,0,0); 							else SplitView(1,1,0); }
 // macro "Splitview  [S]"	{ if (isKeyDown("alt"))   	getSplitViewPrefs();			else if (isKeyDown("space")) {ChLabels = newArray("Bite","Cul","Poil","H4Ac","DIC"); SplitView(1,0,1);} 							else SplitView(1,1,0); }
-macro "as tiff 	  [s]"	{ if (isKeyDown("space"))	ultimateSplitview(); 			else if (isKeyDown("alt")) Save_all_opened_images_elsewhere(); 							else	saveAs("Tiff");}
+macro "as tiff 	  [s]"	{ if (isKeyDown("space"))	ultimateSplitview(); 			else if (isKeyDown("alt")) {File.setDefaultDir(getDirectory("image")); Save_all_opened_images_elsewhere();} 			else	{File.setDefaultDir(getDirectory("image")); saveAs("Tiff");}}
 // macro "test.ijm   [t]"	{ if (isKeyDown("alt"))		installMacroFromClipboard();	else if (isKeyDown("space")) {run("Install...","install=["+getDirectory("macros")+"/testing.ijm]");}	else eval(String.paste);}
 macro "test.ijm   [t]"	{ if (isKeyDown("alt"))		installMacroFromClipboard();	else if (isKeyDown("space")) run("Action Bar", String.paste);	else eval(String.paste);}
 macro "rgb color  [u]"  { if (isKeyDown("space"))	myRGBconverter(); 				else if (isKeyDown("alt"))	RedGreen2OrangeBlue(); 						else 	switcher(); }
@@ -281,11 +282,13 @@ function quickScaleBar(){
 
 // macro "test Tool - C000 T0508T  T5508e  Ta508s Tg508t"{
 // }
+var compositeSwitchActiveChannels = "1111111";
 function compositeSwitch(){
 	if (!is("composite")) exit;
 	Stack.getDisplayMode(mode);
-	if (mode=="color"||mode=="greyscale") Stack.setDisplayMode("composite");
-	else Stack.setDisplayMode("color");
+	if (mode == "composite") Stack.getActiveChannels(compositeSwitchActiveChannels);
+	if (mode=="color"||mode=="greyscale") {Stack.setDisplayMode("composite"); Stack.setActiveChannels(compositeSwitchActiveChannels);}
+	else {Stack.setDisplayMode("color");}
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------------
@@ -1315,33 +1318,13 @@ function Cool_3D_montage() {
 		bottom =  Combine_Horizontally("3D4","3D3");
 		Combine_Vertically(top,bottom);
 	setBatchMode(0);
+	run("Animation Options...", "speed=8 loop start");
 }
 
 function my3D_project() {
-	showStatus("3D project ++");
-	setBatchMode(1);
-	titl1 = getTitle();
-	run("3D Project...", "projection=[Mean Value] initial=280 total=160 rotation=12 interpolate");
-	titl2 = getTitle(); 
-	What2Merge = "";
-	getDimensions(w, h, channels, s, f);
-	if (channels > 1) {
-		run("Duplicate...","title=split duplicate");
-		run("Split Channels");
-		for (i = 1; i <= channels; i++) {
-			selectWindow("C"+i+"-split");
-			run("Reverse");	//only works on stacks so need split / merge
-			What2Merge = What2Merge + "c" +i+ "=C" +i+ "-split ";	
-		}
-		run("Merge Channels...", What2Merge + " create");	
-	}
-	else {
-		run("Duplicate...","title=split duplicate");
-		run("Reverse");	}
-	run("Concatenate...", "image1=&titl2 image2=split");
-	rename("3D "+titl1);
-	setBatchMode("exit and display");
-	run("Animation Options...", "speed=11 start");
+	showStatus("3D project");
+	run("3D Project...", "projection=[Mean Value] initial=312 total=96 rotation=12 interpolate");
+	run("Animation Options...", "speed=8 loop start");
 	setOption("Changes", 0);
 }
 
@@ -2627,6 +2610,33 @@ function enluminateLUT(){
 	copyLUT();
 }
 
+function convertTo_iMQ_Style() {
+	cul=0; id = getImageID();
+	if(nImages>0){getLut(r,g,b); cul=1;} newImage("lut", "8-bit ramp", 256, 32, 1); if(cul)setLut(r,g,b);
+	else exit;
+	setBatchMode(1);
+	run("RGB Color"); rename(1);
+	newImage("iGrays", "8-bit ramp", 256, 32, 1);
+	run("Invert LUT");
+	run("RGB Color");
+	rename(2);
+	run("Combine...", "stack1=2 stack2=1");
+	selectWindow("Combined Stacks");
+	run("Scale...", "x=0.5 y=1 width=256 height=32 interpolation=Bicubic average create");
+	R = newArray(1); G = newArray(1); B = newArray(1);
+	for (i = 0; i < 256; i++) {
+		color = getPixel(i, 2);
+		R[i] = (color>>16)&0xff; 	G[i] = (color>>8)&0xff;		B[i] = color&0xff;
+	}
+	newImage("iMQ Style LUT!", "8-bit ramp", 256, 32, 1);
+	setLut(R, G, B);
+	copyLUT();
+	setBatchMode(0);
+	close("iMQ Style LUT!");
+	selectImage(id); 
+	pasteLUT();
+}
+
 //--------------------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------------------------------
@@ -2723,6 +2733,8 @@ function getLum(rgb){
 	for (i = 0; i < 3; i++) luminance += round(rgb[i]*rgb_weight[i]);
 	return luminance;
 }
+
+
 
 /*
 macro "copy paste minMax"{
