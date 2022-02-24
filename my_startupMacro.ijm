@@ -75,7 +75,7 @@ macro "Stacks Menu Built-in Tool" {}
 //------ALL OPENED TOOLS
 //--------------------------------------------------------------------------------------------------------------------------------------
 var ACmds = newMenu("All opened images Menu Tool",
-	newArray("Reset all contrasts","Set all LUTs","Z projection all","Save all elsewhere", "Basic save all"));
+	newArray("Reset all contrasts","Set all LUTs","Convert decon32 to 8-bit", "Z projection all","Save all elsewhere", "Basic save all"));
 macro "All opened images Menu Tool - N55C000D0dD0eD1dD1eD2dD3dD3eD4dD4eD59D5aD5bD5dD5eD6bD6dD6eD73D77D78D79D7bD7dD83D84D85D88D8bD8dD8eD94D99D9dD9eDa3Da6Da8Da9DadDaeDb3Db8Db9Dc3Dc6Dc8Dc9DcdDd4Dd9DdbDdcDddDe3De4De5De8DebDecDedC4cfCe16D74D75D76D86D87D89D93D95D96D97D98Da4Da5Da7Db4Db5Db6Db7Dc4Dc5Dc7Dd3Dd5Dd6Dd7Dd8De6De7De9CfffD0cD1cD2cD3cD48D49D4aD4bD4cD58D5cD62D63D64D65D66D67D68D69D6aD6cD72D7aD7cD82D8aD8cD92D9aD9cDa2DaaDacDb2DbaDbcDbdDbeDc2DcaDceDd2DdaDdeDe1De2DeaDeeCeeeD00D01D02D03D04D05D06D07D08D09D0aD0bD10D11D12D13D14D15D16D17D18D19D1aD1bD20D21D22D23D24D25D26D27D28D29D2aD2bD30D31D32D33D34D35D36D37D38D39D3aD3bD40D41D42D43D44D45D46D47D50D51D52D53D54D55D56D57D60D61D70D71D80D81D90D91Da0Da1Db0Db1Dc0Dc1Dd0Dd1De0Cfe3D9bDabDbbDcbDccCc15C4deC8c4D2eD7eBf0C000D03D07D08D09D13D14D15D16D17D18D19D1dD1eD2eD32D34D35D36D3dD42D45D46D4dD52D55D56D5dD62D63D64D65D66D6eD72D73D74D75D76D7dD7eD8dD8eC4cfD33D43D44D53D54Ce16D04D05D06CfffD01D02D0aD0bD0cD0dD0eD11D12D1aD1cD21D22D23D24D25D26D27D28D29D2aD2cD31D37D3cD41D47D4cD51D57D5cD61D67D6cD71D77D7cD81D82D83D84D85D86D87D8cD9cD9dD9eCeeeD00D10D1bD20D2bD30D38D39D3aD3bD40D48D49D4aD4bD50D58D59D5aD5bD60D68D69D6aD6bD70D78D79D7aD7bD80D88D89D8aD8bD90D91D92D93D94D95D96D97D98D99D9aD9bDa0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaDabDacDadDaeCfe3Cc15C4deD2dD3eD4eD5eD6dC8c4B0fC000D00D01D02D03D04D05D10D11D12D15D23D24D25D35D43D44D45D55D63D64D65D70D71D72D75D80D81D82D83D84D85C4cfCe16CfffD06D16D26D36D46D56D66D76D86D90D91D92D93D94D95D96CeeeD07D08D09D0aD17D18D19D1aD27D28D29D2aD37D38D39D3aD47D48D49D4aD57D58D59D5aD67D68D69D6aD77D78D79D7aD87D88D89D8aD97D98D99D9aDa0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaCfe3Cc15D31D51C4deD13D14D20D21D22D30D32D33D34D40D41D42D50D52D53D54D60D61D62D73D74C8c4Nf0C000D00D01D02D05D06D07D10D11D14D15D16D17D20D25D27D32D36D37D40D45D46D47D50D55D56D57D62D66D67D70D75D77D80D81D84D85D86D87D90D91D92D95D96D97Da0Da1Da2Da3Da4Da5Da6Da7C4cfCe16CfffD08D18D28D38D48D58D68D78D88D98Da8Db0Db1Db2Db3Db4Db5Db6Db7Db8De0De1De2De3De4De5De6CeeeD09D0aD19D1aD29D2aD39D3aD49D4aD59D5aD69D6aD79D7aD89D8aD99D9aDa9DaaDb9DbaDc0Dc1Dc2Dc3Dc4Dc5Dc6Dc7Dc8Dc9DcaDd0Dd1Dd2Dd3Dd4Dd5Dd6Dd7Dd8Dd9DdaDe7De8De9DeaCfe3Cc15C4deC8c4D03D04D12D13D21D22D23D24D26D30D31D33D34D35D41D42D43D44D51D52D53D54D60D61D63D64D65D71D72D73D74D76D82D83D93D94"{
 	cmd = getArgument();
 	if 		(cmd=="Set LUTs") 				{ Ask_LUTs(); SetAllLUTs();}
@@ -84,6 +84,7 @@ macro "All opened images Menu Tool - N55C000D0dD0eD1dD1eD2dD3dD3eD4dD4eD59D5aD5b
 	else if (cmd=="Basic save all") 		{ Basic_save_all();}
 	else if (cmd=="Z projection all") 		{ Z_project_all();}
 	else if (cmd=="Set all LUTs") 			{ Ask_LUTs(); SetAllLUTs();}
+	else if (cmd=="Convert decon32 to 8-bit") { decon32_to_8bit();}
 	else run(cmd);	}
 
 //--------------------------------------------------------------------------------------------------------------------------------------
@@ -203,7 +204,7 @@ macro "rgb color  [u]"  { if (isKeyDown("space"))	myRGBconverter(); 				else if 
 macro "pasta	  [v]"	{ if (isKeyDown("space"))	run("System Clipboard");		else if (isKeyDown("alt"))	open(getDirectory("temp")+"/copiedLut.lut");else 	run("Paste");}
 macro "roll & FFT [x]"  { if (isKeyDown("alt"))	saveAs("lut", getDirectory("temp")+"/copiedLut.lut"); else if (isKeyDown("space"))	channelsRoll();			else	run("FFT");}
 macro "sync 	  [y]"	{ 							run("Synchronize Windows");}
-macro "close      [w]"  { if (isKeyDown("space")) open(call("ij.Prefs.get","last.closed","")); else {call("ij.Prefs.set","last.closed",getDirectory("image") + getTitle()); close();}} //avoid "are you sure?" and stores path in case of misclick
+macro "close      [w]"  { if (isKeyDown("space")) open(call("ij.Prefs.get","last.closed","")); else if (isKeyDown("alt")) close("\\Others"); else {call("ij.Prefs.set","last.closed",getDirectory("image") + getTitle()); close();}} //avoid "are you sure?" and stores path in case of misclick
 
 function invert_all_LUTs() {
 	// !! only works with linear LUTs
@@ -1641,6 +1642,21 @@ function Basic_save_all() {
         title = getTitle;
         run("Save");
         print(title + " saved");
+	} 
+	print("done");
+}
+
+function decon32_to_8bit() {
+	for (i=0; i<nImages; i++) {
+        selectImage(i+1);
+        getDimensions(width, height, channels, slices, frames);
+        if (channels > 1) {
+        	for (k = 0; k < channels; k++) {
+        	Stack.setChannel(k+1);
+        	setMinAndMax(0,255);
+        	}
+        }
+        run("8-bit");
 	} 
 	print("done");
 }
