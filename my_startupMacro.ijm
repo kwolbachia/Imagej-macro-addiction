@@ -37,9 +37,9 @@ macro "Multitool Tool Options" {
 //------SHORTCUTS
 //--------------------------------------------------------------------------------------------------------------------------------------
 var ShortcutsMenu = newMenu("Custom Menu Tool",
-	newArray("Catch or pull StartupMacros", "BioFormats_Bar", "Record...", "Monitor Memory...", "quick scale bar", "Specify...", "Note in infos", "correct copied path",
-		 "-", "Remove Overlay", "Rotate 90 Degrees Right","Rotate 90 Degrees Left","Plot Z-axis Profile","make my LUTs",
-		 "-","Median...","Median 3D...","Gaussian Blur...","Gaussian Blur 3D...","Gamma...",
+	newArray("Fetch or pull StartupMacros", "BioFormats_Bar", "Record...", "Monitor Memory...", "quick scale bar", "Note in infos", "correct copied path",
+		 "-", "Rotate 90 Degrees Right","Rotate 90 Degrees Left","make my LUTs",
+		 "-","Gaussian Blur...","Gaussian Blur 3D...","Gamma...",
 		 "-","test all Z project", "test CLAHE options","Tempo color no Zproject", "cool 3D anim",
 		 "-","Batch convert ims to tif","Batch convert 32 to 16-bit","Batch Merge","Combine tool", "Merge tool","my Wand tool",
 		 "-","Neuron (5 channels)","HeLa Cells (48-bit RGB)", "Confocal Series","M51 Galaxy (16-bits)",
@@ -47,7 +47,7 @@ var ShortcutsMenu = newMenu("Custom Menu Tool",
 macro "Custom Menu Tool - N55C000D1aD1bD1cD1dD29D2dD39D3dD49D4dD4eD59D5eD69D75D76D77D78D79D85D88D89D94D98D99Da4Da7Da8Da9Db3Db7Db8Dc3Dc6Dc7DccDcdDd3Dd6Dd8DdbDdcDe2De3De6De8De9DeaDebDecCfffD0dD3cD5cD6dD7bD8bD8cD96D9aD9bDa5DacDadDb5DcaDd4Dd9DdaDe4CdddD0aD1eD2bD6aD74D7aD95Dc4Dc5DeeC333D67D68DbeDd2DddCeeeD00D01D02D03D04D05D06D07D08D09D0eD10D11D12D13D14D15D16D17D18D20D21D22D23D24D25D26D27D30D31D32D33D34D35D36D37D3aD3bD40D41D42D43D44D45D46D47D4bD50D51D52D53D54D55D56D57D60D61D62D63D64D65D6eD70D71D72D73D80D81D82D83D86D8aD8dD90D91D92D97Da0Da1Da2Da6DaaDb0Db1DbbDc0Dc1Dc9Dd0Dd1De0De1C111D38D5bD6bD7dDabDbaDd7C999D4cD58D5aD5dD93DceDd5C777D0bD2eD4aD6cD7cD7eD9cD9dD9eDbdDc8C222D8eDa3DbcCcccD2cDdeDe7C666D19Db4DcbCbbbD0cD87DaeDb2C888D66De5C555D28D2aD84Dc2CaaaDb9DedC444D3eD48Db6Bf0C000D03D06D0cD13D16D1bD23D26D2aD33D37D39D43D44D47D48D54D65D76D77D87D88D89D8aD8bD8cD8dD8eD9bCfffD04D08D0dD0eD14D18D19D24D28D2cD35D3bD3cD3dD3eD45D46D4aD4bD4cD4eD56D57D5aD5bD5cD5dD5eD68D69D6aD6bD6cD6dD7cD7dCdddD1cD25D63D7eD97C333D99CeeeD00D01D07D10D11D1dD20D21D2eD30D31D40D41D42D4dD50D51D52D59D60D61D62D67D6eD70D71D72D73D74D79D7aD7bD80D81D82D83D84D85D90D91D92D93D94D95D96Da0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaDabDacDadDaeC111D02D0bD36C999D1aD2bD58D9eC777D27D3aC222D64D66D9aCcccD09D17C666D12D38D78CbbbD0aD15D1eD2dD32D34C888D98C555D49D55D86D9cD9dCaaaD05D29D53C444D22D75B0fC000D02D03D04D05D08D09D18D27D28D36D37D45D46D54D55D63D64D71D72D80D81CfffD06D07D16D25D30D34D35D40D43D44D52D57D60D61D66D75D83D85CdddD10D22D32D33D42D74C333CeeeD0aD1aD21D29D2aD31D38D39D3aD48D49D4aD50D51D53D58D59D5aD67D68D69D6aD76D77D78D79D7aD84D86D87D88D89D8aD91D92D93D94D95D96D97D98D99D9aDa0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaC111C999D62D65C777D00C222D01D13D14D73CcccD11D26D90C666CbbbD12D15D19D20D23D24D41D82C888D47D56D70C555D17CaaaC444Nf0C000D33D34D35D36D42D43D46D50D51D55D64D65D66D67D73D74D78D88D96D97Da4Da5Db4Dc4Dd4Dd6Dd7Dd8De3De4De6De8De9CfffD15D31D44D53D54D58D62D84D85D86D92D93Da2Db2Dc2Dd2De7CdddD63Da1Da7Dc1Dd0De2C333D25D47D56D77Da0CeeeD00D01D02D03D04D05D06D07D08D09D0aD10D11D12D13D14D16D17D18D19D1aD20D21D22D27D28D29D2aD30D38D39D3aD48D49D4aD59D5aD69D6aD71D7aD82D8aD99D9aDa8Da9DaaDb1Db6Db7Db8Db9DbaDc9DcaDd1DdaDe0DeaC111C999D37D76D90Da6Db5Dc6Dc8Dd3C777D41D81D91D98Dc7De5C222D75D95Db3CcccD61D72D79D83D89Dc5Dd5Dd9De1C666D40D52D57CbbbD70D80D94C888D23D32D45Dc3C555D60D87Da3Db0CaaaD26Dc0C444D24D68" {
 	cmd = getArgument(); 
 	if 		(cmd=="Note in infos") 					Note_in_infos();
-	else if (cmd=="Catch or pull StartupMacros") 	catchOrPullStartupMacros();
+	else if (cmd=="Fetch or pull StartupMacros") 	fetchOrPullStartupMacros();
 	else if (cmd=="correct copied path")			{copiedPath = replace(getString("paste your path", ""), "\\", "/");	print(copiedPath);}
 	else if (cmd=="test CLAHE options") 			testCLAHE_options();
 	else if (cmd=="test all Z project") 			test_All_Zprojections();
@@ -91,17 +91,17 @@ macro "All opened images Menu Tool - N55C000D0dD0eD1dD1eD2dD3dD3eD4dD4eD59D5aD5b
 //------POPUP
 //--------------------------------------------------------------------------------------------------------------------------------------
 var pmCmds = newMenu("Popup Menu",
-	newArray("copy paste LUT set", "Rename...", "Duplicate...","Set LUTs","Set active path",
-	"rajout de bout","Copy to System","-", "CLAHE","gauss correction", "test all color blindness","RGB to Luminance","rgb LUT to LUT","rotate LUT",
-	"-", "Record...", "Monitor Memory...","Control Panel...", "Startup Macros..."));
+	newArray("copy paste LUT set", "Rename...", "Duplicate...","Set LUTs","Set active path", "rajout de bout","Copy to System",
+	 "-", "CLAHE", "gauss correction", "color blindness","Luminance","rgb LUT to LUT", "rotate LUT",
+	 "-", "Record...", "Monitor Memory...","Control Panel...", "Startup Macros..."));
 macro "Popup Menu" {
 	cmd = getArgument(); 
 	if 		(cmd=="CLAHE") CLAHE();
 	else if (cmd=="Set active path") SetActivePath();
 	else if (cmd=="gauss correction") gaussCorrection();
-	else if (cmd=="test all color blindness") test_all_color_blindness();
+	else if (cmd=="color blindness") test_all_color_blindness();
 	else if (cmd=="Set LUTs") {Ask_LUTs(); Set_LUTs();}
-	else if (cmd=="RGB to Luminance") rgb2Luminance();
+	else if (cmd=="Luminance") rgb2Luminance();
 	else if (cmd=="copy paste LUT set") copyPasteLUTset();
 	else if (cmd=="rotate LUT") rotateLUT();
 	else run(cmd); 
@@ -609,16 +609,16 @@ function labelSumProject(){
 	setBatchMode(0);
 }
 
-function catchOrPullStartupMacros() {
+function fetchOrPullStartupMacros() {
 	sync_path = getDirectory("home") + "/Nextcloud/sync/FIJI/StartupMacros.fiji.ijm";
 	if (!File.exists(sync_path)) sync_path = getDirectory("home") + "/Nextcloud2/sync/FIJI/StartupMacros.fiji.ijm";
 	fiji_startup_path = getDirectory("macros")+"/StartupMacros.fiji.ijm";
-	 //return true for Catch and false for pull
-	choice = getBoolean("Catch or pull?", "Pull", "Catch");
+	 //return true for Fetch and false for pull
+	choice = getBoolean("Fetch or pull?", "Pull", "Fetch");
 	if (!choice){
 		File.saveString(File.openAsString(sync_path), fiji_startup_path);
 		run("Install...","install=["+fiji_startup_path+"]");
-		showStatus("Catch them all");
+		showStatus("Fetch!");
 	}
 	else {
 		File.saveString(File.openAsString(fiji_startup_path), sync_path);
@@ -1799,7 +1799,7 @@ function SplitView(color,style,labels) {
 			id = getImageID();
 			getLut(r, g, b); 
 			setColor(r[255], g[255], b[255]);
-			if (!color) run("Grays");
+			if (!color) {run("Grays"); run("Invert LUT");}
 			Overlay.drawString(ChLabels[i-1],h/20,fontS);
 			Overlay.show;
 			if (Z*T>1) run("Flatten","stack");
@@ -1813,7 +1813,7 @@ function SplitView(color,style,labels) {
 		close("image");
 		for (i = 1; i <= channels; i++) {
 			selectWindow("C"+i+"-split");
-			if(!color)run("Grays");
+			if(!color) {run("Grays"); run("Invert LUT");}
 			run("RGB Color", "slices"); 
 			tile[i]=getTitle();	
 		}
@@ -1926,7 +1926,6 @@ function LUTbaker(){
 		if(CH>1)Stack.setChannel(ch); 
 		Dialog.setInsets(20, 0, 0);
 		Dialog.addMessage("Reds= "+totR+"   Greens= "+totG+"   Blues= "+totB);
-		if (is_InvertableLUTs()) Dialog.addMessage("These LUTs are invertable ;)");
 		else Dialog.addMessage("These LUTs won't be invertable :s");
 		Dialog.addCheckbox("update changes", preview); 
 		//Dialog.addCheckbox("inverted LUTs", inv); 
@@ -1967,7 +1966,6 @@ function LUTmaker(r,g,b){
 	setLut(R, G, B);
 }
 
-//à revoir.
 function invertedLUTmaker(){
 	getLut(reds,greens,blues);
     RED = reds[255]; GREEN = greens[255]; BLUE = blues[255];
@@ -1987,110 +1985,11 @@ function invertedLUTmaker(){
     setLut(REDS, GREENS, BLUES);
 }
 
-
 function lutToHex(R,G,B){
 	if (R<16) xR = "0" + toHex(R); else xR = toHex(R);
 	if (G<16) xG = "0" + toHex(G); else xG = toHex(G);
 	if (B<16) xB = "0" + toHex(B); else xB = toHex(B);
 	return "#"+xR+xG+xB;
-}
-
-function is_InvertableLUTs(){ //invertable LUTs check
-	setBatchMode(1);
-	getDimensions(w,h,CH,s,f);
-	totR = 0; totG = 0; totB = 0;
-	for(i=0; i<CH; i++) {
-		if(CH>1)Stack.setChannel(i+1);
-		getLut(r,g,b); 
-		if (is("Inverting LUT")) { R = r[0];   G = g[0];   B = b[0];   }
-		else 					 { R = r[255]; G = g[255]; B = b[255]; }
-		totR += R; totG += G; totB += B;
-	}
-	if (CH==1) yesItis = 1;
-	else if (CH==2) { if(totR+totG+totB==765) yesItis = 1; else yesItis = 0; }
-	else {
-		if (is("Inverting LUT")) { if (totG==totR&&totB==totR) yesItis = 1; else yesItis = 0; }
-		else { if (totR+totG+totB==1530) yesItis = 1; else yesItis = 0; }
-	}
-	setBatchMode(0);
-	return yesItis;
-}
-
-function invert_invertable_LUTs(){
-	getDimensions(w, h, channels, s, f);
-	if		(channels==1) iLUT();
-	else if (channels==2) invert2_iLUTs();
-	else if (channels==3) invert3_iLUTs();
-	else 				  invert4_iLUTs();
-}
-
-function iLUT(){
-	if(is("Inverting LUT")) {
-		getLut(r,g,b);
-		if(r[255]==g[255]&&r[255]==b[255]) run("Invert LUT"); //grayscale case
-		else LUTmaker(r[255],g[255],b[255]);
-	}
-	else invertedLUTmaker();
-}
-
-function invert2_iLUTs(){
-	Stack.getPosition(ch,s,f);
-	setBatchMode(1);
-	Stack.setChannel(1); getLut(r,g,b);
-	Stack.setChannel(2); getLut(r2,g2,b2);		
-	Stack.setChannel(1); setLut(r2,g2,b2);	run("Invert LUT");
-	Stack.setChannel(2); setLut(r,g,b);		run("Invert LUT");
-	Stack.setChannel(ch); 
-	setBatchMode(0);
-}
-
-function invert3_iLUTs() {
-	Stack.getPosition(ch,s,f);
-	getDimensions(w,h,CH,s,f);
-		setBatchMode(1);
-		for(i=0; i<CH; i++) {
-			Stack.setChannel(i+1);
-			getLut(r,g,b);
-			if(!is("Inverting LUT")){ 
-				R=((256-r[255]/2)-128)*2;
-				G=((256-g[255]/2)-128)*2;
-				B=((256-b[255]/2)-128)*2;
-				LUTmaker(R-1,G-1,B-1);
-				run("Invert LUT");		}
-			else {
-				R=((256-r[0]/2)-128)*2;
-				G=((256-g[0]/2)-128)*2;
-				B=((256-b[0]/2)-128)*2;	
-				LUTmaker(R-1,G-1,B-1);		}
-			}
-		if(CH>1)Stack.setChannel(ch); 
-	setBatchMode(0);
-}
-
-function invert4_iLUTs() {
-	Stack.getPosition(ch,s,f);
-	getDimensions(w,h,CH,s,f);
-	setBatchMode(1);
-	R = 0; G = 0; B = 0;
-	for(i=0; i<CH; i++) {
-		Stack.setChannel(i+1);
-		getLut(r,g,b);
-		if (!is("Inverting LUT")){ 
-			R=((256-r[255]/2)-128);
-			G=((256-g[255]/2)-128);
-			B=((256-b[255]/2)-128);
-			LUTmaker(R,G,B);
-			run("Invert LUT");		
-		}
-		else {
-			if (r[0]==128) R=0; else if (r[0]==0) R=255; else R=((256-r[0])-128)*2;
-			if (g[0]==128) G=0; else if (g[0]==0) G=255; else G=((256-g[0])-128)*2;
-			if (b[0]==128) B=0; else if (b[0]==0) B=255; else B=((256-b[0])-128)*2;
-			LUTmaker(R,G,B);		
-		}
-	}
-	if(CH>1)Stack.setChannel(ch); 
-	setBatchMode(0);
 }
 
 function copyPasteLUTset(){
@@ -2166,26 +2065,6 @@ function ReorderLUTsAsk(){
 	setBatchMode(0);
 }
 
-
-/*macro"random invertable LUTs [K]"{
-	getDimensions(w,h,CH,s,f);
-	Rz = randomArrayTo255(CH); Gz = randomArrayTo255(CH); Bz = randomArrayTo255(CH);
-	setBatchMode(0);
-	for(k=0; k<CH; k++){
-		Stack.setChannel(k+1);
-		if (CH==2)	{ 
-			if(!is("Inverting LUT"))	LUTmaker(Rz[k],Gz[k],Bz[k]);
-			else 					{	LUTmaker(Rz[k],Gz[k],Bz[k]); run("Invert LUT");}
-		}
-		else 	{ 
-			if(!is("Inverting LUT"))	LUTmaker(Rz[k]*2,Gz[k]*2,Bz[k]*2);
-			else 					{	LUTmaker(Rz[k],Gz[k],Bz[k]); run("Invert LUT");}
-		}
-	}
-	setBatchMode(0);
-}*/
-
-
 macro"random light LUTs [K]"{
 	Types = newArray("any","any","any","any","any","any","any");
 	if (isKeyDown("space")) LUMINANCE = getNumber("luminance", 150);
@@ -2201,33 +2080,6 @@ macro"random light LUTs [K]"{
 		}
 	}
 }
-
-// macro"random cool LUTs [K]"{
-// 	Types = newArray("blue","magenta");
-// 	if (isKeyDown("space")) LUMINANCE = getNumber("luminance", 150);
-// 	else LUMINANCE = 150;
-// 	getDimensions(w,h,channels,s,f);
-// 	if (channels>1){
-// 		Stack.setDisplayMode("composite");
-// 		Stack.setChannel(1);
-// 		rgb = randomColorByTypeAndLum(LUMINANCE, "blue");
-// 		LUTmaker(rgb[0],rgb[1],rgb[2]);
-// 		rgb = getOppositeLinearLUT();
-// 		Stack.setChannel(2);
-// 		LUTmaker(rgb[0],rgb[1],rgb[2]);
-// 	}
-// 	if (channels > 2) {
-// 		Stack.setChannel(3);
-// 		rgb = randomColorByTypeAndLum(LUMINANCE, "magenta");
-// 		LUTmaker(rgb[0],rgb[1],rgb[2]);
-// 		rgb = getOppositeLinearLUT();
-// 		if (channels == 4) {
-// 			Stack.setChannel(4);
-// 			LUTmaker(rgb[0],rgb[1],rgb[2]);
-// 		}
-// 	}
-// 	compositeSwitch(); compositeSwitch();
-// }
 
 function getOppositeLinearLUT(){
 	setBatchMode(1);
@@ -2277,20 +2129,6 @@ function randomColorByTypeAndLum(lum, targetColorType) {
 	"     ";
 	*/
 	return rgb;
-}
-
-function randomArrayTo255(arraySize){ 
-	array = newArray(arraySize); loop=1;
-	while (loop) {
-		arraySUM=0;
-		for (i = 0; i < arraySize; i++) {
-			if (arraySize==2)	array[i] = round(random*255);
-			else 				array[i] = round(random*127);
-			 arraySUM += array[i];
-		}
-		if (arraySUM==255)loop=0;
-	}
-	return array;
 }
 
 function invertedOverlay1(){
@@ -2753,6 +2591,164 @@ function getLum(rgb){
 
 
 /*
+
+macro"random invertable LUTs [K]"{
+	getDimensions(w,h,CH,s,f);
+	Rz = randomArrayTo255(CH); Gz = randomArrayTo255(CH); Bz = randomArrayTo255(CH);
+	setBatchMode(0);
+	for(k=0; k<CH; k++){
+		Stack.setChannel(k+1);
+		if (CH==2)	{ 
+			if(!is("Inverting LUT"))	LUTmaker(Rz[k],Gz[k],Bz[k]);
+			else 					{	LUTmaker(Rz[k],Gz[k],Bz[k]); run("Invert LUT");}
+		}
+		else 	{ 
+			if(!is("Inverting LUT"))	LUTmaker(Rz[k]*2,Gz[k]*2,Bz[k]*2);
+			else 					{	LUTmaker(Rz[k],Gz[k],Bz[k]); run("Invert LUT");}
+		}
+	}
+	setBatchMode(0);
+}
+
+macro"random cool LUTs [K]"{
+	Types = newArray("blue","magenta");
+	if (isKeyDown("space")) LUMINANCE = getNumber("luminance", 150);
+	else LUMINANCE = 150;
+	getDimensions(w,h,channels,s,f);
+	if (channels>1){
+		Stack.setDisplayMode("composite");
+		Stack.setChannel(1);
+		rgb = randomColorByTypeAndLum(LUMINANCE, "blue");
+		LUTmaker(rgb[0],rgb[1],rgb[2]);
+		rgb = getOppositeLinearLUT();
+		Stack.setChannel(2);
+		LUTmaker(rgb[0],rgb[1],rgb[2]);
+	}
+	if (channels > 2) {
+		Stack.setChannel(3);
+		rgb = randomColorByTypeAndLum(LUMINANCE, "magenta");
+		LUTmaker(rgb[0],rgb[1],rgb[2]);
+		rgb = getOppositeLinearLUT();
+		if (channels == 4) {
+			Stack.setChannel(4);
+			LUTmaker(rgb[0],rgb[1],rgb[2]);
+		}
+	}
+	compositeSwitch(); compositeSwitch();
+}
+
+function is_InvertableLUTs(){ //invertable LUTs check
+	setBatchMode(1);
+	getDimensions(w,h,CH,s,f);
+	totR = 0; totG = 0; totB = 0;
+	for(i=0; i<CH; i++) {
+		if(CH>1)Stack.setChannel(i+1);
+		getLut(r,g,b); 
+		if (is("Inverting LUT")) { R = r[0];   G = g[0];   B = b[0];   }
+		else 					 { R = r[255]; G = g[255]; B = b[255]; }
+		totR += R; totG += G; totB += B;
+	}
+	if (CH==1) yesItis = 1;
+	else if (CH==2) { if(totR+totG+totB==765) yesItis = 1; else yesItis = 0; }
+	else {
+		if (is("Inverting LUT")) { if (totG==totR&&totB==totR) yesItis = 1; else yesItis = 0; }
+		else { if (totR+totG+totB==1530) yesItis = 1; else yesItis = 0; }
+	}
+	setBatchMode(0);
+	return yesItis;
+}
+
+function invert_invertable_LUTs(){
+	getDimensions(w, h, channels, s, f);
+	if		(channels==1) iLUT();
+	else if (channels==2) invert2_iLUTs();
+	else if (channels==3) invert3_iLUTs();
+	else 				  invert4_iLUTs();
+}
+
+function iLUT(){
+	if(is("Inverting LUT")) {
+		getLut(r,g,b);
+		if(r[255]==g[255]&&r[255]==b[255]) run("Invert LUT"); //grayscale case
+		else LUTmaker(r[255],g[255],b[255]);
+	}
+	else invertedLUTmaker();
+}
+
+function invert2_iLUTs(){
+	Stack.getPosition(ch,s,f);
+	setBatchMode(1);
+	Stack.setChannel(1); getLut(r,g,b);
+	Stack.setChannel(2); getLut(r2,g2,b2);		
+	Stack.setChannel(1); setLut(r2,g2,b2);	run("Invert LUT");
+	Stack.setChannel(2); setLut(r,g,b);		run("Invert LUT");
+	Stack.setChannel(ch); 
+	setBatchMode(0);
+}
+
+function invert3_iLUTs() {
+	Stack.getPosition(ch,s,f);
+	getDimensions(w,h,CH,s,f);
+		setBatchMode(1);
+		for(i=0; i<CH; i++) {
+			Stack.setChannel(i+1);
+			getLut(r,g,b);
+			if(!is("Inverting LUT")){ 
+				R=((256-r[255]/2)-128)*2;
+				G=((256-g[255]/2)-128)*2;
+				B=((256-b[255]/2)-128)*2;
+				LUTmaker(R-1,G-1,B-1);
+				run("Invert LUT");		}
+			else {
+				R=((256-r[0]/2)-128)*2;
+				G=((256-g[0]/2)-128)*2;
+				B=((256-b[0]/2)-128)*2;	
+				LUTmaker(R-1,G-1,B-1);		}
+			}
+		if(CH>1)Stack.setChannel(ch); 
+	setBatchMode(0);
+}
+
+function invert4_iLUTs() {
+	Stack.getPosition(ch,s,f);
+	getDimensions(w,h,CH,s,f);
+	setBatchMode(1);
+	R = 0; G = 0; B = 0;
+	for(i=0; i<CH; i++) {
+		Stack.setChannel(i+1);
+		getLut(r,g,b);
+		if (!is("Inverting LUT")){ 
+			R=((256-r[255]/2)-128);
+			G=((256-g[255]/2)-128);
+			B=((256-b[255]/2)-128);
+			LUTmaker(R,G,B);
+			run("Invert LUT");		
+		}
+		else {
+			if (r[0]==128) R=0; else if (r[0]==0) R=255; else R=((256-r[0])-128)*2;
+			if (g[0]==128) G=0; else if (g[0]==0) G=255; else G=((256-g[0])-128)*2;
+			if (b[0]==128) B=0; else if (b[0]==0) B=255; else B=((256-b[0])-128)*2;
+			LUTmaker(R,G,B);		
+		}
+	}
+	if(CH>1)Stack.setChannel(ch); 
+	setBatchMode(0);
+}
+
+function randomArrayTo255(arraySize){ 
+	array = newArray(arraySize); loop=1;
+	while (loop) {
+		arraySUM=0;
+		for (i = 0; i < arraySize; i++) {
+			if (arraySize==2)	array[i] = round(random*255);
+			else 				array[i] = round(random*127);
+			 arraySUM += array[i];
+		}
+		if (arraySUM==255)loop=0;
+	}
+	return array;
+}
+
 macro "copy paste minMax"{
 	title=getTitle();
 	getDimensions(w,h,CH,s,f);
