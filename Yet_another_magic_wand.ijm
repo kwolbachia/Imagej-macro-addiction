@@ -7,7 +7,7 @@ macro "Another better wand (drag to adjust tolerance) Tool Options" {
 		roiManager("Add");
 		exit;
 	}
-	targetSize = getNumber("roi size to target on short click in pixels", nPixels);
+	targetSize = getNumber("roi size (in pixels number) to target upon click", nPixels);
 }
 
 var targetSize = 500;
