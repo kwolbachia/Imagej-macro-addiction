@@ -3,7 +3,8 @@
 //210411 SplitView2.0! en 12h...
 //210515 Splitview 3.0, invertable LUTs
 //210922 100 macros -> functions instead
-
+var savedLocX = 0;
+var savedLocY = 0;
 var chosen_LUTs = newArray("kb","km","ko","kg","Grays");
 var ChLabels = newArray("CidB","CidA","DNA","H4Ac","DIC");
 var fontS = 30;
@@ -161,7 +162,7 @@ macro "3D Zproject++     [3]"	{if (isKeyDown("space")) Cool_3D_montage();		else 
 macro "full scale montage[4]"	{if (Image.title=="Montage") {id=getImageID(); run("Montage to Stack..."); selectImage(id);	close();} 								else run("Make Montage...", "scale=1"); setOption("Changes", 0);}
 macro "25x25 selection   [5]"	{size=25; toUnscaled(size); size = round(size); getCursorLoc(x, y, null, null); call("ij.IJ.makeRectangle",x-(size/2),y-(size/2),size,size); showStatus(size+"x"+size); setTool(0);}
 macro "make it look good [6]"	{for (i=0; i<nImages; i++) { setBatchMode(1); selectImage(i+1); run("Appearance...", "  "); run("Appearance...", "black no"); setBatchMode(0);}}
-macro "set destination   [7]" 	{if (isKeyDown("space")) { showStatus("Source set");	run("Alert ", "object=Image color=Orange duration=1000"); source = getTitle();} else setTargetImage();}
+macro "set destination   [7]" 	{if (isKeyDown("space")) { showStatus("Source set");	run("Alert ", "object=Image color=Orange duration=1000"); source = getTitle();} else if (isKeyDown("alt")) setCustomPosition(); else setTargetImage();}
 macro "rename w/ id      [8]"	{if (isKeyDown("space")) rename(getImageID()); else run("Rename...");}
 macro "coolify      	 [9]"	{moveWindows();}
 // Set_noice_LUTs();
@@ -170,8 +171,8 @@ macro "auto 	  [A]"	{ if (isKeyDown("alt"))		Enhance_all_contrasts();	  	else if
 macro "Splitview  [b]"	{ if (isKeyDown("space")) 	SplitView(0,2,0);				else 	SplitView(1,2,0); }
 macro "iComposite [B]"	{ switchCompositeMode();}
 marco "copy       [c]"	{ run("Copy");}
-macro "b&c 		  [C]"  { 	B_and_C(); }
-macro "duplicat	  [D]"	{ if (isKeyDown("space")) { run("Record..."); run("Monitor Memory..."); }											else run("Duplicate...", "duplicate");}
+macro "b&c 		  [C]"  { B_and_C(); }
+macro "duplicat	  [D]"	{ if (isKeyDown("space")) memoryAndRecorder();				else run("Duplicate...", "duplicate");}
 macro "Spliticate [d]"	{ if (isKeyDown("space"))	run("Duplicate...", " ");	 	else if (isKeyDown("alt")) {Stack.getPosition(ch, slice, frame); run("Duplicate...", "duplicate channels=&ch slices=&slice frames=&frame");}	else run("Split Channels");}
 macro "Tile 	  [E]"	{ 	myTile();}
 macro "edit lut   [e]"	{ if (isKeyDown("alt")) run("Edit LUT...");					else if (isKeyDown("space"))	seeAllLUTs();							else 	plotLUT();}
@@ -205,6 +206,13 @@ macro "pasta	  [v]"	{ if (isKeyDown("space"))	run("System Clipboard");		else if 
 macro "roll & FFT [x]"  { if (isKeyDown("alt"))	saveAs("lut", getDirectory("temp")+"/copiedLut.lut"); else if (isKeyDown("space"))	channelsRoll();			else	run("FFT");}
 macro "sync 	  [y]"	{ 							run("Synchronize Windows");}
 macro "close      [w]"  { if (isKeyDown("space")) open(call("ij.Prefs.get","last.closed","")); else if (isKeyDown("alt")) close("\\Others"); else {call("ij.Prefs.set","last.closed",getDirectory("image") + getTitle()); close();}} //avoid "are you sure?" and stores path in case of misclick
+
+function memoryAndRecorder() {
+	run("Record...");
+	Table.setLocationAndSize(screenWidth-300, 0, 300, 200,"Recorder");
+	run("Monitor Memory...");
+	Table.setLocationAndSize(screenWidth-545, 0, 250, 120,"Memory");
+}
 
 function invert_all_LUTs() {
 	// !! only works with linear LUTs
@@ -349,16 +357,16 @@ function multiTool(){ //avec menu "que faire avec le middle click? **"
 	updateDisplay();
 	getCursorLoc(x, y, z, flags);
 	if (flags>=32) flags -= 32;
-	if (Image.height==32||Image.height==64) plotLUT();
 	if (flags == 8) { if (startsWith(getTitle(), "Preview Opener")) openFromPreview();  else if (startsWith(getTitle(), "Lookup Tables")) setLutFromMontageTool(); else compositeSwitch();}
 	if (flags == 16) {
 		if 		(mainTool=="Move Windows")           moveWindows();
 		else if (mainTool=="Contrast Adjuster")      liveContrast();
 		else if (mainTool=="Gamma on LUT")           liveGamma();
 		else if (mainTool=="slice / frame scroll")   liveScroll();
-		else if (mainTool=="explorer")               squaredAutoContrast();
+		else if (mainTool=="explorer")               explorer();
 		else if (mainTool=="My Magic Wand")          magicWand();
 	}
+	if (Image.height==32||Image.height==64) plotLUT();
 	if (flags == 9) 				pasteLUT();
 	//if (flags == 26||flags == 28)	close();						// ctrl + alt + click
 	if (flags == 17)				liveContrast();					// shift + long click
@@ -442,6 +450,7 @@ function liveScroll() {
 		else Stack.setSlice(((x-ax)/width)*slices);
 		if (live_autoContrast) run("Enhance Contrast", "saturated=&enhance_rate");
 		call("ij.plugin.frame.ContrastAdjuster.update");
+		wait(10);
 	}
 }
 
@@ -458,10 +467,11 @@ function squaredAutoContrast() {
 
 function explorer() {
 	if (bitDepth==24) exit("This macro only works with grayscale images");
-	size=150;
+	size=50;
 	x2=-1;y2=-1;
 	while (true) {
 		getCursorLoc(x, y, z, flags);
+		if (flags>=32) flags -= 32;
 		if (flags&16==0) {run("Select None"); exit();}
 		if (x!=x2 || y!=y2) {
 			makeRectangle(x-size/2,y-size/2,size,size);
@@ -794,6 +804,11 @@ function setTargetImage() {
 	call("ij.Prefs.set","Destination.title",getTitle());
 }
 
+function setCustomPosition() {
+	showStatus("Custom position set");
+	getLocationAndSize(savedLocX, savedLocY, width, height);
+}
+
 //if on a rgb image,get current pixel color and use it to create the LUT of destination image with setTargetImage()
 function rgbPixel2LUT() {
 	getCursorLoc(x, y, z, modifiers);
@@ -1023,9 +1038,7 @@ function lutToHex2(){
 function plotLUT(){
 	close("MultiPlot");
 	if (nImages == 0) exit;
-	alreadyOpenPlot = 0;
 	if (bitDepth()==24) exit;
-	if (isOpen("LUT Profile")) alreadyOpenPlot = 1;
 	id=getImageID();
 	lutinance = newArray(0); //luminance of LUT...
 	getLut(r,g,b);
@@ -1035,6 +1048,7 @@ function plotLUT(){
 		run("Copy");
 		close("LUT for plot");
 	setBatchMode(0);
+	call("ij.gui.ImageWindow.setNextLocation", savedLocX, savedLocY);
 	run("Plots...", "width=400 height=200");
 	Plot.create("LUT Profile", "Grey Value", "value");
 	Plot.setColor("#ff4a4a");
@@ -1056,7 +1070,6 @@ function plotLUT(){
 	Plot.addLegend("1__reds\n2__greens\n3__blues\n4__luminance", "Top-Left Transparent");
 	Plot.update();
 	selectWindow("LUT Profile");
-	if (!alreadyOpenPlot) setLocation(0,0);
 	Plot.setLimits(-5, 260, -25, 260);
 	makeRectangle(82, 200, 385, 14);
 	run("Paste"); run("Select None"); 
@@ -1926,7 +1939,6 @@ function LUTbaker(){
 		if(CH>1)Stack.setChannel(ch); 
 		Dialog.setInsets(20, 0, 0);
 		Dialog.addMessage("Reds= "+totR+"   Greens= "+totG+"   Blues= "+totB);
-		else Dialog.addMessage("These LUTs won't be invertable :s");
 		Dialog.addCheckbox("update changes", preview); 
 		//Dialog.addCheckbox("inverted LUTs", inv); 
 		//Dialog.addCheckbox("Reset all", 0);
@@ -2811,7 +2823,6 @@ macro "AutoRun" {
 	run("Roi Defaults...", "color=orange stroke=2 group=0");
 	eval("js", "javax.swing.UIManager.setLookAndFeel('javax.swing.plaf.metal.MetalLookAndFeel');");
 	setTool(15);
-	//UseHEFT();
 }
 function UseHEFT() {state = call("ij.io.Opener.getOpenUsingPlugins");if (state=="false") {setOption("OpenUsingPlugins", true);showStatus("TRUE (images opened by HandleExtraFileTypes)");} else {setOption("OpenUsingPlugins", false);showStatus("FALSE (images opened by ImageJ)");}}
 
