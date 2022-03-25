@@ -44,7 +44,7 @@ var ShortcutsMenu = newMenu("Custom Menu Tool",
 	newArray("Fetch or pull StartupMacros", "BioFormats_Bar","Numerical Keys Bar", "Record...", "Monitor Memory...", "quick scale bar", "Note in infos", "correct copied path",
 		 "-", "Rotate 90 Degrees Right","Rotate 90 Degrees Left","make my LUTs",
 		 "-","Gaussian Blur...","Gaussian Blur 3D...","Gamma...",
-		 "-","test all Z project", "test CLAHE options","Tempo color no Zproject", "cool 3D anim",
+		 "-","test all Z project", "test CLAHE options", "test all calculator modes", "Tempo color no Zproject", "cool 3D anim",
 		 "-","Batch convert ims to tif","Batch convert 32 to 16-bit","Batch Merge","Combine tool", "Merge tool","my Wand tool",
 		 "-","Neuron (5 channels)","HeLa Cells (48-bit RGB)", "Confocal Series","Brain slice","Microtubules", "3 channels",
 		 "-","invertableLUTs_Bar","CB_Bar","LUT_Bar","JeromesWheel","RGBtimeIsOver"));
@@ -69,6 +69,7 @@ macro "Custom Menu Tool - N55C000D1aD1bD1cD1dD29D2dD39D3dD49D4dD4eD59D5eD69D75D7
 	else if (cmd=="Brain slice")				    {open("https://i.imgur.com/IKUefAf.png");}
 	else if (cmd=="Microtubules")				    {open("https://i.imgur.com/YwlSveS.png");}
 	else if (cmd=="3 channels")				        {setBatchMode(1); open("https://i.imgur.com/MZGVdVj.png"); run("Make Composite"); Set_LUTs(); run("Remove Slice Labels"); setBatchMode(0);}
+	else if (cmd=="test all calculator modes")		{testAllCaluclatorModes();}
 
 	
 	else run(cmd);
@@ -137,7 +138,7 @@ macro "set LUT from montage Tool Options" {	displayLUTs();}
 
 //CHANNELS
 
-// macro "results to label [F2]"{ result2label();}
+ macro "results to label [F2]"{ result2label();}
 
 macro "myTurbo 	[n0]"{ if (isKeyDown("space")) randomViridis(4);	else if (isKeyDown("alt")) convertTo_iMQ_Style(); else randomAwesomeLUT(4);}
 macro "Gray 	[n1]"{ if (isKeyDown("space")) toggleChannel(1); 	else if (isKeyDown("alt")) toggleAllchannels(1); else run("Grays");}
@@ -156,7 +157,7 @@ macro "ClearVolume	     [0]"	{if (isKeyDown("space")) fauteDeClearVolume();  els
 macro "my default LUTs   [1]"	{if (isKeyDown("space")) SetAllLUTs(); 			else if (isKeyDown("alt")) perso_Ask_LUTs(); 		else Set_LUTs();}
 macro "good size  		 [2]"	{if (isKeyDown("space")) restorePosition(); 	else if (isKeyDown("alt")) fullScreen();		else goodSize();}
 macro "3D Zproject++     [3]"	{if (isKeyDown("space")) Cool_3D_montage();		else my3D_project();}
-macro "full scale montage[4]"	{if (isKeyDown("space")) {id=getImageID(); run("Montage to Stack..."); selectImage(id);	close();} 	else run("Make Montage...", "scale=1"); setOption("Changes", 0);}
+macro "full scale montage[4]"	{if (isKeyDown("space")) run("Montage to Stack..."); 	else run("Make Montage...", "scale=1"); setOption("Changes", 0);}
 macro "25x25 selection   [5]"	{if (isKeyDown("space")) makeRectangle(0,0,75,200); else {size=25; toUnscaled(size); size = round(size); getCursorLoc(x, y, null, null); call("ij.IJ.makeRectangle",x-(size/2),y-(size/2),size,size); showStatus(size+"x"+size); setTool(0);}}
 macro "make it look good [6]"	{for (i=0; i<nImages; i++) { setBatchMode(1); selectImage(i+1); run("Appearance...", "  "); run("Appearance...", "black no"); setBatchMode(0);}}
 macro "set destination   [7]" 	{if (isKeyDown("space")) { showStatus("Source set");	run("Alert ", "object=Image color=Orange duration=1000"); source = getTitle();} else if (isKeyDown("alt")) setCustomPosition(); else setTargetImage();}
@@ -178,19 +179,19 @@ macro "gammaLUT	  [f]"	{ if (bitDepth() == 24) 	run("Gamma..."); 				else if (is
 macro "Max 		  [G]"	{ if (isKeyDown("space"))	Z_project_all();				else if (isKeyDown("alt")) run("Z Project...", "projection=[Sum Slices] all"); else run("Z Project...", "projection=[Max Intensity] all");}
 macro "Z Project  [g]"	{ if (isKeyDown("alt"))		test_All_Zprojections();		else if (isKeyDown("space")) fastColorCode("current");					else	run("Z Project...");}
 macro "show all   [H]"	{ run("Show All");}
-macro "overlay I  [i]"	{ if (isKeyDown("space"))	invertedOverlay3(); 			else if (isKeyDown("alt")) invert_invertable_LUTs();	 				else 	invert_all_LUTs();}
+macro "overlay I  [i]"	{ if (isKeyDown("space"))	invertedOverlay3(); 			else if (isKeyDown("alt")) run("Invert LUT");	 				else 	invert_all_LUTs();}
 macro "New Macro  [J]"	{ 	run("Input/Output...", "jpeg=100"); saveAs("Jpeg");}
 macro "JPEG		  [j]"  { if (isKeyDown("space")) run("Text Window...", "name=poil width=40 height=7 menu"); else run("Macro");}
 macro "multiplot  [k]"  { 	multiPlot();}
-macro "Cmd finder [l]"	{ if (isKeyDown("alt")) run("Action Bar", File.openUrlAsString("https://gist.githubusercontent.com/kwolbachia/86fa900000d19bdfed0809f7a55ddfb9/raw/615f9c33c740a17be048808eabf4afd1b1356aa7/K%2520LUTs%2520Bar.ijm")); else if (isKeyDown("space"))	labelSumProject(); 				else 	run("Find Commands...");}
+macro "Cmd finder [l]"	{ if (isKeyDown("alt")) run("Action Bar", File.openUrlAsString("https://gist.githubusercontent.com/kwolbachia/86fa900000d19bdfed0809f7a55ddfb9/raw/615f9c33c740a17be048808eabf4afd1b1356aa7/K%2520LUTs%2520Bar.ijm")); else if (isKeyDown("space"))	ultimateLUTgenerator(); else 	run("Find Commands...");}
 macro "Copy paste [L]"  { 	copyPasteLUTset();}
 macro "Merge 	  [M]"	{ if (isKeyDown("space"))	run("Merge Channels..."); 		else 	fastMerge();} 
 macro "LUT baker  [m]"	{	LUTbaker();}
-macro "Hela       [n]"	{ if (isKeyDown("space")) {cul = 0; if(nImages>0){getLut(r,g,b); cul=1;} newImage("lut"+round(random*100), "8-bit ramp", 256, 32, 1); if(cul)setLut(r,g,b);} else Hela();}
+macro "Hela       [n]"	{ if (isKeyDown("space")) {cul = 0; if(nImages>0) {if(bitDepth()!=24) getLut(r,g,b); cul=1;} newImage("lut"+round(random*100), "8-bit ramp", 256, 32, 1); if(cul) setLut(r,g,b);} else Hela();}
 macro "open paste [o]"	{ if ( nImages!=0) { if (startsWith(getTitle(), "Preview Opener")) openFromPreview();  else if (startsWith(getTitle(), "Lookup Tables")) setLutFromMontageTool();} else open(String.paste);}
 macro "Splitview  [p]"	{ if (isKeyDown("space")) 	SplitView(0,1,0); 				else 	SplitView(0,0,0); }
-macro "composite  [Q]" 	{	compositeSwitch();	}
-macro "Arrange ch [q]"	{ if (isKeyDown("space"))	ReorderLUTsAsk(); 				else 	run("Arrange Channels...");}
+macro "composite  [Q]" 	{ if (isKeyDown("space")) Stack.setActiveChannels("11111"); else compositeSwitch();	}
+macro "Arrange ch [q]"	{ if (isKeyDown("alt"))	doCommand("Start Animation [\\]");  else if (isKeyDown("space"))	ReorderLUTsAsk(); 				else 	run("Arrange Channels...");}
 macro "Adjust 	  [R]"	{ if (isKeyDown("space"))	Reset_All_Contrasts(); 			else 	Auto_Contrast_on_all_channels();}
 macro "r 	 	  [r]"	{ if (isKeyDown("alt"))		reduceMax();	 				else if (isKeyDown("space")) {run("Install...","install=["+getDirectory("macros")+"/StartupMacros.fiji.ijm]"); setTool(15);}	else Adjust_Contrast();}
 macro "Splitview  [S]"	{ if (isKeyDown("alt"))   	getSplitViewPrefs();			else if (isKeyDown("space")) SplitView(1,0,0); 							else SplitView(1,1,0); }
@@ -200,8 +201,7 @@ macro "rgb color  [u]"  { if (isKeyDown("space"))	myRGBconverter(); 				else if 
 macro "pasta	  [v]"	{ if (isKeyDown("space"))	run("System Clipboard");		else if (isKeyDown("alt"))	open(getDirectory("temp")+"/copiedLut.lut");else 	run("Paste");}
 macro "roll & FFT [x]"  { if (isKeyDown("alt"))	saveAs("lut", getDirectory("temp")+"/copiedLut.lut"); else if (isKeyDown("space"))	channelsRoll();			else	run("FFT");}
 macro "sync 	  [y]"	{ 	run("Synchronize Windows");}
-macro "close      [w]"  { if (isKeyDown("space")) open(call("ij.Prefs.get","last.closed","")); else if (isKeyDown("alt")) close("\\Others"); else {call("ij.Prefs.set","last.closed",getDirectory("image") + getTitle()); close();}} //avoid "are you sure?" and stores path in case of misclick
-
+macro "close      [w]"  { if (isKeyDown("space")) open(call("ij.Prefs.get","last.closed","")); else if (isKeyDown("alt")) close("\\Others"); else {path = getDirectory("image") + getTitle(); if (File.exists(path)) call("ij.Prefs.set","last.closed",path); close();}} //avoid "are you sure?" and stores path in case of misclick
 
 function numericalKeyboardBar(){
 	text = "<fromString>\n"+
@@ -306,8 +306,8 @@ function compositeSwitch(){
 
 //--------------------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------------------------------
-
-function result2label(){
+//Ah jérôme... \o/
+macro "Table Action" {
 	index = Table.getSelectionStart+1;
 	if (isKeyDown("space")) index = getNumber("label number?", 1);
 	if (index == -1) exit;
@@ -378,6 +378,7 @@ function multiTool(){ //avec menu "que faire avec le middle click? **"
 		else if (mainTool=="My Magic Wand")          magicWand();
 	}
 	if (Image.height==32||Image.height==64) plotLUT();
+	else if (getInfo("window.type") == "ResultsTable") result2label();
 	if (flags == 9) 				pasteLUT();						//shift + middle click
 	//if (flags == 26||flags == 28)	close();						// ctrl + alt + click
 	if (flags == 17)				liveContrast();					// shift + long click
@@ -672,10 +673,12 @@ function fastColorCode(Glut) {
 	if (Glut == "current") getLut(r,g,b);
 	zoom = getZoom();
 	setBatchMode(true);
+	title = getTitle();
+	Stack.getDimensions(ww, hh, channels, slices, frames);
+	if (hh == 64 || hh == 32) {run("Fly Brain"); run("Make Composite"); run("Arrange Channels...", "new=1");}
 	Stack.getDimensions(ww, hh, channels, slices, frames);
 	Stack.getPosition(channel, slice, frame);
 	if (channels > 1) run("Duplicate...", "duplicate channels=&channel");
-	title = getTitle();
 	//swap slices and frames in case:
 	if ((slices > 1) && (frames == 1)) {
 		frames = slices;
@@ -1033,6 +1036,7 @@ function multiPlot(){
 	if (!alreadyOpenPlot) setLocation(0,0);
 	if (normalize) Plot.setLimits(0, p.length, 0, 1.01 );
 	else  Plot.setLimitsToFit();
+	Plot.freeze(1);
 	selectImage(id);
 	if (channels>1) Stack.setActiveChannels(activeChannels);
 }
@@ -1082,6 +1086,7 @@ function plotLUT(){
 	Plot.update();
 	selectWindow("LUT Profile");
 	Plot.setLimits(-5, 260, -25, 260);
+	Plot.freeze(1);
 	makeRectangle(82, 200, 385, 14);
 	run("Paste"); run("Select None"); 
 	setOption("Changes",0);
@@ -1274,6 +1279,39 @@ function test_All_Zprojections(){
 	run("Make Montage...", "scale=1 font=20 label");
 	setBatchMode(0);
 	setOption("Changes", 0);
+}
+
+function testAllCaluclatorModes() {
+	if (nImages == 0) exit("no image");
+	image_titles = getList("image.titles");
+	Dialog.createNonBlocking("test all calculator modes");
+	Dialog.addChoice("image 1:", image_titles,image_titles[0]);
+	Dialog.addChoice("'calculated' by image 2:", image_titles,image_titles[1]);
+	Dialog.addCheckbox("32 bits?", 0);
+	Dialog.show();
+	image1 = Dialog.getChoice();
+	image2 = Dialog.getChoice();
+	bit32 = Dialog.getCheckbox();
+	bitdepth = bitDepth();
+	setBatchMode(1);
+	getDimensions(width, height, channels, slices, frames);
+	modes = newArray("add","subtract","multiply","divide", "and", "or", "xor", "min", "max", "average","difference","copy","Transparent-zero");
+	if (bit32) newImage("calculator", "32-bit", width, height, modes.length);
+	else newImage("calculator", bitdepth+"-bit", width, height, modes.length);
+	outID = getImageID();
+	for (i=0; i<modes.length; i++) {
+		if (bit32) imageCalculator(modes[i]+" create 32-bit", image1,image2);
+		else imageCalculator(modes[i]+" create", image1,image2);
+		run("Copy");
+		selectImage(outID);	
+		setSlice(i+1);	
+		run("Paste");
+		Property.setSliceLabel(modes[i], i+1);
+	}
+	setSlice(1);
+	run("Select None");
+	setOption("Changes", 0);
+	setBatchMode(0);
 }
 
 function rgb2Luminance(){
@@ -1686,7 +1724,6 @@ function decon32_to_8bit() {
 }
 
 function myTile() {
-	close("LUT profile");
 	all_IDs = newArray(nImages);
 	for (i=0; i<nImages ; i++) {			
 		selectImage(i+1);
@@ -1990,6 +2027,12 @@ function LUTbaker(){
 }
 
 function LUTmaker(r,g,b){
+	// function LUTmaker(r,g,b){
+	// 	R = Array.resample(newArray(0,r),256);
+	// 	G = Array.resample(newArray(0,g),256);
+	// 	B = Array.resample(newArray(0,b),256);
+	// 	setLut(R, G, B);
+	// }
 	R = newArray(256); G = newArray(256); B = newArray(256);
 	for(i=0; i<256; i++) { 
 		R[i] = (r/256)*(i+1);
@@ -2099,6 +2142,7 @@ function ReorderLUTsAsk(){
 }
 
 macro"random light LUTs [K]"{
+	if (isKeyDown("space")) {twoComp150LUTs(); exit;}
 	Types = newArray("any","any","any","any","any","any","any");
 	if (isKeyDown("space")) LUMINANCE = getNumber("luminance", 150);
 	else LUMINANCE = 150;
@@ -2112,6 +2156,86 @@ macro"random light LUTs [K]"{
 			//invertedLUTmaker();
 		}
 	}
+}
+
+function ultimateLUTgenerator(){
+	colors = newArray("red","green","blue","cyan","magenta","yellow","orange","gray");
+	//colors = newArray("red(10-167)","green(10-225)","blue(10-175)","cyan(10-190)","magenta(10-190)","yellow(10-225)","orange(10-190)","gray(0-255)");
+	chosenColors = newArray("gray","gray","gray","gray","gray","gray","gray","gray");
+	startLum = 0;
+	stopLum = 255;
+	steps = 4;
+	Dialog.createNonBlocking("steps");
+	Dialog.addSlider("how many steps?", 1, 8, steps);
+	Dialog.show();
+	steps =  Dialog.getNumber();
+	Dialog.createNonBlocking("colors");
+	Dialog.addSlider("start luminance?", 0, 255, startLum);
+	Dialog.addSlider("stop luminance?", 0, 255, stopLum);
+	for (i = 0; i < steps; i++) Dialog.addRadioButtonGroup("color "+i+1, colors,1,8,chosenColors[i]);
+	Dialog.show();
+	for (i = 0; i < steps; i++) chosenColors[i] = Dialog.getRadioButton();
+	startLum = Dialog.getNumber();
+	stopLum = Dialog.getNumber();
+	while (true) {
+		basicErrorCheck();
+		setBatchMode(1);
+		R = newArray(256); G = newArray(256); B = newArray(256);
+		range = stopLum-startLum;
+		for(i=0; i<steps; i++) { 
+			targetLum = i*(range/(steps-1))+startLum;
+			color = randomColorByTypeAndLum(targetLum, chosenColors[i]);
+			//print(i , targetLum, chosenColors[i]);
+			R[i*(255/(steps-1))] = color[0];
+			G[i*(255/(steps-1))] = color[1];
+			B[i*(255/(steps-1))] = color[2]; 
+			showProgress(i/steps);
+		}
+		R = splineColor(R,(steps-1));
+		G = splineColor(G,(steps-1));
+		B = splineColor(B,(steps-1));
+		setLut(R, G, B);
+		run("Select None");
+		run("Remove Overlay");
+		setBatchMode(0);
+		plotLUT();
+		copyLUT();
+		Dialog.createNonBlocking("new roll?");
+		Dialog.addMessage("OK to reroll cancel to stop");
+		Dialog.show();
+	}
+}
+
+function twoComp150LUTs(){
+	steps = getNumber("how many steps?", 1);
+	setBatchMode(1);
+	Stack.setChannel(1);
+	R = newArray(256); G = newArray(256); B = newArray(256);
+	for(i=0; i<=steps; i++) { 
+		color = randomColorByLuminance(i*(150/steps)); 
+		R[i*(255/steps)] = color[0]; R[0] = 0;
+		G[i*(255/steps)] = color[1]; G[0] = 0;
+		B[i*(255/steps)] = color[2]; B[0] = 0;
+		showProgress(i/steps);
+	}
+	R = splineColor(R,steps);
+	G = splineColor(G,steps);
+	B = splineColor(B,steps);
+	setLut(R, G, B);
+	setBatchMode(1);
+	getLut(reds, greens, blues);
+	Stack.setChannel(2);
+	comp = newArray(0);
+	for (i = 0; i < 256; i++) {
+		comp = complementary(reds[i],greens[i],blues[i]);
+		reds[i] = comp[0];
+		greens[i] = comp[1];
+		blues[i] = comp[2];
+		showProgress(i/255);
+	}
+	setLut(reds, greens, blues);
+	run("Select None");
+	Overlay.remove;
 }
 
 function getOppositeLinearLUT(){
