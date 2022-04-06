@@ -60,7 +60,7 @@ macro "Custom Menu Tool - N55C000D1aD1bD1cD1dD29D2dD39D3dD49D4dD4eD59D5eD69D75D7
 	else if (cmd=="my Wand tool") 					{String.copy(File.openUrlAsString("https://raw.githubusercontent.com/kwolbachia/Imagej-macro-addiction/main/Yet_another_magic_wand.ijm")); installMacroFromClipboard();}
 	else if (cmd=="invertableLUTs_Bar")				{run("Action Bar", File.openUrlAsString("https://git.io/JXoB2"));}
 	else if (cmd=="CB_Bar") 						{run("Action Bar", File.openUrlAsString("https://git.io/JZUZw"));}
-	else if (cmd=="LUT_Bar") 						{run("Action Bar", File.openUrlAsString("https://gist.githubusercontent.com/kwolbachia/86fa900000d19bdfed0809f7a55ddfb9/raw/615f9c33c740a17be048808eabf4afd1b1356aa7/K%2520LUTs%2520Bar.ijm"));}
+	else if (cmd=="LUT_Bar") 						{run("Action Bar", File.openUrlAsString("https://gist.githubusercontent.com/kwolbachia/86fa900000d19bdfed0809f7a55ddfb9/raw/f194630a80f24a8c2568f35bb41cb83b623e3da6/K%2520LUTs%2520Bar.ijm"));}
 	else if (cmd=="BioFormats_Bar") 				{BioformatsBar();}
 	else if (cmd=="Batch Merge") 					{batchMerge();}
 	else if (cmd=="quick scale bar") 				{quickScaleBar();}
@@ -127,7 +127,8 @@ macro "Preview Opener Tool - N66C000D34D35D36D37D38D39D3aD3bD3cD3dD3eD44D49D4eD5
 macro "Preview Opener Tool Options"{ if (!isOpen("Preview Opener.tif")) makePreviewOpener();}
 
 macro "set LUT from montage Tool - N55C000D37D38D39CfffD00D01D02D03D04D05D06D07D08D09D0aD0bD0cD0dD0eD10D11D12D13D14D15D16D17D18D19D1aD1bD1cD1dD1eD20D21D22D23D24D25D26D27D28D29D2aD2bD2cD2dD2eD30D31D32D36D3aD3eD40D41D42D46D4aD4eD50D51D52D56D5aD5eD60D61D62D66D6aD6eD70D71D72D76D7aD7eD80D81D82D86D8aD8eD90D91D92D96D9aD9eDa0Da1Da2Da6DaaDaeDb0Db1Db2Db6DbaDbeDc0Dc1Dc2Dc6DcaDceDd0Dd1Dd2Dd6DdaDdeDe0De1De2De6DeaDeeC338C047Db7Db8Db9C557D73D74D75D83D84D85C500D5bD5cD5dC198Ce50Cb87C024D77D78D79C278Cd51DdbDdcDddC438Cb00D9bD9cD9dC18cCfb3Cda7C100D3bD3cD3dC158Dd7Dd8Dd9C157Dc7Dc8Dc9C877Db3Db4Db5Dc3Dc4Dc5C900C3b7Ce82Cc97C013D33D34D35C17aCaf3C448Cd30DbbDbcDbdC1dcCfb4Cfd8C012D57D58D59C358C347D53D54D55C667D93D94D95C800D7bD7cD7dC2a8Ce71DebDecDedC49fC035D97D98D99C288Ccd1Ca87De3De4De5Cb10C19dCee1Cfb7C300D4bD4cD4dC368C8d4C977Dd3Dd4Dd5C427C1eaCfa3Cd97C406C18bCce3C47fCd40DcbDccDcdC1afCfc6CfebC011D47D48D49C457D63D64D65C247D43D44D45C600D6bD6cD6dC298Cf61C4f7C034D87D88D89C169De7De8De9C9d3Cc00DabDacDadC19dCed3Cea7C022D67D68D69C268C6c5Ca00D8bD8cD8dC4b7Cf92C045Da7Da8Da9C8f5C46dC2ceCfb5C667Da3Da4Da5Bf0C000CfffD00D01D02D06D0aD0eD10D11D12D16D1aD1eD20D21D22D26D2aD2eD30D31D32D36D3aD3eD40D41D42D46D4aD4eD50D51D52D56D5aD5eD60D61D62D66D6aD6eD70D71D72D76D7aD7eD80D81D82D83D84D85D86D87D88D89D8aD8bD8cD8dD8eD90D91D92D93D94D95D96D97D98D99D9aD9bD9cD9dD9eDa0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaDabDacDadDaeC338C047C557C500C198Ce50Cb87D13D14D15C024C278Cd51C438Cb00C18cD37D38D39Cfb3Cda7D43D44D45C100C158C157C877C900C3b7Ce82D0bD0cD0dCc97D23D24D25C013C17aD07D08D09D17D18D19Caf3C448Cd30C1dcCfb4D2bD2cD2dCfd8D5bD5cD5dC012C358C347C667C800C2a8Ce71C49fC035C288Ccd1Ca87D03D04D05Cb10C19dD57D58D59Cee1Cfb7D63D64D65D73D74D75C300C368C8d4C977C427C1eaCfa3Cd97D33D34D35C406C18bD27D28D29Cce3C47fCd40C1afD67D68D69D77D78D79Cfc6D4bD4cD4dCfebD6bD6cD6dD7bD7cD7dC011C457C247C600C298Cf61C4f7C034C169C9d3Cc00C19dD47D48D49Ced3Cea7D53D54D55C022C268C6c5Ca00C4b7Cf92D1bD1cD1dC045C8f5C46dC2ceCfb5D3bD3cD3dC667B0fC000CfffD03D07D08D09D0aD13D17D18D19D1aD23D27D28D29D2aD33D37D38D39D3aD43D47D48D49D4aD53D57D58D59D5aD63D67D68D69D6aD73D77D78D79D7aD80D81D82D83D84D85D86D87D88D89D8aD90D91D92D93D94D95D96D97D98D99D9aDa0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaC338C047C557C500C198Ce50D30D31D32Cb87C024C278Cd51C438Cb00C18cCfb3D00D01D02Cda7C100C158C157C877C900D60D61D62D70D71D72C3b7D04D05D06Ce82Cc97C013C17aCaf3C448Cd30D40D41D42C1dcCfb4Cfd8C012C358C347C667C800C2a8Ce71C49fC035C288Ccd1D54D55D56Ca87Cb10D50D51D52C19dCee1D64D65D66D74D75D76Cfb7C300C368C8d4D34D35D36C977C427C1eaCfa3D10D11D12Cd97C406C18bCce3C47fCd40C1afCfc6CfebC011C457C247C600C298Cf61D20D21D22C4f7C034C169C9d3D44D45D46Cc00C19dCed3Cea7C022C268C6c5D24D25D26Ca00C4b7D14D15D16Cf92C045C8f5C46dC2ceCfb5C667Nf0C000CfffD00D01D02D03D04D05D06D07D08D09D0aD10D11D12D13D14D15D16D17D18D19D1aD20D21D22D23D24D25D26D27D28D29D2aD33D37D38D39D3aD43D47D48D49D4aD53D57D58D59D5aD63D67D68D69D6aD73D77D78D79D7aD83D87D88D89D8aD93D97D98D99D9aDa3Da7Da8Da9DaaDb3Db7Db8Db9DbaDc3Dc7Dc8Dc9DcaDd3Dd7Dd8Dd9DdaDe3De7De8De9DeaC338D30D31D32C047C557C500C198Dd4Dd5Dd6Ce50Cb87C024C278Da4Da5Da6Cd51C438D54D55D56Cb00C18cCfb3Cda7C100C158C157C877C900C3b7Ce82Cc97C013C17aCaf3Dc0Dc1Dc2C448D64D65D66Cd30C1dcD80D81D82Cfb4Cfd8C012C358D74D75D76C347C667C800C2a8De4De5De6Ce71C49fD60D61D62C035C288Db4Db5Db6Ccd1Ca87Cb10C19dCee1Cfb7C300C368D84D85D86C8d4C977C427D44D45D46C1eaD90D91D92Cfa3Cd97C406D34D35D36C18bCce3Dd0Dd1Dd2C47fD50D51D52Cd40C1afCfc6CfebC011C457C247C600C298Dc4Dc5Dc6Cf61C4f7Da0Da1Da2C034C169C9d3Cc00C19dCed3De0De1De2Cea7C022C268D94D95D96C6c5Ca00C4b7Cf92C045C8f5Db0Db1Db2C46dD40D41D42C2ceD70D71D72Cfb5C667" 	{
-	setLutFromMontageTool();
+	// setLutFromMontageTool();
+	setLUTfromMontage();
 }
 macro "set LUT from montage Tool Options" {	displayLUTs();}
 
@@ -171,7 +172,7 @@ macro "iComposite [B]"	{ switchCompositeMode();}
 marco "copy       [c]"	{ run("Copy");}
 macro "b&c 		  [C]"  { B_and_C(); }
 macro "duplicat	  [D]"	{ if (isKeyDown("space")) memoryAndRecorder();				else run("Duplicate...", "duplicate");}
-macro "Spliticate [d]"	{ if (isKeyDown("space"))	run("Duplicate...", " ");	 	else if (isKeyDown("alt")) {Stack.getPosition(ch, slice, frame); run("Duplicate...", "duplicate channels=&ch slices=&slice frames=&frame");}	else run("Split Channels");}
+macro "Spliticate [d]"	{ if (isKeyDown("space"))	run("Duplicate...", " ");	 	else if (isKeyDown("alt")) {Stack.getPosition(ch, slice, frame); run("Duplicate...", "duplicate channels=&ch");}	else run("Split Channels");}
 macro "Tile 	  [E]"	{ 	myTile();}
 macro "edit lut   [e]"	{ if (isKeyDown("alt")) run("Edit LUT...");					else if (isKeyDown("space"))	seeAllLUTs();							else 	plotLUT();}
 macro "toolSwitch [F]"	{ toolRoll();}
@@ -183,12 +184,12 @@ macro "overlay I  [i]"	{ if (isKeyDown("space"))	invertedOverlay3(); 			else if 
 macro "New Macro  [J]"	{ 	run("Input/Output...", "jpeg=100"); saveAs("Jpeg");}
 macro "JPEG		  [j]"  { if (isKeyDown("space")) run("Text Window...", "name=poil width=40 height=7 menu"); else run("Macro");}
 macro "multiplot  [k]"  { 	multiPlot();}
-macro "Cmd finder [l]"	{ if (isKeyDown("alt")) run("Action Bar", File.openUrlAsString("https://gist.githubusercontent.com/kwolbachia/86fa900000d19bdfed0809f7a55ddfb9/raw/615f9c33c740a17be048808eabf4afd1b1356aa7/K%2520LUTs%2520Bar.ijm")); else if (isKeyDown("space"))	ultimateLUTgenerator(); else 	run("Find Commands...");}
+macro "Cmd finder [l]"	{ if (isKeyDown("alt")) run("Action Bar", File.openUrlAsString("https://gist.githubusercontent.com/kwolbachia/86fa900000d19bdfed0809f7a55ddfb9/raw/f194630a80f24a8c2568f35bb41cb83b623e3da6/K%2520LUTs%2520Bar.ijm")); else if (isKeyDown("space"))	ultimateLUTgenerator(); else 	run("Find Commands...");}
 macro "Copy paste [L]"  { 	copyPasteLUTset();}
 macro "Merge 	  [M]"	{ if (isKeyDown("space"))	run("Merge Channels..."); 		else 	fastMerge();} 
 macro "LUT baker  [m]"	{	LUTbaker();}
 macro "Hela       [n]"	{ if (isKeyDown("space")) {cul = 0; if(nImages>0) {if(bitDepth()!=24) getLut(r,g,b); cul=1;} newImage("lut"+round(random*100), "8-bit ramp", 256, 32, 1); if(cul) setLut(r,g,b);} else Hela();}
-macro "open paste [o]"	{ if ( nImages!=0) { if (startsWith(getTitle(), "Preview Opener")) openFromPreview();  else if (startsWith(getTitle(), "Lookup Tables")) setLutFromMontageTool();} else open(String.paste);}
+macro "open paste [o]"	{ if ( nImages!=0) { if (startsWith(getTitle(), "Preview Opener")) openFromPreview();  else if (startsWith(getTitle(), "Lookup Tables")) setLUTfromMontage();} else open(String.paste);}
 macro "Splitview  [p]"	{ if (isKeyDown("space")) 	SplitView(0,1,0); 				else 	SplitView(0,0,0); }
 macro "composite  [Q]" 	{ if (isKeyDown("space")) Stack.setActiveChannels("11111"); else compositeSwitch();	}
 macro "Arrange ch [q]"	{ if (isKeyDown("alt"))	doCommand("Start Animation [\\]");  else if (isKeyDown("space"))	ReorderLUTsAsk(); 				else 	run("Arrange Channels...");}
@@ -202,6 +203,8 @@ macro "pasta	  [v]"	{ if (isKeyDown("space"))	run("System Clipboard");		else if 
 macro "roll & FFT [x]"  { if (isKeyDown("alt"))	saveAs("lut", getDirectory("temp")+"/copiedLut.lut"); else if (isKeyDown("space"))	channelsRoll();			else	run("FFT");}
 macro "sync 	  [y]"	{ 	run("Synchronize Windows");}
 macro "close      [w]"  { if (isKeyDown("space")) open(call("ij.Prefs.get","last.closed","")); else if (isKeyDown("alt")) close("\\Others"); else {path = getDirectory("image") + getTitle(); if (File.exists(path)) call("ij.Prefs.set","last.closed",path); close();}} //avoid "are you sure?" and stores path in case of misclick
+
+
 
 function numericalKeyboardBar(){
 	text = "<fromString>\n"+
@@ -219,10 +222,10 @@ function memoryAndRecorder() {
 }
 
 function invert_all_LUTs() {
-	// !! only works with linear LUTs
-	// will switch all LUTs between inverted and non inverted 
-	// and switch the new composite rendering mode accordingly
-	requires("1.53o");
+    // !! only works with linear LUTs (one color)
+    // will convert all LUTs between inverted and non inverted 
+    // and switch the new composite rendering mode accordingly
+    requires("1.53o");
     getDimensions(width, height, channels, slices, frames);
     REDS = newArray(256); GREENS = newArray(256); BLUES = newArray(256);
     for (c = 1; c <= channels; c++) {
@@ -235,6 +238,10 @@ function invert_all_LUTs() {
                 GREENS[i] = (GREEN/256)*(i+1);
                 BLUES[i]  = (BLUE/256)*(i+1);
             }
+	   		setLut(REDS, GREENS, BLUES);
+            if (RED+GREEN+BLUE == 0) {
+	        	run("Grays");
+	        }
         }
         else {
         	//make inverted LUT
@@ -244,21 +251,19 @@ function invert_all_LUTs() {
                 GREENS[i] = 255-(((255-GREEN)/256)*i);
                 BLUES[i]  = 255-(((255-BLUE)/256)*i);
             }
+        	setLut(REDS, GREENS, BLUES);
+            if (RED+GREEN+BLUE == 765) {
+	        	run("Grays"); 
+	        	run("Invert LUT");
+	        }
         }
-        setLut(REDS, GREENS, BLUES);
     }
     // CompositeProjection mode switch :
     if      (Property.get("CompositeProjection") == "Invert") Property.set("CompositeProjection", "Sum");
     else if (Property.get("CompositeProjection") == "Min") Property.set("CompositeProjection", "Max");
     else if (Property.get("CompositeProjection") == "Max") Property.set("CompositeProjection", "Min");
     else Property.set("CompositeProjection", "Invert"); // if Composite Sum
-    updateDisplay(); exit;
-    //trick to refresh the composite image :
-    Stack.getDisplayMode(MODE);
-    if (MODE=="composite") {
-        Stack.setDisplayMode("color");
-        Stack.setDisplayMode("composite");
-    }
+    updateDisplay();
 }
 
 function switchCompositeMode(){
@@ -363,7 +368,7 @@ function multiTool(){ //avec menu "que faire avec le middle click? **"
 	if (flags>=32) flags -= 32;
 	if (flags == 8) { //middle mouse button
 		if      (startsWith(getTitle(), "Preview Opener")) openFromPreview();  
-		else if (startsWith(getTitle(), "Lookup Tables")) setLutFromMontageTool(); 
+		else if (startsWith(getTitle(), "Lookup Tables")) setLUTfromMontage(); 
 		else {
 			if (middleClick) eval(String.paste);
 			else compositeSwitch();
@@ -699,6 +704,8 @@ function fastColorCode(Glut) {
 	if (Glut == "current") setLut(r,g,b);
 	else open(Glut);
 	getLut(rA, gA, bA);
+	run("Calibration Bar...", "location=[Upper Left] fill=Black label=None zoom=0.7 overlay");
+	Overlay.copy;
 	close();
 	nrA = newArray(256);	ngA = newArray(256);	nbA = newArray(256);
 	newImage("temp", "8-bit White", ww, hh, 1);
@@ -734,6 +741,7 @@ function fastColorCode(Glut) {
 	rename("Tempo_color_code_"+Glut+"_"+title);
 	setBatchMode(0);
 	run("Set... ", "zoom="+zoom*100);
+	Overlay.paste;
 	setOption("Changes", 0);
 	run("Enhance Contrast", "saturated=0 use");
 }
@@ -776,41 +784,75 @@ function rotateLUT() {
 	rename("wiiiii");
 }
 
-function setLutFromMontageTool(){
+// function setLutFromMontageTool(){
+// 	title = getTitle();
+// 	folderLUTs = getDirectory("luts");
+// 	all_LUTs = getFileList(folderLUTs);
+// 	if (bitDepth()!=24 && title!="Lookup Tables")		setTargetImage();
+// 	else if (bitDepth()==24 && title!="Lookup Tables")	rgbPixel2LUT();
+// 	else {
+// 		getCursorLoc(x, y, z, modifiers);
+// 		rows = getInfo("xMontage");
+// 		lines = getInfo("yMontage");
+// 		YblocSize = Image.height/lines;
+// 		XblocSize = Image.width/rows;
+// 		index = 0;
+// 		linePosition = floor(y/YblocSize);
+// 		rowPosition = floor(x/XblocSize);
+// 		index = (linePosition*rows)+rowPosition;
+// 		if (index >= all_LUTs.length) exit;
+// 		targetImage=call("ij.Prefs.get","Destination.title","");
+// 		if (isKeyDown("shift")&&isOpen(targetImage)) {
+// 			selectWindow(targetImage);
+// 			fastColorCode(all_LUTs[index]);
+// 			showStatus("color code with LUT = " + all_LUTs[index]);
+// 			exit;
+// 		}
+// 		else if (isOpen(targetImage)){
+// 			selectWindow(targetImage);
+// 			open(folderLUTs + all_LUTs[index]);
+// 		}
+// 		else {
+// 			newImage(all_LUTs[index], "8-bit ramp", 256, 32, 1);
+// 			open(folderLUTs + all_LUTs[index]);
+// 		}
+// 		showStatus("LUT = " + all_LUTs[index]);
+// 	}
+// 	if (isOpen("LUT Profile")) plotLUT();
+// }
+
+
+function setLUTfromMontage() {
 	title = getTitle();
-	folderLUTs = getDirectory("luts");
-	all_LUTs = getFileList(folderLUTs);
-	if (bitDepth()!=24 && title!="Lookup Tables")		setTargetImage();
-	else if (bitDepth()==24 && title!="Lookup Tables")	rgbPixel2LUT();
+	if (title!="Lookup Tables")	setTargetImage();
 	else {
 		getCursorLoc(x, y, z, modifiers);
-		rows = getInfo("xMontage");
-		lines = getInfo("yMontage");
-		YblocSize = Image.height/lines;
-		XblocSize = Image.width/rows;
-		index = 0;
+		YblocSize = 50;
+		XblocSize = 258;
 		linePosition = floor(y/YblocSize);
 		rowPosition = floor(x/XblocSize);
-		index = (linePosition*rows)+rowPosition;
-		if (index >= all_LUTs.length) exit;
-		targetImage=call("ij.Prefs.get","Destination.title","");
-		if (isKeyDown("shift")&&isOpen(targetImage)) {
-			selectWindow(targetImage);
-			fastColorCode(all_LUTs[index]);
-			showStatus("color code with LUT = " + all_LUTs[index]);
-			exit;
+		X_LUTposition = 1+(rowPosition*XblocSize);
+		Y_LUTposition = 1+(linePosition*YblocSize);
+		R = newArray(1); G = newArray(1); B = newArray(1);
+		for (i = 0; i < 256; i++) {
+			color = getPixel(i + X_LUTposition, 1 + Y_LUTposition);
+			R[i] = (color>>16)&0xff; 	
+			G[i] = (color>>8)&0xff;		
+			B[i] = color&0xff;
 		}
-		else if (isOpen(targetImage)){
+		if (R[100]+G[100]+B[100] == 765) exit();
+		targetImage=call("ij.Prefs.get","Destination.title","");
+		if (isOpen(targetImage)){
 			selectWindow(targetImage);
-			open(folderLUTs + all_LUTs[index]);
+			setLut(R, G, B);
 		}
 		else {
-			newImage(all_LUTs[index], "8-bit ramp", 256, 32, 1);
-			open(folderLUTs + all_LUTs[index]);
+			newImage("lut", "8-bit ramp", 256, 32, 1);
+			setLut(R, G, B);
 		}
-		showStatus("LUT = " + all_LUTs[index]);
+		if (isOpen("LUT Profile")) plotLUT();
+		selectWindow(title);
 	}
-	if (isOpen("LUT Profile")) plotLUT();
 }
 
 function setTargetImage() {
@@ -1162,8 +1204,8 @@ function RedGreen2OrangeBlue() { //Red Green to Orange Blue
 	}
 	getDimensions(width, height, channels, slices, frames);
 	if (channels > 2) run("Arrange Channels...", "new=12");
-	Stack.setChannel(1); LUTmaker(0,150,255);
-	Stack.setChannel(2); LUTmaker(255,105,0);
+	Stack.setChannel(1); LUTmaker(85,164,252);
+	Stack.setChannel(2); LUTmaker(216,137,49);
 	setOption("Changes", 0);
 }
 
@@ -1263,13 +1305,19 @@ function test_All_Zprojections(){
 	getDimensions(width, height, channels, slices, frames);
 	title = getTitle();
 	source = getImageID();
+	Dialog.createNonBlocking("Test all Z projections");
+	Dialog.addNumber("start", 1);
+	Dialog.addNumber("stop", maxOf(slices, frames));
+	Dialog.show();
+	start = Dialog.getNumber();
+	stop = Dialog.getNumber();
 	setBatchMode(1);
-	modes = newArray("[Average Intensity]","[Max Intensity]","[Min Intensity]","[Sum Slices]","[Standard Deviation]","Median");
-	newImage(title + "-Zprojects", "RGB", width, height, 6);
+	modes = newArray("[Max Intensity]", "[Sum Slices]", "[Standard Deviation]");
+	newImage(title + "-Zprojects", "RGB", width, height, 3);
 	result = getImageID();
-	for (i=0; i<=5; i++) {
+	for (i=0; i<=2; i++) {
 		selectImage(source);
-		run("Z Project...", "projection=" + modes[i]);
+		run("Z Project...", "start=&start stop=&stop projection=" + modes[i]);
 		run("Enhance Contrast...", "saturated=0.001");
 		run("RGB Color");
 		run("Copy");
