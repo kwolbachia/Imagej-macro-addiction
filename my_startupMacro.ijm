@@ -45,7 +45,7 @@ var ShortcutsMenu = newMenu("Custom Menu Tool",
 		 "-", "Rotate 90 Degrees Right","Rotate 90 Degrees Left","make my LUTs",
 		 "-","Gaussian Blur...","Gaussian Blur 3D...","Gamma...",
 		 "-","test all Z project", "test CLAHE options", "test all calculator modes", "Tempo color no Zproject", "cool 3D anim",
-		 "-","Batch convert ims to tif","Batch convert 32 to 16-bit","Batch Merge","Combine tool", "Merge tool","my Wand tool",
+		 "-","Time Stamper", "Batch convert ims to tif","Batch convert 32 to 16-bit","Batch Merge","Combine tool", "Merge tool","my Wand tool",
 		 "-","Neuron (5 channels)","HeLa Cells (48-bit RGB)", "Confocal Series","Brain slice","Microtubules", "3 channels",
 		 "-","invertableLUTs_Bar","CB_Bar","LUT_Bar","JeromesWheel","RGBtimeIsOver"));
 macro "Custom Menu Tool - N55C000D1aD1bD1cD1dD29D2dD39D3dD49D4dD4eD59D5eD69D75D76D77D78D79D85D88D89D94D98D99Da4Da7Da8Da9Db3Db7Db8Dc3Dc6Dc7DccDcdDd3Dd6Dd8DdbDdcDe2De3De6De8De9DeaDebDecCfffD0dD3cD5cD6dD7bD8bD8cD96D9aD9bDa5DacDadDb5DcaDd4Dd9DdaDe4CdddD0aD1eD2bD6aD74D7aD95Dc4Dc5DeeC333D67D68DbeDd2DddCeeeD00D01D02D03D04D05D06D07D08D09D0eD10D11D12D13D14D15D16D17D18D20D21D22D23D24D25D26D27D30D31D32D33D34D35D36D37D3aD3bD40D41D42D43D44D45D46D47D4bD50D51D52D53D54D55D56D57D60D61D62D63D64D65D6eD70D71D72D73D80D81D82D83D86D8aD8dD90D91D92D97Da0Da1Da2Da6DaaDb0Db1DbbDc0Dc1Dc9Dd0Dd1De0De1C111D38D5bD6bD7dDabDbaDd7C999D4cD58D5aD5dD93DceDd5C777D0bD2eD4aD6cD7cD7eD9cD9dD9eDbdDc8C222D8eDa3DbcCcccD2cDdeDe7C666D19Db4DcbCbbbD0cD87DaeDb2C888D66De5C555D28D2aD84Dc2CaaaDb9DedC444D3eD48Db6Bf0C000D03D06D0cD13D16D1bD23D26D2aD33D37D39D43D44D47D48D54D65D76D77D87D88D89D8aD8bD8cD8dD8eD9bCfffD04D08D0dD0eD14D18D19D24D28D2cD35D3bD3cD3dD3eD45D46D4aD4bD4cD4eD56D57D5aD5bD5cD5dD5eD68D69D6aD6bD6cD6dD7cD7dCdddD1cD25D63D7eD97C333D99CeeeD00D01D07D10D11D1dD20D21D2eD30D31D40D41D42D4dD50D51D52D59D60D61D62D67D6eD70D71D72D73D74D79D7aD7bD80D81D82D83D84D85D90D91D92D93D94D95D96Da0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaDabDacDadDaeC111D02D0bD36C999D1aD2bD58D9eC777D27D3aC222D64D66D9aCcccD09D17C666D12D38D78CbbbD0aD15D1eD2dD32D34C888D98C555D49D55D86D9cD9dCaaaD05D29D53C444D22D75B0fC000D02D03D04D05D08D09D18D27D28D36D37D45D46D54D55D63D64D71D72D80D81CfffD06D07D16D25D30D34D35D40D43D44D52D57D60D61D66D75D83D85CdddD10D22D32D33D42D74C333CeeeD0aD1aD21D29D2aD31D38D39D3aD48D49D4aD50D51D53D58D59D5aD67D68D69D6aD76D77D78D79D7aD84D86D87D88D89D8aD91D92D93D94D95D96D97D98D99D9aDa0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaC111C999D62D65C777D00C222D01D13D14D73CcccD11D26D90C666CbbbD12D15D19D20D23D24D41D82C888D47D56D70C555D17CaaaC444Nf0C000D33D34D35D36D42D43D46D50D51D55D64D65D66D67D73D74D78D88D96D97Da4Da5Db4Dc4Dd4Dd6Dd7Dd8De3De4De6De8De9CfffD15D31D44D53D54D58D62D84D85D86D92D93Da2Db2Dc2Dd2De7CdddD63Da1Da7Dc1Dd0De2C333D25D47D56D77Da0CeeeD00D01D02D03D04D05D06D07D08D09D0aD10D11D12D13D14D16D17D18D19D1aD20D21D22D27D28D29D2aD30D38D39D3aD48D49D4aD59D5aD69D6aD71D7aD82D8aD99D9aDa8Da9DaaDb1Db6Db7Db8Db9DbaDc9DcaDd1DdaDe0DeaC111C999D37D76D90Da6Db5Dc6Dc8Dd3C777D41D81D91D98Dc7De5C222D75D95Db3CcccD61D72D79D83D89Dc5Dd5Dd9De1C666D40D52D57CbbbD70D80D94C888D23D32D45Dc3C555D60D87Da3Db0CaaaD26Dc0C444D24D68" {
@@ -101,7 +101,7 @@ macro "All opened images Menu Tool - N55C000D0dD0eD1dD1eD2dD3dD3eD4dD4eD59D5aD5b
 //------POPUP
 //--------------------------------------------------------------------------------------------------------------------------------------
 var pmCmds = newMenu("Popup Menu",
-	newArray("copy paste LUT set", "Rename...", "Duplicate...","Set LUTs","Set active path", "rajout de bout","Copy to System",
+	newArray("Remove Overlay", "Rename...", "Duplicate...","Set LUTs","Set active path", "rajout de bout","Copy to System",
 	 "-", "CLAHE", "gauss correction", "color blindness","Luminance","rgb LUT to LUT", "rotate LUT",
 	 "-", "Record...", "Monitor Memory...","Control Panel...", "Startup Macros..."));
 macro "Popup Menu" {
@@ -216,9 +216,9 @@ function numericalKeyboardBar(){
 }
 function memoryAndRecorder() {
 	run("Record...");
-	Table.setLocationAndSize(screenWidth-300, 0, 300, 200,"Recorder");
+	Table.setLocationAndSize(screenWidth-350, 0, 350, 200,"Recorder");
 	run("Monitor Memory...");
-	Table.setLocationAndSize(screenWidth-545, 0, 250, 120,"Memory");
+	Table.setLocationAndSize(screenWidth-595, 0, 250, 120,"Memory");
 }
 
 function invert_all_LUTs() {
@@ -285,7 +285,7 @@ function quickScaleBar(){
 	// set the appearance of scalebar
 	if (isKeyDown("shift")) COLOR = "Black";
 	else COLOR = "White";
-	SCALEBAR_SIZE = 0.1;         // approximate size of the scale bar relative to image width
+	SCALEBAR_SIZE = 0.2;         // approximate size of the scale bar relative to image width
 	getPixelSize(unit,w,h);
 	if (unit == "pixels") exit("Image not spatially calibrated");
 	IMAGE_WIDTH = w * minOf(Image.width,Image.height);  // image width in measurement units
@@ -294,10 +294,9 @@ function quickScaleBar(){
 	// 1-2-5 series is calculated by repeated multiplication with 2.3, rounded to one significant digit
 	while (SCALEBAR_LENGTH < IMAGE_WIDTH * SCALEBAR_SIZE) 
 		SCALEBAR_LENGTH = round((SCALEBAR_LENGTH*2.3)/(Math.pow(10,(floor(Math.log10(abs(SCALEBAR_LENGTH*2.3)))))))*(Math.pow(10,(floor(Math.log10(abs(SCALEBAR_LENGTH*2.3))))));
-	SCALEBAR_SETTINGS = "height=" + (SCALEBAR_LENGTH/w)/6 + " font=" + minOf(Image.width,Image.height)/20 + " color=" + COLOR + " background=None location=[Lower Right] bold overlay";
+	SCALEBAR_SETTINGS = "height=" + (SCALEBAR_LENGTH/w)/7 + " font=" + minOf(Image.width,Image.height)/20 + " color=" + COLOR + " background=None location=[Lower Right] bold overlay";
 	run("Scale Bar...", "width=&SCALEBAR_LENGTH "+SCALEBAR_SETTINGS);
 }
-
 // macro "test Tool - C000 T0508T  T5508e  Ta508s Tg508t"{
 // }
 var compositeSwitchActiveChannels = "1111111";
@@ -350,7 +349,7 @@ function toolRoll() {
 }
 
 //ispired by Robert Haase Windows Position tool from clij
-//IDEA : possible to drag lines or diagonals to trigger things
+//IDEA : possible to drag lines or diagonals to trigger things?
 function multiTool(){ //avec menu "que faire avec le middle click? **"
 	/*
 	 * shift = +1;
@@ -382,7 +381,7 @@ function multiTool(){ //avec menu "que faire avec le middle click? **"
 		else if (mainTool=="explorer")               explorer();
 		else if (mainTool=="My Magic Wand")          magicWand();
 	}
-	if (Image.height==32||Image.height==64) plotLUT();
+	if (Image.height==32||Image.height==64) { plotLUT(); copyLUT();}
 	else if (getInfo("window.type") == "ResultsTable") result2label();
 	if (flags == 9) 				pasteLUT();						//shift + middle click
 	//if (flags == 26||flags == 28)	close();						// ctrl + alt + click
@@ -1897,7 +1896,7 @@ function SplitView(color,style,labels) {
 		getLabels();
 		setColor("white");
 		setFont("SansSerif", fontS, "bold antialiased");
-		Overlay.drawString("Overlay",h/20,fontS);
+		Overlay.drawString("Merge",h/20,fontS);
 		Overlay.show;
 		run("Flatten","stack");
 		rename("overlay"); tile[0] = getTitle();
@@ -2206,12 +2205,12 @@ macro"random light LUTs [K]"{
 	}
 }
 
+var	startLum = 0;
+var	stopLum = 255;
 function ultimateLUTgenerator(){
 	colors = newArray("red","green","blue","cyan","magenta","yellow","orange","gray");
 	//colors = newArray("red(10-167)","green(10-225)","blue(10-175)","cyan(10-190)","magenta(10-190)","yellow(10-225)","orange(10-190)","gray(0-255)");
 	chosenColors = newArray("gray","gray","gray","gray","gray","gray","gray","gray");
-	startLum = 0;
-	stopLum = 255;
 	steps = 4;
 	Dialog.createNonBlocking("steps");
 	Dialog.addSlider("how many steps?", 1, 8, steps);
