@@ -7,7 +7,7 @@ Then double click (or right click) on the tool to create the snapshot montage. I
 Save it as tiff on the same directory, don't rename it!    
 Now when you click on this preview montage with the tool, it will open the image you clicked ! (provided everything is on the same directory)   
 
-About the [LUTs from montage Tool](https://github.com/kwolbachia/Imagej-macro-addiction/blob/main/Preview%20Opener.ijm) :    
+About the [LUTs from montage Tool](https://github.com/kwolbachia/Imagej-macro-addiction/blob/main/LUTs_from_montage.ijm) :    
 Double click (or right click) on the tool to get the imageJ LUTs montage.    
 Select the image you want to target by clicking on it (it should blink in orange)     
 then just click on the LUT you want on the montage.     
