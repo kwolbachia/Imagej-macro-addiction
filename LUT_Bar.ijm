@@ -40,6 +40,12 @@ label=Spline fit
 bgcolor=#7ec1b4
 arg=lutSplineFit(3);
 
+
+<button>
+label=Spline3-10
+bgcolor=#d0de3a
+arg=lutSplineFit3to10();
+
 </line>
 
 <line>
@@ -139,6 +145,45 @@ function ultimateLUTgenerator(){
 		Dialog.createNonBlocking("new roll?");
 		Dialog.addMessage("OK to reroll cancel to stop");
 		Dialog.show();
+	}
+}
+
+function lutSplineFit3to10(){
+	setBatchMode(1);
+	title = getTitle();
+	channels = 7;
+	getLut(reds, greens, blues);
+	id = getImageID();
+	newImage("LUTs", "8-bit color-mode", 256, 32*channels, channels, 1, 1);
+	id2 = getImageID();
+	newImage("ramp", "8-bit Ramp", 256, 32, 1);
+	run("Copy");
+	selectImage(id2);
+	y = 0;
+	for (i = 0; i < channels; i++) {
+		selectImage(id2);
+		Stack.setChannel(i+1);
+		setLut(reds, greens, blues);
+		makeRectangle(0, y, 256, 32);
+		run("Paste");
+		lutSplineFit2(i+3);
+		Property.setSliceLabel(i+3);
+		y += 32;
+	}
+	run("Select None");
+	Stack.setDisplayMode("color");
+	setOption("Changes", 0);
+	setBatchMode(0);
+	
+	function lutSplineFit2(steps){
+		getLut(r,g,b);
+		R = newArray(256); G = newArray(256); B = newArray(256);
+		R = splineColor(r,steps);
+		G = splineColor(g,steps);
+		B = splineColor(b,steps);
+		setLut(R, G, B);
+		run("Select None");
+		run("Remove Overlay");
 	}
 }
 
