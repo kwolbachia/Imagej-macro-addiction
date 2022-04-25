@@ -23,13 +23,6 @@ arg=randomViridis(3);
 
 <line>
 
-
-<button>
-label=coolify LUT
-bgcolor=#f37f18
-arg=coolifyLUT(2);
-
-
 <button>
 label=opposite LUT
 bgcolor=#ff815d
@@ -263,7 +256,7 @@ function createOppositeLUT(){
 	basicErrorCheck();
 	setBatchMode(1);
 	getLut(reds, greens, blues);
-	newImage("Complementary LUT", "8-bit ramp", 256, 32, 1);
+	newImage("opposite LUT", "8-bit ramp", 256, 32, 1);
 	comp = newArray(0);
 	for (i = 0; i < 256; i++) {
 		comp = complementary(reds[i],greens[i],blues[i]);
@@ -273,7 +266,6 @@ function createOppositeLUT(){
 		showProgress(i/255);
 	}
 	setLut(reds, greens, blues);
-	//lutSplineFit(3);
 	rename("Complementary LUT");
 	setBatchMode(0);
 	copyLUT();
@@ -300,8 +292,8 @@ function enluminateLUT(){
 		blues[i] = color[2];
 		showProgress(i/255);
 	}
+	newImage("adjusted LUT", "8-bit ramp", 256, 32, 1);
 	setLut(reds, greens, blues);
-	rename("Complementary LUT");
 	setBatchMode(0);
 	copyLUT();
 }
@@ -383,13 +375,6 @@ function randomColorByTypeAndLum(lum, targetColorType) {
 		if (targetColorType == "any") loop = 0;
 		count++;
 	}
-	/*
-	print(colorType);
-	s=""; for (i = 0; i < red; i+=2) s+="|"; print(s,red);
-	s=""; for (i = 0; i < green; i+=2) s+="|"; print(s,green);
-	s=""; for (i = 0; i < blue; i+=2) s+="|"; print(s,blue);
-	"     ";
-	*/
 	return rgb;
 }
 
