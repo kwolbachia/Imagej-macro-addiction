@@ -5,7 +5,7 @@
 //210922 100 macros -> functions instead
 var savedLocX = 0;
 var savedLocY = 0;
-var chosen_LUTs = newArray("kb","km","ko","kg","Grays");
+var chosen_LUTs = newArray("kb","km","ko","Grays","Grays");
 var ChLabels = newArray("CidB","CidA","DNA","H4Ac","DIC");
 var fontS = 30;
 var tile = newArray(1);
@@ -42,7 +42,7 @@ macro "Multitool Tool Options" {
 //--------------------------------------------------------------------------------------------------------------------------------------
 var ShortcutsMenu = newMenu("Custom Menu Tool",
 	newArray("Fetch or pull StartupMacros", "BioFormats_Bar","Numerical Keys Bar", "Record...", "Monitor Memory...", "quick scale bar", "Note in infos", "correct copied path",
-		 "-", "Rotate 90 Degrees Right","Rotate 90 Degrees Left","make my LUTs",
+		 "-", "Rotate 90 Degrees Right","Rotate 90 Degrees Left", "Stack Sorter", "make my LUTs",
 		 "-","Gaussian Blur...","Gaussian Blur 3D...","Gamma...",
 		 "-","test all Z project", "test CLAHE options", "test all calculator modes", "Tempo color no Zproject", "cool 3D anim",
 		 "-","Time Stamper", "Batch convert ims to tif","Batch convert 32 to 16-bit","Batch Merge","Combine tool", "Merge tool","my Wand tool",
@@ -60,7 +60,7 @@ macro "Custom Menu Tool - N55C000D1aD1bD1cD1dD29D2dD39D3dD49D4dD4eD59D5eD69D75D7
 	else if (cmd=="my Wand tool") 					{String.copy(File.openUrlAsString("https://raw.githubusercontent.com/kwolbachia/Imagej-macro-addiction/main/Yet_another_magic_wand.ijm")); installMacroFromClipboard();}
 	else if (cmd=="invertableLUTs_Bar")				{run("Action Bar", File.openUrlAsString("https://git.io/JXoB2"));}
 	else if (cmd=="CB_Bar") 						{run("Action Bar", File.openUrlAsString("https://git.io/JZUZw"));}
-	else if (cmd=="LUT_Bar") 						{run("Action Bar", File.openUrlAsString("https://gist.githubusercontent.com/kwolbachia/86fa900000d19bdfed0809f7a55ddfb9/raw/f194630a80f24a8c2568f35bb41cb83b623e3da6/K%2520LUTs%2520Bar.ijm"));}
+	else if (cmd=="LUT_Bar") 						{run("Action Bar", File.openUrlAsString("https://raw.githubusercontent.com/kwolbachia/Imagej-macro-addiction/main/LUT_Bar.ijm"));}
 	else if (cmd=="BioFormats_Bar") 				{BioformatsBar();}
 	else if (cmd=="Batch Merge") 					{batchMerge();}
 	else if (cmd=="quick scale bar") 				{quickScaleBar();}
@@ -102,7 +102,7 @@ macro "All opened images Menu Tool - N55C000D0dD0eD1dD1eD2dD3dD3eD4dD4eD59D5aD5b
 //--------------------------------------------------------------------------------------------------------------------------------------
 var pmCmds = newMenu("Popup Menu",
 	newArray("Remove Overlay", "Rename...", "Duplicate...","Set LUTs","Set active path", "rajout de bout","Copy to System",
-	 "-", "CLAHE", "gauss correction", "color blindness","Luminance","rgb LUT to LUT", "rotate LUT",
+	 "-", "CLAHE", "gauss correction", "color blindness","rgb LUT to LUT", "rotate LUT",
 	 "-", "Record...", "Monitor Memory...","Control Panel...", "Startup Macros..."));
 macro "Popup Menu" {
 	cmd = getArgument(); 
@@ -159,7 +159,7 @@ macro "my default LUTs   [1]"	{if (isKeyDown("space")) SetAllLUTs(); 			else if 
 macro "good size  		 [2]"	{if (isKeyDown("space")) restorePosition(); 	else if (isKeyDown("alt")) fullScreen();		else goodSize();}
 macro "3D Zproject++     [3]"	{if (isKeyDown("space")) Cool_3D_montage();		else my3D_project();}
 macro "full scale montage[4]"	{if (isKeyDown("space")) run("Montage to Stack..."); 	else run("Make Montage...", "scale=1"); setOption("Changes", 0);}
-macro "25x25 selection   [5]"	{if (isKeyDown("space")) makeRectangle(0,0,75,200); else {size=25; toUnscaled(size); size = round(size); getCursorLoc(x, y, null, null); call("ij.IJ.makeRectangle",x-(size/2),y-(size/2),size,size); showStatus(size+"x"+size); setTool(0);}}
+macro "25x25 selection   [5]"	{if (isKeyDown("space")) makeRectangle(0,0,75,200); else {size=25; toUnscaled(size); size = round(size); getCursorLoc(x, y, null, null); call("ij.IJ.makeRectangle",x-(size/2),y-(size/2),size,size); showStatus(size+"x"+size);}}
 macro "make it look good [6]"	{for (i=0; i<nImages; i++) { setBatchMode(1); selectImage(i+1); run("Appearance...", "  "); run("Appearance...", "black no"); setBatchMode(0);}}
 macro "set destination   [7]" 	{if (isKeyDown("space")) { showStatus("Source set");	run("Alert ", "object=Image color=Orange duration=1000"); source = getTitle();} else if (isKeyDown("alt")) setCustomPosition(); else setTargetImage();}
 macro "rename w/ id      [8]"	{if (isKeyDown("space")) rename(getImageID()); else run("Rename...");}
@@ -184,7 +184,7 @@ macro "overlay I  [i]"	{ if (isKeyDown("space"))	invertedOverlay3(); 			else if 
 macro "New Macro  [J]"	{ 	run("Input/Output...", "jpeg=100"); saveAs("Jpeg");}
 macro "JPEG		  [j]"  { if (isKeyDown("space")) run("Text Window...", "name=poil width=40 height=7 menu"); else run("Macro");}
 macro "multiplot  [k]"  { 	multiPlot();}
-macro "Cmd finder [l]"	{ if (isKeyDown("alt")) run("Action Bar", File.openUrlAsString("https://gist.githubusercontent.com/kwolbachia/86fa900000d19bdfed0809f7a55ddfb9/raw/f194630a80f24a8c2568f35bb41cb83b623e3da6/K%2520LUTs%2520Bar.ijm")); else if (isKeyDown("space"))	ultimateLUTgenerator(); else 	run("Find Commands...");}
+macro "Cmd finder [l]"	{ if (isKeyDown("alt")) run("Action Bar", File.openUrlAsString("https://raw.githubusercontent.com/kwolbachia/Imagej-macro-addiction/main/LUT_Bar.ijm")); else if (isKeyDown("space"))	ultimateLUTgenerator(); else 	run("Find Commands...");}
 macro "Copy paste [L]"  { 	copyPasteLUTset();}
 macro "Merge 	  [M]"	{ if (isKeyDown("space"))	run("Merge Channels..."); 		else 	fastMerge();} 
 macro "LUT baker  [m]"	{	LUTbaker();}
@@ -196,14 +196,62 @@ macro "Arrange ch [q]"	{ if (isKeyDown("alt"))	doCommand("Start Animation [\\]")
 macro "Adjust 	  [R]"	{ if (isKeyDown("space"))	Reset_All_Contrasts(); 			else 	Auto_Contrast_on_all_channels();}
 macro "r 	 	  [r]"	{ if (isKeyDown("alt"))		reduceMax();	 				else if (isKeyDown("space")) {run("Install...","install=["+getDirectory("macros")+"/StartupMacros.fiji.ijm]"); setTool(15);}	else Adjust_Contrast();}
 macro "Splitview  [S]"	{ if (isKeyDown("alt"))   	getSplitViewPrefs();			else if (isKeyDown("space")) SplitView(1,0,0); 							else SplitView(1,1,0); }
-macro "as tiff 	  [s]"	{ if (isKeyDown("space"))	ultimateSplitview(); 			else if (isKeyDown("alt")) {File.setDefaultDir(getDirectory("image")); Save_all_opened_images_elsewhere();} 			else	{File.setDefaultDir(getDirectory("image")); saveAs("Tiff");}}
+macro "as tiff 	  [s]"	{ if (isKeyDown("space"))	ultimateSplitview(); 			else if (isKeyDown("alt")) {File.setDefaultDir(getDirectory("image")); Save_all_opened_images_elsewhere();} 			else saveAs("Tiff");}
 macro "test.ijm   [t]"	{ if (isKeyDown("alt"))		installMacroFromClipboard();	else if (isKeyDown("space")) run("Action Bar", String.paste);	else eval(String.paste);}
 macro "rgb color  [u]"  { if (isKeyDown("space"))	myRGBconverter(); 				else if (isKeyDown("alt"))	RedGreen2OrangeBlue(); 						else 	switcher(); }
 macro "pasta	  [v]"	{ if (isKeyDown("space"))	run("System Clipboard");		else if (isKeyDown("alt"))	open(getDirectory("temp")+"/copiedLut.lut");else 	run("Paste");}
-macro "roll & FFT [x]"  { if (isKeyDown("alt"))	saveAs("lut", getDirectory("temp")+"/copiedLut.lut"); else if (isKeyDown("space"))	channelsRoll();			else	run("FFT");}
+macro "roll & FFT [x]"  { if (isKeyDown("space"))	channelsRoll();					else	copyLUT(); }
 macro "sync 	  [y]"	{ 	run("Synchronize Windows");}
 macro "close      [w]"  { if (isKeyDown("space")) open(call("ij.Prefs.get","last.closed","")); else if (isKeyDown("alt")) close("\\Others"); else {path = getDirectory("image") + getTitle(); if (File.exists(path)) call("ij.Prefs.set","last.closed",path); close();}} //avoid "are you sure?" and stores path in case of misclick
 
+// This macro displays, as a montage, all the LUTs a given folder
+// C Leterrier 12/06/2021
+// Adapted from ImageJ macro "Display LUTs"
+// K Terretaz 22.04.2022
+function showLUTs2() {
+	saveSettings();
+	inDir = getDirectory("Choose diectrory containing LUTs");
+	list = getFileList(inDir);
+	setBatchMode(true);
+	newImage("ramp", "8-bit Ramp", 256, 32, 1);
+	newImage("luts", "RGB White", 256, 48, 1);
+	count = 0;
+	setForegroundColor(255, 255, 255);
+	setBackgroundColor(255, 255, 255);
+	setFont("SansSerif", 12,"antialiased");
+	for (i=0; i<list.length; i++) {
+		if (!endsWith(list[i], ".lut")) {
+			open(inDir + list[i]);
+			if (bitDepth()!=24) {
+				getLut(reds, greens, blues);
+				selectWindow("ramp");
+				setLut(reds, greens, blues);
+			}
+		}
+		else {
+			selectWindow("ramp");
+	    	open(inDir + list[i]);
+		}
+	    run("Copy");
+	    selectWindow("luts");
+	    makeRectangle(0, 0, 256, 32);
+	    run("Paste");
+	    setJustification("center");
+	    setColor(0, 0, 0);
+	    drawString(substring(list[i], 0, lengthOf(list[i])-4),128, 48);
+	    run("Add Slice");
+	    run("Select All");
+	    run("Clear", "slice");
+	    count++;
+	}
+	run("Delete Slice");
+	run("Canvas Size...", "width=258 height=50 position=Center");
+	setBackgroundColor(0, 0, 0);
+	run("Make Montage...", "columns=4 scale=1 first=1 last="+count+" increment=1 border=0 use");
+	rename("Lookup Tables");
+	setBatchMode(false);
+	restoreSettings();
+}
 
 
 function numericalKeyboardBar(){
@@ -368,6 +416,7 @@ function multiTool(){ //avec menu "que faire avec le middle click? **"
 	if (flags == 8) { //middle mouse button
 		if      (startsWith(getTitle(), "Preview Opener")) openFromPreview();  
 		else if (startsWith(getTitle(), "Lookup Tables")) setLUTfromMontage(); 
+		if (Image.height==32||Image.height==64) { plotLUT(); copyLUT();}
 		else {
 			if (middleClick) eval(String.paste);
 			else compositeSwitch();
@@ -381,8 +430,7 @@ function multiTool(){ //avec menu "que faire avec le middle click? **"
 		else if (mainTool=="explorer")               explorer();
 		else if (mainTool=="My Magic Wand")          magicWand();
 	}
-	if (Image.height==32||Image.height==64) { plotLUT(); copyLUT();}
-	else if (getInfo("window.type") == "ResultsTable") result2label();
+	if (getInfo("window.type") == "ResultsTable") result2label();
 	if (flags == 9) 				pasteLUT();						//shift + middle click
 	//if (flags == 26||flags == 28)	close();						// ctrl + alt + click
 	if (flags == 17)				liveContrast();					// shift + long click
@@ -680,6 +728,7 @@ function fastColorCode(Glut) {
 	title = getTitle();
 	Stack.getDimensions(ww, hh, channels, slices, frames);
 	if (hh == 64 || hh == 32) {run("Fly Brain"); run("Make Composite"); run("Arrange Channels...", "new=1");}
+	// if (hh == 64 || hh == 32) {open("C:/Users/kterretaz/Desktop/Stack.tif");}
 	Stack.getDimensions(ww, hh, channels, slices, frames);
 	Stack.getPosition(channel, slice, frame);
 	if (channels > 1) run("Duplicate...", "duplicate channels=&channel");
@@ -700,7 +749,8 @@ function fastColorCode(Glut) {
 	run("8-bit");
 	imgID = getImageID();
 	newImage("stamp", "8-bit White", 10, 10, 1);
-	if (Glut == "current") setLut(r,g,b);
+	if (Glut == "current") pasteLUT();
+	// if (Glut == "current") setLut(r,g,b);
 	else open(Glut);
 	getLut(rA, gA, bA);
 	run("Calibration Bar...", "location=[Upper Left] fill=Black label=None zoom=0.7 overlay");
@@ -823,7 +873,7 @@ function rotateLUT() {
 
 function setLUTfromMontage() {
 	title = getTitle();
-	if (title!="Lookup Tables")	setTargetImage();
+	if (!startsWith(title, "Lookup Tables"))	setTargetImage();
 	else {
 		getCursorLoc(x, y, z, modifiers);
 		YblocSize = 50;
@@ -946,7 +996,7 @@ function makePreviewOpener() {
 	concat_Options = "open ";
 	for (i=0; i<nImages ; i++) {			
 		selectImage(i+1);
-		if (i==0) File.setDefaultDir(getDirectory("image"));
+		if (i==0) {dir = getDirectory("image"); File.setDefaultDir(dir);}
 		all_IDs[i] = getImageID();
 		all_paths += getTitle() +",,";
 	}
@@ -964,7 +1014,7 @@ function makePreviewOpener() {
 	setMetadata("Info", all_paths+"\n"+infos);
 	close("\\Others");
 	setBatchMode(0);
-	run("Save");
+	saveAs("tiff", dir+"Preview Opener");
 }
 
 //Supposed to create an RGB snapshot of any kind of opened image
@@ -1099,14 +1149,41 @@ function plotLUT(){
 	lutinance = newArray(0); //luminance of LUT...
 	getLut(r,g,b);
 	setBatchMode(1);
-		newImage("LUT for plot", "8-bit ramp", 385, 14, 1);
+		newImage("temp", "8-bit ramp", 385, 32, 1);
 		setLut(r,g,b);
+		run("RGB Color");
+		rename("temp");
+		getDimensions(width, height, channels, slices, frames);
+		inID = getImageID();
 		run("Copy");
-		close("LUT for plot");
+		newImage("temp", "RGB", width, height, 2);
+		setSlice(1); 
+		run("Paste");
+		outID = getImageID();
+		selectImage(inID);
+		run("Duplicate...","duplicate");
+		rename("temp");
+		run("Simulate Color Blindness", "mode=[Protanopia (no red)]");
+		rename("temp");
+		run("Copy");
+		selectImage(outID);	
+		setSlice(2);	
+		run("Paste");
+		run("Make Montage...", "columns=1 rows=2 scale=1 border=0");
+		rename("temp");
+		setColor(45,45,45);
+		setLineWidth(4);
+		drawLine(0, 34, 385, 34);
+		run("Copy");
+		close("temp");
 	setBatchMode(0);
 	call("ij.gui.ImageWindow.setNextLocation", savedLocX, savedLocY);
-	run("Plots...", "width=400 height=200");
+	run("Plots...", "width=400 height=265");
 	Plot.create("LUT Profile", "Grey Value", "value");
+	lutinance = getLUTinance(r,g,b);
+	Plot.setColor("white");
+	Plot.setLineWidth(2);
+	Plot.add("line", lutinance);
 	Plot.setColor("#ff4a4a");
 	Plot.setLineWidth(2);
 	Plot.add("line", r);
@@ -1116,23 +1193,20 @@ function plotLUT(){
 	Plot.setColor("#60c3ff");
 	Plot.setLineWidth(2);
 	Plot.add("line", b);
-	lutinance = getLUTinance(r,g,b);
-	Plot.setColor("white");
-	Plot.setLineWidth(2);
-	Plot.add("line", lutinance);
 	Plot.setBackgroundColor("#2f2f2f");
 	Plot.setAxisLabelSize(14.0, "bold");
 	Plot.setFormatFlags("0");
-	Plot.addLegend("1__reds\n2__greens\n3__blues\n4__luminance", "Top-Left Transparent");
+	Plot.addLegend("1__luminance " + lutinance[0] + "-" + lutinance[255] + "\n1__reds\n2__greens\n3__blues", "Top-Left Transparent");
 	Plot.update();
 	selectWindow("LUT Profile");
-	Plot.setLimits(-5, 260, -25, 260);
+	Plot.setLimits(-5, 260, -100, 260);
 	Plot.freeze(1);
-	makeRectangle(82, 200, 385, 14);
+	makeRectangle(81, 214, 385, 64);
 	run("Paste"); run("Select None"); 
-	setOption("Changes",0);
+	setOption("Changes", 0);
 	selectImage(id);
 }
+
 function getLUTinance(reds,greens,blues){
 	lutinance = newArray(0);
 	for (i = 0; i < 256; i++) {
@@ -2669,30 +2743,27 @@ function enluminateLUT(){
 }
 
 function convertTo_iMQ_Style() {
-	cul=0; id = getImageID();
-	if(nImages>0){getLut(r,g,b); cul=1;} newImage("lut", "8-bit ramp", 256, 32, 1); if(cul)setLut(r,g,b);
-	else exit;
+	if(nImages == 0) exit;
+	getLut(r,g,b); 
+	newImage("lut", "8-bit ramp", 192, 32, 1); 
+	setLut(r,g,b);
 	setBatchMode(1);
 	run("RGB Color"); rename(1);
-	newImage("iGrays", "8-bit ramp", 256, 32, 1);
+	newImage("iGrays", "8-bit ramp", 64, 32, 1);
 	run("Invert LUT");
 	run("RGB Color");
 	rename(2);
 	run("Combine...", "stack1=2 stack2=1");
 	selectWindow("Combined Stacks");
-	run("Scale...", "x=0.5 y=1 width=256 height=32 interpolation=Bicubic average create");
 	R = newArray(1); G = newArray(1); B = newArray(1);
 	for (i = 0; i < 256; i++) {
 		color = getPixel(i, 2);
 		R[i] = (color>>16)&0xff; 	G[i] = (color>>8)&0xff;		B[i] = color&0xff;
 	}
-	newImage("iMQ Style LUT!", "8-bit ramp", 256, 32, 1);
+	close;
+	// newImage("iMQ Style LUT!", "8-bit ramp", 256, 32, 1);
 	setLut(R, G, B);
-	copyLUT();
 	setBatchMode(0);
-	close("iMQ Style LUT!");
-	selectImage(id); 
-	pasteLUT();
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------------
