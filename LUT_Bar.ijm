@@ -1,6 +1,6 @@
 <fromString>
 <line>
-
+<title> LUTs
 
 <button>
 label= Awesome LUT
@@ -34,6 +34,11 @@ label=enluminate LUT
 bgcolor=yellow
 arg=enluminateLUT();
 
+
+<button>
+label=smooth LUT
+bgcolor=#009fff
+arg=smoothLUT();
 
 <button>
 label=Spline fit
@@ -96,9 +101,109 @@ label=ultimate
 bgcolor=orange
 arg=ultimateLUTgenerator();
 
+<button>
+label=lutBaker
+bgcolor=red
+arg=lutBaker2();
+
 </line>
 <codeLibrary>
 ////
+
+function lutBaker2(){
+	basicErrorCheck();
+	getLut(R, G, B);
+	steps = 4;
+	Dialog.createNonBlocking("steps");
+	Dialog.addSlider("how many steps?", 1, 8, steps);
+	Dialog.show();
+	steps =  Dialog.getNumber();
+	redSteps = newArray(0); greenSteps = newArray(0); blueSteps = newArray(0);
+	
+	for (i = 0; i < steps; i++) {
+		redSteps[i] = R[i*(255/(steps-1))];
+		greenSteps[i] = G[i*(255/(steps-1))];
+		blueSteps[i] = B[i*(255/(steps-1))];
+	}
+	
+	while (true) {
+		getLocationAndSize(x, y, w, h);
+		Dialog.createNonBlocking("colors");
+		for (i = 0; i < steps; i++) {
+			Dialog.addMessage("COLOR " + (i+1), 20, lutToHex(redSteps[i],greenSteps[i],blueSteps[i]));
+			Dialog.addSlider("red",	 0,255, redSteps[i]);
+			Dialog.addSlider("green",0,255, greenSteps[i]);
+			Dialog.addSlider("blue", 0,255, blueSteps[i]);
+		}
+		Dialog.setLocation(x+w,y);
+		Dialog.show();
+		for (i = 0; i < steps; i++) {
+			redSteps[i] = Dialog.getNumber();
+			greenSteps[i] = Dialog.getNumber();
+			blueSteps[i] = Dialog.getNumber();
+		}
+		for(i=0; i<steps; i++) { 
+			R[i*(255/steps)] = redSteps[i];
+			G[i*(255/steps)] = greenSteps[i];
+			B[i*(255/steps)] = blueSteps[i]; 
+			showProgress(i/steps);
+		}
+		setBatchMode(1);
+		R = splineColor2(redSteps,(steps));
+		G = splineColor2(greenSteps,(steps));
+		B = splineColor2(blueSteps,(steps));
+		setLut(R, G, B);
+		run("Select None");
+		run("Remove Overlay");
+		setBatchMode(0);
+		plotLUT();
+		copyLUT();
+	}
+	
+	function lutToHex(R,G,B){
+		if (R<16) xR = "0" + toHex(R); else xR = toHex(R);
+		if (G<16) xG = "0" + toHex(G); else xG = toHex(G);
+		if (B<16) xB = "0" + toHex(B); else xB = toHex(B);
+		return "#"+xR+xG+xB;
+	}
+	
+	function splineColor2(color,steps){
+		Overlay.remove;
+		X = newArray(0); Y = newArray(0);
+		for (i = 0; i < steps; i++) X[i] = round((255/(steps-1))*i);
+		for (i = 0; i < steps; i++) Y[i] = color[i];
+		makeSelection("polyline", X,Y);
+		run("Fit Spline");
+		Overlay.addSelection("white");
+		getSelectionCoordinates(splinedX, splinedY);
+		splinedY = Array.resample(splinedY,256);
+		Array.getStatistics(splinedY, min, max, mean, stdDev);
+		for (k=0;k<256;k++) splinedY[k] = 255-(maxOf(0,minOf(255,255-splinedY[k])));
+		X = Array.resample(X,256);
+		return splinedY;
+	}
+}
+
+function smoothLUT(){
+	setBatchMode(true);
+	title = getTitle();
+	run("Duplicate...","duplicate");
+	run("RGB Color");
+	run("Scale...", "x=- y=- width=64 height=32 interpolation=Bicubic average create");
+	run("Scale...", "x=- y=- width=128 height=32 interpolation=Bicubic average create");
+	run("Scale...", "x=- y=- width=192 height=32 interpolation=Bicubic average create");
+	run("Scale...", "x=- y=- width=256 height=32 interpolation=Bicubic average create");
+	R = newArray(1); G = newArray(1); B = newArray(1);
+	for (i = 0; i < 256; i++) {
+		c = getPixel(i, 2);
+		R[i] = (c>>16)&0xff; 	
+		G[i] = (c>>8)&0xff;		
+		B[i] = c&0xff;
+	}
+	newImage("Smoothed_"+title, "8-bit ramp", 256, 32, 1);
+	setLut(R, G, B);
+	setBatchMode(false);
+}
 
 function ultimateLUTgenerator(){
 	colors = newArray("red","green","blue","cyan","magenta","yellow","orange","gray");
@@ -523,6 +628,7 @@ function adjustColorToLuminance(rgb,lum){
 
 //color = reds, greens or blues from getLut
 function splineColor(color,steps){
+	// steps++;
 	Overlay.remove;
 	X = newArray(0); Y = newArray(0);
 	for (i = 0; i <= steps; i++) X[i] = (255/steps)*i;
@@ -541,20 +647,45 @@ function splineColor(color,steps){
 function plotLUT(){
 	close("MultiPlot");
 	if (nImages == 0) exit;
-	alreadyOpenPlot = 0;
 	if (bitDepth()==24) exit;
-	if (isOpen("LUT Profile")) alreadyOpenPlot = 1;
 	id=getImageID();
 	lutinance = newArray(0); //luminance of LUT...
 	getLut(r,g,b);
 	setBatchMode(1);
-		newImage("LUT for plot", "8-bit ramp", 385, 14, 1);
+		newImage("temp", "8-bit ramp", 385, 32, 1);
 		setLut(r,g,b);
+		run("RGB Color");
+		rename("temp");
+		getDimensions(width, height, channels, slices, frames);
+		inID = getImageID();
 		run("Copy");
-		close("LUT for plot");
+		newImage("temp", "RGB", width, height, 2);
+		setSlice(1); 
+		run("Paste");
+		outID = getImageID();
+		selectImage(inID);
+		run("Duplicate...","duplicate");
+		rename("temp");
+		run("Simulate Color Blindness", "mode=[Protanopia (no red)]");
+		rename("temp");
+		run("Copy");
+		selectImage(outID);	
+		setSlice(2);	
+		run("Paste");
+		run("Make Montage...", "columns=1 rows=2 scale=1 border=0");
+		rename("temp");
+		setColor(45,45,45);
+		setLineWidth(4);
+		drawLine(0, 34, 385, 34);
+		run("Copy");
+		close("temp");
 	setBatchMode(0);
-	run("Plots...", "width=400 height=200");
+	run("Plots...", "width=400 height=265");
 	Plot.create("LUT Profile", "Grey Value", "value");
+	lutinance = getLUTinance(r,g,b);
+	Plot.setColor("white");
+	Plot.setLineWidth(2);
+	Plot.add("line", lutinance);
 	Plot.setColor("#ff4a4a");
 	Plot.setLineWidth(2);
 	Plot.add("line", r);
@@ -564,21 +695,17 @@ function plotLUT(){
 	Plot.setColor("#60c3ff");
 	Plot.setLineWidth(2);
 	Plot.add("line", b);
-	lutinance = getLUTinance(r,g,b);
-	Plot.setColor("white");
-	Plot.setLineWidth(2);
-	Plot.add("line", lutinance);
 	Plot.setBackgroundColor("#2f2f2f");
 	Plot.setAxisLabelSize(14.0, "bold");
 	Plot.setFormatFlags("0");
-	Plot.addLegend("1__reds\n2__greens\n3__blues\n4__luminance", "Top-Left Transparent");
+	Plot.addLegend("1__luminance " + lutinance[0] + "-" + lutinance[255] + "\n1__reds\n2__greens\n3__blues", "Top-Left Transparent");
 	Plot.update();
 	selectWindow("LUT Profile");
-	if (!alreadyOpenPlot) setLocation(50,300);
-	Plot.setLimits(-5, 260, -25, 260);
-	makeRectangle(82, 200, 385, 14);
+	Plot.setLimits(-5, 260, -100, 260);
+	Plot.freeze(1);
+	makeRectangle(81, 214, 385, 64);
 	run("Paste"); run("Select None"); 
-	setOption("Changes",0);
+	setOption("Changes", 0);
 	selectImage(id);
 }
 function getLUTinance(reds,greens,blues){
