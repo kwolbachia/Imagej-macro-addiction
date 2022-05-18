@@ -107,6 +107,52 @@ bgcolor=red
 arg=lutBaker2();
 
 </line>
+
+<DnDAction>		
+	saveSettings();
+	lutdir = getArgument() + File.separator;
+	list = getFileList(lutdir);
+	setBatchMode(true);
+	newImage('ramp', '8-bit Ramp', 256, 32, 1);
+	newImage('luts', 'RGB White', 256, 48, 1);
+	count = 0;
+	setForegroundColor(255, 255, 255);
+	setBackgroundColor(255, 255, 255);
+	for (i=0; i<list.length; i++) {
+		if (endsWith(list[i], '.lut')) {
+			selectWindow('ramp');
+			open(lutdir+list[i]);
+		}
+		else if (endsWith(list[i], '.tif')) {
+			open(lutdir+list[i]);
+			getLut(reds, greens, blues);
+			selectWindow('ramp');
+			setLut(reds, greens, blues);
+		}
+		run('Copy');
+		selectWindow('luts');
+		makeRectangle(0, 0, 256, 32);
+		run('Paste');
+		setJustification('center');
+		setColor(0,0,0);
+		setFont('Arial', 14);
+		drawString(list[i], 128, 48);
+		run('Add Slice');
+		run('Select All');
+		run('Clear', 'slice');
+		count++;
+	}
+	run('Delete Slice');
+	rows = floor(count/3);
+	if (rows<count/3) rows++;
+	run('Canvas Size...', 'width=258 height=50 position=Center');
+	run('Make Montage...', 'columns=3 rows='+rows+' scale=1 first=1 last='+count+' increment=1 border=0 use');
+	rename('Lookup Tables');
+	setBatchMode(false);
+	restoreSettings();
+</DnDAction>
+
+
 <codeLibrary>
 ////
 
@@ -757,4 +803,7 @@ function pasteLUT(){
 	open(getDirectory("temp")+"/copiedLut.lut");
 	showStatus("Paste LUT");
 }
+
+
+
 </codeLibrary>
