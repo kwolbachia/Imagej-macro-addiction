@@ -4,7 +4,7 @@
 //210515 Splitview 3.0, invertable LUTs
 //210922 100 macros -> functions instead
 var savedLocX = 0;
-var savedLocY = 0;
+var savedLocY = screenHeight - 470;
 var chosen_LUTs = newArray("kb","km","ko","Grays","Grays");
 var ChLabels = newArray("CidB","CidA","DNA","H4Ac","DIC");
 var fontS = 30;
@@ -46,7 +46,7 @@ var ShortcutsMenu = newMenu("Custom Menu Tool",
 		 "-","Gaussian Blur...","Gaussian Blur 3D...","Gamma...",
 		 "-","test all Z project", "test CLAHE options", "test all calculator modes", "Tempo color no Zproject", "cool 3D anim",
 		 "-","Time Stamper", "Batch convert ims to tif","Batch convert 32 to 16-bit","Batch Merge","Combine tool", "Merge tool","my Wand tool",
-		 "-","Neuron (5 channels)","HeLa Cells (48-bit RGB)", "Confocal Series","Brain slice","Microtubules", "3 channels",
+		 "-","Neuron (5 channels)","HeLa Cells (48-bit RGB)", "Confocal Series", "Test image", "3 channels", "Brain stack",
 		 "-","invertableLUTs_Bar","CB_Bar","LUT_Bar", "JeromesWheel","RGBtimeIsOver"));
 macro "Custom Menu Tool - N55C000D1aD1bD1cD1dD29D2dD39D3dD49D4dD4eD59D5eD69D75D76D77D78D79D85D88D89D94D98D99Da4Da7Da8Da9Db3Db7Db8Dc3Dc6Dc7DccDcdDd3Dd6Dd8DdbDdcDe2De3De6De8De9DeaDebDecCfffD0dD3cD5cD6dD7bD8bD8cD96D9aD9bDa5DacDadDb5DcaDd4Dd9DdaDe4CdddD0aD1eD2bD6aD74D7aD95Dc4Dc5DeeC333D67D68DbeDd2DddCeeeD00D01D02D03D04D05D06D07D08D09D0eD10D11D12D13D14D15D16D17D18D20D21D22D23D24D25D26D27D30D31D32D33D34D35D36D37D3aD3bD40D41D42D43D44D45D46D47D4bD50D51D52D53D54D55D56D57D60D61D62D63D64D65D6eD70D71D72D73D80D81D82D83D86D8aD8dD90D91D92D97Da0Da1Da2Da6DaaDb0Db1DbbDc0Dc1Dc9Dd0Dd1De0De1C111D38D5bD6bD7dDabDbaDd7C999D4cD58D5aD5dD93DceDd5C777D0bD2eD4aD6cD7cD7eD9cD9dD9eDbdDc8C222D8eDa3DbcCcccD2cDdeDe7C666D19Db4DcbCbbbD0cD87DaeDb2C888D66De5C555D28D2aD84Dc2CaaaDb9DedC444D3eD48Db6Bf0C000D03D06D0cD13D16D1bD23D26D2aD33D37D39D43D44D47D48D54D65D76D77D87D88D89D8aD8bD8cD8dD8eD9bCfffD04D08D0dD0eD14D18D19D24D28D2cD35D3bD3cD3dD3eD45D46D4aD4bD4cD4eD56D57D5aD5bD5cD5dD5eD68D69D6aD6bD6cD6dD7cD7dCdddD1cD25D63D7eD97C333D99CeeeD00D01D07D10D11D1dD20D21D2eD30D31D40D41D42D4dD50D51D52D59D60D61D62D67D6eD70D71D72D73D74D79D7aD7bD80D81D82D83D84D85D90D91D92D93D94D95D96Da0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaDabDacDadDaeC111D02D0bD36C999D1aD2bD58D9eC777D27D3aC222D64D66D9aCcccD09D17C666D12D38D78CbbbD0aD15D1eD2dD32D34C888D98C555D49D55D86D9cD9dCaaaD05D29D53C444D22D75B0fC000D02D03D04D05D08D09D18D27D28D36D37D45D46D54D55D63D64D71D72D80D81CfffD06D07D16D25D30D34D35D40D43D44D52D57D60D61D66D75D83D85CdddD10D22D32D33D42D74C333CeeeD0aD1aD21D29D2aD31D38D39D3aD48D49D4aD50D51D53D58D59D5aD67D68D69D6aD76D77D78D79D7aD84D86D87D88D89D8aD91D92D93D94D95D96D97D98D99D9aDa0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaC111C999D62D65C777D00C222D01D13D14D73CcccD11D26D90C666CbbbD12D15D19D20D23D24D41D82C888D47D56D70C555D17CaaaC444Nf0C000D33D34D35D36D42D43D46D50D51D55D64D65D66D67D73D74D78D88D96D97Da4Da5Db4Dc4Dd4Dd6Dd7Dd8De3De4De6De8De9CfffD15D31D44D53D54D58D62D84D85D86D92D93Da2Db2Dc2Dd2De7CdddD63Da1Da7Dc1Dd0De2C333D25D47D56D77Da0CeeeD00D01D02D03D04D05D06D07D08D09D0aD10D11D12D13D14D16D17D18D19D1aD20D21D22D27D28D29D2aD30D38D39D3aD48D49D4aD59D5aD69D6aD71D7aD82D8aD99D9aDa8Da9DaaDb1Db6Db7Db8Db9DbaDc9DcaDd1DdaDe0DeaC111C999D37D76D90Da6Db5Dc6Dc8Dd3C777D41D81D91D98Dc7De5C222D75D95Db3CcccD61D72D79D83D89Dc5Dd5Dd9De1C666D40D52D57CbbbD70D80D94C888D23D32D45Dc3C555D60D87Da3Db0CaaaD26Dc0C444D24D68" {
 	cmd = getArgument(); 
@@ -66,11 +66,13 @@ macro "Custom Menu Tool - N55C000D1aD1bD1cD1dD29D2dD39D3dD49D4dD4eD59D5eD69D75D7
 	else if (cmd=="quick scale bar") 				{quickScaleBar();}
 	else if (cmd=="cool 3D anim")					{Cool_3D_montage();}
 	else if (cmd=="Numerical Keys Bar")				{numericalKeyboardBar();}
-	else if (cmd=="Brain slice")				    {open("https://i.imgur.com/IKUefAf.png");}
-	else if (cmd=="Microtubules")				    {open("https://i.imgur.com/YwlSveS.png");}
+	// else if (cmd=="Brain slice")				    {open("https://i.imgur.com/IKUefAf.png");}
+	// else if (cmd=="Microtubules")				    {open("https://i.imgur.com/YwlSveS.png");}
+	else if (cmd=="Test image")				    {open("https://i.imgur.com/6XB4Y5g.png");}	
 	else if (cmd=="3 channels")				        {setBatchMode(1); open("https://i.imgur.com/MZGVdVj.png"); run("Make Composite"); Set_LUTs(); run("Remove Slice Labels"); setBatchMode(0);}
 	else if (cmd=="test all calculator modes")		{testAllCaluclatorModes();}
 	else if (cmd=="montage de LUTs Bar")			{montageLUTsBar();}
+	else if (cmd=="Brain stack") 					{setBatchMode(1); open("https://i.imgur.com/DYIF55D.jpg"); run("Montage to Stack...", "columns=20 rows=18 border=0"); rename("brain"); setBatchMode(0);}
 
 	
 	else run(cmd);
@@ -110,7 +112,7 @@ macro "Popup Menu" {
 	if 		(cmd=="CLAHE") CLAHE();
 	else if (cmd=="Set active path") SetActivePath();
 	else if (cmd=="gauss correction") gaussCorrection();
-	else if (cmd=="color blindness") test_all_color_blindness();
+	else if (cmd=="color blindness") simulateFullDeuteranopia();
 	else if (cmd=="Set LUTs") {Ask_LUTs(); Set_LUTs();}
 	else if (cmd=="Luminance") rgb2Luminance();
 	else if (cmd=="copy paste LUT set") copyPasteLUTset();
@@ -120,12 +122,15 @@ macro "Popup Menu" {
 
 macro "LUT Menu Built-in Tool" {}
 
-macro "Preview Opener Tool - N66C000D34D35D36D37D38D39D3aD3bD3cD3dD3eD44D49D4eD54D59D5eD64D69D6eD74D79D7eD84D85D86D87D88D89D8aD8bD8cD8dD8eD94D99D9eDa4Da9DaeDb4Db9DbeDc4Dc9DceDd4Dd5Dd6Dd7Dd8Dd9DdaDdbDdcDddDdeDe4De9DeeC95fD4aD4bD4cD4dD5aD5bD5cD5dD6aD6bD6cD6dD7aD7bD7cD7dC09bC5ffCf05Cf85C8bfDeaDebDecDedCfc0D9aD9bD9cD9dDaaDabDacDadDbaDbbDbcDbdDcaDcbDccDcdCf5bCaf8Cfb8Ccf8D95D96D97D98Da5Da6Da7Da8Db5Db6Db7Db8Dc5Dc6Dc7Dc8Cf5dDe5De6De7De8C8fdCfa8D45D46D47D48D55D56D57D58D65D66D67D68D75D76D77D78Bf0C000D04D09D0eD14D19D1eD24D29D2eD34D35D36D37D38D39D3aD3bD3cD3dD3eD44D49D4eD54D59D5eD64D69D6eD74D79D7eD84D85D86D87D88D89D8aD8bD8cD8dD8eC95fC09bC5ffCf05Cf85D45D46D47D48D55D56D57D58D65D66D67D68D75D76D77D78C8bfD0aD0bD0cD0dD1aD1bD1cD1dD2aD2bD2cD2dCfc0Cf5bCaf8Cfb8Ccf8Cf5dD05D06D07D08D15D16D17D18D25D26D27D28C8fdD4aD4bD4cD4dD5aD5bD5cD5dD6aD6bD6cD6dD7aD7bD7cD7dCfa8B0fC000D03D07D13D17D23D27D30D31D32D33D34D35D36D37D43D47D53D57D63D67D73D77D80D81D82D83D84D85D86D87C95fC09bC5ffCf05Cf85C8bfCfc0D44D45D46D54D55D56D64D65D66D74D75D76Cf5bD04D05D06D14D15D16D24D25D26Caf8Cfb8D40D41D42D50D51D52D60D61D62D70D71D72Ccf8Cf5dC8fdD00D01D02D10D11D12D20D21D22Cfa8Nf0C000D30D31D32D33D34D35D36D37D43D47D53D57D63D67D73D77D80D81D82D83D84D85D86D87D93D97Da3Da7Db3Db7Dc3Dc7Dd0Dd1Dd2Dd3Dd4Dd5Dd6Dd7De3De7C95fC09bD94D95D96Da4Da5Da6Db4Db5Db6Dc4Dc5Dc6C5ffD40D41D42D50D51D52D60D61D62D70D71D72Cf05D90D91D92Da0Da1Da2Db0Db1Db2Dc0Dc1Dc2Cf85C8bfCfc0Cf5bDe4De5De6Caf8D44D45D46D54D55D56D64D65D66D74D75D76Cfb8Ccf8Cf5dC8fdDe0De1De2Cfa8"{
-	title = getTitle();
-	if (startsWith(title, "Preview Opener")) openFromPreview();
-	else setTool(0);
+// macro "Preview Opener Tool - N66C000D34D35D36D37D38D39D3aD3bD3cD3dD3eD44D49D4eD54D59D5eD64D69D6eD74D79D7eD84D85D86D87D88D89D8aD8bD8cD8dD8eD94D99D9eDa4Da9DaeDb4Db9DbeDc4Dc9DceDd4Dd5Dd6Dd7Dd8Dd9DdaDdbDdcDddDdeDe4De9DeeC95fD4aD4bD4cD4dD5aD5bD5cD5dD6aD6bD6cD6dD7aD7bD7cD7dC09bC5ffCf05Cf85C8bfDeaDebDecDedCfc0D9aD9bD9cD9dDaaDabDacDadDbaDbbDbcDbdDcaDcbDccDcdCf5bCaf8Cfb8Ccf8D95D96D97D98Da5Da6Da7Da8Db5Db6Db7Db8Dc5Dc6Dc7Dc8Cf5dDe5De6De7De8C8fdCfa8D45D46D47D48D55D56D57D58D65D66D67D68D75D76D77D78Bf0C000D04D09D0eD14D19D1eD24D29D2eD34D35D36D37D38D39D3aD3bD3cD3dD3eD44D49D4eD54D59D5eD64D69D6eD74D79D7eD84D85D86D87D88D89D8aD8bD8cD8dD8eC95fC09bC5ffCf05Cf85D45D46D47D48D55D56D57D58D65D66D67D68D75D76D77D78C8bfD0aD0bD0cD0dD1aD1bD1cD1dD2aD2bD2cD2dCfc0Cf5bCaf8Cfb8Ccf8Cf5dD05D06D07D08D15D16D17D18D25D26D27D28C8fdD4aD4bD4cD4dD5aD5bD5cD5dD6aD6bD6cD6dD7aD7bD7cD7dCfa8B0fC000D03D07D13D17D23D27D30D31D32D33D34D35D36D37D43D47D53D57D63D67D73D77D80D81D82D83D84D85D86D87C95fC09bC5ffCf05Cf85C8bfCfc0D44D45D46D54D55D56D64D65D66D74D75D76Cf5bD04D05D06D14D15D16D24D25D26Caf8Cfb8D40D41D42D50D51D52D60D61D62D70D71D72Ccf8Cf5dC8fdD00D01D02D10D11D12D20D21D22Cfa8Nf0C000D30D31D32D33D34D35D36D37D43D47D53D57D63D67D73D77D80D81D82D83D84D85D86D87D93D97Da3Da7Db3Db7Dc3Dc7Dd0Dd1Dd2Dd3Dd4Dd5Dd6Dd7De3De7C95fC09bD94D95D96Da4Da5Da6Db4Db5Db6Dc4Dc5Dc6C5ffD40D41D42D50D51D52D60D61D62D70D71D72Cf05D90D91D92Da0Da1Da2Db0Db1Db2Dc0Dc1Dc2Cf85C8bfCfc0Cf5bDe4De5De6Caf8D44D45D46D54D55D56D64D65D66D74D75D76Cfb8Ccf8Cf5dC8fdDe0De1De2Cfa8"{
+// 	title = getTitle();
+// 	if (startsWith(title, "Preview Opener")) openFromPreview();
+// 	else setTool(0);
+// }
+// macro "Preview Opener Tool Options"{ if (!isOpen("Preview Opener.tif")) makePreviewOpener();}
+macro "Preview Opener Action Tool - N66C000D34D35D36D37D38D39D3aD3bD3cD3dD3eD44D49D4eD54D59D5eD64D69D6eD74D79D7eD84D85D86D87D88D89D8aD8bD8cD8dD8eD94D99D9eDa4Da9DaeDb4Db9DbeDc4Dc9DceDd4Dd5Dd6Dd7Dd8Dd9DdaDdbDdcDddDdeDe4De9DeeC95fD4aD4bD4cD4dD5aD5bD5cD5dD6aD6bD6cD6dD7aD7bD7cD7dC09bC5ffCf05Cf85C8bfDeaDebDecDedCfc0D9aD9bD9cD9dDaaDabDacDadDbaDbbDbcDbdDcaDcbDccDcdCf5bCaf8Cfb8Ccf8D95D96D97D98Da5Da6Da7Da8Db5Db6Db7Db8Dc5Dc6Dc7Dc8Cf5dDe5De6De7De8C8fdCfa8D45D46D47D48D55D56D57D58D65D66D67D68D75D76D77D78Bf0C000D04D09D0eD14D19D1eD24D29D2eD34D35D36D37D38D39D3aD3bD3cD3dD3eD44D49D4eD54D59D5eD64D69D6eD74D79D7eD84D85D86D87D88D89D8aD8bD8cD8dD8eC95fC09bC5ffCf05Cf85D45D46D47D48D55D56D57D58D65D66D67D68D75D76D77D78C8bfD0aD0bD0cD0dD1aD1bD1cD1dD2aD2bD2cD2dCfc0Cf5bCaf8Cfb8Ccf8Cf5dD05D06D07D08D15D16D17D18D25D26D27D28C8fdD4aD4bD4cD4dD5aD5bD5cD5dD6aD6bD6cD6dD7aD7bD7cD7dCfa8B0fC000D03D07D13D17D23D27D30D31D32D33D34D35D36D37D43D47D53D57D63D67D73D77D80D81D82D83D84D85D86D87C95fC09bC5ffCf05Cf85C8bfCfc0D44D45D46D54D55D56D64D65D66D74D75D76Cf5bD04D05D06D14D15D16D24D25D26Caf8Cfb8D40D41D42D50D51D52D60D61D62D70D71D72Ccf8Cf5dC8fdD00D01D02D10D11D12D20D21D22Cfa8Nf0C000D30D31D32D33D34D35D36D37D43D47D53D57D63D67D73D77D80D81D82D83D84D85D86D87D93D97Da3Da7Db3Db7Dc3Dc7Dd0Dd1Dd2Dd3Dd4Dd5Dd6Dd7De3De7C95fC09bD94D95D96Da4Da5Da6Db4Db5Db6Dc4Dc5Dc6C5ffD40D41D42D50D51D52D60D61D62D70D71D72Cf05D90D91D92Da0Da1Da2Db0Db1Db2Dc0Dc1Dc2Cf85C8bfCfc0Cf5bDe4De5De6Caf8D44D45D46D54D55D56D64D65D66D74D75D76Cfb8Ccf8Cf5dC8fdDe0De1De2Cfa8"{
+	if (!isOpen("Preview Opener.tif")) makePreviewOpener();
 }
-macro "Preview Opener Tool Options"{ if (!isOpen("Preview Opener.tif")) makePreviewOpener();}
 
 macro "set LUT from montage Tool - N55C000D37D38D39CfffD00D01D02D03D04D05D06D07D08D09D0aD0bD0cD0dD0eD10D11D12D13D14D15D16D17D18D19D1aD1bD1cD1dD1eD20D21D22D23D24D25D26D27D28D29D2aD2bD2cD2dD2eD30D31D32D36D3aD3eD40D41D42D46D4aD4eD50D51D52D56D5aD5eD60D61D62D66D6aD6eD70D71D72D76D7aD7eD80D81D82D86D8aD8eD90D91D92D96D9aD9eDa0Da1Da2Da6DaaDaeDb0Db1Db2Db6DbaDbeDc0Dc1Dc2Dc6DcaDceDd0Dd1Dd2Dd6DdaDdeDe0De1De2De6DeaDeeC338C047Db7Db8Db9C557D73D74D75D83D84D85C500D5bD5cD5dC198Ce50Cb87C024D77D78D79C278Cd51DdbDdcDddC438Cb00D9bD9cD9dC18cCfb3Cda7C100D3bD3cD3dC158Dd7Dd8Dd9C157Dc7Dc8Dc9C877Db3Db4Db5Dc3Dc4Dc5C900C3b7Ce82Cc97C013D33D34D35C17aCaf3C448Cd30DbbDbcDbdC1dcCfb4Cfd8C012D57D58D59C358C347D53D54D55C667D93D94D95C800D7bD7cD7dC2a8Ce71DebDecDedC49fC035D97D98D99C288Ccd1Ca87De3De4De5Cb10C19dCee1Cfb7C300D4bD4cD4dC368C8d4C977Dd3Dd4Dd5C427C1eaCfa3Cd97C406C18bCce3C47fCd40DcbDccDcdC1afCfc6CfebC011D47D48D49C457D63D64D65C247D43D44D45C600D6bD6cD6dC298Cf61C4f7C034D87D88D89C169De7De8De9C9d3Cc00DabDacDadC19dCed3Cea7C022D67D68D69C268C6c5Ca00D8bD8cD8dC4b7Cf92C045Da7Da8Da9C8f5C46dC2ceCfb5C667Da3Da4Da5Bf0C000CfffD00D01D02D06D0aD0eD10D11D12D16D1aD1eD20D21D22D26D2aD2eD30D31D32D36D3aD3eD40D41D42D46D4aD4eD50D51D52D56D5aD5eD60D61D62D66D6aD6eD70D71D72D76D7aD7eD80D81D82D83D84D85D86D87D88D89D8aD8bD8cD8dD8eD90D91D92D93D94D95D96D97D98D99D9aD9bD9cD9dD9eDa0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaDabDacDadDaeC338C047C557C500C198Ce50Cb87D13D14D15C024C278Cd51C438Cb00C18cD37D38D39Cfb3Cda7D43D44D45C100C158C157C877C900C3b7Ce82D0bD0cD0dCc97D23D24D25C013C17aD07D08D09D17D18D19Caf3C448Cd30C1dcCfb4D2bD2cD2dCfd8D5bD5cD5dC012C358C347C667C800C2a8Ce71C49fC035C288Ccd1Ca87D03D04D05Cb10C19dD57D58D59Cee1Cfb7D63D64D65D73D74D75C300C368C8d4C977C427C1eaCfa3Cd97D33D34D35C406C18bD27D28D29Cce3C47fCd40C1afD67D68D69D77D78D79Cfc6D4bD4cD4dCfebD6bD6cD6dD7bD7cD7dC011C457C247C600C298Cf61C4f7C034C169C9d3Cc00C19dD47D48D49Ced3Cea7D53D54D55C022C268C6c5Ca00C4b7Cf92D1bD1cD1dC045C8f5C46dC2ceCfb5D3bD3cD3dC667B0fC000CfffD03D07D08D09D0aD13D17D18D19D1aD23D27D28D29D2aD33D37D38D39D3aD43D47D48D49D4aD53D57D58D59D5aD63D67D68D69D6aD73D77D78D79D7aD80D81D82D83D84D85D86D87D88D89D8aD90D91D92D93D94D95D96D97D98D99D9aDa0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaC338C047C557C500C198Ce50D30D31D32Cb87C024C278Cd51C438Cb00C18cCfb3D00D01D02Cda7C100C158C157C877C900D60D61D62D70D71D72C3b7D04D05D06Ce82Cc97C013C17aCaf3C448Cd30D40D41D42C1dcCfb4Cfd8C012C358C347C667C800C2a8Ce71C49fC035C288Ccd1D54D55D56Ca87Cb10D50D51D52C19dCee1D64D65D66D74D75D76Cfb7C300C368C8d4D34D35D36C977C427C1eaCfa3D10D11D12Cd97C406C18bCce3C47fCd40C1afCfc6CfebC011C457C247C600C298Cf61D20D21D22C4f7C034C169C9d3D44D45D46Cc00C19dCed3Cea7C022C268C6c5D24D25D26Ca00C4b7D14D15D16Cf92C045C8f5C46dC2ceCfb5C667Nf0C000CfffD00D01D02D03D04D05D06D07D08D09D0aD10D11D12D13D14D15D16D17D18D19D1aD20D21D22D23D24D25D26D27D28D29D2aD33D37D38D39D3aD43D47D48D49D4aD53D57D58D59D5aD63D67D68D69D6aD73D77D78D79D7aD83D87D88D89D8aD93D97D98D99D9aDa3Da7Da8Da9DaaDb3Db7Db8Db9DbaDc3Dc7Dc8Dc9DcaDd3Dd7Dd8Dd9DdaDe3De7De8De9DeaC338D30D31D32C047C557C500C198Dd4Dd5Dd6Ce50Cb87C024C278Da4Da5Da6Cd51C438D54D55D56Cb00C18cCfb3Cda7C100C158C157C877C900C3b7Ce82Cc97C013C17aCaf3Dc0Dc1Dc2C448D64D65D66Cd30C1dcD80D81D82Cfb4Cfd8C012C358D74D75D76C347C667C800C2a8De4De5De6Ce71C49fD60D61D62C035C288Db4Db5Db6Ccd1Ca87Cb10C19dCee1Cfb7C300C368D84D85D86C8d4C977C427D44D45D46C1eaD90D91D92Cfa3Cd97C406D34D35D36C18bCce3Dd0Dd1Dd2C47fD50D51D52Cd40C1afCfc6CfebC011C457C247C600C298Dc4Dc5Dc6Cf61C4f7Da0Da1Da2C034C169C9d3Cc00C19dCed3De0De1De2Cea7C022C268D94D95D96C6c5Ca00C4b7Cf92C045C8f5Db0Db1Db2C46dD40D41D42C2ceD70D71D72Cfb5C667" 	{
 	// setLutFromMontageTool();
@@ -142,7 +147,7 @@ macro "set LUT from montage Tool Options" {	displayLUTs();}
 
  macro "results to label [F2]"{ result2label();}
 
-macro "myTurbo 	[n0]"{ if (isKeyDown("space")) randomViridis(4);	else if (isKeyDown("alt")) convertTo_iMQ_Style(); else randomAwesomeLUT(4);}
+macro "myTurbo 	[n0]"{ if (isKeyDown("space")) setFavoriteLUT();	else if (isKeyDown("alt")) convertTo_iMQ_Style(); else pasteFavoriteLUT();}
 macro "Gray 	[n1]"{ if (isKeyDown("space")) toggleChannel(1); 	else if (isKeyDown("alt")) toggleAllchannels(1); else run("Grays");}
 macro "Green 	[n2]"{ if (isKeyDown("space")) toggleChannel(2); 	else if (isKeyDown("alt")) toggleAllchannels(2); else run("kg");	}
 macro "Red 		[n3]"{ if (isKeyDown("space")) toggleChannel(3); 	else if (isKeyDown("alt")) toggleAllchannels(3); else run("Red");	}
@@ -168,7 +173,7 @@ macro "coolify      	 [9]"	{moveWindows();}
 // Set_noice_LUTs();
 macro "selections [a]"	{ if (isKeyDown("alt"))		run("Select None");	  			else if (isKeyDown("space")) run("Restore Selection");	else run("Select All"); }
 macro "auto 	  [A]"	{ if (isKeyDown("alt"))		Enhance_all_contrasts();	  	else if (isKeyDown("space")) Enhance_on_all_channels();	else {run("Enhance Contrast", "saturated=0.03"); call("ij.plugin.frame.ContrastAdjuster.update");}}
-macro "Splitview  [b]"	{ if (isKeyDown("space")) 	SplitView(0,2,0);				else 	SplitView(1,2,0); }
+macro "Splitview  [b]"	{ if (isKeyDown("alt")) Property.set("CompositeProjection", "Invert"); else if (isKeyDown("space")) 	SplitView(0,2,0);				else 	SplitView(1,2,0); }
 macro "iComposite [B]"	{ switchCompositeMode();}
 marco "copy       [c]"	{ if (isKeyDown("alt")) run("Copy to System"); else run("Copy");}
 macro "b&c 		  [C]"  { B_and_C(); }
@@ -193,15 +198,15 @@ macro "Hela       [n]"	{ if (isKeyDown("space")) {cul = 0; if(nImages>0) {if(bit
 macro "open paste [o]"	{ if ( nImages!=0) { if (startsWith(getTitle(), "Preview Opener")) openFromPreview();  else if (startsWith(getTitle(), "Lookup Tables")) setLUTfromMontage();} else open(String.paste);}
 macro "Splitview  [p]"	{ if (isKeyDown("space")) 	SplitView(0,1,0); 				else 	SplitView(0,0,0); }
 macro "composite  [Q]" 	{ compositeSwitch();	}
-macro "Arrange ch [q]"	{ if (isKeyDown("alt"))	doCommand("Start Animation [\\]");  else if (isKeyDown("space"))	ReorderLUTsAsk(); 				else 	run("Arrange Channels...");}
-macro "Adjust 	  [R]"	{ if (isKeyDown("space"))	Reset_All_Contrasts(); 			else if (isKeyDown("alt")) propagateContrast();					else	Auto_Contrast_on_all_channels();}
+macro "Arrange ch [q]"	{ if (isKeyDown("alt"))	doCommand("Start Animation [\\]");  else if (isKeyDown("space"))	ReorderLUTsAsk(); 						else 	run("Arrange Channels...");}
+macro "Adjust 	  [R]"	{ if (isKeyDown("space"))	Reset_All_Contrasts(); 			else if (isKeyDown("alt")) propagateContrast();							else	Auto_Contrast_on_all_channels();}
 macro "r 	 	  [r]"	{ if (isKeyDown("alt"))		reduceMax();	 				else if (isKeyDown("space")) {run("Install...","install=["+getDirectory("macros")+"/StartupMacros.fiji.ijm]"); setTool(15);}	else Adjust_Contrast();}
 macro "Splitview  [S]"	{ if (isKeyDown("alt"))   	getSplitViewPrefs();			else if (isKeyDown("space")) SplitView(1,0,0); 							else SplitView(1,1,0); }
-macro "as tiff 	  [s]"	{ if (isKeyDown("space"))	ultimateSplitview(); 			else if (isKeyDown("alt")) { Save_all_opened_images_elsewhere();} 			else saveAs("Tiff");}
-macro "test.ijm   [t]"	{ if (isKeyDown("alt"))		installMacroFromClipboard();	else if (isKeyDown("space")) run("Action Bar", String.paste);	else eval(String.paste);}
+macro "as tiff 	  [s]"	{ if (isKeyDown("space"))	ultimateSplitview(); 			else if (isKeyDown("alt")) { Save_all_opened_images_elsewhere();} 		else saveAs("Tiff");}
+macro "test.ijm   [t]"	{ if (isKeyDown("alt"))		installMacroFromClipboard();	else if (isKeyDown("space")) run("Action Bar", String.paste);			else eval(String.paste);}
 macro "rgb color  [u]"  { if (isKeyDown("space"))	myRGBconverter(); 				else if (isKeyDown("alt"))	RedGreen2OrangeBlue(); 						else 	switcher(); }
 macro "pasta	  [v]"	{ if (isKeyDown("space"))	run("System Clipboard");		else if (isKeyDown("alt"))	open(getDirectory("temp")+"/copiedLut.lut");else 	run("Paste");}
-macro "roll & FFT [x]"  { if (isKeyDown("space"))	channelsRoll();					else	copyLUT(); }
+macro "roll & FFT [x]"  { if (isKeyDown("space"))	channelsRoll();					else if (isKeyDown("alt"))	{run("Copy to System");	showStatus("copy to system");}		else	copyLUT(); }
 macro "sync 	  [y]"	{ 	run("Synchronize Windows");}
 macro "close      [w]"  { if (isKeyDown("space")) open(call("ij.Prefs.get","last.closed","")); else if (isKeyDown("alt")) close("\\Others"); else {path = getDirectory("image") + getTitle(); if (File.exists(path)) call("ij.Prefs.set","last.closed",path); close();}} //avoid "are you sure?" and stores path in case of misclick
 
@@ -327,6 +332,7 @@ function invert_all_LUTs() {
 }
 
 function switchCompositeMode(){
+	getLut(reds,greens,blues);
 	MODE = Property.get("CompositeProjection");
 	if (!is("Inverting LUT")) {
 		if   (MODE == "Max" || MODE == "Invert" || MODE == "Min") {Property.set("CompositeProjection", "Sum"); showStatus("Sum mode");}
@@ -610,6 +616,16 @@ function estimateTolerance(){
 	}
 }
 
+function setFavoriteLUT(){
+	saveAs("lut", getDirectory("temp")+"/favoriteLUT.lut");
+	showStatus("new favorite LUT");
+}
+
+function pasteFavoriteLUT(){
+	open(getDirectory("temp")+"/favoriteLUT.lut");
+	showStatus("Paste LUT");
+}
+
 function copyLUT() {
 	getCursorLoc(x, y, z, flags);
 	if (flags == 40) {roiManager("Add"); exit;}
@@ -633,6 +649,7 @@ function fauteDeClearVolume(){//...
 function seeAllLUTs(){
 	setBatchMode(1);
 	title = getTitle();
+	mode = Property.get("CompositeProjection");
 	getDimensions(width, height, channels, slices, frames);
 	id = getImageID();
 	newImage("LUTs", "8-bit color-mode", 256, 32*(channels+1), channels, 1, 1);
@@ -656,6 +673,7 @@ function seeAllLUTs(){
 	}
 	run("Select None");
 	Stack.setDisplayMode("composite");
+	Property.set("CompositeProjection", mode); 
 	setOption("Changes", 0);
 	setBatchMode(0);
 }
@@ -801,11 +819,12 @@ function fastColorCode(Glut) {
 	Stack.setDimensions(1, slices, frames);
 	run("Z Project...", "projection=[Max Intensity] all");
 	rename("Tempo_color_code_"+Glut+"_"+title);
-	setBatchMode(0);
 	run("Set... ", "zoom="+zoom*100);
 	Overlay.paste;
 	setOption("Changes", 0);
 	run("Enhance Contrast", "saturated=0 use");
+	run("Flatten");
+	setBatchMode(0);
 }
 
 function installMacroFromClipboard() {
@@ -918,6 +937,7 @@ function setLUTfromMontage() {
 			setLut(R, G, B);
 		}
 		if (isOpen("LUT Profile")) plotLUT();
+		copyLUT();
 		selectWindow(title);
 	}
 }
@@ -1148,7 +1168,7 @@ function multiPlot(){
 		if (activeChannels.substring(i-1,i)) {
 			p = getProfile();
 			Array.getStatistics(p, min, max, mean, stdDev);
-			if (normalize) for (k=0; k<p.length; k++) p[k] = p[k] / max;
+			if (normalize) for (k=0; k<p.length; k++) p[k] = Math.map(p[k], min, max, 0, 1);
 			Plot.setColor(lutToHex2());
 			Plot.setLineWidth(2);
 			Plot.add("line", p);
@@ -1202,7 +1222,8 @@ function plotLUT(){
 		selectImage(inID);
 		run("Duplicate...","duplicate");
 		rename("temp");
-		run("Simulate Color Blindness", "mode=[Protanopia (no red)]");
+		// run("Simulate Color Blindness", "mode=[Protanopia (no red)]");
+		simulateFullDeuteranopia();	
 		rename("temp");
 		run("Copy");
 		selectImage(outID);	
@@ -1253,6 +1274,110 @@ function getLUTinance(reds,greens,blues){
 		lutinance[i] = getLum(rgb);
 	}
 	return lutinance;
+}
+
+function simulateFullDeuteranopia(){
+	if (nImages==0) exit("No Image");
+	getDimensions(width, height, channels, slices, frames);
+	rgbSnapshot();
+
+	rgb2lms = newArray(0); lms2rgb = newArray(0); gammaRGB = newArray(0);
+	a1=0.0; b1=0.0; c1=0.0; a2=0.0; b2=0.0; c2=0.0; inflection=0.0;
+
+	rgb2lms[0] = 0.05059983; rgb2lms[1] = 0.08585369; rgb2lms[2] = 0.00952420;
+	rgb2lms[3] = 0.01893033; rgb2lms[4] = 0.08925308; rgb2lms[5] = 0.01370054;
+	rgb2lms[6] = 0.00292202; rgb2lms[7] = 0.00975732; rgb2lms[8] = 0.07145979;
+
+	lms2rgb[0] = 30.830854; lms2rgb[1] = -29.832659; lms2rgb[2] = 1.610474;
+	lms2rgb[3] = -6.481468; lms2rgb[4] = 17.715578; lms2rgb[5] = -2.532642; 
+	lms2rgb[6] = -0.375690; lms2rgb[7] = -1.199062; lms2rgb[8] = 14.273846;
+
+	gammaRGB[0] = 2.0; 
+	gammaRGB[1] = 2.0; 
+	gammaRGB[2] = 2.0; 
+
+	anchor_e= newArray(0);
+	anchor= newArray(0);
+
+	/*
+	Load the LMS anchor-point values for lambda = 475 & 485 nm (for
+	protans & deutans) and the LMS values for lambda = 575 & 660 nm
+	(for tritans)
+	*/
+	anchor[0] = 0.08008;  anchor[1]  = 0.1579;    anchor[2]  = 0.5897;
+	anchor[3] = 0.1284;   anchor[4]  = 0.2237;    anchor[5]  = 0.3636;
+	anchor[6] = 0.9856;   anchor[7]  = 0.7325;    anchor[8]  = 0.001079;
+	anchor[9] = 0.0914;   anchor[10] = 0.007009;  anchor[11] = 0.0;
+
+	/* We also need LMS for RGB=(1,1,1)- the equal-energy point (one of
+	* our anchors) (we can just peel this out of the rgb2lms transform
+	* matrix)
+	*/
+	anchor_e[0] = rgb2lms[0] + rgb2lms[1] + rgb2lms[2];
+	anchor_e[1] = rgb2lms[3] + rgb2lms[4] + rgb2lms[5];
+	anchor_e[2] = rgb2lms[6] + rgb2lms[7] + rgb2lms[8];
+
+	/*  Deuteranope */
+	a1 = anchor_e[1] * anchor[8] - anchor_e[2] * anchor[7]; 
+	b1 = anchor_e[2] * anchor[6] - anchor_e[0] * anchor[8];
+	c1 = anchor_e[0] * anchor[7] - anchor_e[1] * anchor[6];
+	a2 = anchor_e[1] * anchor[2] - anchor_e[2] * anchor[1];
+	b2 = anchor_e[2] * anchor[0] - anchor_e[0] * anchor[2];
+	c2 = anchor_e[0] * anchor[1] - anchor_e[1] * anchor[0];
+	inflection = (anchor_e[2] / anchor_e[0]);
+			
+	// process the image
+	for (x = 0; x < width; x++) {
+		showProgress(x/width);
+		for (y = 0; y < height; y++) {
+			i = getPixel(x, y);
+			red = ((i & 0xff0000)>>16);
+			green = ((i & 0xff00)>>8) ;
+			blue = (i & 0xff);
+
+			/* GL: Apply (not remove!) phosphor gamma to RGB intensities */
+			// GL:  This is a Gimp/Scribus code bug, this way it returns values similar to those of Vischeck:
+			red = Math.pow(red/255.0,  gammaRGB[0]);
+			green = Math.pow(green/255.0, gammaRGB[1]);
+			blue = Math.pow(blue/255.0,  gammaRGB[2]);
+
+			redOld = red;
+			greenOld = green;
+
+			red = redOld * rgb2lms[0] + greenOld * rgb2lms[1] + blue * rgb2lms[2];
+			green = redOld * rgb2lms[3] + greenOld * rgb2lms[4] + blue * rgb2lms[5];
+			blue  = redOld * rgb2lms[6] + greenOld * rgb2lms[7] + blue * rgb2lms[8];
+
+			tmp = blue / red;
+			/* See which side of the inflection line we fall... */
+			if (tmp < inflection)	green = -(a1 * red + c1 * blue) / b1;
+			else 					green = -(a2 * red + c2 * blue) / b2;
+					
+
+			/* Convert back to RGB (cross product with transform matrix) */
+			redOld = red;
+			greenOld = green;
+
+			red = redOld * lms2rgb[0] + greenOld * lms2rgb[1] + blue * lms2rgb[2];
+			green = redOld * lms2rgb[3] + greenOld * lms2rgb[4] + blue * lms2rgb[5];
+			blue = redOld * lms2rgb[6] + greenOld * lms2rgb[7] + blue * lms2rgb[8];
+
+			/* GL Remove (not apply!) phosphor gamma to go back to original intensities */
+			// GL:  This is a Gimp/Scribus code bug, this way it returns values similar to those of Vischeck:
+			ired =		Math.round(Math.pow(red,	1.0/gammaRGB[0])*255.0);
+			igreen =	Math.round(Math.pow(green,	1.0/gammaRGB[1])*255.0);
+			iblue =		Math.round(Math.pow(blue,	1.0/gammaRGB[2])*255.0);
+
+			/* Ensure that we stay within the RGB gamut */
+			/* *** FIX THIS: it would be better to desaturate than blindly clip. */
+			ired = Math.constrain(ired, 0, 255);
+			igreen = Math.constrain(igreen, 0, 255);
+			iblue = Math.constrain(iblue, 0, 255);
+
+			i = ((ired & 0xff)<<16)+((igreen & 0xff)<<8 )+(iblue & 0xff);
+			setPixel(x, y, i);
+		}
+	}
 }
 
 function fastMerge(){
@@ -1316,8 +1441,8 @@ function RedGreen2OrangeBlue() { //Red Green to Orange Blue
 	}
 	getDimensions(width, height, channels, slices, frames);
 	if (channels > 2) run("Arrange Channels...", "new=12");
-	Stack.setChannel(1); LUTmaker(85,164,252);
-	Stack.setChannel(2); LUTmaker(216,137,49);
+	Stack.setChannel(1); LUTmaker(54,180,255);
+	Stack.setChannel(2); LUTmaker(249,123,49);
 	setOption("Changes", 0);
 }
 
@@ -1609,9 +1734,9 @@ macro "Batch convert ims to tif" {
 Set LUTs
 --------*/
 function perso_Ask_LUTs(){
-	LUT_list = newArray("kb","ko","km","kg","BOP Blue","BOP Orange", "BOP Purple", "BOP Green" ,"Grays", "a magic bleen","a magic orink");
+	LUT_list = newArray("kb","ko","km","kg","CRL_BOP Blue","CRL_BOP Orange", "CRL_BOP Purple", "BOP Green" ,"Grays");
 	Dialog.create("Set all LUTs");
-	for(i=0; i<4; i++) Dialog.addRadioButtonGroup("LUT " + (i+1), LUT_list, 3, 4, chosen_LUTs[i]);
+	for(i=0; i<4; i++) Dialog.addRadioButtonGroup("LUT " + (i+1), LUT_list, 0, 4, chosen_LUTs[i]);
 	Dialog.addCheckbox("noice?", 0);
 	Dialog.show();
 	for(k=0; k<4; k++) chosen_LUTs[k] = Dialog.getRadioButton();
@@ -1837,16 +1962,18 @@ function propagateContrast(){
 	else getMinAndMax(min[0], max[0]);
 	
 	for (i = 0; i < nImages; i++) {
-		selectImage(i+1);
-		getDimensions(width, height, channels, slices, frames);
-		if (channels>1){
-			for(k=0; k<channels; k++){
-				Stack.setChannel(k+1);
-				setMinAndMax(min[k], max[k]);
+		if (bitDepth() != 24) {
+			selectImage(i+1);
+			getDimensions(width, height, channels, slices, frames);
+			if (channels>1){
+				for(k=0; k<channels; k++){
+					Stack.setChannel(k+1);
+					setMinAndMax(min[k], max[k]);
+				}
+				updateDisplay();
 			}
-			updateDisplay();
+			else setMinAndMax(min[0], max[0]);
 		}
-		else setMinAndMax(min[0], max[0]);
 	}
 }
 
@@ -2021,111 +2148,111 @@ function SplitView(color,style,labels) {
 	setBatchMode("exit and display");
 
 	function Setup_Splitview(color,labels){ 
-	getDimensions(w, h, ch, Z, T);
-	if (ch == 1) exit("only one channel");
-	if (ch > 5)  exit("5 channels max");
-	run("Duplicate...", "title=image duplicate");
-	if ((Z>1)&&(T==1)) {T=Z; Z=1; Stack.setDimensions(ch,Z,T); } 
-	tile = newArray(ch+1);	channels = ch;
-	getDimensions(w,h,ch,Z,T);
-	fontS = h/9;
-	run("Duplicate...", "title=split duplicate");
-	run("Split Channels");
-	selectWindow("image");
-	Stack.setDisplayMode("composite");
+		getDimensions(w, h, ch, Z, T);
+		if (ch == 1) exit("only one channel");
+		if (ch > 5)  exit("5 channels max");
+		run("Duplicate...", "title=image duplicate");
+		if ((Z>1)&&(T==1)) {T=Z; Z=1; Stack.setDimensions(ch,Z,T); } 
+		tile = newArray(ch+1);	channels = ch;
+		getDimensions(w,h,ch,Z,T);
+		fontS = h/9;
+		run("Duplicate...", "title=split duplicate");
+		run("Split Channels");
+		selectWindow("image");
+		Stack.setDisplayMode("composite");
 
-	if (labels) {
-		getLabels();
-		setColor("white");
-		setFont("SansSerif", fontS, "bold antialiased");
-		Overlay.drawString("Merge",h/20,fontS);
-		Overlay.show;
-		run("Flatten","stack");
-		rename("overlay"); tile[0] = getTitle();
-		close("image");
-
-		for (i = 1; i <= channels; i++) {
-			selectWindow("C"+i+"-split");
-			id = getImageID();
-			getLut(r, g, b); 
-			setColor(r[255], g[255], b[255]);
-			if (!color) {
-				getMinAndMax(min, max); 
-				run("Grays"); 
-				// run("Invert LUT"); 
-				setMinAndMax(min, max);
-			}
-			Overlay.drawString(ChLabels[i-1],h/20,fontS);
+		if (labels) {
+			getLabels();
+			setColor("white");
+			setFont("SansSerif", fontS, "bold antialiased");
+			Overlay.drawString("Merge",h/20,fontS);
 			Overlay.show;
-			if (Z*T>1) run("Flatten","stack");
-			else { run("Flatten"); selectImage(id);	close();	}
-			tile[i]=getTitle();
-		}
-	}
-	else {
-		run("RGB Color", "frames"); 
-		rename("overlay"); tile[0] = getTitle(); 
-		close("image");
-		for (i = 1; i <= channels; i++) {
-			selectWindow("C"+i+"-split");
-			if (!color) {
-				getMinAndMax(min, max); 
-				run("Grays"); 
-				// run("Invert LUT"); 
-				setMinAndMax(min, max);
+			run("Flatten","stack");
+			rename("overlay"); tile[0] = getTitle();
+			close("image");
+
+			for (i = 1; i <= channels; i++) {
+				selectWindow("C"+i+"-split");
+				id = getImageID();
+				getLut(r, g, b); 
+				setColor(r[255], g[255], b[255]);
+				if (!color) {
+					getMinAndMax(min, max); 
+					run("Grays"); 
+					// run("Invert LUT"); 
+					setMinAndMax(min, max);
+				}
+				Overlay.drawString(ChLabels[i-1],h/20,fontS);
+				Overlay.show;
+				if (Z*T>1) run("Flatten","stack");
+				else { run("Flatten"); selectImage(id);	close();	}
+				tile[i]=getTitle();
 			}
-			run("RGB Color", "slices"); 
-			tile[i]=getTitle();	
 		}
-	}
+		else {
+			run("RGB Color", "frames"); 
+			rename("overlay"); tile[0] = getTitle(); 
+			close("image");
+			for (i = 1; i <= channels; i++) {
+				selectWindow("C"+i+"-split");
+				if (!color) {
+					getMinAndMax(min, max); 
+					run("Grays"); 
+					// run("Invert LUT"); 
+					setMinAndMax(min, max);
+				}
+				run("RGB Color", "slices"); 
+				tile[i]=getTitle();	
+			}
+		}
 	}
 	
 	function getLabels(){
-	Dialog.createNonBlocking("Provide channel names");
-	for (a = 0; a < 5; a++) Dialog.addString("Channel "+a+1, ChLabels[a],12); 
-	Dialog.addNumber("Font size", fontS);
-	Dialog.show();
-	for (k = 0; k < 5; k++) {ChLabels[k] = Dialog.getString();}
-	fontS = Dialog.getNumber();
+		Dialog.createNonBlocking("Provide channel names");
+		for (a = 0; a < 5; a++) Dialog.addString("Channel "+a+1, ChLabels[a],12); 
+		Dialog.addNumber("Font size", fontS);
+		Dialog.show();
+		for (k = 0; k < 5; k++) {ChLabels[k] = Dialog.getString();}
+		fontS = Dialog.getNumber();
 	}
 	
 	function squareView(){
-									C1_C2 = 	Combine_Horizontally(tile[1],tile[2]);
-	if (channels==2||channels==4)	C1_C2_Ov =	Combine_Horizontally(C1_C2,tile[0]);
-	if (channels==3){				C3_Ov = 	Combine_Horizontally(tile[3],tile[0]); 		Combine_Vertically(C1_C2,C3_Ov);}
-	if (channels>=4)				C3_C4 =		Combine_Horizontally(tile[3],tile[4]);
-	if (channels==4)							Combine_Vertically(C1_C2_Ov,C3_C4);
-	if (channels==5){				C1234 = 	Combine_Vertically(C1_C2,C3_C4); 	C5_Ov =	Combine_Vertically(tile[5],tile[0]); Combine_Horizontally(C1234,C5_Ov);}
+										C1_C2 = 	Combine_Horizontally(tile[1],tile[2]);
+		if (channels==2||channels==4)	C1_C2_Ov =	Combine_Horizontally(C1_C2,tile[0]);
+		if (channels==3){				C3_Ov = 	Combine_Horizontally(tile[3],tile[0]); 		Combine_Vertically(C1_C2,C3_Ov);}
+		if (channels>=4)				C3_C4 =		Combine_Horizontally(tile[3],tile[4]);
+		if (channels==4)							Combine_Vertically(C1_C2_Ov,C3_C4);
+		if (channels==5){				C1234 = 	Combine_Vertically(C1_C2,C3_C4); 	C5_Ov =	Combine_Vertically(tile[5],tile[0]); Combine_Horizontally(C1234,C5_Ov);}
 	}
 	
 	function linearView(){
-	C1_C2 = 					Combine_Horizontally(tile[1],tile[2]);
-	if (channels==2)			Combine_Horizontally(C1_C2,tile[0]);
-	if (channels==3){	C3_Ov = Combine_Horizontally(tile[3],tile[0]);			Combine_Horizontally(C1_C2,C3_Ov);}
-	if (channels>=4){	C3_C4 =	Combine_Horizontally(tile[3],tile[4]);	C1234 =	Combine_Horizontally(C1_C2,C3_C4);}
-	if (channels==4)			Combine_Horizontally(C1234,tile[0]);
-	if (channels==5){	C5_Ov = Combine_Horizontally(tile[5],tile[0]);			Combine_Horizontally(C1234,C5_Ov);}
+		C1_C2 = 					Combine_Horizontally(tile[1],tile[2]);
+		if (channels==2)			Combine_Horizontally(C1_C2,tile[0]);
+		if (channels==3){	C3_Ov = Combine_Horizontally(tile[3],tile[0]);			Combine_Horizontally(C1_C2,C3_Ov);}
+		if (channels>=4){	C3_C4 =	Combine_Horizontally(tile[3],tile[4]);	C1234 =	Combine_Horizontally(C1_C2,C3_C4);}
+		if (channels==4)			Combine_Horizontally(C1234,tile[0]);
+		if (channels==5){	C5_Ov = Combine_Horizontally(tile[5],tile[0]);			Combine_Horizontally(C1234,C5_Ov);}
 	}
 	
 	function brugiaStyle(){
-						C1_C2 = Combine_Vertically(tile[1],tile[2]);
-	if (channels==2)			Combine_Vertically(C1_C2,tile[0]);
-	if (channels==3){	C3_Ov = Combine_Vertically(tile[3],tile[0]);		Combine_Vertically(C1_C2,C3_Ov);}
-	if (channels>=4){	C3_C4 =	Combine_Vertically(tile[3],tile[4]);C1234 = Combine_Vertically(C1_C2,C3_C4);}
-	if (channels==4)			Combine_Vertically(C1234,tile[0]);
-	if (channels==5){	C5_Ov = Combine_Vertically(tile[5],tile[0]);		Combine_Vertically(C1234,C5_Ov);}
+							C1_C2 = Combine_Vertically(tile[1],tile[2]);
+		if (channels==2)			Combine_Vertically(C1_C2,tile[0]);
+		if (channels==3){	C3_Ov = Combine_Vertically(tile[3],tile[0]);		Combine_Vertically(C1_C2,C3_Ov);}
+		if (channels>=4){	C3_C4 =	Combine_Vertically(tile[3],tile[4]);C1234 = Combine_Vertically(C1_C2,C3_C4);}
+		if (channels==4)			Combine_Vertically(C1234,tile[0]);
+		if (channels==5){	C5_Ov = Combine_Vertically(tile[5],tile[0]);		Combine_Vertically(C1234,C5_Ov);}
 	}
 	
 	function Combine_Horizontally(stack1,stack2){ //returns result image title *.*
-	run("Combine...", "stack1=&stack1 stack2=&stack2");
-	rename(stack1+"_"+stack2);
-	return getTitle();
+		run("Combine...", "stack1=&stack1 stack2=&stack2");
+		rename(stack1+"_"+stack2);
+		return getTitle();
 	}
 	
 	function Combine_Vertically(stack1,stack2){
-	run("Combine...", "stack1=&stack1 stack2=&stack2 combine"); //vertically
-	rename(stack1+"_"+stack2);
-	return getTitle();
+		run("Combine...", "stack1=&stack1 stack2=&stack2 combine"); //vertically
+		rename(stack1+"_"+stack2);
+		return getTitle();
 	}
 }
 
@@ -2265,8 +2392,9 @@ function copyPasteLUTset(){
 	setBatchMode(1);
 	source = Dialog.getChoice();
 	dest = Dialog.getChoice();
-	selectWindow(dest);
+	selectWindow(source);
 	getDimensions(w,h,CH,s,f);
+	compositeMode = Property.get("CompositeProjection");
 	for (i = 0; i < CH; i++) {
 		selectWindow(source);
 		Stack.setChannel(i+1);
@@ -2275,6 +2403,7 @@ function copyPasteLUTset(){
 		Stack.setChannel(i+1);
 		setLut(reds, greens, blues);
 	}
+	Property.set("CompositeProjection", compositeMode);
 	setBatchMode(0);
 }
 
