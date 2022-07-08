@@ -186,7 +186,7 @@ macro "gammaLUT	  [f]"	{ if (bitDepth() == 24) 	run("Gamma..."); 				else if (is
 macro "Max 		  [G]"	{ if (isKeyDown("space"))	Z_project_all();				else if (isKeyDown("alt")) run("Z Project...", "projection=[Sum Slices] all"); else run("Z Project...", "projection=[Max Intensity] all");}
 macro "Z Project  [g]"	{ if (isKeyDown("alt"))		test_All_Zprojections();		else if (isKeyDown("space")) fastColorCode("current");					else	run("Z Project...");}
 macro "show all   [H]"	{ run("Show All");}
-macro "overlay I  [i]"	{ if (isKeyDown("space"))	invertedOverlay3(); 			else if (isKeyDown("alt")) run("Invert LUT");	 				else 	invert_all_LUTs();}
+macro "overlay I  [i]"	{ if (isKeyDown("space"))	invertedOverlay3(); 			else if (isKeyDown("alt")) run("Invert LUT");	 				else 	run("Invert LUTs");}
 macro "New Macro  [J]"	{ 	run("Input/Output...", "jpeg=100"); saveAs("Jpeg");}
 macro "JPEG		  [j]"  { if (isKeyDown("space")) run("Text Window...", "name=poil width=40 height=7 menu"); else run("Macro");}
 macro "multiplot  [k]"  { 	multiPlot();}
@@ -1150,17 +1150,17 @@ function channelsRoll(){
 
 function multiPlot(){
 	close("LUT Profile");
-	alreadyOpenPlot = 0; selectNone = 0; activeChannels="1"; normalize = 0;
+	selectNone = 0; activeChannels="1"; normalize = 0;
 	if (isKeyDown("space")) normalize = 1;
 	getDimensions(width,  height, channels, slices, frames);
 	Stack.getPosition(Channel, slice, frame);
 	//if (selectionType()==-1) {showStatus("Needs a selection","flash #e14250 2000ms"); exit;}
 	if (selectionType()==-1) {run("Select All");}
 	if (bitDepth()==24){ run("Plot Profile"); exit;}
-	if (isOpen("MultiPlot")) alreadyOpenPlot = 1;
 	if (channels>1) Stack.getActiveChannels(activeChannels);
 	id=getImageID();
 	
+	call("ij.gui.ImageWindow.setNextLocation", savedLocX, savedLocY);
 	run("Plots...", "width=400 height=200");
 	Plot.create("MultiPlot", "Pixels", "Grey value");
 	for (i=1; i<=channels; i++) {
@@ -1183,7 +1183,6 @@ function multiPlot(){
 	Plot.update();
 
 	selectWindow("MultiPlot");
-	if (!alreadyOpenPlot) setLocation(0,0);
 	if (normalize) Plot.setLimits(0, p.length, 0, 1.01 );
 	else  Plot.setLimitsToFit();
 	Plot.freeze(1);
