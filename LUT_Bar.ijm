@@ -235,10 +235,7 @@ function smoothLUT(){
 	title = getTitle();
 	run("Duplicate...","duplicate");
 	run("RGB Color");
-	run("Scale...", "x=- y=- width=64 height=32 interpolation=Bicubic average create");
-	run("Scale...", "x=- y=- width=128 height=32 interpolation=Bicubic average create");
-	run("Scale...", "x=- y=- width=192 height=32 interpolation=Bicubic average create");
-	run("Scale...", "x=- y=- width=256 height=32 interpolation=Bicubic average create");
+	run("Gaussian Blur...", "sigma=2");
 	R = newArray(1); G = newArray(1); B = newArray(1);
 	for (i = 0; i < 256; i++) {
 		c = getPixel(i, 2);
