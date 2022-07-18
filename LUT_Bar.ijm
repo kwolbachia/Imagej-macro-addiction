@@ -232,10 +232,12 @@ function lutBaker2(){
 
 function smoothLUT(){
 	setBatchMode(true);
+	sigma = 2;
+	if (isKeyDown("shift")) sigma = getNumber("blurring sigma?", 2);
 	title = getTitle();
 	run("Duplicate...","duplicate");
 	run("RGB Color");
-	run("Gaussian Blur...", "sigma=2");
+	run("Gaussian Blur...", "sigma=&sigma");
 	R = newArray(1); G = newArray(1); B = newArray(1);
 	for (i = 0; i < 256; i++) {
 		c = getPixel(i, 2);
