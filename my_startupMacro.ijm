@@ -68,7 +68,7 @@ macro "Custom Menu Tool - N55C000D1aD1bD1cD1dD29D2dD39D3dD49D4dD4eD59D5eD69D75D7
 	else if (cmd=="Numerical Keys Bar")				{numericalKeyboardBar();}
 	// else if (cmd=="Brain slice")				    {open("https://i.imgur.com/IKUefAf.png");}
 	// else if (cmd=="Microtubules")				    {open("https://i.imgur.com/YwlSveS.png");}
-	else if (cmd=="Test image")				    {open("https://i.imgur.com/6XB4Y5g.png");}	
+	else if (cmd=="Test image")				   		{open("https://i.imgur.com/psSX0UR.png");}	
 	else if (cmd=="3 channels")				        {setBatchMode(1); open("https://i.imgur.com/MZGVdVj.png"); run("Make Composite"); Set_LUTs(); run("Remove Slice Labels"); setBatchMode(0);}
 	else if (cmd=="test all calculator modes")		{testAllCaluclatorModes();}
 	else if (cmd=="montage de LUTs Bar")			{montageLUTsBar();}
@@ -1554,7 +1554,7 @@ function test_All_Zprojections(){
 	for (i=0; i<=2; i++) {
 		selectImage(source);
 		run("Z Project...", "start=&start stop=&stop projection=" + modes[i]);
-		Enhance_on_all_channels();
+		resetMinAndMax;
 		run("RGB Color");
 		run("Copy");
 		selectImage(result);	setSlice(i+1);	run("Paste");
