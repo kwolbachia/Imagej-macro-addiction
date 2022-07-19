@@ -234,7 +234,10 @@ function smoothLUT(){
 	setBatchMode(true);
 	sigma = 2;
 	if (isKeyDown("shift")) sigma = getNumber("blurring sigma?", 2);
-	title = getTitle();
+	title = "Smoothed_"+getTitle();
+	getLut(r,g,b);
+	newImage(title, "8-bit ramp", 256, 32, 1);
+	setLut(r,g,b);
 	run("Duplicate...","duplicate");
 	run("RGB Color");
 	run("Gaussian Blur...", "sigma=&sigma");
@@ -245,7 +248,7 @@ function smoothLUT(){
 		G[i] = (c>>8)&0xff;		
 		B[i] = c&0xff;
 	}
-	newImage("Smoothed_"+title, "8-bit ramp", 256, 32, 1);
+	selectWindow(title);
 	setLut(R, G, B);
 	setBatchMode(false);
 }
