@@ -36,14 +36,17 @@ function multiTool(){ //avec menu "que faire avec le middle click? **"
 function moveWindows() {
 	getCursorLoc(x2, y2, z2, flags2);
 	zoom = getZoom();
-	getCursorLoc(x, y, z, flags);
+	getCursorLoc(lastx, lasty, z, flags);
 	while (flags == 16) {
 		getLocationAndSize(wx, wy, null, null);
 		getCursorLoc(x, y, z, flags);
+      	if(x != lastx || y != lasty) {
 		wx = wx-(x2*zoom-x*zoom);
 		wy = wy-(y2*zoom-y*zoom);
-		setLocation(wx, wy);
-		wait(20);
+		setLocation(wx,wy);
+      	getCursorLoc(lastx, lasty, z, flags);
+    }
+      wait(1);
 	}
 }
 
