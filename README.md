@@ -28,12 +28,11 @@ Double click (or right click) on the tool to combine them.
 If you miss clicked, double click (or right click) on the tool with the shift key pressed.   
 
 About the [Multi Tool](https://github.com/kwolbachia/Imagej-macro-addiction/blob/main/multi_Tool.ijm) :   
-A all in one tool :    
-normal click to move freely images windows    
+A all in one tool :  
+normal click to move freely images windows (double click on icon to set the main tool)        
 shift + drag to adjust min and max contrast     
 ctrl or cmd + drag to adjust gamma on the LUT, not on pixels    
-alt + drag to navigate slices or frames in stacks    
-shift + alt + click to close image window    
+alt + drag to navigate slices or frames in stacks      
 room for anything you want to add!
 [![open in ImageJ.JS](https://ij.imjoy.io/assets/badge/open-in-imagej-js-badge.svg)](https://ij.imjoy.io/?open=https://raw.githubusercontent.com/kwolbachia/Imagej-macro-addiction/main/multi_Tool.ijm)
 
