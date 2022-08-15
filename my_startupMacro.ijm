@@ -41,7 +41,7 @@ macro "Multitool Tool Options" {
 //------SHORTCUTS
 //--------------------------------------------------------------------------------------------------------------------------------------
 var ShortcutsMenu = newMenu("Custom Menu Tool",
-	newArray("Fetch or pull StartupMacros", "BioFormats_Bar","Numerical Keys Bar", "montage de LUTs Bar", "Record...", "Monitor Memory...", "quick scale bar", "Note in infos", "correct copied path",
+	newArray("Fetch or pull StartupMacros", "BioFormats_Bar","Videos Bar", "Numerical Keys Bar", "montage de LUTs Bar", "Record...", "Monitor Memory...", "quick scale bar", "Note in infos", "correct copied path",
 		 "-", "Rotate 90 Degrees Right","Rotate 90 Degrees Left", "Stack Sorter", "make my LUTs",
 		 "-","Gaussian Blur...","Gaussian Blur 3D...","Gamma...",
 		 "-","test all Z project", "test CLAHE options", "test all calculator modes", "Tempo color no Zproject", "cool 3D anim",
@@ -62,6 +62,7 @@ macro "Custom Menu Tool - N55C000D1aD1bD1cD1dD29D2dD39D3dD49D4dD4eD59D5eD69D75D7
 	else if (cmd=="CB_Bar") 						{run("Action Bar", File.openUrlAsString("https://git.io/JZUZw"));}
 	else if (cmd=="LUT_Bar") 						{run("Action Bar", File.openUrlAsString("https://raw.githubusercontent.com/kwolbachia/Imagej-macro-addiction/main/LUT_Bar.ijm"));}
 	else if (cmd=="BioFormats_Bar") 				{BioformatsBar();}
+	else if (cmd=="Videos Bar") 					{videoBar();}
 	else if (cmd=="Batch Merge") 					{batchMerge();}
 	else if (cmd=="quick scale bar") 				{quickScaleBar();}
 	else if (cmd=="cool 3D anim")					{Cool_3D_montage();}
@@ -112,7 +113,7 @@ macro "Popup Menu" {
 	if 		(cmd=="CLAHE") CLAHE();
 	else if (cmd=="Set active path") SetActivePath();
 	else if (cmd=="gauss correction") gaussCorrection();
-	else if (cmd=="color blindness") simulateFullDeuteranopia();
+	else if (cmd=="color blindness") {rgbSnapshot(); run("Dichromacy", "simulate=Deuteranope");}
 	else if (cmd=="Set LUTs") {Ask_LUTs(); Set_LUTs();}
 	else if (cmd=="Luminance") rgb2Luminance();
 	else if (cmd=="copy paste LUT set") copyPasteLUTset();
@@ -158,6 +159,8 @@ macro "Cyan		[n7]"{ if (isKeyDown("space")) toggleChannel(7);	else if (isKeyDown
 macro "Magenta 	[n8]"{ if (isKeyDown("space")) run("8-bit"); 		else run("Magenta");	}
 macro "Yellow 	[n9]"{ if (isKeyDown("space")) run("glasbey_on_dark");	else run("Yellow");}
 
+macro "Yellow 	[n*]"{ DoG();}
+
 //--------------------------------------------------------------------------------------------------------------------------------------
 //NOICE TOOLS
 macro "ClearVolume	     [0]"	{if (isKeyDown("space")) fauteDeClearVolume();  else run("Open in ClearVolume");}
@@ -182,7 +185,7 @@ macro "Spliticate [d]"	{ if (isKeyDown("space"))	run("Duplicate...", " ");	 	els
 macro "Tile 	  [E]"	{ 	myTile();}
 macro "edit lut   [e]"	{ if (isKeyDown("alt")) run("Edit LUT...");					else if (isKeyDown("space"))	seeAllLUTs();							else 	plotLUT();}
 macro "toolSwitch [F]"	{ toolRoll();}
-macro "gammaLUT	  [f]"	{ if (bitDepth() == 24) 	run("Gamma..."); 				else if (isKeyDown("space")) setGammaLUTAllch(0.7);}
+macro "gammaLUT	  [f]"	{ if (isKeyDown("alt")) run("Gaussian Blur 3D...", "x=1 y=1 z=1"); else if (isKeyDown("space")) setGammaLUTAllch(0.7);	else run("Gamma...");}
 macro "Max 		  [G]"	{ if (isKeyDown("space"))	Z_project_all();				else if (isKeyDown("alt")) run("Z Project...", "projection=[Sum Slices] all"); else run("Z Project...", "projection=[Max Intensity] all");}
 macro "Z Project  [g]"	{ if (isKeyDown("alt"))		test_All_Zprojections();		else if (isKeyDown("space")) fastColorCode("current");					else	run("Z Project...");}
 macro "show all   [H]"	{ run("Show All");}
@@ -212,6 +215,45 @@ macro "close      [w]"  { if (isKeyDown("space")) open(call("ij.Prefs.get","last
 
 // macro "test Tool - C000 T0508T  T5508e  Ta508s Tg508t"{
 // }
+
+//difference of gaussian
+function DoG(){
+	Dialog.createNonBlocking("DoG 2D");
+	Dialog.addSlider("sigma 1", 0, 5, 1);
+	Dialog.addSlider("sigma 2", 0, 20, 2);
+	Dialog.show();
+	sigma1 = Dialog.getNumber();
+	sigma2 = Dialog.getNumber();
+	run("CLIJ2 Macro Extensions","cl_device=");
+	// difference of gaussian
+	image1 = getTitle();
+	Ext.CLIJ2_push(image1);
+	image2 = "difference_of_gaussian_" + image1;
+	Ext.CLIJ2_differenceOfGaussian2D(image1, image2, sigma1, sigma1, sigma2, sigma2);
+	Ext.CLIJ2_pull(image2);
+}
+
+function videoBar(){
+	video_Bar = 
+	"<fromString>"+"\n"+
+	"<stickToImageJ>"+"\n"+
+	"<noGrid>"+"\n"+
+	"<line>"+"\n"+
+	"<separator>"+"\n"+
+	"<text> import video"+"\n"+
+	"<separator>"+"\n"+
+	"<button>"+"\n"+
+	"label= X "+"\n"+
+	"bgcolor=orange"+"\n"+
+	"arg=<close>"+"\n"+
+	"</line>"+"\n"+
+	"<DnDAction>"+"\n"+
+	"path = getArgument();"+"\n"+
+	"run('Movie (FFMPEG)...', 'choose='+ path +' first_frame=0 last_frame=-1');\n"+
+	"</DnDAction>\n";
+	run("Action Bar",video_Bar);
+}
+
 function montageLUTsBar(){
 	text = "<fromString>\n"+
 	"<stickToImageJ>"+"\n"+
@@ -447,27 +489,26 @@ function multiTool(){ //avec menu "que faire avec le middle click? **"
 	}
 	if (getInfo("window.type") == "ResultsTable") result2label();
 	if (flags == 9) 				pasteLUT();						//shift + middle click
-	//if (flags == 26||flags == 28)	close();						// ctrl + alt + click
 	if (flags == 17)				liveContrast();					// shift + long click
 	if (flags == 18||flags == 20)	liveGamma();					// ctrl + long click
 	if (flags == 24)				liveScroll();					// alt + long click
-	//if (flags == 19||flags == 21)	magicWand();					// ctrl + shift + long click
-	if (flags == 25)				squaredAutoContrast();						// shift + alt + long click
+	if (flags == 25)				squaredAutoContrast();			// shift + alt + long click
 }
 
 function moveWindows() {
 	getCursorLoc(x2, y2, z2, flags2);
 	zoom = getZoom();
-	getCursorLoc(x, y, z, flags);
-	if (flags>=32) flags -= 32; //remove "cursor in selection" flag
-	while (flags >= 16) {
-		getLocationAndSize(wx, wy, null, null);
+	getCursorLoc(last_x, last_y, z, flags);
+	while (flags == 16) {
+		getLocationAndSize(window_x, window_y, null, null);
 		getCursorLoc(x, y, z, flags);
-		if (flags>=32) flags -= 32; //remove "cursor in selection" flag
-		wx = wx-(x2*zoom-x*zoom);
-		wy = wy-(y2*zoom-y*zoom);
-		setLocation(wx, wy);
-		wait(20);
+		if (x != last_x || y != last_y) {
+			window_x = window_x - (x2 * zoom - x * zoom);
+			window_y = window_y - (y2 * zoom - y * zoom);
+			setLocation(window_x, window_y);
+			getCursorLoc(last_x, last_y, z, flags);
+		}
+	wait(1);
 	}
 }
 
@@ -476,13 +517,13 @@ function liveContrast() {
 	resetMinAndMax();
 	getMinAndMax(min, max);
 	getCursorLoc(x, y, z, flags);
-	if (flags>=32) flags -= 32; //remove "cursor in selection" flag
+	if (flags >= 32) flags -= 32; //remove "cursor in selection" flag
 	while (flags >= 16) {			
 		getCursorLoc(x, y, z, flags);
-		getDisplayedArea(ax, ay, width, height);
-		if (flags>=32) flags -= 32; //remove "cursor in selection" flag
-		newMax = ((x-ax)/width)*max;
-		newMin = ((height-(y-ay))/height)*max/2;
+		getDisplayedArea(area_x, area_y, width, height);
+		if (flags >= 32) flags -= 32; //remove "cursor in selection" flag
+		newMax = ((x - area_x) / width) * max;
+		newMin = ((height - (y - area_y)) / height) * max / 2;
 		if (newMax < 0) newMax = 0;
 		if (newMin < 0) newMin = 0;
 		if (newMin > newMax) newMin = newMax;
@@ -494,20 +535,20 @@ function liveContrast() {
 
 function liveGamma(){
 	setBatchMode(1);
-	getLut(r, g, b);
+	getLut(reds, greens, blues);
 	copyLUT();
 	setColor("white");
 	setFont("SansSerif", Image.height/20, "bold antialiased");
 	getCursorLoc(x, y, z, flags);
-	if (flags>=32) flags -= 32; //remove "cursor in selection" flag
-	while (flags>=16) {
+	if (flags >= 32) flags -= 32; //remove "cursor in selection" flag
+	while (flags >= 16) {
 		getCursorLoc(x, y, z, flags);
-		getDisplayedArea(ax, ay, width, height);
-		if (flags>=32) flags -= 32; //remove "cursor in selection" flag
-		gamma = d2s(((x-ax)/width)*2, 2); if (gamma<0) gamma=0;
-		gammaLUT(gamma,r, g, b);
+		getDisplayedArea(area_x, area_y, width, height);
+		if (flags >= 32) flags -= 32; //remove "cursor in selection" flag
+		gamma = d2s(((x - area_x) / width) * 2, 2); if (gamma < 0) gamma=0;
+		gammaLUT(gamma, reds, greens, blues);
 		Overlay.remove;
-		Overlay.drawString("gamma = "+gamma, Image.height/30,Image.height/20);
+		Overlay.drawString("gamma = " + gamma, Image.height / 30, Image.height / 20);
 		Overlay.show;
 		wait(10);
 	}
@@ -518,15 +559,15 @@ function liveGamma(){
 
 function liveScroll() {
 	getDimensions(width, height, channels, slices, frames);
-	if(slices==1&&frames==1) exit;
+	if(slices==1 && frames==1) exit;
 	getCursorLoc(x, y, z, flags);
-	if (flags>=32) flags -= 32; //remove "cursor in selection" flag
-	while(flags>= 16) {
+	if (flags >= 32) flags -= 32; //remove "cursor in selection" flag
+	while(flags >= 16) {
 		getCursorLoc(x, y, z, flags);
-		getDisplayedArea(ax, ay, width, height);
-		if (flags>=32) flags -= 32; //remove "cursor in selection" flag
-		if (frames>1) Stack.setFrame(((x-ax)/width)*frames);
-		else Stack.setSlice(((x-ax)/width)*slices);
+		getDisplayedArea(area_x, area_y, width, height);
+		if (flags >= 32) flags -= 32; //remove "cursor in selection" flag
+		if (frames > 1) Stack.setFrame(((x - area_x) / width) * frames);
+		else 			Stack.setSlice(((x - area_x) / width) * slices);
 		if (live_autoContrast) run("Enhance Contrast", "saturated=&enhance_rate");
 		call("ij.plugin.frame.ContrastAdjuster.update");
 		wait(10);
@@ -1079,6 +1120,7 @@ function makePreviewOpener() {
 //Supposed to create an RGB snapshot of any kind of opened image
 //check sourcecode for save as jpeg and stuff, how does it works?
 function rgbSnapshot(){
+	title = getTitle();
 	Stack.getPosition(channel, slice, frame);
 	getDimensions(width, height, channels, slices, frames);
 	if (channels>1) Stack.getDisplayMode(mode);
@@ -1087,7 +1129,7 @@ function rgbSnapshot(){
 	else if (mode!="composite") 	run("Duplicate...", "title=toClose channels=channel slices=&slice frames=&frame");
 	else 							run("Duplicate...", "duplicate title=toClose slices=&slice frames=&frame");
 	run("RGB Color", "keep");
-	rename("snap");
+	rename(title);
 	close("toClose");
 	setOption("Changes", 0);
 }
@@ -1440,8 +1482,8 @@ function RedGreen2OrangeBlue() { //Red Green to Orange Blue
 	}
 	getDimensions(width, height, channels, slices, frames);
 	if (channels > 2) run("Arrange Channels...", "new=12");
-	Stack.setChannel(1); LUTmaker(54,180,255);
-	Stack.setChannel(2); LUTmaker(249,123,49);
+	Stack.setChannel(1); LUTmaker(40,183,255);
+	Stack.setChannel(2); LUTmaker(249,112,40);
 	setOption("Changes", 0);
 }
 
@@ -2739,22 +2781,22 @@ macro "make my LUTs" {
 	Stack.setChannel(1);
 	makeRectangle(0, 0, 213, 213);
 	run("Clear", "slice");
-	LUTmaker(10,183,255);//////BLUE
+												LUTmaker(10,183,255);//////BLUE
 	saveAs("LUT", lutsFolder + "/kb.lut");
 	Stack.setChannel(2);
 	makeRectangle(187, 0, 213, 213);
 	run("Clear", "slice");
-	LUTmaker(255,142,10);/////ORANGE
+												LUTmaker(255,142,10);/////ORANGE
 	saveAs("LUT", lutsFolder + "/ko.lut");
 	Stack.setChannel(3);
 	makeRectangle(187, 187, 213, 213);
 	run("Clear", "slice");
-	LUTmaker(195,39,223);/////PURP
+												LUTmaker(195,39,223);/////PURP
 	saveAs("LUT", lutsFolder + "/km.lut");
 	Stack.setChannel(4);
 	makeRectangle(0, 187, 213, 213);
 	run("Clear", "slice");
-	LUTmaker(50,206,22);////GREEN
+												LUTmaker(50,206,22);////GREEN
 	saveAs("LUT", lutsFolder + "/kg.lut");
 	run("Select None");
 	setOption("Changes", 0);
@@ -3265,6 +3307,30 @@ macro"SplitView tools Menu Tool - N55C000D00D01D02D03D04D05D06D07D08D09D0aD0bD0d
 // 	}
 // 	for (i = 0; i < commands.length; i++) print(commands[i]);
 // }
+
+macro "Keyboard shortcuts cheat sheet [n/]" {
+	Dialog.createNonBlocking("keyboard shortcuts");
+	Dialog.addMessage("* Macro shortcuts :\n"+
+	"[ C ]___Contrast window\n"+
+	"[ Z ]___Channels Tool\n"+
+	"[ Q ]___switch color and composite mode\n"+
+	"[ R ]___Auto-contrast all channels\n"+
+	"[ r ]___Auto-contrast active channel\n"+
+	"[ A ]___Run Enhance Contrast, saturated=0.3\n"+
+	"[ 1 ]___set LUTs\n"+
+	"[ S ]___Colored Splitview\n"+
+	"[ p ]___Grayscale Splitview\n"+
+	"[ E ]___Tile : reorder windows to see all\n"+
+	"[ y ]___Open the tool 'synchronize windows'\n"+
+	"[ q ]___Arrange channels order\n"+
+	"[ d ]___Split Channels\n"+
+	"[ M ]___Merge channels\n"+
+	"[ D ]___Duplicate (all dimensions)\n"+
+	"[ g ]___Z projection dialog \n"+
+	"[ G ]___Maximal intensity projection\n"+
+	"[ s ]___Save as Tiff",12);
+	Dialog.show();
+}
 
 //--------------------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------------------------------
