@@ -34,7 +34,8 @@ shift + drag to adjust min and max contrast
 ctrl or cmd + drag to adjust gamma on the LUT, not on pixels    
 alt + drag to navigate slices or frames in stacks    
 shift + alt + click to close image window    
-room for anything you want to add!    
+room for anything you want to add!
+[![open in ImageJ.JS](https://ij.imjoy.io/assets/badge/open-in-imagej-js-badge.svg)](https://ij.imjoy.io/?open=https://raw.githubusercontent.com/kwolbachia/Imagej-macro-addiction/main/multi_Tool.ijm)
 
 About [my_StartupMacros.ijm](https://github.com/kwolbachia/Imagej-macro-addiction/blob/main/my_startupMacro.ijm):    
 this is my own 'organised' mess full of macros and ideas of macros..
