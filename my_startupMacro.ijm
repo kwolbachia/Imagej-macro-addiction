@@ -302,7 +302,7 @@ function montageLUTsBar(){
 	"		run('Paste');\n"+
 	"		setJustification('center');\n"+
 	"		setColor(0,0,0);\n"+
-	"		setFont('Arial', 14);\n"+
+	"		setFont('SansSerif', 11, 'antialiased');\n"+
 	"		drawString(list[i], 128, 48);\n"+
 	"		run('Add Slice');\n"+
 	"		run('Select All');\n"+
@@ -310,10 +310,10 @@ function montageLUTsBar(){
 	"		count++;\n"+
 	"	}\n"+
 	"	run('Delete Slice');\n"+
-	"	rows = floor(count/3);\n"+
-	"	if (rows<count/3) rows++;\n"+
+	"	rows = floor(count/4);\n"+
+	"	if (rows<count/4) rows++;\n"+
 	"	run('Canvas Size...', 'width=258 height=50 position=Center');\n"+
-	"	run('Make Montage...', 'columns=3 rows='+rows+' scale=1 first=1 last='+count+' increment=1 border=0 use');\n"+
+	"	run('Make Montage...', 'columns=4 rows='+rows+' scale=1 first=1 last='+count+' increment=1 border=0 use');\n"+
 	"	rename('Lookup Tables');\n"+
 	"	setBatchMode(false);\n"+
 	"	restoreSettings();\n"+
@@ -481,7 +481,7 @@ function multiTool(){ //avec menu "que faire avec le middle click? **"
 	if (flags == 8) { //middle mouse button
 		if      (startsWith(getTitle(), "Preview Opener")) openFromPreview();  
 		else if (startsWith(getTitle(), "Lookup Tables")) setLUTfromMontage(); 
-		if (Image.height==32||Image.height==64) { plotLUT(); copyLUT();}
+		if (Image.height==32||Image.width==256) { plotLUT(); copyLUT();}
 		else {
 			if (middleClick) eval(String.paste);
 			else compositeSwitch();
@@ -496,7 +496,7 @@ function multiTool(){ //avec menu "que faire avec le middle click? **"
 		else if (mainTool=="My Magic Wand")          magicWand();
 	}
 	if (getInfo("window.type") == "ResultsTable") result2label();
-	if (flags == 9) 				pasteLUT();						//shift + middle click
+	if (flags == 9) 				if (bitDepth()=24) pasteLUT();	//shift + middle click
 	if (flags == 17)				liveContrast();					// shift + long click
 	if (flags == 18||flags == 20)	liveGamma();					// ctrl + long click
 	if (flags == 24)				liveScroll();					// alt + long click
@@ -938,7 +938,7 @@ function displayLUTs(){
 		      run("Paste");
 		      setJustification("center");
 		      setColor(0,0,0);
-		      setFont("Arial", 14);
+			  setFont("SansSerif", 11, "antialiased");
 		      drawString(list[i], 128, 48);
 		      run("Add Slice");
 		      run("Select All");
@@ -987,6 +987,7 @@ function setLUTfromMontage() {
 		}
 		if (isOpen("LUT Profile")) plotLUT();
 		copyLUT();
+		if(isKeyDown("shift")) print("cul");
 		selectWindow(title);
 	}
 }
@@ -2652,11 +2653,11 @@ function randomColorByTypeAndLum(lum, targetColorType) {
 		if (red==max && blue<135 && (green/red)<0.5)  
 			colorType = "red";
 		if (green==max && (red/green)<0.75 && (blue/green)<0.75) 	colorType = "green";
-		if (blue==max && red==min && red<100 && (green/blue)<0.8)	colorType = "blue";
-		if (blue==max && red==min && red<50 && (green/blue)>0.85)	colorType = "cyan";
+		if (blue==max && red==min && red<70 && (green/blue)<0.8)	colorType = "blue";
+		if (blue==max && red==min && red<60 && (green/blue)>0.8)	colorType = "cyan";
 		if (green==min && (green/red)<0.75 && (green/blue)<0.6) 	colorType = "magenta";
 		if (red==max && blue==min && blue<50 && (green/red)<0.75)  	colorType = "orange";
-		if (red==max && blue==min && blue<50 && (green/red)>0.9) 	colorType = "yellow";
+		if (red==max && blue==min && blue<50 && (green/red)>0.8)	colorType = "yellow";
 		if (red==green && blue==green) 								colorType = "gray";
 		if (colorType == targetColorType) loop = 0;
 		if (targetColorType == "any") loop = 0;
