@@ -50,7 +50,7 @@ macro "Multitool Tool Options" {
 //--------------------------------------------------------------------------------------------------------------------------------------
 var ShortcutsMenu = newMenu("Custom Menu Tool",
 	newArray("Fetch or pull StartupMacros", "BioFormats_Bar","Videos Bar", "Numerical Keys Bar", "montage de LUTs Bar", "Record...", "Monitor Memory...", "quick scale bar", "Note in infos", "correct copied path",
-		 "-", "Rotate 90 Degrees Right","Rotate 90 Degrees Left", "Stack Sorter", "make my LUTs",
+		 "-", "Rotate 90 Degrees Right","Rotate 90 Degrees Left", "Stack Sorter", "Stack Difference", "make my LUTs",
 		 "-","Gaussian Blur...","Gaussian Blur 3D...","Gamma...",
 		 "-","test all Z project", "test CLAHE options", "test all calculator modes", "Tempo color no Zproject", "cool 3D anim",
 		 "-","Time Stamper", "Batch convert ims to tif","Batch convert 32 to 16-bit","Batch Merge","Combine tool", "Merge tool","my Wand tool",
@@ -462,7 +462,7 @@ function BioformatsBar(){
 }
 
 function toolRoll() {
-	if 		(toolID == 0) {run("Line Width...", "line=25"); setTool(15);	}
+	if 		(toolID == 0) setTool(15);
 	else setTool(0);
 }
 
