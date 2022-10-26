@@ -5,19 +5,19 @@
 <button>
 label= Awesome LUT
 bgcolor=grey
-arg=randomAwesomeLUT(3);
+arg=randomAwesomeLUT(4);
 
 
 <button>
 label=Awesome 150
 bgcolor=grey
-arg=random150lumLUT(2);
+arg=random150lumLUT(3);
 
 
 <button>
 label=Viridis-like
 bgcolor=grey
-arg=randomViridis(3);
+arg=randomViridis(4);
 
 </line>
 
