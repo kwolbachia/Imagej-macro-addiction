@@ -4,19 +4,19 @@
 
 <button>
 label= Awesome LUT
-bgcolor=#5b5b5b
+bgcolor=grey
 arg=randomAwesomeLUT(3);
 
 
 <button>
 label=Awesome 150
-bgcolor=#5b5b5b
+bgcolor=grey
 arg=random150lumLUT(2);
 
 
 <button>
 label=Viridis-like
-bgcolor=#5b5b5b
+bgcolor=grey
 arg=randomViridis(3);
 
 </line>
@@ -25,30 +25,30 @@ arg=randomViridis(3);
 
 <button>
 label=opposite LUT
-bgcolor=#5b5b5b
+bgcolor=grey
 arg=createOppositeLUT();/////
 
 
 <button>
 label=enluminate LUT
-bgcolor=#5b5b5b
+bgcolor=grey
 arg=enluminateLUT();
 
 
 <button>
 label=smooth LUT
-bgcolor=#5b5b5b
+bgcolor=grey
 arg=smoothLUT();
 
 <button>
 label=Spline fit
-bgcolor=#5b5b5b
+bgcolor=grey
 arg=lutSplineFit(3);
 
 
 <button>
 label=Spline3-10
-bgcolor=#5b5b5b
+bgcolor=grey
 arg=lutSplineFit3to10();
 
 </line>
@@ -57,24 +57,24 @@ arg=lutSplineFit3to10();
 
 <button>
 label=Crop LUT
-bgcolor=#5b5b5b
+bgcolor=grey
 arg=cropLUT();
 
 <button>
 label=copy LUT
-bgcolor=#5b5b5b
+bgcolor=grey
 arg=copyLUT();
 
 
 <button>
 label=paste LUT
-bgcolor=#5b5b5b
+bgcolor=grey
 arg=pasteLUT();
 
 
 <button>
 label=show LUT
-bgcolor=#5b5b5b
+bgcolor=grey
 arg=plotLUT();
 
 </line>
@@ -82,28 +82,28 @@ arg=plotLUT();
 
 <button>
 label=random150 multi
-bgcolor=#5b5b5b
+bgcolor=grey
 arg=randomLightLUTs();
 
 <button>
 label=iMQ Style
-bgcolor=##5b5b5b
+bgcolor=grey
 arg=convertTo_iMQ_Style();
 
 
 <button>
 label=invert LUT 1
-bgcolor=#5b5b5b
+bgcolor=grey
 arg=invertLUT1();
 
 <button>
 label=ultimate
-bgcolor=#5b5b5b
+bgcolor=grey
 arg=ultimateLUTgenerator();
 
 <button>
 label=lutBaker
-bgcolor=#5b5b5b
+bgcolor=grey
 arg=lutBaker2();
 
 </line>
