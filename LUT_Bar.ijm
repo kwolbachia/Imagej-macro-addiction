@@ -193,13 +193,15 @@ arg=lutBaker2();
 	function lutBaker2(){
 		basicErrorCheck();
 		getLut(R, G, B);
+		startLum = getLum(newArray(R[0],G[0],B[0]));
+		stopLum = getLum(newArray(R[255],G[255],B[255]));
 		steps = 4;
 		Dialog.createNonBlocking("steps");
 		Dialog.addSlider("how many steps?", 1, 8, steps);
 		Dialog.show();
 		steps =  Dialog.getNumber();
 		redSteps = newArray(0); greenSteps = newArray(0); blueSteps = newArray(0);
-		
+		//extract the current colors of the LUT at every step
 		for (i = 0; i < steps; i++) {
 			redSteps[i] = R[i*(255/(steps-1))];
 			greenSteps[i] = G[i*(255/(steps-1))];
@@ -214,6 +216,8 @@ arg=lutBaker2();
 				Dialog.addSlider("red",	 0,255, redSteps[i]);
 				Dialog.addSlider("green",0,255, greenSteps[i]);
 				Dialog.addSlider("blue", 0,255, blueSteps[i]);
+				rgb = newArray(greenSteps[i], greenSteps[i], blueSteps[i]);
+				Dialog.addMessage("actual lum:" + getLum(rgb) + "  expected: " + i*((stopLum - startLum)/(steps-1)));
 			}
 			Dialog.setLocation(x+w,y);
 			Dialog.show();
