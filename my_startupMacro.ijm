@@ -191,7 +191,7 @@ macro "iComposite [B]"	{ switchCompositeMode();}
 marco "copy       [c]"	{ if (isKeyDown("alt")) run("Copy to System"); else run("Copy");}
 macro "b&c 		  [C]"  { B_and_C(); }
 macro "duplicat	  [D]"	{ if (isKeyDown("space")) memoryAndRecorder();				else run("Duplicate...", "duplicate");}
-macro "Spliticate [d]"	{ if (isKeyDown("space"))	run("Duplicate...", " ");	 	else if (isKeyDown("alt")) {Stack.getPosition(ch, slice, frame); run("Duplicate...", "duplicate channels=&ch");}	else run("Split Channels");}
+macro "Spliticate [d]"	{ if (isKeyDown("space"))	run("Duplicate...", " ");	 	else if (isKeyDown("alt")) {Stack.getPosition(ch, slice, frame); run("Duplicate...", "duplicate channels=&ch frames=&frame");}	else run("Split Channels");}
 macro "Tile 	  [E]"	{ 	myTile();}
 macro "edit lut   [e]"	{ if (isKeyDown("alt")) run("Edit LUT...");					else if (isKeyDown("space"))	seeAllLUTs();							else 	plotLUT();}
 macro "toolSwitch [F]"	{ toolRoll();}
@@ -199,7 +199,7 @@ macro "gammaLUT	  [f]"	{ if (isKeyDown("alt")) run("Gaussian Blur 3D...", "x=1 y
 macro "Max 		  [G]"	{ if (isKeyDown("space"))	Z_project_all();				else if (isKeyDown("alt")) run("Z Project...", "projection=[Sum Slices] all"); else run("Z Project...", "projection=[Max Intensity] all");}
 macro "Z Project  [g]"	{ if (isKeyDown("alt"))		test_All_Zprojections();		else if (isKeyDown("space")) fastColorCode("current");					else	run("Z Project...");}
 macro "show all   [H]"	{ run("Show All");}
-macro "overlay I  [i]"	{ if (isKeyDown("space"))	invertedOverlay3(); 			else if (isKeyDown("alt")) run("Invert LUT");	 				else 	run("Invert LUTs");}
+macro "overlay I  [i]"	{ if (isKeyDown("space"))	invertedOverlay3(); 			else if (isKeyDown("alt")) run("Invert LUT");	 				else 	{if      (Property.get("CompositeProjection") == "Sum") Property.set("CompositeProjection", "composite"); run("Invert LUTs");}}
 macro "New Macro  [J]"	{ 	run("Input/Output...", "jpeg=100"); saveAs("Jpeg");}
 macro "JPEG		  [j]"  { if (isKeyDown("space")) run("Text Window...", "name=poil width=40 height=7 menu"); else run("Macro");}
 macro "multiplot  [k]"  { if (isKeyDown("alt")) multiPlot_Zaxis(); 					else multiPlot();}
@@ -863,9 +863,6 @@ function fastColorCode(Glut) {
 	setBatchMode(true);
 	title = getTitle();
 	Stack.getDimensions(ww, hh, channels, slices, frames);
-	if (hh == 64 || hh == 32) {run("Fly Brain"); run("Make Composite"); run("Arrange Channels...", "new=1");}
-	// if (hh == 64 || hh == 32) {open("C:/Users/kterretaz/Desktop/Stack.tif");}
-	Stack.getDimensions(ww, hh, channels, slices, frames);
 	Stack.getPosition(channel, slice, frame);
 	if (channels > 1) run("Duplicate...", "duplicate channels=&channel");
 	//swap slices and frames in case:
@@ -889,8 +886,10 @@ function fastColorCode(Glut) {
 	// if (Glut == "current") setLut(r,g,b);
 	else open(Glut);
 	getLut(rA, gA, bA);
-	run("Calibration Bar...", "location=[Upper Left] fill=Black label=None zoom=0.7 overlay");
-	Overlay.copy;
+	if (hh > 100) {
+		run("Calibration Bar...", "location=[Upper Left] fill=Black label=None zoom=0.7 overlay");
+		Overlay.copy;
+	}
 	close();
 	nrA = newArray(256);	ngA = newArray(256);	nbA = newArray(256);
 	newImage("temp", "8-bit White", ww, hh, 1);
@@ -925,7 +924,7 @@ function fastColorCode(Glut) {
 	run("Z Project...", "projection=[Max Intensity] all");
 	rename("Tempo_color_code_"+Glut+"_"+title);
 	run("Set... ", "zoom="+zoom*100);
-	Overlay.paste;
+	if (hh > 100) Overlay.paste;
 	setOption("Changes", 0);
 	run("Enhance Contrast", "saturated=0 use");
 	run("Flatten");
@@ -1168,6 +1167,12 @@ function makePreviewOpener() {
 	}
 	for (i=0; i<all_IDs.length; i++) {
 		selectImage(all_IDs[i]); 
+		if(!is("Virtual Stack") && bitDepth()!=24) {
+			getDimensions(w, h, channels, slices, frames);
+			getLut(reds,greens,blues);
+			if (slices*frames!=1) run("Z Project...", "projection=[Max Intensity] all");
+			setLut(reds,greens,blues);
+		}
 		rgbSnapshot();
 		run("Scale...", "x=- y=- width=400 height=400 interpolation=Bilinear average create");
 		rename("image"+i);
@@ -1319,7 +1324,7 @@ function multiPlot_Zaxis(){
 	id=getImageID();
 	call("ij.gui.ImageWindow.setNextLocation", savedLocX, savedLocY);
 	run("Plots...", "width=400 height=200");
-	Plot.create("MultiPlot", "Pixels", "Grey value");
+	Plot.create("MultiPlot", "Frame", "Grey value");
 	for (i=1; i<=channels; i++) {
 		if (channels>1) Stack.setChannel(i);
 		if (activeChannels.substring(i-1,i)) {
