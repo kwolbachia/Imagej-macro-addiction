@@ -619,6 +619,8 @@ arg=lutBaker2();
 
 	function convertTo_iMQ_Style() {
 		if(nImages == 0) exit;
+		greyZero = 0;
+		if (isKeyDown("shift")) greyZero=1;
 		getLut(r,g,b); 
 		newImage("lut", "8-bit ramp", 192, 32, 1); 
 		setLut(r,g,b);
@@ -626,6 +628,10 @@ arg=lutBaker2();
 		run("RGB Color"); rename(1);
 		newImage("iGrays", "8-bit ramp", 64, 32, 1);
 		run("Invert LUT");
+		if (greyZero) {
+			grey  = Array.resample(newArray(120,0),256);
+			setLut(grey, grey, grey);
+		}
 		run("RGB Color");
 		rename(2);
 		run("Combine...", "stack1=2 stack2=1");

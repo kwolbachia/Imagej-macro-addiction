@@ -197,7 +197,7 @@ macro "edit lut   [e]"	{ if (isKeyDown("alt")) run("Edit LUT...");					else if (
 macro "toolSwitch [F]"	{ toolRoll();}
 macro "gammaLUT	  [f]"	{ if (isKeyDown("alt")) run("Gaussian Blur 3D...", "x=1 y=1 z=1"); else if (isKeyDown("space")) setGammaLUTAllch(0.7);	else run("Gamma...");}
 macro "Max 		  [G]"	{ if (isKeyDown("space"))	Z_project_all();				else if (isKeyDown("alt")) run("Z Project...", "projection=[Sum Slices] all"); else run("Z Project...", "projection=[Max Intensity] all");}
-macro "Z Project  [g]"	{ if (isKeyDown("alt"))		test_All_Zprojections();		else if (isKeyDown("space")) fastColorCode("current");					else	run("Z Project...");}
+macro "Z Project  [g]"	{ if (isKeyDown("alt"))		niColorCode(0);		else if (isKeyDown("space")) niColorCode(1);					else	run("Z Project...");}
 macro "show all   [H]"	{ run("Show All");}
 macro "overlay I  [i]"	{ if (isKeyDown("space"))	invertedOverlay3(); 			else if (isKeyDown("alt")) run("Invert LUT");	 				else 	{if      (Property.get("CompositeProjection") == "Sum") Property.set("CompositeProjection", "composite"); run("Invert LUTs");}}
 macro "New Macro  [J]"	{ 	run("Input/Output...", "jpeg=100"); saveAs("Jpeg");}
@@ -855,6 +855,51 @@ function toggleAllchannels(i) {
 	}
 	showStatus("Channel "+i+" toggled");
 	setBatchMode(0);
+}
+
+function niColorCode(projection){
+	//https://github.com/ndefrancesco/macro-frenzy/blob/master/assorted/Colorize%20stack.ijm
+	title=getTitle();
+	getDimensions(width, height, channels, slices, frames);
+	Stack.getPosition(channel, slice, frame);
+	if ((frames > 1) && (slices == 1)) {
+		switch_slices_and_frames = true;
+		Stack.setDimensions(channels, frames, slices);
+	}
+	else switch_slices_and_frames = false;
+	getDimensions(width, height, channels, slices, frames);
+	setBatchMode(1);
+	run("Duplicate...", "title=duplicate duplicate channels=&channel");
+	open(getDirectory("temp")+"/copiedLut.lut");
+	getLut(R, G, B);
+	run("RGB Color");
+	R=Array.resample(R,slices);
+	G=Array.resample(G,slices);
+	B=Array.resample(B,slices);
+	for (k = 0; k < frames; k++) {
+		for (i = 0; i < slices; i++) {
+			selectWindow(title);
+			Stack.setPosition(channel, i+1, k+1);
+			run("Duplicate...", "title=slice");
+			r=newArray(0,R[i]);	g=newArray(0,G[i]);	b=newArray(0,B[i]);
+			r=Array.resample(r,256); g=Array.resample(g,256); b=Array.resample(b,256);
+			setLut(r, g, b);
+			run("Copy");
+			close();
+			selectWindow("duplicate");
+			Stack.setPosition(1, i+1, k+1);
+			run("Paste");
+		}
+	}
+	if (switch_slices_and_frames) {
+		selectWindow(title);
+		Stack.setDimensions(channels, frames, slices);
+		selectWindow("duplicate");
+		Stack.setDimensions(1, frames, slices);
+	}
+	if (projection) run("Z Project...", "projection=[Max Intensity] all");
+	run("Select None");
+	setBatchMode(false);
 }
 
 function fastColorCode(Glut) {
@@ -1893,9 +1938,9 @@ macro "Batch convert ims to tif" {
 Set LUTs
 --------*/
 function perso_Ask_LUTs(){
-	LUT_list = newArray("kb","ko","km","kg","CRL_BOP Blue","CRL_BOP Orange", "CRL_BOP Purple", "BOP Green" ,"Grays");
+	LUT_list = newArray("kb","ko","km","kg","Grays" ,"fav");
 	Dialog.create("Set all LUTs");
-	for(i=0; i<4; i++) Dialog.addRadioButtonGroup("LUT " + (i+1), LUT_list, 0, 4, chosen_LUTs[i]);
+	for(i=0; i<4; i++) Dialog.addRadioButtonGroup("LUT " + (i+1), LUT_list, 0, 6, chosen_LUTs[i]);
 	Dialog.addCheckbox("noice?", 0);
 	Dialog.show();
 	for(k=0; k<4; k++) chosen_LUTs[k] = Dialog.getRadioButton();
@@ -1905,7 +1950,7 @@ function perso_Ask_LUTs(){
 
 function Ask_LUTs(){
 	LUT_list = newArray("kb","km","ko","kg","Grays",
-		"Cyan","Magenta","Yellow","Red","Green","Blue","kevidis");
+		"Cyan","Magenta","Yellow","Red","Green","Blue");
 	Dialog.create("Set all LUTs");
 	for(i=0; i<5; i++) Dialog.addChoice("LUT " + (i+1),LUT_list,chosen_LUTs[i]);
 	Dialog.show();
@@ -1919,12 +1964,16 @@ function Set_LUTs(){
 		Stack.setDisplayMode("composite");
 		for(i=1; i<=channels; i++){
 			Stack.setChannel(i);
-			run(chosen_LUTs[i-1]);
+			if (chosen_LUTs[i-1]=="fav") pasteFavoriteLUT();
+			else run(chosen_LUTs[i-1]);
 		}
 		Stack.setChannel(ch);
 		Stack.setDisplayMode("color");Stack.setDisplayMode("composite");
 	}
-	else run(chosen_LUTs[0]);
+	else {
+		if (chosen_LUTs[0]=="fav") pasteFavoriteLUT();
+		else run(chosen_LUTs[0]);
+	}
 }
 
 function Set_noice_LUTs(){
@@ -3147,6 +3196,8 @@ function convertTo_iMQ_Style() {
 	run("RGB Color"); rename(1);
 	newImage("iGrays", "8-bit ramp", 64, 32, 1);
 	run("Invert LUT");
+	grey  = Array.resample(newArray(120,0),256);
+	setLut(grey, grey, grey);
 	run("RGB Color");
 	rename(2);
 	run("Combine...", "stack1=2 stack2=1");
