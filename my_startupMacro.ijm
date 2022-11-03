@@ -579,7 +579,7 @@ function liveContrast() {
 function liveGamma(){
 	setBatchMode(1);
 	getLut(reds, greens, blues);
-	copyLUT();
+	// copyLUT();
 	setColor("white");
 	setFont("SansSerif", Image.height/20, "bold antialiased");
 	getCursorLoc(x, y, z, flags);
@@ -1346,6 +1346,7 @@ function multiPlot(){
 	Plot.freeze(1);
 	selectImage(id);
 	if (channels>1) Stack.setActiveChannels(activeChannels);
+	run("Select None");
 }
 function lutToHex2(){
 	getLut(r,g,b);
@@ -1359,8 +1360,8 @@ function lutToHex2(){
 
 function multiPlot_Zaxis(){
 	close("LUT Profile");
-	selectNone = 0; activeChannels="1"; normalize = 0;
-	if (isKeyDown("space")) normalize = 1;
+	selectNone = 0; activeChannels="1"; normalize = 1;
+	// if (isKeyDown("space")) normalize = 1;
 	getDimensions(width,  height, channels, slices, frames);
 	Stack.getPosition(Channel, slice, frame);
 	if (selectionType()==-1) {run("Select All");}
@@ -1399,6 +1400,8 @@ function multiPlot_Zaxis(){
 	Plot.freeze(1);
 	selectImage(id);
 	if (channels>1) Stack.setActiveChannels(activeChannels);
+	getSelectionBounds(x, y, sel_width, height);
+	if (sel_width == Image.width) run("Select None");
 }
 
 function plotLUT(){
@@ -1704,7 +1707,7 @@ function gaussCorrection(){
 	TITLE = getTitle();
 	run("Duplicate...", "title=gaussed duplicate");
 	getDimensions(width, height, channels, slices, frames);
-	SIGMA = maxOf(height,width) / 3;
+	SIGMA = maxOf(height,width) / 7;
 	run("Gaussian Blur...", "sigma=" + SIGMA + " stack");
 	imageCalculator("Substract create stack", TITLE, "gaussed");
 	rename(TITLE + "_corrected");
@@ -1938,9 +1941,9 @@ macro "Batch convert ims to tif" {
 Set LUTs
 --------*/
 function perso_Ask_LUTs(){
-	LUT_list = newArray("kb","ko","km","kg","Grays" ,"fav");
+	LUT_list = newArray("kb","ko","km","kg","Grays" ,"copied" ,"fav");
 	Dialog.create("Set all LUTs");
-	for(i=0; i<4; i++) Dialog.addRadioButtonGroup("LUT " + (i+1), LUT_list, 0, 6, chosen_LUTs[i]);
+	for(i=0; i<4; i++) Dialog.addRadioButtonGroup("LUT " + (i+1), LUT_list, 0, 7, chosen_LUTs[i]);
 	Dialog.addCheckbox("noice?", 0);
 	Dialog.show();
 	for(k=0; k<4; k++) chosen_LUTs[k] = Dialog.getRadioButton();
@@ -1965,6 +1968,7 @@ function Set_LUTs(){
 		for(i=1; i<=channels; i++){
 			Stack.setChannel(i);
 			if (chosen_LUTs[i-1]=="fav") pasteFavoriteLUT();
+			else if (chosen_LUTs[i-1]=="copied") pasteLUT();
 			else run(chosen_LUTs[i-1]);
 		}
 		Stack.setChannel(ch);
@@ -1972,7 +1976,8 @@ function Set_LUTs(){
 	}
 	else {
 		if (chosen_LUTs[0]=="fav") pasteFavoriteLUT();
-		else run(chosen_LUTs[0]);
+		else if (chosen_LUTs[0]=="copied") pasteLUT();
+		else  run(chosen_LUTs[0]);
 	}
 }
 
