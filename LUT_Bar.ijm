@@ -664,6 +664,11 @@ arg=lutBaker2();
 		rgb = newArray(3); loop=1; rgb_weight = newArray(0.299,0.587,0.114);
 		luminance = 0;
 		while (loop) {
+			if (lum == 0) break;
+			if (lum == 255) {
+				rgb = newArray(255,255,255);
+				break;
+			}
 			for (i = 0; i < 3; i++) {
 				rgb[i] = round(random*255);
 				luminance += round(rgb[i]*rgb_weight[i]);
