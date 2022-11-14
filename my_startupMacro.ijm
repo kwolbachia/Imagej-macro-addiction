@@ -1346,7 +1346,8 @@ function multiPlot(){
 	Plot.freeze(1);
 	selectImage(id);
 	if (channels>1) Stack.setActiveChannels(activeChannels);
-	run("Select None");
+	getSelectionBounds(x, y, sel_width, height);
+	if (sel_width == Image.width) run("Select None");
 }
 function lutToHex2(){
 	getLut(r,g,b);
