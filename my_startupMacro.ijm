@@ -177,7 +177,7 @@ macro "my default LUTs   [1]"	{if (isKeyDown("space")) SetAllLUTs(); 			else if 
 macro "good size  		 [2]"	{if (isKeyDown("space")) restorePosition(); 	else if (isKeyDown("alt")) fullScreen();		else goodSize();}
 macro "3D Zproject++     [3]"	{if (isKeyDown("space")) Cool_3D_montage();		else my3D_project();}
 macro "full scale montage[4]"	{if (isKeyDown("space")) run("Montage to Stack..."); 	else run("Make Montage...", "scale=1"); setOption("Changes", 0);}
-macro "25x25 selection   [5]"	{if (isKeyDown("space")) makeRectangle(0,0,75,200); else {size=25; toUnscaled(size); size = round(size); getCursorLoc(x, y, null, null); call("ij.IJ.makeRectangle",x-(size/2),y-(size/2),size,size); showStatus(size+"x"+size);}}
+macro "25x25 selection   [5]"	{if (isKeyDown("space")) duplicate_Box(); else {size=25; toUnscaled(size); size = round(size); getCursorLoc(x, y, null, null); call("ij.IJ.makeRectangle",x-(size/2),y-(size/2),size,size); showStatus(size+"x"+size);}}
 macro "make it look good [6]"	{for (i=0; i<nImages; i++) { setBatchMode(1); selectImage(i+1); run("Appearance...", "  "); run("Appearance...", "black no"); setBatchMode(0);}}
 macro "set destination   [7]" 	{if (isKeyDown("space")) { showStatus("Source set");	run("Alert ", "object=Image color=Orange duration=1000"); source = getTitle();} else if (isKeyDown("alt")) setCustomPosition(); else setTargetImage();}
 macro "rename w/ id      [8]"	{if (isKeyDown("space")) rename(getImageID()); else run("Rename...");}
@@ -195,9 +195,9 @@ macro "Spliticate [d]"	{ if (isKeyDown("space"))	run("Duplicate...", " ");	 	els
 macro "Tile 	  [E]"	{ 	myTile();}
 macro "edit lut   [e]"	{ if (isKeyDown("alt")) run("Edit LUT...");					else if (isKeyDown("space"))	seeAllLUTs();							else 	plotLUT();}
 macro "toolSwitch [F]"	{ toolRoll();}
-macro "gammaLUT	  [f]"	{ if (isKeyDown("alt")) run("Gaussian Blur 3D...", "x=1 y=1 z=1"); else if (isKeyDown("space")) setGammaLUTAllch(0.7);	else run("Gamma...");}
+macro "gammaLUT	  [f]"	{ if (isKeyDown("alt")) run("Gaussian Blur 3D...","x=0.5 y=0.5 z=0.5"); else if (isKeyDown("space")) setGammaLUTAllch(0.7);	else run("Gamma...");}
 macro "Max 		  [G]"	{ if (isKeyDown("space"))	Z_project_all();				else if (isKeyDown("alt")) run("Z Project...", "projection=[Sum Slices] all"); else run("Z Project...", "projection=[Max Intensity] all");}
-macro "Z Project  [g]"	{ if (isKeyDown("alt"))		niColorCode(0);		else if (isKeyDown("space")) niColorCode(1);					else	run("Z Project...");}
+macro "Z Project  [g]"	{ if (isKeyDown("alt"))		niColorCode();		else if (isKeyDown("space")) maxNicolorCode();					else	run("Z Project...");}
 macro "show all   [H]"	{ run("Show All");}
 macro "overlay I  [i]"	{ if (isKeyDown("space"))	invertedOverlay3(); 			else if (isKeyDown("alt")) run("Invert LUT");	 				else 	{if      (Property.get("CompositeProjection") == "Sum") Property.set("CompositeProjection", "composite"); run("Invert LUTs");}}
 macro "New Macro  [J]"	{ 	run("Input/Output...", "jpeg=100"); saveAs("Jpeg");}
@@ -207,7 +207,7 @@ macro "Cmd finder [l]"	{ if (isKeyDown("alt")) run("Action Bar", File.openUrlAsS
 macro "Copy paste [L]"  { if (isKeyDown("space")) rgbLUT_ToLUT(); else copyPasteLUTset();}
 macro "Merge 	  [M]"	{ if (isKeyDown("space")) run("Merge Channels..."); 		else 	fastMerge();} 
 macro "LUT baker  [m]"	{	LUTbaker();}
-macro "Hela       [n]"	{ if (isKeyDown("space")) {cul = 0; if(nImages>0) {if(bitDepth()!=24) {getLut(r,g,b); cul=1;}} newImage("lut"+round(random*100), "8-bit ramp", 256, 32, 1); if(cul) setLut(r,g,b);} else Hela();}
+macro "Hela       [n]"	{ if (isKeyDown("alt")) open("https://i.imgur.com/psSX0UR.png"); else if (isKeyDown("space")) {cul = 0; if(nImages>0) {if(bitDepth()!=24) {getLut(r,g,b); cul=1;}} newImage("lut"+round(random*100), "8-bit ramp", 256, 32, 1); if(cul) setLut(r,g,b);} else Hela();}
 macro "open paste [o]"	{ if ( nImages!=0) { if (startsWith(getTitle(), "Preview Opener")) openFromPreview();  else if (startsWith(getTitle(), "Lookup Tables")) setLUTfromMontage();} else open(String.paste);}
 macro "Splitview  [p]"	{ if (isKeyDown("space")) 	SplitView(0,1,0); 				else 	SplitView(0,0,0); }
 macro "composite  [Q]" 	{ compositeSwitch();	}
@@ -225,6 +225,12 @@ macro "close      [w]"  { if (isKeyDown("space")) open(call("ij.Prefs.get","last
 
 // macro "test Tool - C000 T0508T  T5508e  Ta508s Tg508t"{
 // }
+
+function duplicate_Box(){
+	Roi.getBounds(x, y, width, height);
+	Stack.getPosition(channel, slice, frame);
+	run("Duplicate...", "duplicate channels=&ch range=" +slice-(width/2)+"-"+ slice+(width/2));
+}
 
 function testFilters() {
 	filtersList = newArray("Gaussian Blur...","Median...","Mean...","Minimum...","Maximum...","Variance...","Top Hat...","Gaussian Weighted Median");
@@ -442,7 +448,7 @@ function quickScaleBar(){
 	// 1-2-5 series is calculated by repeated multiplication with 2.3, rounded to one significant digit
 	while (SCALEBAR_LENGTH < IMAGE_WIDTH * SCALEBAR_SIZE) 
 		SCALEBAR_LENGTH = round((SCALEBAR_LENGTH*2.3)/(Math.pow(10,(floor(Math.log10(abs(SCALEBAR_LENGTH*2.3)))))))*(Math.pow(10,(floor(Math.log10(abs(SCALEBAR_LENGTH*2.3))))));
-	SCALEBAR_SETTINGS = "height=" + (SCALEBAR_LENGTH/w)/7 + " font=" + minOf(Image.width,Image.height)/20 + " color=" + COLOR + " background=None location=[Lower Right] bold overlay";
+	SCALEBAR_SETTINGS = "height=" + (SCALEBAR_LENGTH/w)/10 + " font=" + maxOf(Image.width,Image.height)/30 + " color=" + COLOR + " background=None location=[Lower Right] bold overlay";
 	run("Scale Bar...", "width=&SCALEBAR_LENGTH "+SCALEBAR_SETTINGS);
 }
 
@@ -857,7 +863,71 @@ function toggleAllchannels(i) {
 	setBatchMode(0);
 }
 
-function niColorCode(projection){
+//modified from https://github.com/ndefrancesco/macro-frenzy/blob/master/assorted/Colorize%20stack.ijm
+//K.Terretaz 2022
+//Max projection with color coding based on the current LUT
+//to save RAM, it uses the Max copy paste mode to avoid creation of big RGB stack before projection
+//even works with virtual stacks
+function maxNicolorCode(){
+	saveSettings();
+	setPasteMode("Max");
+	title=getTitle();
+	getDimensions(width, height, channels, slices, frames);
+	Stack.getPosition(channel, slice, frame);
+	//invert frames and slices to prevent future bugs
+	// this is reverted afterwards 
+	if ((frames > 1) && (slices == 1)) {
+		switch_slices_and_frames = true;
+		Stack.setDimensions(channels, frames, slices);
+	}
+	else switch_slices_and_frames = false;
+	getDimensions(width, height, channels, slices, frames);
+	setBatchMode(1);
+	newImage("Color Coded Projection", "RGB black", width, height, 1);
+	selectWindow(title);
+	// copy for backup :
+	getLut(reds, greens, blues);
+	//paste copied LUT
+	open(getDirectory("temp")+"/copiedLut.lut");
+	//get current LUT for color coding
+	getLut(R, G, B);
+	R = Array.resample(R,slices);
+	G = Array.resample(G,slices);
+	B = Array.resample(B,slices);
+	for (k = 0; k < frames; k++) {
+		for (i = 0; i < slices; i++) {
+			selectWindow(title);
+			Stack.setPosition(channel, i+1, k+1);
+			//create LUT with the scaled color :
+			r = newArray(0,R[i]);	
+			g = newArray(0,G[i]);	
+			b = newArray(0,B[i]);
+			r = Array.resample(r,256);
+			g = Array.resample(g,256);
+			b = Array.resample(b,256);
+			setLut(r, g, b);
+			run("Copy");
+			selectWindow("Color Coded Projection");
+			//"MAX" paste :
+			run("Paste");
+		}
+	}
+	//restore right dimensions if switched
+	if (switch_slices_and_frames) {
+		selectWindow(title);
+		Stack.setDimensions(channels, frames, slices);
+	}
+	//restore LUT
+	selectWindow(title);
+	setLut(reds, greens, blues);
+	selectWindow("Color Coded Projection");
+	run("Select None");
+	setBatchMode(0);
+	restoreSettings();
+}
+
+//No projection, heavy on RAM
+function niColorCode(){
 	//https://github.com/ndefrancesco/macro-frenzy/blob/master/assorted/Colorize%20stack.ijm
 	title=getTitle();
 	getDimensions(width, height, channels, slices, frames);
@@ -981,7 +1051,7 @@ function installMacroFromClipboard() {
 	string = File.openAsString(getDirectory("macros")+"/StartupMacros.fiji.ijm") + String.paste;
 	File.saveString(string, path);
 	run("Install...","install=["+path+"]");
-	setTool(23);
+	setTool(22);
 }
 
 function rotateLUT() {
@@ -1361,7 +1431,7 @@ function lutToHex2(){
 
 function multiPlot_Zaxis(){
 	close("LUT Profile");
-	selectNone = 0; activeChannels="1"; normalize = 1;
+	selectNone = 0; activeChannels="1"; normalize = 0;
 	// if (isKeyDown("space")) normalize = 1;
 	getDimensions(width,  height, channels, slices, frames);
 	Stack.getPosition(Channel, slice, frame);
@@ -1646,8 +1716,8 @@ function RedGreen2OrangeBlue() { //Red Green to Orange Blue
 	}
 	getDimensions(width, height, channels, slices, frames);
 	if (channels > 2) run("Arrange Channels...", "new=12");
-	Stack.setChannel(1); LUTmaker(40,183,255);
-	Stack.setChannel(2); LUTmaker(249,112,40);
+	Stack.setChannel(1); LUTmaker(20,175,255);
+	Stack.setChannel(2); LUTmaker(255,102,20);
 	setOption("Changes", 0);
 }
 
@@ -1708,7 +1778,7 @@ function gaussCorrection(){
 	TITLE = getTitle();
 	run("Duplicate...", "title=gaussed duplicate");
 	getDimensions(width, height, channels, slices, frames);
-	SIGMA = maxOf(height,width) / 7;
+	SIGMA = maxOf(height,width) / 4;
 	run("Gaussian Blur...", "sigma=" + SIGMA + " stack");
 	imageCalculator("Substract create stack", TITLE, "gaussed");
 	rename(TITLE + "_corrected");
