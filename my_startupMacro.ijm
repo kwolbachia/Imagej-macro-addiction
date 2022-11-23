@@ -6,7 +6,7 @@
 var savedLocX = 0;
 var savedLocY = screenHeight - 470;
 
-var chosen_LUTs = newArray("kb","km","ko","kg","Grays");
+var chosen_LUTs = newArray("kb","km","ko","kg","Grays","Cyan","Magenta","Yellow");
 
 var	color_Mode = "Colored";
 var	montage_Style = "Linear";
@@ -51,7 +51,7 @@ macro "Multitool Tool Options" {
 var ShortcutsMenu = newMenu("Custom Menu Tool",
 	newArray("Fetch or pull StartupMacros", "BioFormats_Bar", "Numerical Keys Bar", "quick scale bar", "Note in infos", "correct copied path",
 		 "-", "Rotate 90 Degrees Right","Rotate 90 Degrees Left", "Stack Difference", "make my LUTs",
-		 "-","Gaussian Blur...","Gaussian Blur 3D...","Gamma...","Voronoi Threshold Labler (2D/3D)",
+		 "-", "Median...", "Gaussian Blur...","Gaussian Blur 3D...","Gamma...","Voronoi Threshold Labler (2D/3D)",
 		 "-","test all Z project", "test CLAHE options", "test all calculator modes", "test main filters",
 		 "-","Batch convert ims to tif","Batch Merge","Combine tool", "Merge tool","my Wand tool",
 		 "-","Neuron (5 channels)", "Confocal Series", "Test image", "3 channels", "Brain stack",
@@ -448,7 +448,8 @@ function quickScaleBar(){
 	// 1-2-5 series is calculated by repeated multiplication with 2.3, rounded to one significant digit
 	while (SCALEBAR_LENGTH < IMAGE_WIDTH * SCALEBAR_SIZE) 
 		SCALEBAR_LENGTH = round((SCALEBAR_LENGTH*2.3)/(Math.pow(10,(floor(Math.log10(abs(SCALEBAR_LENGTH*2.3)))))))*(Math.pow(10,(floor(Math.log10(abs(SCALEBAR_LENGTH*2.3))))));
-	SCALEBAR_SETTINGS = "height=" + (SCALEBAR_LENGTH/w)/10 + " font=" + maxOf(Image.width,Image.height)/30 + " color=" + COLOR + " background=None location=[Lower Right] bold overlay";
+	SCALEBAR_SETTINGS = "height=" + (SCALEBAR_LENGTH/w)/10 + " font=" + maxOf(Image.width,Image.height)/30 + " color=" + COLOR + " background=None location=[Lower Right] hide overlay";
+	print("Scale Bar length = "+SCALEBAR_LENGTH);
 	run("Scale Bar...", "width=&SCALEBAR_LENGTH "+SCALEBAR_SETTINGS);
 }
 
@@ -1431,7 +1432,7 @@ function lutToHex2(){
 
 function multiPlot_Zaxis(){
 	close("LUT Profile");
-	selectNone = 0; activeChannels="1"; normalize = 0;
+	selectNone = 0; activeChannels="1"; normalize = 1;
 	// if (isKeyDown("space")) normalize = 1;
 	getDimensions(width,  height, channels, slices, frames);
 	Stack.getPosition(Channel, slice, frame);
@@ -1463,7 +1464,7 @@ function multiPlot_Zaxis(){
 	Plot.setBackgroundColor("#2f2f2f");
 	Plot.setAxisLabelSize(14.0, "bold");
 	Plot.setFormatFlags("11001100101111");
-	if (normalize) Plot.setXYLabels("Pixels", "Normalized Intensity");
+	if (normalize) Plot.setXYLabels("Frame", "Normalized Intensity");
 	Plot.update();
 	selectWindow("MultiPlot");
 	if (normalize) Plot.setLimits(0, p.length, 0, 1.01 );
