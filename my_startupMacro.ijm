@@ -448,7 +448,7 @@ function quickScaleBar(){
 	// 1-2-5 series is calculated by repeated multiplication with 2.3, rounded to one significant digit
 	while (SCALEBAR_LENGTH < IMAGE_WIDTH * SCALEBAR_SIZE) 
 		SCALEBAR_LENGTH = round((SCALEBAR_LENGTH*2.3)/(Math.pow(10,(floor(Math.log10(abs(SCALEBAR_LENGTH*2.3)))))))*(Math.pow(10,(floor(Math.log10(abs(SCALEBAR_LENGTH*2.3))))));
-	SCALEBAR_SETTINGS = "height=" + (SCALEBAR_LENGTH/w)/10 + " font=" + maxOf(Image.width,Image.height)/30 + " color=" + COLOR + " background=None location=[Lower Right] hide overlay";
+	SCALEBAR_SETTINGS = "height=" + (SCALEBAR_LENGTH/w)/10 + " font=" + maxOf(Image.width,Image.height)/30 + " color=" + COLOR + " background=None location=[Lower Right] bold overlay";
 	print("Scale Bar length = "+SCALEBAR_LENGTH);
 	run("Scale Bar...", "width=&SCALEBAR_LENGTH "+SCALEBAR_SETTINGS);
 }
@@ -1389,7 +1389,7 @@ function multiPlot(){
 	if (channels>1) Stack.getActiveChannels(activeChannels);
 	id=getImageID();
 	
-	call("ij.gui.ImageWindow.setNextLocation", savedLocX, savedLocY);
+	if (!isOpen("MultiPlot")) call("ij.gui.ImageWindow.setNextLocation", savedLocX, savedLocY);
 	run("Plots...", "width=400 height=200");
 	Plot.create("MultiPlot", "Pixels", "Grey value");
 	for (i=1; i<=channels; i++) {
@@ -1440,7 +1440,7 @@ function multiPlot_Zaxis(){
 	if (bitDepth()==24){ run("Plot Profile"); exit;}
 	if (channels>1) Stack.getActiveChannels(activeChannels);
 	id=getImageID();
-	call("ij.gui.ImageWindow.setNextLocation", savedLocX, savedLocY);
+	if (!isOpen("Multiplot")) call("ij.gui.ImageWindow.setNextLocation", savedLocX, savedLocY);
 	run("Plots...", "width=400 height=200");
 	Plot.create("MultiPlot", "Frame", "Grey value");
 	for (i=1; i<=channels; i++) {
@@ -1513,7 +1513,7 @@ function plotLUT(){
 		run("Copy");
 		close("temp");
 	setBatchMode(0);
-	call("ij.gui.ImageWindow.setNextLocation", savedLocX, savedLocY);
+	if (!isOpen("LUT Profile")) call("ij.gui.ImageWindow.setNextLocation", savedLocX, savedLocY);
 	run("Plots...", "width=400 height=265");
 	Plot.create("LUT Profile", "Grey Value", "value");
 	lutinance = getLUTinance(r,g,b);
