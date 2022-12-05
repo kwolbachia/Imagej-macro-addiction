@@ -395,7 +395,7 @@ function showShortcuts(){
 	set_Shortcuts_Line(2, "  2", "Center image",					"Restore position", 			"Full width of screen");
 	set_Shortcuts_Line(3, "  3", "3D animation",					"Cool 3D animation",			"");
 	set_Shortcuts_Line(4, "  4", "Make montage",					"Montage to stack",				"");
-	set_Shortcuts_Line(5, "  5", "Make selection 25x25µm",			"Duplicate box",				"");
+	set_Shortcuts_Line(5, "  5", "Make selection 25x25 µm",			"Duplicate box",				"");
 	set_Shortcuts_Line(6, "  6", "Force black canvas",				"",								"");
 	set_Shortcuts_Line(7, "  7", "Set target image",				"Set source image",				"Set custom position");
 	set_Shortcuts_Line(8, "  8", "Rename image",					"Random rename",				"");
