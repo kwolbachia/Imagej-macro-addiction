@@ -28,6 +28,10 @@ macro "Another wand (drag to adjust tolerance) Tool - N55C444Da2Db3Dc4Dc5Dd6C009
 		run("ROI Manager...");
 		roiManager("show all without labels");
 	}
+	if (flags == 40) { //middle click on selection
+		roiManager("Add"); 
+		exit;
+	}
 	if (flags == 16) { //left click
 		adjust_Tolerance();
 		if (add_to_manager)	{
