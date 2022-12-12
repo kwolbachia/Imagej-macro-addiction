@@ -426,7 +426,7 @@ function showShortcuts(){
 	set_Shortcuts_Line(32 , "  m", "LUT baker",						"",								"");
 	set_Shortcuts_Line(33 , "  M", "Automatic Merge channels",		"Manual Merge channels",		"");
 	set_Shortcuts_Line(34 , "  n", "Open Hela Cells",				"Create small LUT image",		"Open my test image");
-	set_Shortcuts_Line(35 , "  N", "Text Window...",				"",								"");
+	set_Shortcuts_Line(35 , "  N", "numerical Keyboard Bar",				"",								"");
 	set_Shortcuts_Line(36 , "  o", "Open for macro montages",		"",								"");
 	set_Shortcuts_Line(37 , "  p", "Linear grayscale splitview",	"Squared grayscale Splitview",	"");
 	set_Shortcuts_Line(38 , "  P", "Properties...",					"",								"");
@@ -744,6 +744,7 @@ function multiTool(){ //avec menu "que faire avec le middle click? **"
 	 * cursor over selection = +32
 	 * So e.g. if (leftclick + alt) Flags = 24
 	 */
+	if (nImages == 0) exit;
 	setupUndo();
 	call("ij.plugin.frame.ContrastAdjuster.update");
 	updateDisplay();
