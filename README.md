@@ -15,7 +15,7 @@ Also, if you click with this tool on another rgb image(ie a rainbow), it will cr
 
 About [Colorblind Action Bar](https://github.com/kwolbachia/Imagej-macro-addiction/tree/main/Colorblind%20Bar) : 
 <https://twitter.com/kWolbachia/status/1401707267976802306?s=20>     
-Colorblind correction tools Action Bar
+Action Bar for Colorblind correction tools of RGB images 
 
 About the [Merge Tool](https://github.com/kwolbachia/Imagej-macro-addiction/blob/main/Merge%20Tool.ijm) :    
 Click sequencially on the images you want to merge, in the right order     
