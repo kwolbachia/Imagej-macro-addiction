@@ -1,5 +1,11 @@
 [how to install macro tools](https://imagej.nih.gov/ij/docs/guide/146-20.html)
 
+About the [Interactive Wand Tool](https://github.com/kwolbachia/Imagej-macro-addiction/blob/main/Interactive_Wand_Tool.ijm) :   
+The tool will detect local contrast (5 pixel box) on click and estimate the right Wand tolerance.      
+Drag mouse laterally to adjust tolerance if needed.       
+Click with the mouse wheel on a selection to add it to ROI Manager.
+Double click on Tool to adjust parameters. 
+
 About the [Preview Opener](https://github.com/kwolbachia/Imagej-macro-addiction/blob/main/Preview%20Opener.ijm) :   
 First : open all the images of one directory or just the ones you want, it can be virtual stacks.  
 Adjust the display you want (slice, contrast, LUTs..) because the snapshots will show the current views.   
