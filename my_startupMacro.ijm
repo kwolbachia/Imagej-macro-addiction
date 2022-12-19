@@ -26,7 +26,7 @@ var enhance_rate = 0.03;
 
 //For wand tool
 var tolerance = 0;
-var box_size = 25;
+var box_size = 5;
 var add_to_manager = 0;
 var tolerance_threshold = 40;
 var exponent = 2;
@@ -281,7 +281,7 @@ macro "JPEG		  [j]"  {	run("Macro");}
 
 macro "multiplot  [k]"  {
 	if		(no_Alt_no_Space())		multiPlot();
-	else if (isKeyDown("space"))	multiplot(); //normalized multiplot
+	else if (isKeyDown("space"))	multiPlot(); //normalized multiplot
 	else if (isKeyDown("alt"))		multiPlot_Zaxis(); 
 }
 macro "Cmd finder [l]"	{
@@ -966,10 +966,8 @@ function estimateTolerance(){
 	setBatchMode(1);
 	getCursorLoc(x, y, z, flags);
 	makeRectangle(x-(box_size/2),y-(box_size/2),box_size,box_size);
-	power = 1;
-	factor = pow(1-tolerance_threshold/100, power); // power dispensable I think
 	getStatistics(area, mean, min, max, std, histogram);;
-	tolerance = factor * mean;
+	tolerance = (tolerance_threshold / 100) * max;
 	return tolerance;
 }
 
@@ -1279,7 +1277,7 @@ function installToolFromClipboard() {
 	string = File.openAsString(getDirectory("macros")+"/StartupMacros.fiji.ijm") + String.paste;
 	File.saveString(string, path);
 	run("Install...","install=["+path+"]");
-	setTool(22);
+	setTool(21);
 }
 
 function rotateLUT() {
@@ -3208,29 +3206,29 @@ function rajout_De_Bout() { //for better ClearVolume
 	setBatchMode(0);
 }
 
-function make_y_LUTs() {
+function make_my_LUTs() {
 	lutsFolder = getDirectory("luts");
 	newImage("bo", "8-bit composite-mode", 400, 400, 4, 1, 1);
 	setBackgroundColor(255,255,255);
 	Stack.setChannel(1);
 	makeRectangle(0, 0, 213, 213);
 	run("Clear", "slice");
-												LUTmaker(10,183,255);//////BLUE
+												LUTmaker(10,183,255);//BLUE
 	saveAs("LUT", lutsFolder + "/kb.lut");
 	Stack.setChannel(2);
 	makeRectangle(187, 0, 213, 213);
 	run("Clear", "slice");
-												LUTmaker(255,142,10);/////ORANGE
+												LUTmaker(255,142,10);//ORANGE
 	saveAs("LUT", lutsFolder + "/ko.lut");
 	Stack.setChannel(3);
 	makeRectangle(187, 187, 213, 213);
 	run("Clear", "slice");
-												LUTmaker(195,39,223);/////PURP
+												LUTmaker(195,39,223);//PURP
 	saveAs("LUT", lutsFolder + "/km.lut");
 	Stack.setChannel(4);
 	makeRectangle(0, 187, 213, 213);
 	run("Clear", "slice");
-												LUTmaker(50,206,22);////GREEN
+												LUTmaker(50,206,22);//GREEN
 	saveAs("LUT", lutsFolder + "/kg.lut");
 	run("Select None");
 	setOption("Changes", 0);
