@@ -26,7 +26,7 @@ arg=randomViridis(4);
 <button>
 label=opposite LUT
 bgcolor=grey
-arg=createOppositeLUT();/////
+arg=createOppositeLUT();//
 
 
 <button>
@@ -107,88 +107,110 @@ bgcolor=grey
 arg=lutBaker2();
 
 </line>
-////
+//
 <DnDAction>		
-	saveSettings();
-	lutdir = getArgument() + File.separator;
-	list = getFileList(lutdir);
-	setBatchMode(true);
-	newImage('ramp', '8-bit Ramp', 256, 32, 1);
-	newImage('luts', 'RGB White', 256, 48, 1);
-	count = 0;
-	setForegroundColor(255, 255, 255);
-	setBackgroundColor(255, 255, 255);
-	//recursive processing
-	processFiles(lutdir, list);
-	run('Delete Slice');
-	rows = floor(count/4);
-	if (rows<count/4) rows++;
-	run('Canvas Size...', 'width=258 height=50 position=Center');
-	run('Make Montage...', 'columns=4 rows='+rows+' scale=1 first=1 last='+count+' increment=1 border=0 use');
-	rename('Lookup Tables');
-	setBatchMode(false);
-	restoreSettings();
-
-	function processFiles(dir,list) {
-		list = getFileList(dir);
-		for (i=0; i<list.length; i++) {
-			if (File.isDirectory(dir+list[i])) processFiles(dir+list[i],list);
-			else {
-				path = dir+list[i];
-				processFile(path);
-			}
-		}
-	}
-
-	function processFile(path) {
-		if (endsWith(path, '.lut')) {
-			selectWindow('ramp');
-			open(path);
+	dropped_path = getArgument();
+	if (endsWith(dropped_path, ".tif")){
+		id = getImageID();
+		setBatchMode(1);
+		run("TIFF Virtual Stack...", "open=["+dropped_path+"]");
+		id2 = getImageID();
+		getDimensions(width, height, channels, slices, frames);
+		for (i = 0; i < channels; i++) {
+			selectImage(id2);
+			Stack.setChannel(i+1);
 			getLut(reds, greens, blues);
-			selectWindow('ramp');
-			setLut(reds, greens, blues);
-			run('Copy');
-			selectWindow('luts');
-			makeRectangle(0, 0, 256, 32);
-			run('Paste');
-			setJustification('center');
-			setColor(0,0,0);
-		setFont("SansSerif", 11, "antialiased");
-			drawString(list[i], 128, 48);
-			run('Add Slice');
-			run('Select All');
-			run('Clear', 'slice');
+			selectImage(id);
+			Stack.setChannel(i+1);
+			setLut(reds, greens, blues);	
 		}
-		else {
-			if(File.exists(path)){
-				open(path);
-				if (bitDepth()!=24) { 
-					getLut(reds, greens, blues);
-					selectWindow('ramp');
-					setLut(reds, greens, blues);
-					run('Copy');
-					selectWindow('luts');
-					makeRectangle(0, 0, 256, 32);
-					run('Paste');
-					setJustification('center');
-					setColor(0,0,0);
-					setFont('Arial', 14);
-					drawString(list[i], 128, 48);
-					run('Add Slice');
-					run('Select All');
-					run('Clear', 'slice');
+		selectImage(id2);
+		close();
+	}
+	else make_LUT_Montage_from_Path(dropped_path);
+
+
+	function make_LUT_Montage_from_Path(path){
+		saveSettings();
+		lutdir = path + File.separator;
+		list = getFileList(lutdir);
+		setBatchMode(true);
+		newImage('ramp', '8-bit Ramp', 256, 32, 1);
+		newImage('luts', 'RGB White', 256, 48, 1);
+		count = 0;
+		setForegroundColor(255, 255, 255);
+		setBackgroundColor(255, 255, 255);
+		//recursive processing
+		processFiles(lutdir, list);
+		run('Delete Slice');
+		rows = floor(count/4);
+		if (rows<count/4) rows++;
+		run('Canvas Size...', 'width=258 height=50 position=Center');
+		run('Make Montage...', 'columns=4 rows='+rows+' scale=1 first=1 last='+count+' increment=1 border=0 use');
+		rename('Lookup Tables');
+		setBatchMode(false);
+		restoreSettings();
+
+		function processFiles(dir,list) {
+			list = getFileList(dir);
+			for (i=0; i<list.length; i++) {
+				if (File.isDirectory(dir+list[i])) processFiles(dir+list[i],list);
+				else {
+					path = dir+list[i];
+					processFile(path);
 				}
 			}
 		}
 
-		count++;
+		function processFile(path) {
+			if (endsWith(path, '.lut')) {
+				selectWindow('ramp');
+				open(path);
+				getLut(reds, greens, blues);
+				selectWindow('ramp');
+				setLut(reds, greens, blues);
+				run('Copy');
+				selectWindow('luts');
+				makeRectangle(0, 0, 256, 32);
+				run('Paste');
+				setJustification('center');
+				setColor(0,0,0);
+			setFont("SansSerif", 11, "antialiased");
+				drawString(list[i], 128, 48);
+				run('Add Slice');
+				run('Select All');
+				run('Clear', 'slice');
+			}
+			else {
+				if(File.exists(path)){
+					open(path);
+					if (bitDepth()!=24) { 
+						getLut(reds, greens, blues);
+						selectWindow('ramp');
+						setLut(reds, greens, blues);
+						run('Copy');
+						selectWindow('luts');
+						makeRectangle(0, 0, 256, 32);
+						run('Paste');
+						setJustification('center');
+						setColor(0,0,0);
+						setFont('Arial', 14);
+						drawString(list[i], 128, 48);
+						run('Add Slice');
+						run('Select All');
+						run('Clear', 'slice');
+					}
+				}
+			}
+
+			count++;
+		}
 	}
-// }
 </DnDAction>
 
 
 <codeLibrary>
-////
+//
 
 	function lutBaker2(){
 		basicErrorCheck();
@@ -660,12 +682,12 @@ arg=lutBaker2();
 	}
 
 
-	function randomColorByLuminance(lum){ 
+	function randomColorByLuminance(targetLum){ 
 		rgb = newArray(3); loop=1; rgb_weight = newArray(0.299,0.587,0.114);
 		luminance = 0;
 		while (loop) {
-			if (lum == 0) break;
-			if (lum == 255) {
+			if (targetLum == 0) break;
+			if (targetLum == 255) {
 				rgb = newArray(255,255,255);
 				break;
 			}
@@ -673,54 +695,37 @@ arg=lutBaker2();
 				rgb[i] = round(random*255);
 				luminance += round(rgb[i]*rgb_weight[i]);
 			}
-			if (luminance>=lum-1 && luminance<=lum+1)loop=0;
+			if (luminance >= targetLum-1 && luminance <= targetLum+1) loop=0;
 			luminance = 0;
 		}
 		return rgb;
 	}
 
-	// function adjustColorToLuminance(rgb,lum){
-	// 	lum2 = getLum(rgb); rgb_weight = newArray(0.299,0.587,0.114);
-	// 	loop=1; luminance = 0;
-	// 	while (loop) {
-	// 		if (lum2<lum) {
-	// 			for (i = 0; i < 3; i++) {
-	// 				rgb[i] ++;
-	// 				if (rgb[i]>=255) rgb[i] = 255;
-	// 			}
-	// 		}
-	// 		else if (lum2>lum){
-	// 			for (i = 0; i < 3; i++) {
-	// 				rgb[i] --;
-	// 				if (rgb[i]<0) rgb[i] = 0;
-	// 			}
-	// 		}
-	// 		luminance = getLum(rgb);
-	// 		if (luminance>=lum-2 && luminance<=lum+2)loop=0;
-	// 		print(luminance);
-	// 		luminance = 0;
-	// 		Array.print(rgb);
-	// 	}
-	// 	return rgb;
-	// }
-
-	function adjustColorToLuminance(rgb,lum){
-		lum2 = getLum(rgb); rgb_weight = newArray(0.299,0.587,0.114);
+	function adjustColorToLuminance(rgb,targetLum){
+		inputLum = getLum(rgb); rgb_weight = newArray(0.299,0.587,0.114);
 		loop=1; luminance = 0; i=-1;
 		while (loop) {
+			if (targetLum == 0) {
+				rgb = newArray(0,0,0);
+				break;
+			}
+			if (targetLum == 255) {
+				rgb = newArray(255,255,255);
+				break;
+			}
 			if (i==2) i = -1;
-			if (lum2<lum) {
+			if (inputLum<targetLum) {
 				i++;
 				rgb[i]++;
 				if (rgb[i]>255) rgb[i] = 255;
 			}
-			else if (lum2>lum){
+			else if (inputLum>targetLum){
 				i++;
 				rgb[i]--;
 				if (rgb[i]<0) rgb[i] = 0;
 			}
-			for (k = 0; k < 3; k++) luminance += round(rgb[k]*rgb_weight[k]);
-			if (luminance>=lum-1 && luminance<=lum+1)loop=0;
+			for (k = 0; k < 3; k++) luminance += round(rgb[k] * rgb_weight[k]);
+			if (luminance>=targetLum-1 && luminance<=targetLum+1) loop=0;
 			luminance = 0;
 		}
 		return rgb;

@@ -182,7 +182,7 @@ macro "good size  		 [2]"	{
 	else if (isKeyDown("alt"))		fullScreen();
 }
 macro "3D Zproject++     [3]"	{
-	if		(no_Alt_no_Space())		y3D_project();
+	if		(no_Alt_no_Space())		my3D_project();
 	else if (isKeyDown("space"))	Cool_3D_montage();
 	// else if (isKeyDown("alt"))		
 }
@@ -452,6 +452,13 @@ function set_Shortcuts_Line(line, key, alone, space, alt){
 }
 
 //line tool like
+
+function print_TL_duration(){
+	interval = Stack.getFrameInterval();
+	getDimensions(width, height, channels, slices, frames);
+	hours = round(frames * interval) /3600;
+	print("film duration : " + hours + "hours");
+}
 
 function correct_Copied_path(){
 	copiedPath = replace(String.paste(), "\\", "/");	
@@ -775,6 +782,7 @@ function multiTool(){ //avec menu "que faire avec le middle click? **"
 	}
 	if (getInfo("window.type") == "ResultsTable") result2label();
 	if (flags == 9) 				if (bitDepth()!=24) pasteLUT();	//shift + middle click
+	if (flags == 10||flags == 14) 	if (bitDepth()!=24) pasteFavoriteLUT();	//shift + middle click
 	if (flags == 17)				liveContrast();					// shift + long click
 	if (flags == 18||flags == 20)	liveGamma();					// ctrl + long click
 	if (flags == 24)				liveScroll();					// alt + long click
@@ -798,7 +806,7 @@ function CurtainTool() {
 			run("Duplicate...","title=part");
 			id3 = getImageID;
 			selectImage(id);
-			run("Add Image...", "image=[part] x="+ x +" y=0 opacity=100");
+			run("Add Image...", "image=[part] x="+ x +" y=0 opacity=100 zero");
 			while (Overlay.size>1) Overlay.removeSelection(0);
 			selectWindow(source);
 			run("Select None");
@@ -1283,29 +1291,20 @@ function installToolFromClipboard() {
 function rotateLUT() {
 	setBatchMode(1);
 	getLut(reds, greens, blues);
-	newImage("r1", "8-bit ramp", 256, 32, 1);
-	run("Canvas Size...", "width=768 height=64 position=Top-Left zero");
+	newImage("r1", "8-bit color-mode", 256, 32, 6, 1, 1);
+	Stack.setChannel(1);
 	setLut(reds, greens, blues);
-	newImage("r2", "8-bit ramp", 256, 32, 1);
-	run("Canvas Size...", "width=768 height=64 position=Top-Center zero");
+	Stack.setChannel(2);
 	setLut(reds, blues, greens);
-	newImage("r3", "8-bit ramp", 256, 32, 1);
-	run("Canvas Size...", "width=768 height=64 position=Top-Right zero");
+	Stack.setChannel(3);
 	setLut(greens, reds, blues);
-	newImage("r4", "8-bit ramp", 256, 32, 1);
-	run("Canvas Size...", "width=768 height=64 position=Bottom-Left zero");
+	Stack.setChannel(4);
 	setLut(greens, blues, reds);
-	newImage("r5", "8-bit ramp", 256, 32, 1);
-	run("Canvas Size...", "width=768 height=64 position=Bottom-Center zero");
+	Stack.setChannel(5);
 	setLut(blues, greens, reds);
-	newImage("r6", "8-bit ramp", 256, 32, 1);
-	run("Canvas Size...", "width=768 height=64 position=Bottom-Right zero");
+	Stack.setChannel(6);
 	setLut(blues, reds, greens);
-	txt="";
-	for (i=1; i<=6; i++) {
-			txt += "c" + i + "=[r" + i + "] ";
-	}
-	run("Merge Channels...", txt + "create");
+	seeAllLUTs();
 	setBatchMode(0);
 	rename("wiiiii");
 }
@@ -1926,9 +1925,9 @@ function myRGBconverter(){
 		run("Make Composite");
 		run("Remove Slice Labels");
 	}
-	Stack.setChannel(1); LUTmaker(147,108,0);
-	Stack.setChannel(2); LUTmaker(0,107,138);
-	Stack.setChannel(3); LUTmaker(108,40,117);
+	Stack.setChannel(1); LUTmaker(128,97,0);
+	Stack.setChannel(2); LUTmaker(0,97,128);
+	Stack.setChannel(3); LUTmaker(97,0,128);
 	setOption("Changes", 0);
 	setBatchMode(0);
 }
@@ -3180,7 +3179,7 @@ function rajout_De_Bout() { //for better ClearVolume
 	setBatchMode(1);
 	source = getTitle();
 	getVoxelSize(xwidth, xheight, depth, unit);
-	run("Duplicate...","duplicate")
+	run("Duplicate...","duplicate");
 	dup = getTitle();
 	if (bitDepth()!=24) type = toString(bitDepth())+"-bit";
 	else type = "RGB";
