@@ -785,6 +785,7 @@ arg=lutBaker2();
 			run("Copy");
 			close("temp");
 		setBatchMode(0);
+		if (!isOpen("MultiPlot")) call("ij.gui.ImageWindow.setNextLocation", 0, screenHeight - 470);
 		run("Plots...", "width=400 height=265");
 		Plot.create("LUT Profile", "Grey Value", "value");
 		lutinance = getLUTinance(r,g,b);
