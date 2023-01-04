@@ -3,19 +3,19 @@
 <title> LUTs
 
 <button>
-label= Awesome LUT
+label=<html><font color='black'>  Awesome LUT
 bgcolor=grey
 arg=randomAwesomeLUT(4);
 
 
 <button>
-label=Awesome 150
+label=<html><font color='black'> Awesome 150
 bgcolor=grey
 arg=random150lumLUT(3);
 
 
 <button>
-label=Viridis-like
+label=<html><font color='black'> Viridis-like
 bgcolor=grey
 arg=randomViridis(4);
 
@@ -24,30 +24,30 @@ arg=randomViridis(4);
 <line>
 
 <button>
-label=opposite LUT
+label=<html><font color='black'> opposite LUT
 bgcolor=grey
 arg=createOppositeLUT();//
 
 
 <button>
-label=enluminate LUT
+label=<html><font color='black'> enluminate LUT
 bgcolor=grey
 arg=enluminateLUT();
 
 
 <button>
-label=smooth LUT
+label=<html><font color='black'> smooth LUT
 bgcolor=grey
 arg=smoothLUT();
 
 <button>
-label=Spline fit
+label=<html><font color='black'> Spline fit
 bgcolor=grey
 arg=lutSplineFit(3);
 
 
 <button>
-label=Spline3-10
+label=<html><font color='black'> Spline3-10
 bgcolor=grey
 arg=lutSplineFit3to10();
 
@@ -56,24 +56,24 @@ arg=lutSplineFit3to10();
 <line>
 
 <button>
-label=Crop LUT
+label=<html><font color='black'> Crop LUT
 bgcolor=grey
 arg=cropLUT();
 
 <button>
-label=copy LUT
+label=<html><font color='black'> copy LUT
 bgcolor=grey
 arg=copyLUT();
 
 
 <button>
-label=paste LUT
+label=<html><font color='black'> paste LUT
 bgcolor=grey
 arg=pasteLUT();
 
 
 <button>
-label=show LUT
+label=<html><font color='black'> show LUT
 bgcolor=grey
 arg=plotLUT();
 
@@ -81,28 +81,28 @@ arg=plotLUT();
 <line>
 
 <button>
-label=random150 multi
+label=<html><font color='black'> random150 multi
 bgcolor=grey
 arg=randomLightLUTs();
 
 <button>
-label=iMQ Style
+label=<html><font color='black'> iMQ Style
 bgcolor=grey
 arg=convertTo_iMQ_Style();
 
 
 <button>
-label=invert LUT 1
+label=<html><font color='black'> invert LUT 1
 bgcolor=grey
 arg=invertLUT1();
 
 <button>
-label=ultimate
+label=<html><font color='black'> ultimate
 bgcolor=grey
 arg=ultimateLUTgenerator();
 
 <button>
-label=lutBaker
+label=<html><font color='black'> lutBaker
 bgcolor=grey
 arg=lutBaker2();
 
