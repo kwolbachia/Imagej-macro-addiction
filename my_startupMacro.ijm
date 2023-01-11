@@ -1,6 +1,9 @@
 //Kevin Terretaz
 //StartupMacros perso
 
+// macro "test Tool - C000 T0508T  T5508e  Ta508s Tg508t"{
+// }
+
 var savedLocX = 0;
 var savedLocY = screenHeight - 470;
 
@@ -19,7 +22,7 @@ var tile = newArray(1);
 
 // For MultiTool
 var mainTool = "Move Windows";
-var toolList = newArray("Move Windows", "slice / frame scroll", "My Magic Wand", "Curtain Tool" );
+var toolList = newArray("Move Windows", "slice / frame scroll", "My Magic Wand", "Curtain Tool", "Fly mode");
 var middleClick = 0;
 var live_autoContrast = 0;
 var enhance_rate = 0.03;
@@ -35,9 +38,6 @@ var fit = "None";
 var source=""; // title of the assigned source image : space + [7] key 
 
 
-// macro "test Tool - C000 T0508T  T5508e  Ta508s Tg508t"{
-// }
-
 macro "Multitool Tool - N55C000DdeCf00Db8Db9DbaDc7Dc8DcaDcbDd7DdbDe7De8DeaDebCfffDc9Dd8Dd9DdaDe9C777D02D11D12D17D18D21D28D2bD31D36D39D3aD3bD3eD41D42D46D47D4cD4dD4eD51D52D57D5bD5dD62D63D67D6dD72D73D74D75D76D77D83D85D86D94Cf90Da6Da7Da8Da9DaaDabDacDadDaeDb4Db5Dc4Dd4De4C444D03D19D22D29D2cD32D3cD43D4bD53D58D5eD64D68D6eD78D87Cf60D95D96D97D98D99D9aD9bD9cD9dD9eDa4Da5Db3Db6DbcDbdDbeDc3Dc5Dc6DccDcdDceDd3Dd5Dd6DdcDe3De5De6DecDedDeeC333Cf40Db7DbbDddBf0C000Cf00D08D09D0aCfffC777D13D22D23D24D32D33D35D36D37D38D39D3aD3bD42D43D46D47D48D49D4cD4dD52D53D54D58D59D5aD5dD5eD62D63D6aD6bD6cD6dD72D7cD7dD7eD82D8eD92Da2Cf90D05C444Cf60D03D04D06D0cD0dD0eD14D15D16D17D18D19D1aD1bD1cD1dD1eD25D26D27D28D29D2aD2bD2cD2dD2eC333D34D3cD3dD44D4eD64D73D83D93Da3Cf40D07D0bB0fC000D12Cf00CfffC777D50D60D61D62D70D72D73D74D80D81D82D83D84D85D86D91D92D93D94D95D96D97Da3Da4Da5Da6Da7Da8Cf90C444Cf60D00D04D05D06D09D10D18D20D21D23D24D25D26D27C333D01D02D03D40D51D52D63D64D75D76D87D98Da9Cf40D07D08D11D13D14D15D16D17D22Nf0C000Da2Dd2Dd5Cf00CfffC777D42D52D60D61D65D71D73D74D83D85D86Cf90Da0Da5Da6Db7Dc8C444D40D50D53D62D63D72D75D84Cf60D90D91D93D94D95D96D97Da1Da3Da4Da7Da8Db0Db4Db5Db6Db8Db9Dc5Dc6Dc7Dc9Dd7Dd8Dd9De5De6De7De9C333Db1Db2Db3Dc0Dc4Dd0Dd4De0De4Cf40D92Dc1Dc2Dc3Dd1Dd3Dd6De1De2De3De8" {
 	multiTool();
 }
@@ -47,7 +47,7 @@ macro "Multitool Tool Options" {
 	Dialog.addCheckbox("middle click macro from clipboard", middleClick);
 	Dialog.addCheckbox("live auto contrast?", live_autoContrast);
 	Dialog.addSlider("%", 0, 0.5, enhance_rate);
-	Dialog.addMessage("Magic Wand options :");
+	Dialog.addMessage("Magic Wand options : _______________");
 	Dialog.addNumber("Maxima window size", box_size);
 	Dialog.addSlider("tolerance estimation threshold", 0, 100, tolerance_threshold);
 	Dialog.addSlider("exponent for adjustment value", 1, 2, exponent);
@@ -237,7 +237,7 @@ macro "iComposite [B]"	{	switchCompositeMode();}
 macro "Spliticate [d]"	{
 	if		(no_Alt_no_Space())		run("Split Channels");
 	else if (isKeyDown("space"))	run("Duplicate...", " "); //slice
-	else if (isKeyDown("alt"))		duplicate_current_channel();
+	else if (isKeyDown("alt"))		duplicate_the_way_I_want();
 }
 macro "duplicat	  [D]"	{
 	if		(no_Alt_no_Space())		run("Duplicate...", "duplicate");
@@ -251,7 +251,10 @@ macro "edit lut   [e]"	{
 }
 macro "Tile 	  [E]"	{	myTile();}
 
-macro "toolSwitch [F]"	{	toolRoll();}
+macro "toolSwitch [F]"	{	
+	if (no_Alt_no_Space()) toolRoll();
+	else if (isKeyDown("space")) multichannel_cliJ_stack_focuser();
+}
 
 macro "gammaLUT	  [f]"	{
 	if		(no_Alt_no_Space())		run("Gamma...");
@@ -412,7 +415,7 @@ function showShortcuts(){
 	set_Shortcuts_Line(18 , "  e", "Plot Current LUT",				"",								"");
 	set_Shortcuts_Line(19 , "  E", "Arrange windows on Tiles",		"Multichannel LUT montage",		"Edit LUT...");
 	set_Shortcuts_Line(20 , "  f", "Gamma (real one)",				"Gamma 0.7 on all LUTs",		"Gaussian blur 3D 0.5");
-	set_Shortcuts_Line(21 , "  F", "Rectangle/MultiTool switch",	"",								"");
+	set_Shortcuts_Line(21 , "  F", "Rectangle/MultiTool switch",	"ClIJ Stack focuser",								"");
 	set_Shortcuts_Line(22 , "  g", "Z Project...",					"MaxColorCoding on copied LUT",	"Color Coding no max (heavy)");
 	set_Shortcuts_Line(23 , "  G", "Max Z Projection",				"Max on all opened images",		"Sum Z Projection");
 	set_Shortcuts_Line(24 , "  H", "Show All images",				"",								"");
@@ -453,6 +456,120 @@ function set_Shortcuts_Line(line, key, alone, space, alt){
 
 //line tool like
 
+function multichannel_cliJ_stack_focuser(){
+	if (bitDepth()==24) run("Make Composite");
+	setBatchMode(1);
+	title = getTitle();
+	getDimensions(width, height, channels, slices, frames);
+	if (channels > 1) {
+		for (i = 0; i < channels; i++) {
+			selectWindow(title);
+			Stack.setChannel(i+1);
+			getLut(reds, greens, blues);
+
+			clij_Stack_Focuser();
+			
+			setLut(reds, greens, blues);
+			rename(title+i+1);
+			resetMinAndMax();
+		}
+		txt = "";
+		for (i=0; i<channels; i++) {
+			txt = txt + "c" + i+1 + "=[" + title+i+1 + "] ";
+		}
+		run("Merge Channels...", txt + "create");
+	}
+	else {
+		getLut(reds, greens, blues);
+
+		clij_Stack_Focuser();
+		
+		setLut(reds, greens, blues);
+	}
+	rename(title+"_focused");
+	setBatchMode(0);
+}
+
+
+function clij_Stack_Focuser(){
+	//Convert the strategy established by R. Wheeler in an imageJ macro running on CPU into an imageJ macro running in GPU
+	//Principle:
+	//In focus regions have sharper detail, therefore have a stronger edge detection result.
+	//The slice with the maximum edge detection result is most in focus.
+	//Build up the image from the original stack in patches according to the most in focus slice.
+	//Use gaussian blending to reduce the appearance of sharp edges.
+	//This is similar to the plugin by Michael Umorin:
+	//http://rsbweb.nih.gov/ij/plugins/stack-focuser.html
+	// input: a grayscale Z stack
+	// Marjorie Guichard - 08/04/2022
+	// Modified for gpu memory saving 
+	
+	//initialise GPU
+	run("CLIJ2 Macro Extensions", "cl_device=[...]");
+	Ext.CLIJ2_clear();
+	
+	//Get image information
+	Slice_Number = nSlices;
+	width = getWidth();
+	height = getHeight();
+	bit = bitDepth();
+	Max_Radius = 0;
+	Blur_Sigma = 2;
+	
+	//Load stack in GPU
+	Original_Stack = getTitle();
+	Ext.CLIJ2_push(Original_Stack);
+	
+	//Sobel filter on GPU
+	Ext.CLIJ2_sobelSliceBySlice(Original_Stack, Sobel_Stack);
+	
+	// Create max filter on pixel neighbours for each slice
+	Ext.CLIJ2_maximum3DSphere(Sobel_Stack, Sobel_Max_Stack, Max_Radius, Max_Radius, 0);
+	Ext.CLIJ2_release(Sobel_Stack);
+	
+	// z position of maximum z projection > create a height map
+	Ext.CLIJ2_zPositionOfMaximumZProjection(Sobel_Max_Stack, Z_Pos_of_Max);
+	Ext.CLIJ2_release(Sobel_Max_Stack);
+	
+	//initialise z position of maximum z projection separation
+	Ext.CLIJ2_create3D(Z_Pos_To_Stack, width, height, Slice_Number, bit);
+	Ext.CLIJ2_threshold(Z_Pos_of_Max, threshTemp, Slice_Number-1);
+	Ext.CLIJ2_copySlice(threshTemp, Z_Pos_To_Stack, Slice_Number-1);
+	Ext.CLIJ2_release(threshTemp);
+	
+	//separate z position of maximum z projection in different slices
+	for (i = Slice_Number-2; i > -1; i--) {
+		threshold = i;
+		Ext.CLIJ2_threshold(Z_Pos_of_Max, threshTemp0, threshold+1);
+		Ext.CLIJ2_threshold(Z_Pos_of_Max, threshTemp, threshold);
+		Ext.CLIJ2_subtractImages(threshTemp, threshTemp0, threshTempSub);
+		Ext.CLIJ2_copySlice(threshTempSub, Z_Pos_To_Stack, i);
+	}
+	Ext.CLIJ2_release(threshTempSub);
+	Ext.CLIJ2_release(threshTemp0);
+	Ext.CLIJ2_release(threshTemp);
+	
+	//Convert height map to float
+	Ext.CLIJ2_convertFloat(Z_Pos_To_Stack, Z_Pos_To_Stack_Float);
+	Ext.CLIJ2_release(Z_Pos_To_Stack);
+	
+	//Gaussian blur on height map and Stack Map slice by slice
+	for (i = 0; i < Slice_Number; i++) {
+		Ext.CLIJ2_copySlice(Z_Pos_To_Stack_Float, Temp_Max, i);
+		Ext.CLIJ2_copySlice(Original_Stack, Temp_oriinal, i);
+		Ext.CLIJ2_gaussianBlur2D(Temp_Max, Temp_Blur, Blur_Sigma, Blur_Sigma);
+		Ext.CLIJ2_multiplyImages(Temp_Blur, Temp_oriinal, Temp_Multi);
+		Ext.CLIJ2_copySlice(Temp_Multi, Z_Pos_To_Stack_Float, i);
+	} 
+	
+	//Sum slice
+	Ext.CLIJ2_sumZProjection(Z_Pos_To_Stack_Float, Result_image);
+	
+	//display image
+	Ext.CLIJ2_pull(Result_image);
+	Ext.CLIJ2_clear();
+}
+
 function print_TL_duration(){
 	interval = Stack.getFrameInterval();
 	getDimensions(width, height, channels, slices, frames);
@@ -489,9 +606,16 @@ function open_LUT_Bar(){
 	run("Action Bar", File.openUrlAsString("https://raw.githubusercontent.com/kwolbachia/Imagej-macro-addiction/main/LUT_Bar.ijm"));
 }
 
-function duplicate_current_channel() {
-	Stack.getPosition(ch, slice, frame); 
-	run("Duplicate...", "duplicate channels=&ch");
+function duplicate_the_way_I_want() {
+	getDimensions(width, height, channels, slices, frames);
+	title = getTitle() + "_dup";
+	Stack.getPosition(channel, slice, frame); 
+	if (channels > 1 && frames==1) {
+		run("Duplicate...", "duplicate title=title channels=&channel");
+	}
+	else {
+		run("Duplicate...", "duplicate title=title channels=&channel frames=frame");
+	}
 }
 
 function force_black_canvas(){
@@ -764,7 +888,7 @@ function multiTool(){ //avec menu "que faire avec le middle click? **"
 	if (flags == 8) { //middle mouse button
 		if      (startsWith(getTitle(), "Preview Opener")) openFromPreview();  
 		else if (startsWith(getTitle(), "Lookup Tables")) setLUTfromMontage(); 
-		if (Image.height==32||Image.width==256) { plotLUT(); copyLUT();}
+		if (Image.height==32||Image.width==256) { if(isOpen("LUT Profile")) plotLUT(); copyLUT();}
 		else {
 			if (middleClick) eval(String.paste);
 			else if (mainTool=="Curtain Tool") setSourceImage();
@@ -778,7 +902,7 @@ function multiTool(){ //avec menu "que faire avec le middle click? **"
 		else if (mainTool=="slice / frame scroll")   liveScroll();
 		else if (mainTool=="My Magic Wand")          magicWand();
 		else if (mainTool=="Fly mode")			 	 flyMode();
-		else if (mainTool=="Curtain Tool")			 	 CurtainTool();
+		else if (mainTool=="Curtain Tool")			 CurtainTool();
 	}
 	if (getInfo("window.type") == "ResultsTable") result2label();
 	if (flags == 9) 				if (bitDepth()!=24) pasteLUT();	//shift + middle click
@@ -787,7 +911,7 @@ function multiTool(){ //avec menu "que faire avec le middle click? **"
 	if (flags == 18||flags == 20)	liveGamma();					// ctrl + long click
 	if (flags == 24)				liveScroll();					// alt + long click
 	if (flags == 25)				squaredAutoContrast();			// shift + alt + long click
-	if (flags == 26||flags == 28)	flyMode();
+	if (flags == 26||flags == 28)	CurtainTool();
 }
 
 function CurtainTool() {
@@ -806,7 +930,7 @@ function CurtainTool() {
 			run("Duplicate...","title=part");
 			id3 = getImageID;
 			selectImage(id);
-			run("Add Image...", "image=[part] x="+ x +" y=0 opacity=100 zero");
+			run("Add Image...", "image=[part] x="+ x +" y=0 opacity=100"); //zero
 			while (Overlay.size>1) Overlay.removeSelection(0);
 			selectWindow(source);
 			run("Select None");
@@ -1198,6 +1322,7 @@ function niColorCode(){
 	}
 	// if (projection) run("Z Project...", "projection=[Max Intensity] all");
 	run("Select None");
+	rename(title + "_colored");
 	setBatchMode(false);
 }
 
@@ -2011,7 +2136,6 @@ function testCLAHE_options() {
 	getDimensions(width, height, channels, slices, frames);
 	if (slices*frames > 1) exit("can't test stacks, please extract one slice");
 	setBatchMode(1);
-	if (bitDepth()!= 24) run("Stack to RGB");
 	blocSize = newArray(10, 100, 200, 500, 700);
 	contrast = newArray(5,3,2,1.5);
 	run("Duplicate...", "title=test");
