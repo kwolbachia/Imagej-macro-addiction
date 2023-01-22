@@ -5,7 +5,7 @@
 // }
 
 var savedLocX = 0;
-var savedLocY = screenHeight - 470;
+var savedLocY = screenHeight() - 470;
 
 // for quick Set LUTs
 var chosen_LUTs = newArray("kb","km","ko","kg","Grays","Cyan","Magenta","Yellow");
@@ -14,15 +14,15 @@ var chosen_LUTs = newArray("kb","km","ko","kg","Grays","Cyan","Magenta","Yellow"
 var	color_Mode = "Colored";
 var	montage_Style = "Linear";
 var	labels = 0;
-var borderSize = 0;
+var border_Size = 0;
 var channels = 1;
 var font_Size = 30;
 var channel_Labels = newArray("CidB","CidA","DNA","H4Ac","DIC");
-var tile = newArray(1);
+var tiles = newArray(1);
 
 // For MultiTool
 var mainTool = "Move Windows";
-var toolList = newArray("Move Windows", "slice / frame scroll", "My Magic Wand", "Curtain Tool", "Fly mode");
+var toolList = newArray("Move Windows", "slice / frame scroll", "My Magic Wand", "Curtain Tool", "Fly mode", "Scale Bar Tool");
 var middleClick = 0;
 var live_autoContrast = 0;
 var enhance_rate = 0.03;
@@ -37,6 +37,7 @@ var fit = "None";
 
 var source=""; // title of the assigned source image : space + [7] key 
 
+var add_text = true; // for Scale Bar Tool
 
 macro "Multitool Tool - N55C000DdeCf00Db8Db9DbaDc7Dc8DcaDcbDd7DdbDe7De8DeaDebCfffDc9Dd8Dd9DdaDe9C777D02D11D12D17D18D21D28D2bD31D36D39D3aD3bD3eD41D42D46D47D4cD4dD4eD51D52D57D5bD5dD62D63D67D6dD72D73D74D75D76D77D83D85D86D94Cf90Da6Da7Da8Da9DaaDabDacDadDaeDb4Db5Dc4Dd4De4C444D03D19D22D29D2cD32D3cD43D4bD53D58D5eD64D68D6eD78D87Cf60D95D96D97D98D99D9aD9bD9cD9dD9eDa4Da5Db3Db6DbcDbdDbeDc3Dc5Dc6DccDcdDceDd3Dd5Dd6DdcDe3De5De6DecDedDeeC333Cf40Db7DbbDddBf0C000Cf00D08D09D0aCfffC777D13D22D23D24D32D33D35D36D37D38D39D3aD3bD42D43D46D47D48D49D4cD4dD52D53D54D58D59D5aD5dD5eD62D63D6aD6bD6cD6dD72D7cD7dD7eD82D8eD92Da2Cf90D05C444Cf60D03D04D06D0cD0dD0eD14D15D16D17D18D19D1aD1bD1cD1dD1eD25D26D27D28D29D2aD2bD2cD2dD2eC333D34D3cD3dD44D4eD64D73D83D93Da3Cf40D07D0bB0fC000D12Cf00CfffC777D50D60D61D62D70D72D73D74D80D81D82D83D84D85D86D91D92D93D94D95D96D97Da3Da4Da5Da6Da7Da8Cf90C444Cf60D00D04D05D06D09D10D18D20D21D23D24D25D26D27C333D01D02D03D40D51D52D63D64D75D76D87D98Da9Cf40D07D08D11D13D14D15D16D17D22Nf0C000Da2Dd2Dd5Cf00CfffC777D42D52D60D61D65D71D73D74D83D85D86Cf90Da0Da5Da6Db7Dc8C444D40D50D53D62D63D72D75D84Cf60D90D91D93D94D95D96D97Da1Da3Da4Da7Da8Db0Db4Db5Db6Db8Db9Dc5Dc6Dc7Dc9Dd7Dd8Dd9De5De6De7De9C333Db1Db2Db3Dc0Dc4Dd0Dd4De0De4Cf40D92Dc1Dc2Dc3Dd1Dd3Dd6De1De2De3De8" {
 	multiTool();
@@ -53,6 +54,7 @@ macro "Multitool Tool Options" {
 	Dialog.addSlider("exponent for adjustment value", 1, 2, exponent);
 	Dialog.addCheckbox("auto add ROI to manager?", add_to_manager);
 	Dialog.addChoice("Fit selection? How?", newArray("None","Fit Spline","Fit Ellipse"), fit);
+	Dialog.addCheckbox("text under scale bar?", add_text);
 	Dialog.show();
 	mainTool =				Dialog.getRadioButton();
 	middleClick =			Dialog.getCheckbox();
@@ -63,6 +65,7 @@ macro "Multitool Tool Options" {
 	exponent =				Dialog.getNumber();
 	add_to_manager =		Dialog.getCheckbox();
 	fit =					Dialog.getChoice();
+	add_text = 				Dialog.getCheckbox();
 }
 //--------------------------------------------------------------------------------------------------------------------------------------
 //------SHORTCUTS
@@ -88,7 +91,6 @@ macro "Custom Menu Tool - N55C000D1aD1bD1cD1dD29D2dD39D3dD49D4dD4eD59D5eD69D75D7
 	else if (cmd=="CB_Bar") 						{run("Action Bar", File.openUrlAsString("https://git.io/JZUZw"));}
 	else if (cmd=="LUT_Bar") 						{run("Action Bar", File.openUrlAsString("https://raw.githubusercontent.com/kwolbachia/Imagej-macro-addiction/main/LUT_Bar.ijm"));}
 	else if (cmd=="BioFormats_Bar") 				{BioformatsBar();}
-	else if (cmd=="Videos Bar") 					{videoBar();}
 	else if (cmd=="quick scale bar") 				{quickScaleBar();}
 	else if (cmd=="cool 3D anim")					{Cool_3D_montage();}
 	else if (cmd=="Numerical Keys Bar")				{numericalKeyboardBar();}
@@ -257,7 +259,7 @@ macro "[F]"	{
 
 macro "[f]"	{
 	if		(no_Alt_no_Space())		run("Gamma...");
-	else if (isKeyDown("space"))	setGammaLUTAllch(0.7);
+	else if (isKeyDown("space"))	setGammaLUTAllch(0.8);
 	else if (isKeyDown("alt"))		run("Gaussian Blur 3D...","x=0.5 y=0.5 z=0.5");
 }
 macro "[G]"	{
@@ -279,7 +281,10 @@ macro "[i]"	{
 }
 macro "[J]"	{	run("Input/Output...", "jpeg=100"); saveAs("Jpeg");}
 
-macro "[j]"  {	run("Macro");}
+macro "[j]"  {
+	if		(no_Alt_no_Space())	run("Macro");
+	else if (isKeyDown("space")) run("Subtract Background...");
+}
 
 macro "[k]"  {
 	if		(no_Alt_no_Space())		multiPlot();
@@ -342,11 +347,11 @@ macro "[r]"	{
 macro "[S]"	{
 	if		(no_Alt_no_Space())		SplitView(1,1,0); //colored squared
 	else if (isKeyDown("space"))	SplitView(1,0,0); //colored linear
-	else if (isKeyDown("alt"))		getSplitViewPrefs();
+	else if (isKeyDown("alt"))		splitView_Dialog();
 }
 macro "[s]"	{
 	if		(no_Alt_no_Space())		saveAs("Tiff");
-	else if (isKeyDown("space"))	ultimateSplitview();
+	else if (isKeyDown("space"))	ultimate_SplitView();
 	else if (isKeyDown("alt"))		Save_all_opened_images_elsewhere();
 }
 macro "[t]"	{
@@ -420,7 +425,7 @@ function showShortcuts(){
 	set_Shortcuts_Line(23 , "  G", "Max Z Projection",				"Max on all opened images",		"Sum Z Projection");
 	set_Shortcuts_Line(24 , "  H", "Show All images",				"",								"");
 	set_Shortcuts_Line(25 , "  i", "Invert LUTs (Built in)",		"Snapshot and invert colors",	"Reverse LUT");
-	set_Shortcuts_Line(26 , "  j", "Script Editor <3",				"",								"");
+	set_Shortcuts_Line(26 , "  j", "Script Editor <3",				"Rolling Ball bkg substraction","");
 	set_Shortcuts_Line(27 , "  J", "Save as JPEG max quality",		"",								"");
 	set_Shortcuts_Line(28 , "  k", "Multi channel plot",			"Normalized Multichannel Plot",	"Multichannel Plot Z axis");
 	set_Shortcuts_Line(29 , "  K", "Random LUTs",					"",								"");
@@ -457,12 +462,30 @@ function set_Shortcuts_Line(line, key, alone, space, alt){
 
 macro "[f1]" {
 	count_Button("Mitosis");
+
+	getCursorLoc(x, y, z, modifiers);
+	setColor("green");
+	Overlay.drawEllipse(x-2, y-2, 4, 4);
+	Overlay.show;
+	setColor("orange");
 }
 macro "[f2]" {
 	count_Button("Apoptosis");
+
+	getCursorLoc(x, y, z, modifiers);
+	setColor("magenta");
+	Overlay.drawEllipse(x-2, y-2, 4, 4);
+	Overlay.show;
+	setColor("orange");
 }
 macro "[f3]" {
 	count_Button("Nothing");
+
+	getCursorLoc(x, y, z, modifiers);
+	setColor("orange");
+	Overlay.drawEllipse(x-2, y-2, 4, 4);
+	Overlay.show;
+	setColor("orange");
 }
 function count_Button(column_Name){
 	if (nImages==0) exit;
@@ -477,9 +500,6 @@ function count_Button(column_Name){
 	if (isKeyDown("space"))Table.set(column_Name, 0, n-1);
 	else Table.set(column_Name, 0, n+1);
 	Table.update;
-	getCursorLoc(x, y, z, modifiers);
-	Overlay.drawEllipse(x-2, y-2, 4, 4);
-	Overlay.show;
 }
 
 //Ah jérôme... \o/
@@ -499,6 +519,8 @@ function multichannel_cliJ_stack_focuser(){
 	if (bitDepth()==24) run("Make Composite");
 	setBatchMode(1);
 	title = getTitle();
+	info = getMetadata("Info");
+	getVoxelSize(pixel_width, pixel_height, depth, unit);
 	getDimensions(width, height, channels, slices, frames);
 	if (channels > 1) {
 		for (i = 0; i < channels; i++) {
@@ -526,6 +548,8 @@ function multichannel_cliJ_stack_focuser(){
 		setLut(reds, greens, blues);
 	}
 	rename(title+"_focused");
+	setMetadata("Info", info);
+	setVoxelSize(pixel_width, pixel_height, depth, unit);
 	setBatchMode(0);
 }
 
@@ -734,42 +758,65 @@ function DoG(){
 	Ext.CLIJ2_pull(image2);
 }
 
-function videoBar(){
-	video_Bar = 
-	"<fromString>"+"\n"+
-	"<stickToImageJ>"+"\n"+
-	"<noGrid>"+"\n"+
-	"<title> LUTs\n"+
-	"<line>"+"\n"+
-	"<separator>"+"\n"+
-	"<text> import video"+"\n"+
-	"<separator>"+"\n"+
-	"<button>"+"\n"+
-	"label= X "+"\n"+
-	"bgcolor=orange"+"\n"+
-	"arg=<close>"+"\n"+
-	"</line>"+"\n"+
-	"<DnDAction>"+"\n"+
-	"path = getArgument();"+"\n"+
-	"run('Movie (FFMPEG)...', 'choose='+ path +' first_frame=0 last_frame=-1');\n"+
-	"</DnDAction>\n";
-	run("Action Bar",video_Bar);
-}
-
 function numericalKeyboardBar(){
 	text = "<fromString>\n"+
-	"<title> LUTs\n"+
-	"<disableAltClose> \n"+"<line>\n"+"<text>numbers\n"+"<button>\n"+"label=7\n"+"bgcolor=#8fadda\n"+"arg=run('Cyan		[n7]')\n"+"<button>\n"+"label=8\n"+"bgcolor=#ffd900\n"+"arg=run('Magenta 	[n8]');\n"+"<button>\n"+"label=9\n"+"bgcolor=#b57ad6\n"+"arg=run('Yellow 	[n9]');\n"+"</line>\n"+
-	"<line>\n"+"<text>       \n"+"<button>\n"+"label=4\n"+"bgcolor=#8fadda\n"+"arg=run('Bop 		[n4]')\n"+"<button>\n"+"label=5\n"+"bgcolor=#ffd900\n"+"arg=run('boP 		[n5]');\n"+"<button>\n"+"label=6\n"+"bgcolor=#b57ad6\n"+"arg=run('bOp 		[n6]');\n"+"</line>\n"+
-	"<line>\n"+"<text>       \n"+"<button>\n"+"label=1\n"+"bgcolor=#8fadda\n"+"arg=run('Gray 	[n1]')\n"+"<button>\n"+"label=2\n"+"bgcolor=#ffd900\n"+"arg=run('Green 	[n2]');\n"+"<button>\n"+"label=3\n"+"bgcolor=#b57ad6\n"+"arg=run('Red 		[n3]');\n"+"</line>\n"+
-	"<line>\n"+"<text>       \n"+"<button>\n"+"label=0\n"+"bgcolor=#8fadda\n"+"arg=run('myTurbo 	[n0]')\n"+"</line>\n";
+	"<title> numerical Keyboard Macros\n"+
+	"<disableAltClose> \n"+
+	"<line>\n"+
+	"<button>\n"+
+	"label=<html><font color='black'> 7\n"+
+	"bgcolor=gray\n"+
+	"arg=run('[n7]')\n"+
+	"<button>\n"+
+	"label=<html><font color='black'> 8\n"+
+	"bgcolor=#gray\n"+
+	"arg=run('[n8]');\n"+
+	"<button>\n"+
+	"label=<html><font color='black'> 9\n"+
+	"bgcolor=gray\n"+
+	"arg=run('[n9]');\n"+
+	"</line>\n"+
+	"<line>\n"+
+	"<button>\n"+
+	"label=<html><font color='black'> 4\n"+
+	"bgcolor=gray\n"+
+	"arg=run('[n4]')\n"+
+	"<button>\n"+
+	"label=<html><font color='black'> 5\n"+
+	"bgcolor=gray\n"+
+	"arg=run('[n5]');\n"+
+	"<button>\n"+
+	"label=<html><font color='black'> 6\n"+
+	"bgcolor=gray\n"+
+	"arg=run('[n6]');\n"+
+	"</line>\n"+
+	"<line>\n"+
+	"<button>\n"+
+	"label=<html><font color='black'> 1\n"+
+	"bgcolor=gray\n"+
+	"arg=run('[n1]')\n"+
+	"<button>\n"+
+	"label=<html><font color='black'> 2\n"+
+	"bgcolor=gray\n"+
+	"arg=run('[n2]');\n"+
+	"<button>\n"+
+	"label=<html><font color='black'> 3\n"+
+	"bgcolor=gray\n"+
+	"arg=run('[n3]');\n"+
+	"</line>\n"+
+	"<line>\n"+
+	"<button>\n"+
+	"label=<html><font color='black'> 0\n"+
+	"bgcolor=gray\n"+
+	"arg=run('[n0]')\n"+
+	"</line>\n";
 	run("Action Bar",text);
 }
 function memoryAndRecorder() {
 	run("Record...");
-	Table.setLocationAndSize(screenWidth-350, 0, 350, 200,"Recorder");
+	Table.setLocationAndSize(screenWidth()-350, 0, 350, 200,"Recorder");
 	run("Monitor Memory...");
-	Table.setLocationAndSize(screenWidth-595, 0, 250, 120,"Memory");
+	Table.setLocationAndSize(screenWidth()-595, 0, 250, 120,"Memory");
 }
 
 function invert_all_LUTs() {
@@ -932,14 +979,58 @@ function multiTool(){ //avec menu "que faire avec le middle click? **"
 		else if (mainTool=="My Magic Wand")          magicWand();
 		else if (mainTool=="Fly mode")			 	 flyMode();
 		else if (mainTool=="Curtain Tool")			 CurtainTool();
+		else if (mainTool=="Scale Bar Tool")		 Scale_Bar_Tool();
 	}
 	if (flags == 9) 				if (bitDepth()!=24) pasteLUT();	//shift + middle click
 	if (flags == 10||flags == 14) 	if (bitDepth()!=24) pasteFavoriteLUT();	//shift + middle click
 	if (flags == 17)				liveContrast();					// shift + long click
 	if (flags == 18||flags == 20)	liveGamma();					// ctrl + long click
-	if (flags == 24)				liveScroll();					// alt + long click
+	if (flags == 24)				if (mainTool=="slice / frame scroll") moveWindows(); else liveScroll();	// alt + drag
 	if (flags == 25)				squaredAutoContrast();			// shift + alt + long click
 	if (flags == 26||flags == 28)	CurtainTool();
+}
+
+function Scale_Bar_Tool(){
+	//adapted from Aleš Kladnik there https://forum.image.sc/t/automatic-scale-bar-in-fiji-imagej/60774
+	getPixelSize(unit,w,h);
+	if (unit == "pixels") exit("Image not spatially calibrated");
+	bar_length = 1;	// initial scale bar length in measurement units
+	bar_relative_size = 0;
+	bar_height = 0;
+	if (add_text == true) text_parameter = "bold";
+	else text_parameter = "hide";
+	font_size = minOf(Image.width, Image.height) / 30; // estimation of "good" font size
+	getCursorLoc(x2, y2, z2, flags2);
+	getCursorLoc(last_x, last_y, z, flags);
+	while (flags >= 16) { //left click			
+		getCursorLoc(x, y, z, flags);
+		getDisplayedArea(area_x, area_y, width, height);
+		//if mouse moved
+		if (x != last_x || y != last_y) {
+			// approximate size of the scale bar relative to image width
+			bar_relative_size = round(((width-(x - area_x))/width) * 10);
+
+			// recursively calculate a 1-2-5-10-20... series
+			// 1-2-5 series is calculated by repeated multiplication with 2.3, rounded to one significant digit
+			for (i = 0; i < bar_relative_size; i++) {
+				magical_formula = Math.pow( 10, (floor( Math.log10( abs(bar_length * 2.3)))));
+				bar_length = round( (bar_length*2.3) / magical_formula) * magical_formula;
+			}
+
+			bar_height = round(((height - (y - area_y)) / height) * Image.height/20);
+
+			//if size or height values changed from last loop, update scale bar
+			if (bar_relative_size != lastSIZE || bar_height != lastHEIGHT) 
+				run("Scale Bar...", "width=&bar_length height=&bar_height font=&font_size color=White background=None location=[Lower Right] "+ text_parameter +" overlay");
+			showStatus("height = "+bar_height+ "px   length = "+ bar_length + unit);
+			bar_length = 1;
+		}
+		//save changes
+		lastSIZE = bar_relative_size;
+		lastHEIGHT = bar_height;
+		getCursorLoc(last_x, last_y, z, flags);
+		wait(10);
+	}
 }
 
 function CurtainTool() {
@@ -976,7 +1067,7 @@ function moveWindows() {
 	getCursorLoc(x2, y2, z2, flags2);
 	zoom = getZoom();
 	getCursorLoc(last_x, last_y, z, flags);
-	while (flags == 16) {
+	while (flags >= 16) {
 		getLocationAndSize(window_x, window_y, null, null);
 		getCursorLoc(x, y, z, flags);
 		if (x != last_x || y != last_y) {
@@ -2062,7 +2153,7 @@ function switcher(){ //RGB to Composite et vice versa
 	}
 	else { 
 		rgbSnapshot();
-		rename(title);
+		rename(title+"_u");
 	}
 	setOption("Changes", 0);
 }
@@ -2091,24 +2182,24 @@ function RedGreen_to_OrangeBlue() { //Red Green to Orange Blue
 	}
 	getDimensions(width, height, channels, slices, frames);
 	if (channels > 2) run("Arrange Channels...", "new=12");
-	Stack.setChannel(1); LUTmaker(20,175,255);
-	Stack.setChannel(2); LUTmaker(255,102,20);
+	Stack.setChannel(1); LUTmaker(0,155,255);
+	Stack.setChannel(2); LUTmaker(255,100,0);
 	setOption("Changes", 0);
 }
 
-var xPositionBackup = 300;
-var yPositionBackup = 300;
-var widthPositionBackup = 400;
-var heightPositionBackup = 400;
+var x_Position_Backup = 300;
+var y_Position_Backup = 300;
+var width_Position_Backup = 400;
+var height_Position_Backup = 400;
 
 function goodSize() {
-	getLocationAndSize(xPositionBackup, yPositionBackup, widthPositionBackup, heightPositionBackup);
+	getLocationAndSize(x_Position_Backup, y_Position_Backup, width_Position_Backup, height_Position_Backup);
 	getDimensions(width, height, null, null, null);
 	if (width/height <= 2.5) {
-		newHeight = (screenHeight/10) * 8;
+		newHeight = (screenHeight()/11) * 10;
 		newWidth = width * (newHeight / height);
-		x = (screenWidth - newWidth) / 2;
-		y = (screenHeight - newHeight) / 2;
+		x = (screenWidth() - newWidth) / 2;
+		y = (screenHeight() - newHeight)/1.2;
 		setLocation(x, y, newWidth, newHeight);
 		run("Set... ", "zoom="+(getZoom()*100)-2);
 	}
@@ -2119,15 +2210,14 @@ function goodSize() {
 }
 
 function fullScreen() {
-	getLocationAndSize(xPositionBackup, yPositionBackup, widthPositionBackup, heightPositionBackup);
+	getLocationAndSize(x_Position_Backup, y_Position_Backup, width_Position_Backup, height_Position_Backup);
 	setBatchMode(1);
-	run("Set... ", "zoom=2000");
-	setLocation(0, screenHeight/10, screenWidth, screenHeight*0.8);
-	run("Set... ", "zoom="+round((screenWidth/getWidth())*100)-1);
+	run("Set... ", "zoom="+round((screenWidth()/getWidth())*100)-1);
+	setLocation(0, screenHeight()/11, screenWidth(), screenHeight()*0.88);
 }
 
 function restorePosition(){
-	setLocation(xPositionBackup, yPositionBackup, widthPositionBackup, heightPositionBackup);
+	setLocation(x_Position_Backup, y_Position_Backup, width_Position_Backup, height_Position_Backup);
 }
 
 function Note_in_infos(){
@@ -2398,36 +2488,6 @@ function SetAllLUTs(){
 	setBatchMode(0);
 }
 
-function interactiveGamma(){
-	setBatchMode(1);
-	Run=1; gamma=1;
-	getLut(r, g, b);
-	getDimensions(w, h, ch, s, f);
-	setColor("white");
-	setFont("SansSerif",h/20, "bold antialiased");
-	Overlay.drawString("press space to apply, alt to cancel",h/20,h/20*19);
-	Overlay.drawString("drag left / right to set gamma",h/20 ,h/20*18);
-	Overlay.show;
-	while(Run) {
-		getCursorLoc(x, null, null, flags);
-		if (flags==16){
-			gamma = d2s((x/w)*2, 1); if (gamma<0) gamma=0;
-			gammaLUT(gamma,r, g, b);
-			Overlay.remove;
-			Overlay.drawString("gamma = "+gamma, h/30,h/20);
-			Overlay.drawString("press space to apply, alt to cancel",h/20,h/20*19);
-			Overlay.drawString("drag left / right to set gamma",h/20 ,h/20*18);
-			Overlay.show;
-		}
-		if(isKeyDown("space")) 	{ 	Run=0; showStatus("applied gamma "+gamma);		}
-		if(isKeyDown("alt")) 	{	setLut(r,g,b); Run=0; showStatus("canceled");	}
-		wait(60);
-	}
-	setBatchMode(0);
-	Overlay.remove;
-	run("Select None");
-}
-
 //for args give gamma value, and r,g,b obtained by getLut(r,g,b) command.
 function gammaLUT(gamma, reds, greens, blues) {
 	gammaReds = newArray(256); 
@@ -2452,13 +2512,13 @@ function setGammaLUTAllch(gamma){
 	if (channels>1) {
 		for (i=1; i<=channels; i++){
 		Stack.setChannel(i);
-		getLut(r, g, b);
-		gammaLUT(gamma,r, g, b);	
+		getLut(reds, greens, blues);
+		gammaLUT(gamma,reds, greens, blues);	
 		}
 	}
 	else {
-		getLut(r, g, b);
-		gammaLUT(gamma,r, g, b);
+		getLut(reds, greens, blues);
+		gammaLUT(gamma,reds, greens, blues);
 	}
 }
 
@@ -2505,25 +2565,34 @@ function reduceMax(){
 }
 
 function Auto_Contrast_on_all_channels() {
-	// if (is("Virtual Stack")) {showStatus("marche pas en virtual stack!"); exit;}
-	getDimensions(w, h, CH, s, f);
-	Stack.getPosition(ch, s, f);
-	for (i = 1; i <= CH; i++) {
-		Stack.setPosition(i, s, f);
-		Adjust_Contrast();	
+	getDimensions(width, height, channels, slices, frames);
+	Stack.getPosition(channel, slice, frame);
+	for (i = 0; i < channels; i++) {
+		if (is_Active_channel(i)) {
+			Stack.setPosition(i+1, slice, frame);
+			Adjust_Contrast();
+		}
 	}
-	Stack.setPosition(ch, s, f);
+	Stack.setPosition(channel, slice, frame);
 	updateDisplay();
 }
 
+function is_Active_channel(channel_Index){
+	getDimensions(width, height, channels, slices, frames);
+	if (channels==1) return true;
+	Stack.getActiveChannels(string);
+	if (string.substring(channel_Index, channel_Index+1) == "1") return true;
+	else return false;
+}
+
 function Enhance_on_all_channels() {
-	getDimensions(w, h, CH, slices, frames);
-	Stack.getPosition(ch, s, f);
-	for (i = 1; i <= CH; i++) {
-		Stack.setPosition(i, s, f);
+	getDimensions(width, height, channels, slices, frames);
+	Stack.getPosition(channel, slice, frame);
+	for (i = 1; i <= channels; i++) {
+		Stack.setPosition(i, slice, frame);
 		run("Enhance Contrast", "saturated=0.03");	
 	}
-	Stack.setPosition(ch, s, f);
+	Stack.setPosition(channel, slice, frame);
 	updateDisplay();
 	call("ij.plugin.frame.ContrastAdjuster.update");
 }
@@ -2656,128 +2725,114 @@ function myTile() {
 //--------------------------------------------------------------------------------------------------------------------------------------
 
 
-function ultimateSplitview() {
-	noRGB_errorCheck();
-	getDimensions(null, null, ch, null, null); id=getImageID();
-	if (ch==1||ch>5) exit;
-	if (startsWith(getTitle(), "Splitview")) { revertSplitview(); exit; }
+function ultimate_SplitView() {
+	if (nImages==0) exit("No opened image");
+	if(bitDepth()==24) exit("won't work on RGB image");
+	getDimensions(width, height, channels, slices, frames);
+	id=getImageID();
+	title = getTitle();
+	if (channels == 1 || channels > 5) exit;
+	if (startsWith(title, "Splitview")) { revertSplitview(); exit; }
 	setBatchMode("hide");
 	run("Duplicate...","title=be_right_back duplicate frames=1 slices=1");
 	setBatchMode("show");
 	selectImage(id);
-	rename("Splitview_" + getTitle());
-	Stack.getPosition(channel,slice,frame);
-	getDimensions(w, h, ch, s, f); newW=w*(ch+1); allsteps=ch*s; step = 0;
-	if ((f>1)&&(s==1)) {s=f; f=1; Stack.setDimensions(ch,s,f); } 
-	run("Canvas Size...", "width=&newW height=&h position=Center-Right zero");
-	makeRectangle(0, 0, w, h);
-	for (k = 1; k <= ch; k++) {	
+	rename("Splitview_" + title);
+	Stack.getPosition(channel, slice, frame);
+	new_width = width * (channels+1);
+	all_steps = channels * slices; 
+	step = 0;
+	if ((frames>1)&&(slices==1)) {
+		slices=frames; 
+		frames=1; 
+		Stack.setDimensions(channels,slices,frames); 
+	} 
+	run("Canvas Size...", "width=&new_width height=&height position=Center-Right zero");
+	makeRectangle(0, 0, width, height);
+	for (k = 1; k <= channels; k++) {	
 		Stack.setChannel(k); 
-		for (i=1; i<=s; i++) {
+		for (i=1; i<=slices; i++) {
 			Stack.setSlice(i);
-			Roi.move(w*ch, 0);	run("Copy");
-			if(k==1){Roi.move(0, 0);  run("Paste");}
-			if(k==2){Roi.move(w, 0);  run("Paste");}
-			if(k==3){Roi.move(w*2,0); run("Paste");}
-			if(k==4){Roi.move(w*3,0); run("Paste");}
-			if(k==5){Roi.move(w*4,0); run("Paste");}
-			step++;	showProgress(step/allsteps);
+			Roi.move(width*channels, 0);		run("Copy");
+			if (k==1) { Roi.move(0, 0);			run("Paste");}
+			if (k==2) { Roi.move(width, 0);		run("Paste");}
+			if (k==3) { Roi.move(width*2, 0);	run("Paste");}
+			if (k==4) { Roi.move(width*3, 0);	run("Paste");}
+			if (k==5) { Roi.move(width*4, 0);	run("Paste");}
+			step++;	showProgress(step / all_steps);
 		}
 	}
 	close("be_right_back");
 	run("Select None");
 	setOption("Changes", 0);
 	Stack.setDisplayMode("composite");
-	Stack.setPosition(channel,slice,frame);
+	Stack.setPosition(channel, slice, frame);
 	setBatchMode(0);
-	//SplitviewInteractor();
-
-	function SplitviewInteractor(){
-	getDimensions(w, h, ch, s, f);
-	w=w/(ch+1);	overlay = (ch*w); id=getImageID();
-	while (isOpen(id)) {
-		if (!startsWith(getTitle(), "Splitview")) exit;
-		getCursorLoc(x, y, z, flags);
-		if (flags==16&&getImageID()==id) {
-			if(x<overlay){
-				if (x <= w) 			 Stack.setChannel(1);
-				if (x > w && x <= w*2) 	 Stack.setChannel(2);
-				if (x > w*2 && x <= w*3) Stack.setChannel(3);
-				if (x > w*3 && x <= w*4) Stack.setChannel(4);
-				if (x > w*4 && x <= w*5) Stack.setChannel(5);
-			}
-		}
-		Stack.setDisplayMode("color");
-		Stack.setDisplayMode("composite");
-		wait(60);
-		}
-	}
 	
 	function revertSplitview(){
-		
-		getDimensions(w, h, ch, s, f);
-		w=w/(ch+1);	overlay = (ch*w); id=getImageID();
-		makeRectangle(overlay, 0, w, h);
+		getDimensions(width, height, channels, slices, frames);
+		width = width / (channels+1);	
+		overlay = (channels * width); 
+		id = getImageID();
+		makeRectangle(overlay, 0, width, height);
 		run("Crop");
 		title=getTitle();
-		rename(title.substring(10,(title.length)));
+		rename(title.substring(10, (title.length)));
 		setOption("Changes", 0);
 	}
 	
-	function noRGB_errorCheck(){
-		if (nImages==0) exit("No opened image");
-		if(bitDepth()==24) exit("won't work on RGB image");
-	}
 }
 
-
-/*----------------------------------------------------------------------------------------------------------------------
-main SplitView function : aguments works as follow :
-color_Mode : 0 = grayscale , 1 = color 
-montage_Style : 0 = linear montage , 1 = squared montage , 2 = vertical montage
-labels : 0 = no , 1 = yes.
-----------------------------------------------------------------------------------------------------------------------*/
 function SplitView(color_Mode, montage_Style, labels) {
-	setBatchMode(true);
+	// color_Mode : 0 = grayscale , 1 = color 
+	// montage_Style : 0 = linear montage , 1 = squared montage , 2 = vertical montageage
+	// labels : 0 = no , 1 = yes.
+	setBatchMode(1);
 	title = getTitle();
-	saveSettings;
-	Setup_SplitView(color_Mode, labels);//up until split
-	restoreSettings;
-	if (montage_Style==1)	squareView();
-	if (montage_Style==0)	linearView();
-	if (montage_Style==2)	verticalView();
-	rename(title + " SplitView");
+	saveSettings();
+	Setup_SplitView(color_Mode, labels);
+	restoreSettings();
+	if (montage_Style == 0)	linear_SplitView();
+	if (montage_Style == 1)	square_SplitView();
+	if (montage_Style == 2)	vertical_SplitView();
+	rename(title + "_SplitView");
 	setOption("Changes", 0);
 	setBatchMode("exit and display");
 
 	function Setup_SplitView(color_Mode, labels){
-		setBackgroundColor(255,255,255);
-		getDimensions(width, heigth, channels, Z, T);
+		//prepare tiles before montage : 
+		// duplicate twice for overlay and splitted channels
+		// convert to RGB with right colors, labels and borders
+		getDimensions(width, height, channels, slices, frames);
 		if (channels == 1) exit("only one channel");
 		if (channels > 5)  exit("5 channels max");
+		setBackgroundColor(255, 255, 255); //for white borders
 		run("Duplicate...", "title=image duplicate");
-		if ((Z>1)&&(T==1)) {T=Z; Z=1; Stack.setDimensions(channels,Z,T); } 
-		tile = newArray(channels+1);	channels = channels;
-		getDimensions(width,heigth,channels,Z,T);
-		font_Size = heigth/9;
+		if ((slices > 1) && (frames == 1)) {
+			frames = slices;
+			slices = 1;
+			Stack.setDimensions(channels, slices, frames); 
+		} 
+		tiles = newArray(channels + 1);
+		getDimensions(width, height, channels, slices, frames); 
+		font_Size = height / 9;
 		run("Duplicate...", "title=split duplicate");
 		run("Split Channels");
 		selectWindow("image");
 		Stack.setDisplayMode("composite")
-
 		if (labels) {
-			getLabels();
+			get_Labels_Dialog();
 			setColor("white");
 			setFont("SansSerif", font_Size, "bold antialiased");
-			Overlay.drawString("Merge",heigth/20,font_Size);
+			Overlay.drawString("Merge", height/20, font_Size);
 			Overlay.show;
 			run("Flatten","stack");
-			rename("overlay"); tile[0] = getTitle();
-			if(borderSize != 0) run("Canvas Size...", "width="+Image.width+borderSize+" height="+Image.height+borderSize+" position=Center");
+			rename("overlay");
+			tiles[0] = getTitle();
+			if (border_Size > 0) add_Borders();
 			close("image");
-
 			for (i = 1; i <= channels; i++) {
-				selectWindow("C"+i+"-split");
+				selectWindow("C" + i + "-split");
 				id = getImageID();
 				getLut(reds, greens, blues); 
 				setColor(reds[255], greens[255], blues[255]);
@@ -2786,18 +2841,23 @@ function SplitView(color_Mode, montage_Style, labels) {
 					run("Grays"); 
 					setMinAndMax(min, max);
 				}
-				Overlay.drawString(channel_Labels[i-1],heigth/20,font_Size);
+				Overlay.drawString(channel_Labels[i-1], height/20, font_Size);
 				Overlay.show;
-				if (Z*T>1) run("Flatten","stack");
-				else { run("Flatten"); selectImage(id);	close();	}
-				if(borderSize != 0) run("Canvas Size...", "width="+Image.width+borderSize+" height="+Image.height+borderSize+" position=Center");
-				tile[i]=getTitle();
+				if (slices * frames > 1) run("Flatten","stack");
+				else {
+					run("Flatten");
+					selectImage(id);
+					close();
+				}
+				if (border_Size > 0) add_Borders();
+				tiles[i]=getTitle();
 			}
 		}
-		else {
+		else { // without labels
 			run("RGB Color", "frames"); 
-			rename("overlay"); tile[0] = getTitle(); 
-			if(borderSize != 0) run("Canvas Size...", "width="+Image.width+borderSize+" height="+Image.height+borderSize+" position=Center");
+			rename("overlay"); 
+			tiles[0] = getTitle(); 
+			if (border_Size > 0) add_Borders();
 			close("image");
 			for (i = 1; i <= channels; i++) {
 				selectWindow("C"+i+"-split");
@@ -2807,82 +2867,109 @@ function SplitView(color_Mode, montage_Style, labels) {
 					setMinAndMax(min, max);
 				}
 				run("RGB Color", "slices"); 
-				if(borderSize != 0) run("Canvas Size...", "width="+Image.width+borderSize+" height="+Image.height+borderSize+" position=Center");
-				tile[i]=getTitle();	
+				if (border_Size > 0) add_Borders();
+				tiles[i] = getTitle();	
 			}
 		}
 	}
+
+	function add_Borders(){
+		run("Canvas Size...", "width=" + Image.width + border_Size + " height=" + Image.height + border_Size + " position=Center");
+	}
 	
-	function getLabels(){
+	function get_Labels_Dialog(){
 		Dialog.createNonBlocking("Provide channel names");
-		for (a = 0; a < 5; a++) Dialog.addString("Channel "+a+1, channel_Labels[a],12); 
+		for (i = 0; i < 5; i++) Dialog.addString("Channel " + i+1, channel_Labels[i], 12); 
 		Dialog.addNumber("Font size", font_Size);
 		Dialog.show();
-		for (k = 0; k < 5; k++) {channel_Labels[k] = Dialog.getString();}
+		for (i = 0; i < 5; i++) channel_Labels[i] = Dialog.getString();
 		font_Size = Dialog.getNumber();
 	}
 	
-	function squareView(){
-										C1_C2 = 	Combine_Horizontally(tile[1],tile[2]);
-		if (channels==2||channels==4)	C1_C2_Ov =	Combine_Horizontally(C1_C2,tile[0]);
-		if (channels==3){				C3_Ov = 	Combine_Horizontally(tile[3],tile[0]); 		Combine_Vertically(C1_C2,C3_Ov);}
-		if (channels>=4)				C3_C4 =		Combine_Horizontally(tile[3],tile[4]);
-		if (channels==4)							Combine_Vertically(C1_C2_Ov,C3_C4);
-		if (channels==5){				C1234 = 	Combine_Vertically(C1_C2,C3_C4); 	C5_Ov =	Combine_Vertically(tile[5],tile[0]); Combine_Horizontally(C1234,C5_Ov);}
+	function square_SplitView(){
+		channel_1_2 = combine_Horizontally(tiles[1], tiles[2]);
+		if (channels == 2||channels == 4) channel_1_2_Overlay = combine_Horizontally(channel_1_2, tiles[0]);
+		if (channels == 3){
+			channel_3_Overlay = combine_Horizontally(tiles[3], tiles[0]);
+			combine_Vertically(channel_1_2, channel_3_Overlay);
+		}
+		if (channels >= 4)	channel_3_4 = combine_Horizontally(tiles[3], tiles[4]);
+		if (channels == 4)	combine_Vertically(channel_1_2_Overlay, channel_3_4);
+		if (channels == 5){
+			channel_1_2_3_4 = combine_Vertically(channel_1_2, channel_3_4); 	
+			channel_5_Overlay =	combine_Vertically(tiles[5], tiles[0]); 
+			combine_Horizontally(channel_1_2_3_4, channel_5_Overlay);
+		}
 	}
 	
-	function linearView(){
-							C1_C2 = Combine_Horizontally(tile[1],tile[2]);
-		if (channels==2)			Combine_Horizontally(C1_C2,tile[0]);
-		if (channels==3){	C3_Ov = Combine_Horizontally(tile[3],tile[0]);			Combine_Horizontally(C1_C2,C3_Ov);}
-		if (channels>=4){	C3_C4 =	Combine_Horizontally(tile[3],tile[4]);	C1234 =	Combine_Horizontally(C1_C2,C3_C4);}
-		if (channels==4)			Combine_Horizontally(C1234,tile[0]);
-		if (channels==5){	C5_Ov = Combine_Horizontally(tile[5],tile[0]);			Combine_Horizontally(C1234,C5_Ov);}
+	function linear_SplitView(){
+		channel_1_2 = combine_Horizontally(tiles[1], tiles[2]);
+		if (channels==2) combine_Horizontally(channel_1_2, tiles[0]);
+		if (channels==3){
+			channel_3_Overlay = combine_Horizontally(tiles[3], tiles[0]);
+			combine_Horizontally(channel_1_2, channel_3_Overlay);
+		}
+		if (channels>=4){
+			channel_3_4 = combine_Horizontally(tiles[3], tiles[4]);
+			channel_1_2_3_4 = combine_Horizontally(channel_1_2, channel_3_4);
+		}
+		if (channels==4) combine_Horizontally(channel_1_2_3_4, tiles[0]); 
+		if (channels==5){
+			channel_5_Overlay = combine_Horizontally(tiles[5], tiles[0]);
+			combine_Horizontally(channel_1_2_3_4, channel_5_Overlay);
+		}
 	}
 	
-	function verticalView(){
-							C1_C2 = Combine_Vertically(tile[1],tile[2]);
-		if (channels==2)			Combine_Vertically(C1_C2,tile[0]);
-		if (channels==3){	C3_Ov = Combine_Vertically(tile[3],tile[0]);		Combine_Vertically(C1_C2,C3_Ov);}
-		if (channels>=4){	C3_C4 =	Combine_Vertically(tile[3],tile[4]);C1234 = Combine_Vertically(C1_C2,C3_C4);}
-		if (channels==4)			Combine_Vertically(C1234,tile[0]);
-		if (channels==5){	C5_Ov = Combine_Vertically(tile[5],tile[0]);		Combine_Vertically(C1234,C5_Ov);}
+	function vertical_SplitView(){
+		channel_1_2 = combine_Vertically(tiles[1], tiles[2]);
+		if (channels==2) combine_Vertically(channel_1_2, tiles[0]);
+		if (channels==3){
+			channel_3_Overlay = combine_Vertically(tiles[3], tiles[0]);
+			combine_Vertically(channel_1_2, channel_3_Overlay);
+		}
+		if (channels>=4){
+			channel_3_4 = combine_Vertically(tiles[3], tiles[4]);
+			channel_1_2_3_4	= combine_Vertically(channel_1_2, channel_3_4);
+		}
+		if (channels==4) combine_Vertically(channel_1_2_3_4, tiles[0]);
+		if (channels==5){
+			channel_5_Overlay = combine_Vertically(tiles[5], tiles[0]);
+			combine_Vertically(channel_1_2_3_4, channel_5_Overlay);
+		}
 	}
 	
-	function Combine_Horizontally(stack1,stack2){ //returns result image title *.*
+	function combine_Horizontally(stack1, stack2){
 		run("Combine...", "stack1=&stack1 stack2=&stack2");
 		rename(stack1+"_"+stack2);
 		return getTitle();
 	}
 	
-	function Combine_Vertically(stack1,stack2){
+	function combine_Vertically(stack1, stack2){
 		run("Combine...", "stack1=&stack1 stack2=&stack2 combine"); //vertically
 		rename(stack1+"_"+stack2);
 		return getTitle();
 	}
 }
 
-var	color_Mode = "Colored";
-var	montage_Style = "Linear";
-var	labels = 0;
-function getSplitViewPrefs(){
+function splitView_Dialog(){
 	if (nImages == 0) exit();
+	getDimensions(width, height, channels, slices, frames);
 	Dialog.createNonBlocking("SplitView");
 	Dialog.addRadioButtonGroup("color Mode", newArray("Colored","Grayscale"), 1, 3, color_Mode);
 	Dialog.addRadioButtonGroup("Montage Style", newArray("Linear","Square","Vertical"), 1, 3, montage_Style);
-	Dialog.addSlider("border size", 0, 50, Image.height * 0.02);
+	Dialog.addSlider("border size", 0, 50, minOf(height, width) * 0.02);
 	Dialog.addCheckbox("label channels?", labels);
 	Dialog.show();
 	color_Mode = Dialog.getRadioButton();
 	montage_Style = Dialog.getRadioButton();
-	borderSize = Dialog.getNumber();
+	border_Size = Dialog.getNumber();
 	labels = Dialog.getCheckbox();
-	if	   (color_Mode=="Colored"   && montage_Style=="Linear")  { if(labels) SplitView(1,0,1); else SplitView(1,0,0); }
-	else if(color_Mode=="Grayscale" && montage_Style=="Linear")  { if(labels) SplitView(0,0,1); else SplitView(0,0,0); }
-	else if(color_Mode=="Colored"   && montage_Style=="Square")  { if(labels) SplitView(1,1,1); else SplitView(1,1,0); }
-	else if(color_Mode=="Grayscale" && montage_Style=="Square")  { if(labels) SplitView(0,1,1); else SplitView(0,1,0); }
-	else if(color_Mode=="Colored"   && montage_Style=="Vertical"){ if(labels) SplitView(1,2,1); else SplitView(1,2,0); }
-	else if(color_Mode=="Grayscale" && montage_Style=="Vertical"){ if(labels) SplitView(0,2,1); else SplitView(0,2,0); }
+	if	    (color_Mode == "Colored"   && montage_Style == "Linear")  { if (labels) SplitView(1,0,1); else SplitView(1,0,0); }
+	else if (color_Mode == "Grayscale" && montage_Style == "Linear")  { if (labels) SplitView(0,0,1); else SplitView(0,0,0); }
+	else if (color_Mode == "Colored"   && montage_Style == "Square")  { if (labels) SplitView(1,1,1); else SplitView(1,1,0); }
+	else if (color_Mode == "Grayscale" && montage_Style == "Square")  { if (labels) SplitView(0,1,1); else SplitView(0,1,0); }
+	else if (color_Mode == "Colored"   && montage_Style == "Vertical"){ if (labels) SplitView(1,2,1); else SplitView(1,2,0); }
+	else if (color_Mode == "Grayscale" && montage_Style == "Vertical"){ if (labels) SplitView(0,2,1); else SplitView(0,2,0); }
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------------
@@ -2967,25 +3054,6 @@ function LUTmaker(r,g,b){
 		B[i] = (b/256)*(i+1);
 	}
 	setLut(R, G, B);
-}
-
-function invertedLUTmaker(){
-	getLut(reds,greens,blues);
-    RED = reds[255]; GREEN = greens[255]; BLUE = blues[255];
-    // if grayscale just invert
-    if(RED==GREEN && RED==BLUE) {
-    	run("Invert LUT");
-    	break;
-    }
-	else {
-        REDS = newArray(256); GREENS = newArray(256); BLUES = newArray(256);
-        for(i=0; i<256; i++) { 
-            REDS[i]   = 255-(((255-RED)/256)*i);
-            GREENS[i] = 255-(((255-GREEN)/256)*i);
-            BLUES[i]  = 255-(((255-BLUE)/256)*i);
-        }
-    }
-    setLut(REDS, GREENS, BLUES);
 }
 
 function lutToHex(R,G,B){
@@ -3133,7 +3201,7 @@ function ultimateLUTgenerator(){
 }
 
 function twoComp150LUTs(){
-	steps = getNumber("how many steps?", 1);
+	steps = getNumber("how many steps?", 2);
 	setBatchMode(1);
 	Stack.setChannel(1);
 	R = newArray(256); G = newArray(256); B = newArray(256);
@@ -3191,8 +3259,7 @@ function randomColorByTypeAndLum(lum, targetColorType) {
 		else rgb=randomColorByLuminance(lum);
 		Array.getStatistics(rgb, min, max, mean, stdDev);
 		red = rgb[0]; green = rgb[1]; blue = rgb[2];
-		if (red==max && blue<135 && (green/red)<0.5)  
-			colorType = "red";
+		if (red==max && blue<135 && (green/red)<0.5)  				colorType = "red";
 		if (green==max && (red/green)<0.75 && (blue/green)<0.75) 	colorType = "green";
 		if (blue==max && red==min && red<70 && (green/blue)<0.8)	colorType = "blue";
 		if (blue==max && red==min && red<60 && (green/blue)>0.8)	colorType = "cyan";
@@ -3389,7 +3456,7 @@ function rgbLUT_ToLUT(){
 	    }
 	    newImage("Untitled", "8-bit ramp", 256, 32, 1);
 	    Color.setLut(Array.resample(r,256), Array.resample(g,256), Array.resample(b,256));
-	  }
+	}
 	else {
 	setBatchMode(1);
 		if (bitDepth()!= 24) exit;
