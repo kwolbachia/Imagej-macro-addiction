@@ -2,6 +2,8 @@
 //StartupMacros perso
 
 // macro "test Tool - C000 T0508T  T5508e  Ta508s Tg508t"{
+// 	getCursorLoc(x, y, z, modifiers);
+// 	print(modifiers);
 // }
 
 var saved_Loc_X = 0;
@@ -65,7 +67,7 @@ macro "Multitool Tool Options" {
 	middle_Click =			Dialog.getCheckbox();
 	live_AutoContrast = 	Dialog.getCheckbox();
 	enhance_Rate =			Dialog.getNumber();
-	wand_Box_Size =				Dialog.getNumber();
+	wand_Box_Size =			Dialog.getNumber();
 	tolerance_Threshold =	Dialog.getNumber();
 	exponent =				Dialog.getNumber();
 	add_To_Manager =		Dialog.getCheckbox();
@@ -76,7 +78,7 @@ macro "Multitool Tool Options" {
 //------SHORTCUTS
 //--------------------------------------------------------------------------------------------------------------------------------------
 var ShortcutsMenu = newMenu("Custom Menu Tool",
-	newArray("Fetch or pull StartupMacros", "BioFormats_Bar", "Numerical Keys Bar", "Note in infos", "correct copied path",
+	newArray("Fetch or pull StartupMacros", "BioFormats_Bar", "Numerical Keys Bar", "Copied note to image info", "correct copied path", "copied to completion",
 		 "-", "Rotate 90 Degrees Right","Rotate 90 Degrees Left", "Stack Difference", "make my LUTs",
 		 "-", "Median...", "Gaussian Blur...","Gaussian Blur 3D...","Gamma...","Voronoi Threshold Labler (2D/3D)",
 		 "-","test all Z project", "test CLAHE options", "test all calculator modes", "test main filters",
@@ -85,7 +87,7 @@ var ShortcutsMenu = newMenu("Custom Menu Tool",
 		 "-","CB_Bar","LUT_Bar", "Jeromes RGB Wheel","RGB time Is Over"));
 macro "Custom Menu Tool - N55C000D1aD1bD1cD1dD29D2dD39D3dD49D4dD4eD59D5eD69D75D76D77D78D79D85D88D89D94D98D99Da4Da7Da8Da9Db3Db7Db8Dc3Dc6Dc7DccDcdDd3Dd6Dd8DdbDdcDe2De3De6De8De9DeaDebDecCfffD0dD3cD5cD6dD7bD8bD8cD96D9aD9bDa5DacDadDb5DcaDd4Dd9DdaDe4CdddD0aD1eD2bD6aD74D7aD95Dc4Dc5DeeC333D67D68DbeDd2DddCeeeD00D01D02D03D04D05D06D07D08D09D0eD10D11D12D13D14D15D16D17D18D20D21D22D23D24D25D26D27D30D31D32D33D34D35D36D37D3aD3bD40D41D42D43D44D45D46D47D4bD50D51D52D53D54D55D56D57D60D61D62D63D64D65D6eD70D71D72D73D80D81D82D83D86D8aD8dD90D91D92D97Da0Da1Da2Da6DaaDb0Db1DbbDc0Dc1Dc9Dd0Dd1De0De1C111D38D5bD6bD7dDabDbaDd7C999D4cD58D5aD5dD93DceDd5C777D0bD2eD4aD6cD7cD7eD9cD9dD9eDbdDc8C222D8eDa3DbcCcccD2cDdeDe7C666D19Db4DcbCbbbD0cD87DaeDb2C888D66De5C555D28D2aD84Dc2CaaaDb9DedC444D3eD48Db6Bf0C000D03D06D0cD13D16D1bD23D26D2aD33D37D39D43D44D47D48D54D65D76D77D87D88D89D8aD8bD8cD8dD8eD9bCfffD04D08D0dD0eD14D18D19D24D28D2cD35D3bD3cD3dD3eD45D46D4aD4bD4cD4eD56D57D5aD5bD5cD5dD5eD68D69D6aD6bD6cD6dD7cD7dCdddD1cD25D63D7eD97C333D99CeeeD00D01D07D10D11D1dD20D21D2eD30D31D40D41D42D4dD50D51D52D59D60D61D62D67D6eD70D71D72D73D74D79D7aD7bD80D81D82D83D84D85D90D91D92D93D94D95D96Da0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaDabDacDadDaeC111D02D0bD36C999D1aD2bD58D9eC777D27D3aC222D64D66D9aCcccD09D17C666D12D38D78CbbbD0aD15D1eD2dD32D34C888D98C555D49D55D86D9cD9dCaaaD05D29D53C444D22D75B0fC000D02D03D04D05D08D09D18D27D28D36D37D45D46D54D55D63D64D71D72D80D81CfffD06D07D16D25D30D34D35D40D43D44D52D57D60D61D66D75D83D85CdddD10D22D32D33D42D74C333CeeeD0aD1aD21D29D2aD31D38D39D3aD48D49D4aD50D51D53D58D59D5aD67D68D69D6aD76D77D78D79D7aD84D86D87D88D89D8aD91D92D93D94D95D96D97D98D99D9aDa0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaC111C999D62D65C777D00C222D01D13D14D73CcccD11D26D90C666CbbbD12D15D19D20D23D24D41D82C888D47D56D70C555D17CaaaC444Nf0C000D33D34D35D36D42D43D46D50D51D55D64D65D66D67D73D74D78D88D96D97Da4Da5Db4Dc4Dd4Dd6Dd7Dd8De3De4De6De8De9CfffD15D31D44D53D54D58D62D84D85D86D92D93Da2Db2Dc2Dd2De7CdddD63Da1Da7Dc1Dd0De2C333D25D47D56D77Da0CeeeD00D01D02D03D04D05D06D07D08D09D0aD10D11D12D13D14D16D17D18D19D1aD20D21D22D27D28D29D2aD30D38D39D3aD48D49D4aD59D5aD69D6aD71D7aD82D8aD99D9aDa8Da9DaaDb1Db6Db7Db8Db9DbaDc9DcaDd1DdaDe0DeaC111C999D37D76D90Da6Db5Dc6Dc8Dd3C777D41D81D91D98Dc7De5C222D75D95Db3CcccD61D72D79D83D89Dc5Dd5Dd9De1C666D40D52D57CbbbD70D80D94C888D23D32D45Dc3C555D60D87Da3Db0CaaaD26Dc0C444D24D68" {
 	cmd = getArgument(); 
-	if 		(cmd=="Note in infos") 					note_In_Infos();
+	if 		(cmd=="Copied note to image info")		note_In_Infos();
 	else if (cmd=="Fetch or pull StartupMacros") 	fetch_Or_Pull_StartupMacros();
 	else if (cmd=="correct copied path")			correct_Copied_Path();
 	else if (cmd=="test CLAHE options") 			test_CLAHE_Options();
@@ -107,6 +109,7 @@ macro "Custom Menu Tool - N55C000D1aD1bD1cD1dD29D2dD39D3dD49D4dD4eD59D5eD69D75D7
 	else if (cmd=="RGB time Is Over")				RGB_time_Is_Over();
 	else if (cmd=="Jeromes RGB Wheel")				Jeromes_Wheel();
 	else if (cmd=="make my LUTs")					make_My_LUTs();
+	else if (cmd=="copied to completion")			clipboard_to_completion();
 	else run(cmd);
 	call("ij.gui.Toolbar.setIcon", "Custom Menu Tool", "N55C000D1aD1bD1cD29D2dD39D3dD49D4dD4eD59D5eD69D79D99Da7Da8Da9Db3Db7Db8Dc7DccDcdDd8DdbDdcDe2De3De9DeaDebCcccD2cCa00D08D09D18D27D28D37D57D66D67D76D87D96D97Da5Db5Dc5Dd5De7CfffD3cD5cD6dD7bD8bD8cD9aD9bDacDadDcaDd9DdaC111D5bD6bD7dDabDbaCeeeD00D01D02D03D04D05D06D10D11D12D13D14D15D16D20D21D22D23D24D25D30D31D32D33D34D35D3aD3bD40D41D42D43D44D45D4bD50D51D52D53D54D55D60D61D62D63D64D6eD70D71D72D73D74D80D81D82D83D84D8aD8dD90D91D92Da0Da1Da2DaaDb0Db1DbbDc0Dc1Dc9Dd0Dd1De0De1Cb11DdeDedDeeCdddD2bD6aD7aCb00D07D0aD0bD0cD0dD0eD17D19D1dD1eD26D2eD36D38D3eD46D47D48D56D58D65D68D75D77D78D85D86D88D89D94D95D98Da4Da6Db4Db6Dc3Dc4Dc6DceDd3Dd4Dd6Dd7DddDe4De5De6De8DecC777D4aD6cD7cD7eD9cD9dD9eDbdDc8CaaaDb9Cb00C444C999D4cD5aD5dD93CbbbDaeDb2C333DbeDd2C888C666DcbC222D8eDa3DbcC555D2aDc2Bf0C000D03D13D16D23D26D33D37D43D44D47D48D54D65D76D77D87D88D89D8aD8bD8cD8dD8eD9bCcccCa00D07D0bD17CfffD14D24D35D3bD3cD3dD3eD45D46D4aD4bD4cD4eD56D57D5aD5bD5cD5dD5eD68D69D6aD6bD6cD6dD7cD7dC111D02D36CeeeD00D01D10D11D20D21D2eD30D31D40D41D42D4dD50D51D52D59D60D61D62D67D6eD70D71D72D73D74D79D7aD7bD80D81D82D83D84D85D90D91D92D93D94D95D96Da0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaDabDacDadDaeCb11D0dD19D1dD29CdddD25D63D7eD97Cb00D04D05D06D08D09D0aD0cD0eD15D18D1aD1bD1cD1eD27D28D2aD2cD39C777D3aCaaaD53Cb00C444D22D75C999D2bD58D9eCbbbD2dD32D34C333D99C888D98C666D12D38D78C222D64D66D9aC555D49D55D86D9cD9dB0fC000D02D03D04D05D08D09D18D27D28D36D37D45D46D54D55D63D64D71D72D80D81CcccD11D26D90Ca00CfffD06D07D16D25D30D34D35D40D43D44D52D57D60D61D66D75D83D85C111CeeeD0aD1aD21D29D2aD31D38D39D3aD48D49D4aD50D51D53D58D59D5aD67D68D69D6aD76D77D78D79D7aD84D86D87D88D89D8aD91D92D93D94D95D96D97D98D99D9aDa0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaCb11CdddD10D22D32D33D42D74Cb00C777D00CaaaCb00C444C999D62D65CbbbD12D15D19D20D23D24D41D82C333C888D47D56D70C666C222D01D13D14D73C555D17Nf0C000D33D34D35D36D46D50D55D66D67D78D88D96D97Da5Db4Dc4Dd4Dd6Dd7Dd8De3De4De6De8De9CcccD79D89Dc5Dd5Dd9Ca00D20D30D41D65D74D84Da4Db1CfffD15D58D85D86De7C111CeeeD00D02D03D04D05D06D07D08D09D0aD12D13D14D16D17D18D19D1aD27D28D29D2aD38D39D3aD48D49D4aD59D5aD69D6aD7aD8aD99D9aDa8Da9DaaDb6Db7Db8Db9DbaDc9DcaDdaDeaCb11D42D52D54D63D64D73D83D93D94Da1Da3Db3Dc1Dc2Dc3Dd0Dd1De0De1CdddDa7De2Cb00D01D10D11D21D22D31D40D43D44D51D53D61D62D71D72D82D91D92Da2Db0Db2Dc0Dd2C777D81D98Dc7De5CaaaD26Cb00D32C444D24D68C999D37D76D90Da6Db5Dc6Dc8Dd3CbbbD70D80C333D25D47D56D77Da0C888D23D45C666D57C222D75D95C555D60D87");
  	wait(3000);
@@ -403,18 +406,18 @@ macro "[n/]" {
 
 function show_Shortcuts_Table(){
 	Table.create("Macro shortcuts");
-	Table.setLocationAndSize(0, 100, 520, 1000);
+	Table.setLocationAndSize(0, 100, 580, 1000);
 	//				line  Key   Alone								with Space						with Alt		
-	set_Shortcuts_Line(0, "  0", "Open in ClearVolume", 			"Open in 3D viewer",			"");
-	set_Shortcuts_Line(1, "  1", "Apply favorite LUTs",				"Apply LUTs to all",			"Set favorite LUTs");
-	set_Shortcuts_Line(2, "  2", "Center image",					"Restore position", 			"Full width of screen");
-	set_Shortcuts_Line(3, "  3", "3D animation",					"Cool 3D animation",			"");
-	set_Shortcuts_Line(4, "  4", "Make montage",					"Montage to stack",				"");
-	set_Shortcuts_Line(5, "  5", "Make selection 25x25 µm",			"Duplicate box",				"");
-	set_Shortcuts_Line(6, "  6", "Force black canvas",				"",								"");
-	set_Shortcuts_Line(7, "  7", "Set target image",				"Set source image",				"Set custom position");
-	set_Shortcuts_Line(8, "  8", "Rename image",					"Random rename",				"");
-	set_Shortcuts_Line(9, "  9", "Open temp image",					"Save image in temp",			"");
+	set_Shortcuts_Line(0,  "  0", "Open in ClearVolume", 			"Open in 3D viewer",			"");
+	set_Shortcuts_Line(1,  "  1", "Apply favorite LUTs",				"Apply LUTs to all",			"Set favorite LUTs");
+	set_Shortcuts_Line(2,  "  2", "Center image",					"Restore position", 			"Full width of screen");
+	set_Shortcuts_Line(3,  "  3", "3D animation",					"Cool 3D animation",			"");
+	set_Shortcuts_Line(4,  "  4", "Make montage",					"Montage to stack",				"");
+	set_Shortcuts_Line(5,  "  5", "Make selection 25x25 µm",			"Duplicate box",				"");
+	set_Shortcuts_Line(6,  "  6", "Force black canvas",				"",								"");
+	set_Shortcuts_Line(7,  "  7", "Set target image",				"Set source image",				"Set custom position");
+	set_Shortcuts_Line(8,  "  8", "Rename image",					"Random rename",				"");
+	set_Shortcuts_Line(9,  "  9", "Open temp image",					"Save image in temp",			"");
 
 	// set_Shortcuts_Line( , "", "",						"",					"");
 
@@ -461,12 +464,52 @@ function show_Shortcuts_Table(){
 	set_Shortcuts_Line(50 , "  w", "Close image",					"Open last closed image (w)",	"Close all others");
 	set_Shortcuts_Line(51 , "  Z", "Channels Tool",					"",								"");
 	set_Shortcuts_Line(52 , "  n*", "Difference of gaussian",		"",								"");
+
+	set_Shortcuts_Line(53, "numpad-0", "Favorite LUT", 				"Set favorite LUT", 			"convert LUT to IMQ");
+	set_Shortcuts_Line(54, "numpad-1", "Grays LUT", 				"toggle channel 1", 			"toggle channel 1 all images");
+	set_Shortcuts_Line(55, "numpad-2", "Green LUT", 				"toggle channel 2", 			"toggle channel 2 all images");
+	set_Shortcuts_Line(56, "numpad-3", "Red LUT", 					"toggle channel 3", 			"toggle channel 3 all images");
+	set_Shortcuts_Line(57, "numpad-4", "Light blue LUT",			"toggle channel 4", 			"toggle channel 4 all images");
+	set_Shortcuts_Line(58, "numpad-5", "My Magenta LUT",			"toggle channel 5", 			"toggle channel 5 all images");
+	set_Shortcuts_Line(59, "numpad-6", "Orange LUT",				"toggle channel 6", 			"toggle channel 6 all images");
+	set_Shortcuts_Line(60, "numpad-7", "Cyan LUT",					"toggle channel 7", 			"toggle channel 7 all images");
+	set_Shortcuts_Line(61, "numpad-8", "Magenta LUT",				"Convert image to 8-bit", 		"Convert image to 16-bit");
+	set_Shortcuts_Line(62, "numpad-9", "Yellow LUT", 				"Glasbey on dark LUT",	 		"");
+
 }
 function set_Shortcuts_Line(line, key, alone, space, alt){
 	Table.set("Key",		line, key);
 	Table.set("Alone",		line, alone);
 	Table.set("with Space",	line, space);
 	Table.set("with Alt",	line, alt);
+}
+
+function clipboard_to_completion() {
+		command = String.paste();
+		command = replace(command, "\"", "\\\"");
+		full_Command = command;
+		end_Index = command.indexOf("(");
+		if (end_Index == -1) end_Index = command.length;
+		command = "\n\n		{ \"trigger\": \"" +  command.substring(0, end_Index) + "\", \"contents\": \"" + add_Fields(command) + "\""+ ", \"annotation\": \"" + full_Command + "\" },";
+		return String.copy(command);
+}
+
+function add_Fields(s) {
+	index_1 = indexOf(s, "(");
+	index_2 = indexOf(s, ")");
+	if (index_1 == -1 || index_2 == -1) return s+"()";
+
+	result_String = substring(s, 0, indexOf(s, "(")+1);
+	fields = substring(s, index_1+1, index_2);
+	fields = split(fields, ", ");
+	if (fields.length == 0) return s;
+
+	for (i = 0; i < fields.length; i++) {
+		fields[i] = "${" + toString(i+1) +":"+ fields[i] + "}";
+		if (i==fields.length-1) result_String += fields[i] + ")";
+		else  result_String += fields[i] + ", ";
+	}
+	return result_String;
 }
 
 function cul(){
@@ -874,8 +917,6 @@ function my_is_inverting_LUT() {
 	if (reds[0] + greens[0] + blues[0] > 20) is_inverting_LUT = true;
 	return is_inverting_LUT;
 }
-
-
 
 function composite_Switch(){
 	if (!is("composite")) exit;
@@ -1815,7 +1856,7 @@ function multi_Plot(){
 	Plot.create("MultiPlot", "Pixels", "Grey value");
 	for (i=1; i<=channels; i++) {
 		if (channels > 1) Stack.setChannel(i);
-		if (is_Active_Channel(i)) {
+		if (is_Active_Channel(i-1)) {
 			profile = getProfile();
 			Array.getStatistics(profile, min, max, mean, stdDev);
 			if (normalize) for (k=0; k<profile.length; k++) profile[k] = Math.map(profile[k], min, max, 0, 1);
@@ -1865,7 +1906,7 @@ function multi_Plot_Z_Axis(){
 	Plot.create("MultiPlot", "Frame", "Grey value");
 	for (i=1; i<=channels; i++) {
 		if (channels>1) Stack.setChannel(i);
-		if (is_Active_Channel(i)) {
+		if (is_Active_Channel(i-1)) {
 			LUTcolor = lut_To_Hex2();
 			setBatchMode(1);
 			run("Plot Z-axis Profile");
@@ -2173,12 +2214,10 @@ function restore_Image_Position(){
 }
 
 function note_In_Infos(){
-	infos=getMetadata("Info");
-	Dialog.create("Add comment in image infos");
-	Dialog.addString("Comment :", "", 80);
-	Dialog.show();
-	Comment = Dialog.getString();
-	setMetadata("Info", Comment+'\n\n'+infos);
+	if(nImages == 0) exit();
+	infos = getMetadata("Info");
+	note = String.paste();
+	setMetadata("Info", note + '\n\n' + infos);
 	run("Show Info...");
 }
 
