@@ -2,8 +2,8 @@
 //StartupMacros perso
 
 // macro "test Tool - C000 T0508T  T5508e  Ta508s Tg508t"{
-// 	getCursorLoc(x, y, z, modifiers);
-// 	print(modifiers);
+//	getCursorLoc(x, y, z, modifiers);
+//	showStatus(modifiers);
 // }
 
 var saved_Loc_X = 0;
@@ -24,7 +24,7 @@ var tiles = newArray(1);
 
 // For MultiTool
 var main_Tool = "Move Windows";
-var tool_List = newArray("Move Windows", "slice / frame scroll", "My Magic Wand", "Curtain Tool", "Fly mode", "Scale Bar Tool");
+var tool_List = newArray("Move Windows", "Slice/Frame Scroll", "Magic Wand", "Curtain Tool", "Fly mode", "Scale Bar Tool", "LUT Gamma Tool", "Multi-channel Plot Tool");
 var middle_Click = 0;
 var live_AutoContrast = 0;
 var enhance_Rate = 0.03;
@@ -197,7 +197,7 @@ macro "[4]"	{
 }
 macro "[5]"	{
 	if		(no_Alt_no_Space())		make_Scaled_Rectangle(25);
-	else if (isKeyDown("space"))	duplicate_Box();
+	else if (isKeyDown("space"))	make_Scaled_Rectangle(500);
 	// else if (isKeyDown("alt"))		
 }
 macro "[6]"	{	force_black_canvas();}
@@ -413,7 +413,7 @@ function show_Shortcuts_Table(){
 	set_Shortcuts_Line(2,  "  2", "Center image",					"Restore position", 			"Full width of screen");
 	set_Shortcuts_Line(3,  "  3", "3D animation",					"Cool 3D animation",			"");
 	set_Shortcuts_Line(4,  "  4", "Make montage",					"Montage to stack",				"");
-	set_Shortcuts_Line(5,  "  5", "Make selection 25x25 µm",			"Duplicate box",				"");
+	set_Shortcuts_Line(5,  "  5", "Make selection 25x25",			"make selection 500x500",		"");
 	set_Shortcuts_Line(6,  "  6", "Force black canvas",				"",								"");
 	set_Shortcuts_Line(7,  "  7", "Set target image",				"Set source image",				"Set custom position");
 	set_Shortcuts_Line(8,  "  8", "Rename image",					"Random rename",				"");
@@ -592,11 +592,10 @@ function count_Button(column_Name){
 // } Cool idée mais ça bug
 
 function save_As_LZW_compressed_tif(){
-	File.setDefaultDir(getDirectory("image"));
 	path = getDir("save As LZW compressed tif");
 	title = File.nameWithoutExtension;
 	print( path + File.separator + title);
-	run("Bio-Formats Exporter", "save=["+ path + File.separator + title + ".tif] compression=LZW");
+	run("Bio-Formats Exporter", "save=["+ path + File.separator + title + "_.tif] compression=LZW");
 }
 
 function multichannel_CliJ_Stack_Focuser(){
@@ -772,8 +771,10 @@ function make_Scaled_Rectangle(size) {
 	//makes a squared selection of specified size, centered at mouse position 
 	toUnscaled(size); 
 	size = round(size);
+	max = maxOf(Image.width(), Image.height());
+	if (size > max) size = max;
 	getCursorLoc(x, y, null, null);
-	call("ij.IJ.makeRectangle",x-(size/2),y-(size/2),size,size); //regular macro function is buggy
+	call("ij.IJ.makeRectangle", x - (size/2), y-(size/2), size, size); //regular macro function is buggy
 	showStatus(size+"x"+size);
 }
 
@@ -782,13 +783,6 @@ function set_my_Source_Image(){
 	showStatus("Source set");	
 	run("Alert ", "object=Image color=Orange duration=1000"); 
 	source = getTitle();
-}
-
-function duplicate_Box(){
-	// make a selection before and it will duplicate as many slices than width size
-	Roi.getBounds(x, y, width, height);
-	Stack.getPosition(channel, slice, frame);
-	run("Duplicate...", "duplicate channels=&ch range=" +slice-(width/2)+"-"+ slice+(width/2));
 }
 
 function test_main_Filters() {
@@ -954,55 +948,112 @@ function my_Tool_Roll() {
 	else setTool(0);
 }
 
+
+/*
+ * shift = +1
+ * ctrl = +2
+ * cmd = +4 (Mac)
+ * alt = +8
+ * middle click is just 8
+ * leftClick = +16
+ * cursor over selection = +32
+ * So e.g. if (leftclick + alt) Flags = 24
+ */
 //ispired by Robert Haase Windows Position tool from clij
 function multi_Tool(){ //avec menu "que faire avec le middle click? **"
-	/*
-	 * shift = +1
-	 * ctrl = +2
-	 * cmd = +4 (Mac)
-	 * alt = +8
-	 * middle click is just 8
-	 * leftClick = +16
-	 * cursor over selection = +32
-	 * So e.g. if (leftclick + alt) Flags = 24
-	 */
 	if (nImages == 0) exit;
 	setupUndo();
 	call("ij.plugin.frame.ContrastAdjuster.update");
 	updateDisplay();
 	getCursorLoc(x, y, z, flags);
-	if (flags == 40 && !middle_Click) { //middle click on selection
+	//middle click on selection
+	if (flags == 40 && !middle_Click) { 
 		roiManager("Add"); 
 		exit();
 	}
-	if (flags>=32) flags -= 32;
-	if (flags == 8) { //middle mouse button
+	//click on selection
+	if (flags > 32 && main_Tool != "Magic Wand") move_selection_Tool(); 
+	if (flags > 32) flags -= 32;
+	//middle mouse button
+	if (flags == 8) { 
 		if      (startsWith(getTitle(), "Preview Opener")) open_From_Preview_Opener();  
 		else if (startsWith(getTitle(), "Lookup Tables")) set_LUT_From_Montage(); 
-		if (Image.height==32||Image.width==256) { if(isOpen("LUT Profile")) plot_LUT(); copy_LUT();}
+		if (Image.height==32||Image.width==256) { if (isOpen("LUT Profile")) plot_LUT(); copy_LUT();}
 		else {
 			if (middle_Click) eval(String.paste);
 			else if (main_Tool=="Curtain Tool") set_my_Source_Image();
 			else composite_Switch();
 		}
 	}
-	if (flags == 16) {
-		if 		(main_Tool=="Move Windows")           move_Windows();
-		else if (main_Tool=="Contrast Adjuster")      live_Contrast();
-		else if (main_Tool=="Gamma on LUT")           live_Gamma();
-		else if (main_Tool=="slice / frame scroll")   live_Scroll();
-		else if (main_Tool=="My Magic Wand")          magic_Wand();
-		else if (main_Tool=="Fly mode")			 	  fly_Mode();
-		else if (main_Tool=="Curtain Tool")			  curtain_Tool();
-		else if (main_Tool=="Scale Bar Tool")		  scale_Bar_Tool();
+	//left Click
+	if (flags == 16) { 
+		if 		(main_Tool == "Move Windows")				move_Windows();
+		else if (main_Tool == "Contrast Adjuster")			live_Contrast();
+		else if (main_Tool == "LUT Gamma Tool")				live_Gamma();
+		else if (main_Tool == "Slice/Frame Scroll")		live_Scroll();
+		else if (main_Tool == "Magic Wand")				magic_Wand();
+		else if (main_Tool == "Fly mode")					fly_Mode();
+		else if (main_Tool == "Curtain Tool")				curtain_Tool();
+		else if (main_Tool == "Scale Bar Tool")				scale_Bar_Tool();
+		else if (main_Tool == "Multi-channel Plot Tool")	live_MultiPlot();
 	}
-	if (flags == 9) 				if (bitDepth()!=24) paste_LUT();							//shift + middle click
-	if (flags == 10||flags == 14) 	if (bitDepth()!=24) paste_Favorite_LUT();				//shift + middle click
-	if (flags == 17)				live_Contrast();															// shift + long click
-	if (flags == 18||flags == 20)	live_Gamma();																// ctrl + long click
-	if (flags == 24)				if (main_Tool=="slice / frame scroll") move_Windows(); else live_Scroll();	// alt + drag
-	if (flags == 25)				box_Auto_Contrast();														// shift + alt + long click
+	if (flags == 9) 				if (bitDepth()!=24) paste_LUT();											// shift + middle click
+	if (flags == 10||flags == 14) 	if (bitDepth()!=24) paste_Favorite_LUT();									// shift + middle click
+	if (flags == 17)				live_Contrast();															// shift + drag
+	if (flags == 18||flags == 20)	if (isOpen("MultiPlot")) live_MultiPlot(); else k_Rectangle_Tool();			// ctrl + drag
+	if (flags == 24)				if (main_Tool=="Slice/Frame Scroll") move_Windows(); else live_Scroll();	// alt + drag
+	if (flags == 25)				box_Auto_Contrast();														// shift + alt + drag
 	if (flags == 26||flags == 28)	curtain_Tool();
+}
+
+function k_Rectangle_Tool() {
+	getCursorLoc(x_origin, y_origin, z, flags);
+	getCursorLoc(last_x, last_y, z, flags);
+	remove_ROI = true;
+	if (flags > 32) {
+		getSelectionBounds(roi_x, roi_y, width, height);
+		while (flags > 32) {
+			getCursorLoc(x, y, z, flags);
+			if (x != last_x || y != last_y) {
+				setSelectionLocation(roi_x - (x_origin-x), roi_y - (y_origin-y));
+				getCursorLoc(last_x, last_y, z, flags);
+			}
+			wait(10);
+		}
+		exit();
+	}
+	while (flags >= 16) {
+		rect_x = x_origin;
+		rect_y = y_origin;
+		getCursorLoc(x, y, z, flags);
+		if (x != last_x || y != last_y) {
+			if (x <= x_origin) rect_x = x;
+			if (y <= y_origin) rect_y = y;
+			rect_width = abs(x_origin - x);
+			rect_heigth = abs(y_origin - y);
+			makeRectangle(rect_x, rect_y, rect_width, rect_heigth);
+			getCursorLoc(last_x, last_y, z, flags);
+			if (flags >= 32) flags -= 32;
+			remove_ROI = false;
+		}
+		wait(10);
+	}
+	if (remove_ROI) run("Select None");
+}
+
+
+function move_selection_Tool() {
+	getCursorLoc(x_origin, y_origin, z, flags);
+	getCursorLoc(last_x, last_y, z, flags);
+	getSelectionBounds(roi_x, roi_y, width, height);
+	while (flags > 32) {
+		getCursorLoc(x, y, z, flags);
+		if (x != last_x || y != last_y) {
+			setSelectionLocation(roi_x - (x_origin-x), roi_y - (y_origin-y));
+			getCursorLoc(last_x, last_y, z, flags);
+		}
+		wait(10);
+	}
 }
 
 function scale_Bar_Tool(){
@@ -1064,7 +1115,7 @@ function curtain_Tool() {
 			run("Duplicate...","title=part");
 			id3 = getImageID;
 			selectImage(id);
-			run("Add Image...", "image=[part] x="+ x +" y=0 opacity=100"); //zero
+			run("Add Image...", "image=part x="+ x +" y=0 opacity=100"); //zero
 			while (Overlay.size>1) Overlay.removeSelection(0);
 			selectWindow(source);
 			run("Select None");
@@ -1841,15 +1892,79 @@ function channels_Roll(){
 	}
 }
 
+function live_MultiPlot() {
+	close("LUT Profile");
+	cursor_Position = "not on a line anchor point";
+	if (bitDepth() == 24){ run("Plot Profile"); exit;}
+	getCursorLoc(origin_x, origin_y, z, flags);
+	// if selection is a Line
+	if (selectionType()==5) {
+		getLine(line_x1, line_y1, line_x2, line_y2, line_Width);
+		if		(get_Distance(line_x1, line_y1, origin_x, origin_y) < 10)									cursor_Position = "start point";
+		else if	(get_Distance(line_x2, line_y2, origin_x, origin_y) < 10)									cursor_Position = "end point";
+		else if	(get_Distance((line_x1 + line_x2) / 2, (line_y1 + line_y2)/2, origin_x, origin_y) < 10)		cursor_Position = "middle point";
+	}
+	id = getImageID;
+	getStatistics(bla, bla, min, max);
+	getPixelSize(unit, pixel_Width, pixel_Height);
+	getLine(line_x1, line_y1, line_x2, line_y2, line_Width);
+	if (!isOpen("MultiPlot")) {
+		call("ij.gui.ImageWindow.setNextLocation", saved_Loc_X, saved_Loc_Y);
+		run("Plots...", "width=400 height=200");
+	}
+	Plot.create("MultiPlot", "Distance ("+unit+")", "Value");
+	selectImage(id);
+	id = getImageID;
+	while (flags & 16 != 0) {
+		selectImage(id);
+		getCursorLoc(new_x, new_y, z, flags);
+		if (cursor_Position == "not on a line anchor point")	makeLine(origin_x, origin_y, new_x, new_y);
+		else if (cursor_Position == "start point")				makeLine(new_x, new_y, line_x2, line_y2);
+		else if (cursor_Position == "end point")				makeLine(line_x1, line_y1, new_x, new_y);
+		else if (cursor_Position == "middle point") {
+			dx = new_x - origin_x;  
+			dy = new_y - origin_y;  
+			makeLine(line_x1 + dx, line_y1 + dy, line_x2 + dx, line_y2 + dy);
+		}
+		Stack.getDimensions(w, h, channels, z, t);
+		pre_Profile = getProfile();
+		size = pre_Profile.length;
+		for (i=0; i<size; i++) pre_Profile[i] = i*pixel_Width;
+		Plot.create("MultiPlot", "Distance ("+unit+")", "Value");
+		Plot.setBackgroundColor("#2f2f2f");
+		Plot.setAxisLabelSize(14.0, "bold");
+		Plot.setFormatFlags("11001100101111");
+		Plot.setLimits(0, pre_Profile[size-1], min, max);
+		for (i=1; i<=channels; i++) {
+			if (channels > 1 && is_Active_Channel(i-1)) {
+				Stack.setChannel(i);
+				if (selectionType()==-1) makeRectangle(new_x, new_y, 1, 1);
+				profile = getProfile();
+				Plot.setColor(lut_To_Hex2());
+				Plot.setLineWidth(2);
+				Plot.add("line", pre_Profile, profile);
+			}
+		}
+		Plot.update();
+		wait(10);
+	}
+	selectWindow("MultiPlot"); 
+	Plot.setLimitsToFit();
+	selectImage(id);
+}
+
+function get_Distance(x1, y1, x2, y2) {
+	return sqrt((x1-x2) * (x1-x2) + (y1-y2) * (y1-y2));
+}
+
 function multi_Plot(){
 	close("LUT Profile");
-	select_None = 0; active_Channels="1"; normalize = 0;
+	select_None = 0; normalize = 0;
 	if (isKeyDown("space")) normalize = 1;
 	getDimensions(width,  height, channels, slices, frames);
 	Stack.getPosition(channel, slice, frame);
 	if (selectionType() == -1) run("Select All");
 	if (bitDepth() == 24){ run("Plot Profile"); exit;}
-	if (channels > 1) Stack.getActiveChannels(active_Channels);
 	id = getImageID();
 	if (!isOpen("MultiPlot")) call("ij.gui.ImageWindow.setNextLocation", saved_Loc_X, saved_Loc_Y);
 	run("Plots...", "width=400 height=200");
@@ -1877,7 +1992,6 @@ function multi_Plot(){
 	else  Plot.setLimitsToFit();
 	Plot.freeze(1);
 	selectImage(id);
-	if (channels > 1) Stack.setActiveChannels(active_Channels);
 	getSelectionBounds(x, y, selection_Width, height);
 	if (selection_Width == Image.width) run("Select None");
 }
@@ -1885,9 +1999,9 @@ function lut_To_Hex2(){
 	getLut(reds, greens, blues);
 	if (is("Inverting LUT")) { red = reds[0];   green = greens[0];   blue = blues[0];   }
 	else 					 { red = reds[255]; green = greens[255]; blue = blues[255]; }
-	if (red<16)   hex_red =   "0" + toHex(red); 	else hex_red = toHex(red);
-	if (green<16) hex_green = "0" + toHex(green);	else hex_green = toHex(green);
-	if (blue<16)  hex_blue =  "0" + toHex(blue);	else hex_blue = toHex(blue);
+    hex_red = IJ.pad(toHex(red), 2);
+    hex_green = IJ.pad(toHex(green), 2);
+    hex_blue = IJ.pad(toHex(blue), 2);
 	return "#" + hex_red + hex_green + hex_blue;
 }
 
@@ -2005,7 +2119,7 @@ function get_LUTinance(reds,greens,blues){
 	lutinance = newArray(0);
 	for (i = 0; i < 256; i++) {
 		rgb = newArray(reds[i],greens[i],blues[i]);
-		lutinance[i] = getLum(rgb);
+		lutinance[i] = get_Lum(rgb);
 	}
 	return lutinance;
 }
@@ -2916,78 +3030,76 @@ function split_View_Dialog(){
 //--------------------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------------------------------
-function linear_LUTs_Baker(){
+function linear_LUTs_Baker() {
 	if (nImages==0) exit("No opened image");
-	if(bitDepth()==24) exit;
-	Rz = newArray(4); Gz = newArray(4); Bz = newArray(4); preview = 1; inv = 0;
-	Stack.getPosition(ch,s,f);
-	getDimensions(w,h,CH,s,f);
-	getLocationAndSize(x, y, w, h);
+	if (bitDepth() == 24) exit(); setFont("SansSerif", 11, "antialiased bold");
+	//setup
+	reds_255 = newArray(4); greens_255 = newArray(4); blues_255 = newArray(4); 
+	preview = 1;
+	Stack.getPosition(channel, slice, frame);
+	getDimensions(width, height, channels, slices, frames);
+	getLocationAndSize(x, y, width, height) ;
 	id = getImageID();
-	SavedRz = newArray(4); SavedGz = newArray(4); SavedBz = newArray(4);
-	for(i=0; i<CH; i++) { //Save actual LUTs for undo
-		if(CH>1)Stack.setChannel(i+1);
-		getLut(r,g,b); 
-		if (is("Inverting LUT")) { R = r[0];   G = g[0];   B = b[0];   }
-		else 					 { R = r[255]; G = g[255]; B = b[255]; }
-		SavedRz[i] = R; SavedGz[i] = G; SavedBz[i] = B;
+	//Save actual LUTs for undo
+	saved_Reds = newArray(4); saved_Greens = newArray(4); saved_Blues = newArray(4);
+	for (i=0; i<channels; i++) { 
+		if (channels > 1) Stack.setChannel(i+1);
+		getLut(reds, greens, blues);
+		saved_Reds[i] = reds[255]; saved_Greens[i] = greens[255]; saved_Blues[i] = blues[255];
 	}
-	while ( preview ) { //LUT baking
-		setBatchMode(1);
-		totR = 0; totG = 0; totB = 0;
-		if (getInfo("os.name")!="Mac OS X") Dialog.createNonBlocking("The LUT baker");
-		else Dialog.createNonBlocking("◊ The LUT baker ◊");
-		Dialog.setLocation(x+w,y);
-		for(i=0; i<CH; i++) {
-			if(CH>1)Stack.setChannel(i+1);
-			getLut(r,g,b); 
-			R = r[255]; G = g[255]; B = b[255];
-			Rz[i] = R; Gz[i] = G; Bz[i] = B;
-			totR += R; totG += G; totB += B;
-			if (getInfo("os.name")!="Mac OS X") Dialog.addMessage("_ LUT " + (i+1) + " _", 20, lut_To_Hex(R,G,B));
-			else Dialog.addMessage("◊ LUT " + (i+1) + "◊", 20, lut_To_Hex(R,G,B));
-			Dialog.addSlider("red",	 0,255, R);
-			Dialog.addSlider("green",0,255, G);
-			Dialog.addSlider("blue", 0,255, B);
-			rgb = newArray(R,G,B);
-			Dialog.addMessage("sum =" + R+G+B + "    luminance =" + getLum(rgb));
+	//LUT baking
+	while ( preview ) {
+		Dialog.createNonBlocking("The LUT baker");
+		Dialog.setLocation(x + width, y);
+		for (i=0; i<channels; i++) {
+			if (channels > 1) Stack.setChannel(i+1);
+			getLut(reds, greens, blues); 
+			red = reds[255]; 	green = greens[255]; 	blue = blues[255];
+			reds_255[i] = red;	greens_255[i] = green;	blues_255[i] = blue;
+			Dialog.addMessage("LUT " + (i+1), 20, lut_To_Hex(red, green, blue));
+			Dialog.addSlider("Red",	 0, 255, red);
+			Dialog.addSlider("Green",0, 255, green);
+			Dialog.addSlider("Blue", 0, 255, blue);
+			color = newArray(red, green, blue);
+			Dialog.addMessage("luminance = " + get_Lum(color));
 		}
-		if(CH>1)Stack.setChannel(ch); 
+		if (channels > 1) Stack.setChannel(channel); 
 		Dialog.setInsets(20, 0, 0);
-		Dialog.addMessage("Reds= "+totR+"   Greens= "+totG+"   Blues= "+totB);
-		Dialog.addCheckbox("update changes", preview); 
-		setBatchMode(0);
+		Dialog.addMessage("Reds= "+sum_Of_Array(reds_255)+"   Greens= "+sum_Of_Array(greens_255)+"   Blues= "+sum_Of_Array(blues_255));
+		Dialog.addCheckbox("update changes", preview);
 		Dialog.show();
-		setBatchMode(1);
 		preview = Dialog.getCheckbox(); 
 		selectImage(id);
-		for(k=0; k<CH; k++){
-			Rz[k]=Dialog.getNumber();
-			Gz[k]=Dialog.getNumber();
-			Bz[k]=Dialog.getNumber();
-			if (CH>1) Stack.setChannel(k+1);
-			make_LUT(Rz[k],Gz[k],Bz[k]);
+		for(i=0; i<channels; i++){
+			reds_255[i] = Dialog.getNumber(); greens_255[i] = Dialog.getNumber(); blues_255[i] = Dialog.getNumber();
+			if (channels > 1) Stack.setChannel(i+1);
+			make_LUT(reds_255[i], greens_255[i], blues_255[i]);
 		}
 	}
-	if (CH>1) Stack.setChannel(ch);
-	setBatchMode(0);
+	if (channels > 1) Stack.setChannel(channel);
+}
+
+function sum_Of_Array(array) {
+	sum = 0;
+	for (i=0; i<array.length; i++) sum += array[i];
+	return sum;
 }
 
 function make_LUT(red, green, blue){
-	REDS = newArray(256); GREENS = newArray(256); BLUES = newArray(256);
+	reds = newArray(256); greens = newArray(256); blues = newArray(256);
 	for(i=0; i<256; i++) { 
-		REDS[i] = (red/256)*(i+1);
-		GREENS[i] = (green/256)*(i+1);
-		BLUES[i] = (blue/256)*(i+1);
+		reds[i] = (red / 256) * (i+1);
+		greens[i] = (green / 256) * (i+1);
+		blues[i] = (blue / 256) * (i+1);
 	}
-	setLut(REDS, GREENS, BLUES);
+	setLut(reds, greens, blues);
 }
 
-function lut_To_Hex(R,G,B){
-	if (R<16) xR = "0" + toHex(R); else xR = toHex(R);
-	if (G<16) xG = "0" + toHex(G); else xG = toHex(G);
-	if (B<16) xB = "0" + toHex(B); else xB = toHex(B);
-	return "#"+xR+xG+xB;
+function lut_To_Hex(red, green, blue){
+	if (red < 16) 	hex_Red = "0" + toHex(red); else hex_Red = toHex(red);
+	if (green < 16) hex_Green = "0" + toHex(green); else hex_Green = toHex(green);
+	if (blue < 16) 	hex_Blue = "0" + toHex(blue); else hex_Blue = toHex(blue);
+	return "#" + hex_Red + hex_Green + hex_Blue;
 }
 
 function copy_Paste_Source_LUTs(){
@@ -3001,9 +3113,9 @@ function copy_Paste_Source_LUTs(){
 	source = Dialog.getChoice();
 	dest = Dialog.getChoice();
 	selectWindow(source);
-	getDimensions(w,h,CH,s,f);
-	compositeMode = Property.get("CompositeProjection");
-	for (i = 0; i < CH; i++) {
+	getDimensions(w, h, channels, s, f);
+	composite_Mode = Property.get("CompositeProjection");
+	for (i = 0; i < channels; i++) {
 		selectWindow(source);
 		Stack.setChannel(i+1);
 		getLut(reds, greens, blues);
@@ -3011,7 +3123,7 @@ function copy_Paste_Source_LUTs(){
 		Stack.setChannel(i+1);
 		setLut(reds, greens, blues);
 	}
-	Property.set("CompositeProjection", compositeMode);
+	Property.set("CompositeProjection", composite_Mode);
 	setBatchMode(0);
 }
 
@@ -3042,14 +3154,14 @@ function reorder_LUTs(){
 	Dialog.show();
 	//-----------------------------------------------------------------------------------------
 	//get new order
-	new = Dialog.getString();
-	if (new.length>channels) exit("Please set the right number of LUTs");
+	new_order = Dialog.getString();
+	if (new_order.length != channels) exit("Please set the right number of LUTs");
 	//-----------------------------------------------------------------------------------------
 	//dup all channels in one slice, reorder channels, then transfert LUTs to original image
 	title=getTitle();
 	setBatchMode(1);
 	run("Duplicate...","title=dup duplicate frames=1 slices=1");
-	run("Arrange Channels...", "new=&new");
+	run("Arrange Channels...", "new=&new_order");
 	for (i = 1; i <= channels; i++) {
 		selectWindow("dup");
 		Stack.setChannel(i);
@@ -3559,7 +3671,7 @@ function randomColorByLuminance(lum){
 }
 
 function adjustColorToLuminance(rgb,lum){
-	lum2 = getLum(rgb); rgb_weight = newArray(0.299,0.587,0.114);
+	lum2 = get_Lum(rgb); rgb_weight = newArray(0.299,0.587,0.114);
 	loop=1; luminance = 0; i=-1;
 	while (loop) {
 		if (i==2) i = -1;
@@ -3601,14 +3713,14 @@ function get_LUTinance(reds,greens,blues){
 	lutinance = newArray(0);
 	for (i = 0; i < 256; i++) {
 		rgb = newArray(reds[i],greens[i],blues[i]);
-		lutinance[i] = getLum(rgb);
+		lutinance[i] = get_Lum(rgb);
 	}
 	return lutinance;
 }
 
 function complementary(r,g,b){
 	rgb = newArray(r,g,b);
-	lum = getLum(rgb);
+	lum = get_Lum(rgb);
 	Array.getStatistics(rgb, min, max, mean, stdDev);
 	third_number = (rgb[0]+rgb[1]+rgb[2])-(min+max);
 	for (i = 0; i < 3; i++) {
@@ -3620,7 +3732,7 @@ function complementary(r,g,b){
 	return rgb2;
 }
 
-function getLum(rgb){
+function get_Lum(rgb){
 	rgb_weight = newArray(0.299,0.587,0.114);
 	luminance = 0;
 	for (i = 0; i < 3; i++) luminance += round(rgb[i]*rgb_weight[i]);
