@@ -512,43 +512,53 @@ function add_Fields(s) {
 	return result_String;
 }
 
-function cul(){
-	print("cul");
-}
-
 macro "[f1]" {
-	count_Button("Type 1");
-
-	getCursorLoc(x, y, z, modifiers);
-	setColor("green");
-	Overlay.drawEllipse(x-3, y-3, 6, 6);
-	Overlay.show;
-	setColor("orange");
+	count_Button("Type 1", "green");
 }
 macro "[f2]" {
-	count_Button("Type 2");
-
-	getCursorLoc(x, y, z, modifiers);
-	setColor("magenta");
-	Overlay.drawEllipse(x-3, y-3, 6, 6);
-	Overlay.show;
-	setColor("orange");
+	count_Button("Type 2", "magenta");
 }
 macro "[f3]" {
-	count_Button("Type 3");
-
-	getCursorLoc(x, y, z, modifiers);
-	setColor("orange");
-	Overlay.drawEllipse(x-3, y-3, 6, 6);
-	Overlay.show;
-	setColor("orange");
+	count_Button("Type 3", "orange");
 }
+function count_Button(column_Name, color){
+	if (nImages==0) exit;
+	if(!isOpen("count")){
+		Table.create("count");
+		Table.setLocationAndSize(0, 50, 230, 120);
+		Table.set("Type 1", 0, 0);
+		Table.set("Type 2", 0, 0);
+		Table.set("Type 3", 0, 0);
+		Table.update;
+	}
+	n = Table.get(column_Name, 0);
+	if (isKeyDown("space")){
+		Table.set(column_Name, 0, n-1);
+		remove_Selected_Overlay();
+	}
+	else {
+		getCursorLoc(x, y, z, modifiers);
+		setColor(color);
+		Overlay.drawEllipse(x-5, y-5, 10, 10);
+		Overlay.show;
+		setColor("orange");
+		Table.set(column_Name, 0, n+1);
+	}
+	Table.update;
+
+}
+function remove_Selected_Overlay(){ 
+  getCursorLoc( x, y, z, flags ); 
+  if ( Overlay.size < 1 ) exit(); 
+  id = Overlay.indexAt( x, y ); 
+  if (id!=-1) Overlay.removeSelection(id);
+}
+
 macro "[f4]"{
 	if (do_Scroll_Loop) do_Scroll_Loop = false;
 	else do_Scroll_Loop = true;
 	scroll_Loop();
 }
-
 function scroll_Loop(){
 	getDimensions(width, height, channels, slices, frames);
 	if(slices==1 && frames==1) exit;
@@ -562,21 +572,6 @@ function scroll_Loop(){
 		else 			Stack.setSlice(((x - area_x) / width) * slices);
 		wait(10);
 	}
-}
-function count_Button(column_Name){
-	if (nImages==0) exit;
-	if(!isOpen("count")){
-		Table.create("count");
-		Table.setLocationAndSize(0, 50, 230, 120);
-		Table.set("Type 1", 0, 0);
-		Table.set("Type 2", 0, 0);
-		Table.set("Type 3", 0, 0);
-		Table.update;
-	}
-	n = Table.get(column_Name, 0);
-	if (isKeyDown("space"))Table.set(column_Name, 0, n-1);
-	else Table.set(column_Name, 0, n+1);
-	Table.update;
 }
 
 //Ah jérôme... \o/
