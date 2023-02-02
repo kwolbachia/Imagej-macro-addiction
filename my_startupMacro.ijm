@@ -109,7 +109,7 @@ macro "Custom Menu Tool - N55C000D1aD1bD1cD1dD29D2dD39D3dD49D4dD4eD59D5eD69D75D7
 	else if (cmd=="RGB time Is Over")				RGB_time_Is_Over();
 	else if (cmd=="Jeromes RGB Wheel")				Jeromes_Wheel();
 	else if (cmd=="make my LUTs")					make_My_LUTs();
-	else if (cmd=="copied to completion")			clipboard_to_completion();
+	else if (cmd=="copied to completion")			clipboard_To_Completion();
 	else run(cmd);
 	call("ij.gui.Toolbar.setIcon", "Custom Menu Tool", "N55C000D1aD1bD1cD29D2dD39D3dD49D4dD4eD59D5eD69D79D99Da7Da8Da9Db3Db7Db8Dc7DccDcdDd8DdbDdcDe2De3De9DeaDebCcccD2cCa00D08D09D18D27D28D37D57D66D67D76D87D96D97Da5Db5Dc5Dd5De7CfffD3cD5cD6dD7bD8bD8cD9aD9bDacDadDcaDd9DdaC111D5bD6bD7dDabDbaCeeeD00D01D02D03D04D05D06D10D11D12D13D14D15D16D20D21D22D23D24D25D30D31D32D33D34D35D3aD3bD40D41D42D43D44D45D4bD50D51D52D53D54D55D60D61D62D63D64D6eD70D71D72D73D74D80D81D82D83D84D8aD8dD90D91D92Da0Da1Da2DaaDb0Db1DbbDc0Dc1Dc9Dd0Dd1De0De1Cb11DdeDedDeeCdddD2bD6aD7aCb00D07D0aD0bD0cD0dD0eD17D19D1dD1eD26D2eD36D38D3eD46D47D48D56D58D65D68D75D77D78D85D86D88D89D94D95D98Da4Da6Db4Db6Dc3Dc4Dc6DceDd3Dd4Dd6Dd7DddDe4De5De6De8DecC777D4aD6cD7cD7eD9cD9dD9eDbdDc8CaaaDb9Cb00C444C999D4cD5aD5dD93CbbbDaeDb2C333DbeDd2C888C666DcbC222D8eDa3DbcC555D2aDc2Bf0C000D03D13D16D23D26D33D37D43D44D47D48D54D65D76D77D87D88D89D8aD8bD8cD8dD8eD9bCcccCa00D07D0bD17CfffD14D24D35D3bD3cD3dD3eD45D46D4aD4bD4cD4eD56D57D5aD5bD5cD5dD5eD68D69D6aD6bD6cD6dD7cD7dC111D02D36CeeeD00D01D10D11D20D21D2eD30D31D40D41D42D4dD50D51D52D59D60D61D62D67D6eD70D71D72D73D74D79D7aD7bD80D81D82D83D84D85D90D91D92D93D94D95D96Da0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaDabDacDadDaeCb11D0dD19D1dD29CdddD25D63D7eD97Cb00D04D05D06D08D09D0aD0cD0eD15D18D1aD1bD1cD1eD27D28D2aD2cD39C777D3aCaaaD53Cb00C444D22D75C999D2bD58D9eCbbbD2dD32D34C333D99C888D98C666D12D38D78C222D64D66D9aC555D49D55D86D9cD9dB0fC000D02D03D04D05D08D09D18D27D28D36D37D45D46D54D55D63D64D71D72D80D81CcccD11D26D90Ca00CfffD06D07D16D25D30D34D35D40D43D44D52D57D60D61D66D75D83D85C111CeeeD0aD1aD21D29D2aD31D38D39D3aD48D49D4aD50D51D53D58D59D5aD67D68D69D6aD76D77D78D79D7aD84D86D87D88D89D8aD91D92D93D94D95D96D97D98D99D9aDa0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaCb11CdddD10D22D32D33D42D74Cb00C777D00CaaaCb00C444C999D62D65CbbbD12D15D19D20D23D24D41D82C333C888D47D56D70C666C222D01D13D14D73C555D17Nf0C000D33D34D35D36D46D50D55D66D67D78D88D96D97Da5Db4Dc4Dd4Dd6Dd7Dd8De3De4De6De8De9CcccD79D89Dc5Dd5Dd9Ca00D20D30D41D65D74D84Da4Db1CfffD15D58D85D86De7C111CeeeD00D02D03D04D05D06D07D08D09D0aD12D13D14D16D17D18D19D1aD27D28D29D2aD38D39D3aD48D49D4aD59D5aD69D6aD7aD8aD99D9aDa8Da9DaaDb6Db7Db8Db9DbaDc9DcaDdaDeaCb11D42D52D54D63D64D73D83D93D94Da1Da3Db3Dc1Dc2Dc3Dd0Dd1De0De1CdddDa7De2Cb00D01D10D11D21D22D31D40D43D44D51D53D61D62D71D72D82D91D92Da2Db0Db2Dc0Dd2C777D81D98Dc7De5CaaaD26Cb00D32C444D24D68C999D37D76D90Da6Db5Dc6Dc8Dd3CbbbD70D80C333D25D47D56D77Da0C888D23D45C666D57C222D75D95C555D60D87");
  	wait(3000);
@@ -405,93 +405,95 @@ macro "[n/]" {
 }
 
 function show_Shortcuts_Table(){
+	shortcut_Line_Index = -1;
 	Table.create("Macro shortcuts");
-	Table.setLocationAndSize(0, 100, 580, 1000);
-	//				line  Key   Alone								with Space						with Alt		
-	set_Shortcuts_Line(0,  "  0", "Open in ClearVolume", 			"Open in 3D viewer",			"");
-	set_Shortcuts_Line(1,  "  1", "Apply favorite LUTs",			"Apply LUTs to all",			"Set favorite LUTs");
-	set_Shortcuts_Line(2,  "  2", "Center image",					"Restore position", 			"Full width of screen");
-	set_Shortcuts_Line(3,  "  3", "3D animation",					"Cool 3D animation",			"");
-	set_Shortcuts_Line(4,  "  4", "Make montage",					"Montage to stack",				"");
-	set_Shortcuts_Line(5,  "  5", "Make selection 25x25",			"make selection 500x500",		"");
-	set_Shortcuts_Line(6,  "  6", "Force black canvas",				"",								"");
-	set_Shortcuts_Line(7,  "  7", "Set target image",				"Set source image",				"Set custom position");
-	set_Shortcuts_Line(8,  "  8", "Rename image",					"Random rename",				"");
-	set_Shortcuts_Line(9,  "  9", "Open temp image",					"Save image in temp",			"");
-
-	// set_Shortcuts_Line( , "", "",						"",					"");
-
-	set_Shortcuts_Line(10 , "  a", "Select All",					"Restore Selection",			"Select None");
-	set_Shortcuts_Line(11 , "  A", "Enhance Contrast 0.03%",		"Enhance all channels",			"Enhance all images");
-	set_Shortcuts_Line(12 , "  b", "Vertical colored Splitiview",	"Vertical grayscale split_View","");
-	set_Shortcuts_Line(13 , "  B", "Switch composite modes",		"",								"");
-	set_Shortcuts_Line(14 , "  c", "Copy",							"",								"");
-	set_Shortcuts_Line(15 , "  C", "Brightness & Contrast",			"",								"");
-	set_Shortcuts_Line(16 , "  d", "Split Channels",				"Duplicate slice",				"Duplicate full channel");
-	set_Shortcuts_Line(17 , "  D", "Duplicate full image",			"Open Memory and recorder",		"");
-	set_Shortcuts_Line(18 , "  e", "Plot Current LUT",				"",								"");
-	set_Shortcuts_Line(19 , "  E", "Arrange windows on Tiles",		"Multichannel LUT montage",		"Edit LUT...");
-	set_Shortcuts_Line(20 , "  f", "Gamma (real one)",				"Gamma 0.7 on all LUTs",		"Gaussian blur 3D 0.5");
-	set_Shortcuts_Line(21 , "  F", "Rectangle/MultiTool switch",	"ClIJ Stack focuser",			"");
-	set_Shortcuts_Line(22 , "  g", "Z Project...",					"MaxColorCoding on copied LUT",	"Color Coding no max (heavy)");
-	set_Shortcuts_Line(23 , "  G", "Max Z Projection",				"Max on all opened images",		"Sum Z Projection");
-	set_Shortcuts_Line(24 , "  H", "Show All images",				"",								"");
-	set_Shortcuts_Line(25 , "  i", "Invert LUTs (Built in)",		"Snapshot and invert colors",	"Reverse LUT");
-	set_Shortcuts_Line(26 , "  j", "Script Editor <3",				"Rolling Ball bkg substraction","");
-	set_Shortcuts_Line(27 , "  J", "Save as JPEG max quality",		"save As LZW compressed tif",	"");
-	set_Shortcuts_Line(28 , "  k", "Multi channel plot",			"Normalized Multichannel Plot",	"Multichannel Plot Z axis");
-	set_Shortcuts_Line(29 , "  K", "Random LUTs",					"",								"");
-	set_Shortcuts_Line(30 , "  l", "Find commands Tool <3",			"LUT generator",				"Open LUT Bar");
-	set_Shortcuts_Line(31 , "  L", "Transfer LUTs from source ",	"RGB image to LUT",				"");
-	set_Shortcuts_Line(32 , "  m", "LUT baker",						"",								"");
-	set_Shortcuts_Line(33 , "  M", "Automatic Merge channels",		"Manual Merge channels",		"");
-	set_Shortcuts_Line(34 , "  n", "Open Hela Cells",				"Create small LUT image",		"Open my test image");
-	set_Shortcuts_Line(35 , "  N", "numerical Keyboard Bar",		"",								"");
-	set_Shortcuts_Line(36 , "  o", "Open from macro montages",		"",								"");
-	set_Shortcuts_Line(37 , "  p", "Linear grayscale splitview",	"Squared grayscale Splitview",	"");
-	set_Shortcuts_Line(38 , "  P", "Properties...",					"",								"");
-	set_Shortcuts_Line(39 , "  q", "Arrange channels order",		"Arrange LUTs order",			"Animation start/stop");
-	set_Shortcuts_Line(40 , "  Q", "Composite/channel switch",		"",								"");
-	set_Shortcuts_Line(41 , "  r", "Reset contrast channel",		"Refresh startupMacros",		"Reduce all max");
-	set_Shortcuts_Line(42 , "  R", "Reset contrast all channels",	"Reset contrast all images",	"Same contrast all images");
-	set_Shortcuts_Line(43 , "  s", "Save as tiff",					"Hyperstack splitview",			"Save all opened images");
-	set_Shortcuts_Line(44 , "  S", "Colored squared Splitview",		"Colored linear Splitiview",	"Splitview options Dialog");
-	set_Shortcuts_Line(45 , "  t", "Run macro from clipboard",		"Install Ac_Bar from clipboard","Install macro tool from clipboard");
-	set_Shortcuts_Line(46 , "  u", "RGB/8bit switch",				"RGB to half CMY",				"");
-	set_Shortcuts_Line(47 , "  v", "Paste",							"Paste from system",			"Paste LUT");
-	set_Shortcuts_Line(48 , "  x", "Copy LUT",						"channel roll",					"Copy to System");
-	set_Shortcuts_Line(49 , "  y", "Synchronise windows",			"Do my Wand",					"");
-	set_Shortcuts_Line(50 , "  w", "Close image",					"Open last closed image (w)",	"Close all others");
-	set_Shortcuts_Line(51 , "  Z", "Channels Tool",					"",								"");
-	set_Shortcuts_Line(52 , "  n*", "Difference of gaussian",		"",								"");
-
-	set_Shortcuts_Line(53, "numpad-0", "Favorite LUT", 				"Set favorite LUT", 			"convert LUT to IMQ");
-	set_Shortcuts_Line(54, "numpad-1", "Grays LUT", 				"toggle channel 1", 			"toggle channel 1 all images");
-	set_Shortcuts_Line(55, "numpad-2", "Green LUT", 				"toggle channel 2", 			"toggle channel 2 all images");
-	set_Shortcuts_Line(56, "numpad-3", "Red LUT", 					"toggle channel 3", 			"toggle channel 3 all images");
-	set_Shortcuts_Line(57, "numpad-4", "Light blue LUT",			"toggle channel 4", 			"toggle channel 4 all images");
-	set_Shortcuts_Line(58, "numpad-5", "My Magenta LUT",			"toggle channel 5", 			"toggle channel 5 all images");
-	set_Shortcuts_Line(59, "numpad-6", "Orange LUT",				"toggle channel 6", 			"toggle channel 6 all images");
-	set_Shortcuts_Line(60, "numpad-7", "Cyan LUT",					"toggle channel 7", 			"toggle channel 7 all images");
-	set_Shortcuts_Line(61, "numpad-8", "Magenta LUT",				"Convert image to 8-bit", 		"Convert image to 16-bit");
-	set_Shortcuts_Line(62, "numpad-9", "Yellow LUT", 				"Glasbey on dark LUT",	 		"");
-
+	Table.setLocationAndSize(0, 100, 580, 600);
+	//				line  Key   Alone									with Space										with Alt
+	add_Shortcuts_Line("F1, F2, F3", "Count++ and add overlay",		"Count-- and remove overlay", 			"new line on Count Table");
+	add_Shortcuts_Line(" F4", "Toggle auto slice scroll", 			"",								 		"Close imageJ...");
+	add_Shortcuts_Line("  0", "Open in ClearVolume              ", 	"Open in 3D viewer                ",	"                                 ");
+	add_Shortcuts_Line("  1", "Apply favorite LUTs",				"Apply LUTs to all",					"Set favorite LUTs");
+	add_Shortcuts_Line("  2", "Center image",						"Restore position", 					"Full width of screen");
+	add_Shortcuts_Line("  3", "3D animation",						"Cool 3D animation",					"");
+	add_Shortcuts_Line("  4", "Make montage",						"Montage to stack",						"");
+	add_Shortcuts_Line("  5", "Make selection 25x25",				"make selection 500x500",				"");
+	add_Shortcuts_Line("  6", "Force black canvas",					"",										"");
+	add_Shortcuts_Line("  7", "Set target image",					"Set source image",						"Set custom position");
+	add_Shortcuts_Line("  8", "Rename image",						"Random rename",						"");
+	add_Shortcuts_Line("  9", "Open temp image",					"Save image in temp",					"");
+				
+	add_Shortcuts_Line("numpad-0", "Favorite LUT", 					"Set favorite LUT", 					"convert LUT to IMQ");
+	add_Shortcuts_Line("numpad-1", "Grays LUT", 					"toggle channel 1", 					"toggle channel 1 all images");
+	add_Shortcuts_Line("numpad-2", "Green LUT", 					"toggle channel 2", 					"toggle channel 2 all images");
+	add_Shortcuts_Line("numpad-3", "Red LUT", 						"toggle channel 3", 					"toggle channel 3 all images");
+	add_Shortcuts_Line("numpad-4", "Light blue LUT",				"toggle channel 4", 					"toggle channel 4 all images");
+	add_Shortcuts_Line("numpad-5", "My Magenta LUT",				"toggle channel 5", 					"toggle channel 5 all images");
+	add_Shortcuts_Line("numpad-6", "Orange LUT",					"toggle channel 6", 					"toggle channel 6 all images");
+	add_Shortcuts_Line("numpad-7", "Cyan LUT",						"toggle channel 7", 					"toggle channel 7 all images");
+	add_Shortcuts_Line("numpad-8", "Magenta LUT",					"Convert image to 8-bit", 				"Convert image to 16-bit");
+	add_Shortcuts_Line("numpad-9", "Yellow LUT", 					"Glasbey on dark LUT",	 				"");
+			
+	add_Shortcuts_Line("  a", "Select All",							"Restore Selection",					"Select None");
+	add_Shortcuts_Line("  A", "Enhance Contrast 0.03%",				"Enhance all channels",					"Enhance all images");
+	add_Shortcuts_Line("  b", "Vertical colored Splitiview",		"Vertical grayscale split_View",		"");
+	add_Shortcuts_Line("  B", "Switch composite modes",				"",										"");
+	add_Shortcuts_Line("  c", "Copy",								"",										"");
+	add_Shortcuts_Line("  C", "Brightness & Contrast",				"",										"");
+	add_Shortcuts_Line("  d", "Split Channels",						"Duplicate slice",						"Duplicate full channel");
+	add_Shortcuts_Line("  D", "Duplicate full image",				"Open Memory and recorder",				"");
+	add_Shortcuts_Line("  e", "Plot Current LUT",					"",										"");
+	add_Shortcuts_Line("  E", "Arrange windows on Tiles",			"Multichannel LUT montage",				"Edit LUT...");
+	add_Shortcuts_Line("  f", "Gamma (real one)",					"Gamma 0.7 on all LUTs",				"Gaussian blur 3D 0.5");
+	add_Shortcuts_Line("  F", "Rectangle/MultiTool switch",			"ClIJ Stack focuser",					"");
+	add_Shortcuts_Line("  g", "Z Project...",						"MaxColorCoding on copied LUT",			"Color Coding no max (heavy)");
+	add_Shortcuts_Line("  G", "Max Z Projection",					"Max on all opened images",				"Sum Z Projection");
+	add_Shortcuts_Line("  H", "Show All images",					"",										"");
+	add_Shortcuts_Line("  i", "Invert LUTs (Built in)",				"Snapshot and invert colors",			"Reverse LUT");
+	add_Shortcuts_Line("  j", "Script Editor <3",					"Rolling Ball bkg substraction",		"");
+	add_Shortcuts_Line("  J", "Save as JPEG max quality",			"save As LZW compressed tif",			"");
+	add_Shortcuts_Line("  k", "Multi channel plot",					"Normalized Multichannel Plot",			"Multichannel Plot Z axis");
+	add_Shortcuts_Line("  K", "Random LUTs",						"",										"");
+	add_Shortcuts_Line("  l", "Find commands Tool <3",				"LUT generator",						"Open LUT Bar");
+	add_Shortcuts_Line("  L", "Transfer LUTs from source ",			"RGB image to LUT",						"");
+	add_Shortcuts_Line("  m", "LUT baker",							"",										"");
+	add_Shortcuts_Line("  M", "Automatic Merge channels",			"Manual Merge channels",				"");
+	add_Shortcuts_Line("  n", "Open Hela Cells",					"Create small LUT image",				"Open my test image");
+	add_Shortcuts_Line("  N", "numerical Keyboard Bar",				"",										"");
+	add_Shortcuts_Line("  o", "Open from macro montages",			"",										"");
+	add_Shortcuts_Line("  p", "Linear grayscale splitview",			"Squared grayscale Splitview",			"");
+	add_Shortcuts_Line("  P", "Properties...",						"",										"");
+	add_Shortcuts_Line("  q", "Arrange channels order",				"Arrange LUTs order",					"Animation start/stop");
+	add_Shortcuts_Line("  Q", "Composite/channel switch",			"",										"");
+	add_Shortcuts_Line("  r", "Reset contrast channel",				"Refresh startupMacros",				"Reduce all max");
+	add_Shortcuts_Line("  R", "Reset contrast all channels",		"Reset contrast all images",			"Same contrast all images");
+	add_Shortcuts_Line("  s", "Save as tiff",						"Hyperstack splitview",					"Save all opened images");
+	add_Shortcuts_Line("  S", "Colored squared Splitview",			"Colored linear Splitiview",			"Splitview options Dialog");
+	add_Shortcuts_Line("  t", "Run macro from clipboard",			"Install Ac_Bar from clipboard",		"Install macro tool from clipboard");
+	add_Shortcuts_Line("  u", "RGB/8bit switch",					"RGB to half CMY",						"");
+	add_Shortcuts_Line("  v", "Paste",								"Paste from system",					"Paste LUT");
+	add_Shortcuts_Line("  x", "Copy LUT",							"channel roll",							"Copy to System");
+	add_Shortcuts_Line("  y", "Synchronise windows",				"Do my Wand",							"");
+	add_Shortcuts_Line("  w", "Close image",						"Open last closed image (w)",			"Close all others");
+	add_Shortcuts_Line("  Z", "Channels Tool",						"",										"");
+	add_Shortcuts_Line("  n*", "Difference of gaussian",			"",										"");
 }
-function set_Shortcuts_Line(line, key, alone, space, alt){
-	Table.set("Key",		line, key);
-	Table.set("Alone",		line, alone);
-	Table.set("with Space",	line, space);
-	Table.set("with Alt",	line, alt);
+var shortcut_Line_Index = -1;
+function add_Shortcuts_Line(key, alone, space, alt){
+	shortcut_Line_Index++;
+	Table.set("Key",		shortcut_Line_Index, key);
+	Table.set("Alone",		shortcut_Line_Index, alone);
+	Table.set("with Space",	shortcut_Line_Index, space);
+	Table.set("with Alt",	shortcut_Line_Index, alt);
 }
 
-function clipboard_to_completion() {
-		command = String.paste();
-		command = replace(command, "\"", "\\\"");
-		full_Command = command;
-		end_Index = command.indexOf("(");
-		if (end_Index == -1) end_Index = command.length;
-		command = "\n\n		{ \"trigger\": \"" +  command.substring(0, end_Index) + "\", \"contents\": \"" + add_Fields(command) + "\""+ ", \"annotation\": \"" + full_Command + "\" },";
-		return String.copy(command);
+function clipboard_To_Completion() {
+	command = String.paste();
+	command = replace(command, "\"", "\\\"");
+	full_Command = command;
+	end_Index = command.indexOf("(");
+	if (end_Index == -1) end_Index = command.length;
+	command = "\n\n		{ \"trigger\": \"" +  command.substring(0, end_Index) + "\", \"contents\": \"" + add_Fields(command) + "\""+ ", \"annotation\": \"" + full_Command + "\" },";
+	return String.copy(command);
 }
 
 function add_Fields(s) {
@@ -1393,53 +1395,45 @@ function toggle_Channel_All(i) {
 function color_Code_Progressive_Max(){
 	saveSettings();
 	setPasteMode("Max");
-	title=getTitle();
+	title = getTitle();
 	getDimensions(width, height, channels, slices, frames);
 	Stack.getPosition(channel, slice, frame);
-	//invert frames and slices to prevent future bugs
-	// this is reverted afterwards 
-	if ((frames > 1) && (slices == 1)) {
-		switch_slices_and_frames = true;
-		Stack.setDimensions(channels, frames, slices);
-	}
-	else switch_slices_and_frames = false;
 	getDimensions(width, height, channels, slices, frames);
-	if(selectionType() != -1) getSelectionBounds(x, y, width, height);
+	if (selectionType() != -1) getSelectionBounds(x, y, width, height);
 	setBatchMode(1);
-	newImage("Color Coded Projection", "RGB black", width, height, frames);
+	if (slices > 1 && frames >1) steps = frames;
+	else steps = 1;
+	newImage("Color Coded Projection", "RGB black", width, height, steps);
 	selectWindow(title);
 	// copy for backup :
 	getLut(reds, greens, blues);
 	//paste copied LUT
 	open(getDirectory("temp")+"/copiedLut.lut");
 	//get current LUT for color coding
-	getLut(R, G, B);
-	R = Array.resample(R,slices);
-	G = Array.resample(G,slices);
-	B = Array.resample(B,slices);
+	getLut(code_Reds, code_Greens, code_Blues);
 	for (k = 0; k < frames; k++) {
 		for (i = 0; i < slices; i++) {
 			selectWindow(title);
 			Stack.setPosition(channel, i+1, k+1);
 			//create LUT with the scaled color :
-			r = newArray(0,R[i]);	
-			g = newArray(0,G[i]);	
-			b = newArray(0,B[i]);
-			r = Array.resample(r,256);
-			g = Array.resample(g,256);
-			b = Array.resample(b,256);
-			setLut(r, g, b);
+			if (slices == 1) index =  (k/frames) * 255;
+			else index = (i/slices) * 255;
+			temp_Reds = newArray(0, code_Reds[index]);	
+			temp_greens = newArray(0, code_Greens[index]);	
+			temp_Blues = newArray(0, code_Blues[index]);
+			temp_Reds = Array.resample(temp_Reds, 256);
+			temp_greens = Array.resample(temp_greens, 256);
+			temp_Blues = Array.resample(temp_Blues, 256);
+			setLut(temp_Reds, temp_greens, temp_Blues);
 			run("Copy");
 			selectWindow("Color Coded Projection");
-			setSlice(k+1);
+			Stack.setPosition(channel, index, index);
+			if (slices == 1) index = Stack.setPosition(channel, k+1, k+1);
+			else index = Stack.setPosition(channel, k+1, k+1);
+
 			//"MAX" paste :
 			run("Paste");
 		}
-	}
-	//restore right dimensions if switched
-	if (switch_slices_and_frames) {
-		selectWindow(title);
-		Stack.setDimensions(channels, frames, slices);
 	}
 	//restore LUT
 	selectWindow(title);
@@ -1465,19 +1459,24 @@ function color_Code_No_Projection(){
 	setBatchMode(1);
 	run("Duplicate...", "title=duplicate duplicate channels=&channel");
 	open(getDirectory("temp")+"/copiedLut.lut");
-	getLut(R, G, B);
+	getLut(code_Reds, code_Greens, code_Blues);
 	run("RGB Color");
-	R=Array.resample(R,slices);
-	G=Array.resample(G,slices);
-	B=Array.resample(B,slices);
+	code_Reds=Array.resample(code_Reds,slices);
+	code_Greens=Array.resample(code_Greens,slices);
+	code_Blues=Array.resample(code_Blues,slices);
 	for (k = 0; k < frames; k++) {
 		for (i = 0; i < slices; i++) {
 			selectWindow(title);
 			Stack.setPosition(channel, i+1, k+1);
 			run("Duplicate...", "title=slice");
-			r=newArray(0,R[i]);	g=newArray(0,G[i]);	b=newArray(0,B[i]);
-			r=Array.resample(r,256); g=Array.resample(g,256); b=Array.resample(b,256);
-			setLut(r, g, b);
+			//create LUT with the scaled color :
+			temp_Reds=newArray(0,code_Reds[i]);	
+			temp_greens=newArray(0,code_Greens[i]);	
+			temp_Blues=newArray(0,code_Blues[i]);
+			temp_Reds=Array.resample(temp_Reds,256); 
+			temp_greens=Array.resample(temp_greens,256); 
+			temp_Blues=Array.resample(temp_Blues,256);
+			setLut(temp_Reds, temp_greens, temp_Blues);
 			run("Copy");
 			close();
 			selectWindow("duplicate");
@@ -1491,11 +1490,11 @@ function color_Code_No_Projection(){
 		selectWindow("duplicate");
 		Stack.setDimensions(1, frames, slices);
 	}
-	// if (projection) run("Z Project...", "projection=[Max Intensity] all");
 	run("Select None");
 	rename(title + "_colored");
 	setBatchMode(false);
 }
+
 
 function fastColorCode(Glut) {
 	if (Glut == "current") getLut(r,g,b);
