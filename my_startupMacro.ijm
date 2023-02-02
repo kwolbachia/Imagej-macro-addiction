@@ -156,13 +156,13 @@ macro "set LUT from montage Tool Options" {	display_LUTs();}
 
 //CHANNELS
 macro "[n0]"{ if (isKeyDown("space")) set_Favorite_LUT();	else if (isKeyDown("alt")) convert_To_iMQ_Style();	else paste_Favorite_LUT();}
-macro "[n1]"{ if (isKeyDown("space")) toggle_Channel(1); 	else if (isKeyDown("alt")) toggle_All_Channels(1); 	else run("Grays");}
-macro "[n2]"{ if (isKeyDown("space")) toggle_Channel(2); 	else if (isKeyDown("alt")) toggle_All_Channels(2); 	else run("kg");	}
-macro "[n3]"{ if (isKeyDown("space")) toggle_Channel(3); 	else if (isKeyDown("alt")) toggle_All_Channels(3); 	else run("Red");	}
-macro "[n4]"{ if (isKeyDown("space")) toggle_Channel(4); 	else if (isKeyDown("alt")) toggle_All_Channels(4); 	else run("kb");	}
-macro "[n5]"{ if (isKeyDown("space")) toggle_Channel(5); 	else if (isKeyDown("alt")) toggle_All_Channels(5); 	else run("km");	}
-macro "[n6]"{ if (isKeyDown("space")) toggle_Channel(6); 	else if (isKeyDown("alt")) toggle_All_Channels(6); 	else run("ko");	}
-macro "[n7]"{ if (isKeyDown("space")) toggle_Channel(7);	else if (isKeyDown("alt")) toggle_All_Channels(7); 	else run("Cyan");	}
+macro "[n1]"{ if (isKeyDown("space")) toggle_Channel(1); 	else if (isKeyDown("alt")) toggle_Channel_All(1); 	else run("Grays");}
+macro "[n2]"{ if (isKeyDown("space")) toggle_Channel(2); 	else if (isKeyDown("alt")) toggle_Channel_All(2); 	else run("kg");	}
+macro "[n3]"{ if (isKeyDown("space")) toggle_Channel(3); 	else if (isKeyDown("alt")) toggle_Channel_All(3); 	else run("Red");	}
+macro "[n4]"{ if (isKeyDown("space")) toggle_Channel(4); 	else if (isKeyDown("alt")) toggle_Channel_All(4); 	else run("kb");	}
+macro "[n5]"{ if (isKeyDown("space")) toggle_Channel(5); 	else if (isKeyDown("alt")) toggle_Channel_All(5); 	else run("km");	}
+macro "[n6]"{ if (isKeyDown("space")) toggle_Channel(6); 	else if (isKeyDown("alt")) toggle_Channel_All(6); 	else run("ko");	}
+macro "[n7]"{ if (isKeyDown("space")) toggle_Channel(7);	else if (isKeyDown("alt")) toggle_Channel_All(7); 	else run("Cyan");	}
 macro "[n8]"{ if (isKeyDown("space")) run("8-bit"); 		else if (isKeyDown("alt")) run("16-bit");		 	else run("Magenta");	}
 macro "[n9]"{ if (isKeyDown("space")) run("glasbey_on_dark");													else run("Yellow");}
 
@@ -511,7 +511,7 @@ function add_Fields(s) {
 	}
 	return result_String;
 }
-
+var count_Line = 0;
 macro "[f1]" {
 	count_Button("Type 1", "green");
 }
@@ -522,18 +522,27 @@ macro "[f3]" {
 	count_Button("Type 3", "orange");
 }
 function count_Button(column_Name, color){
-	if (nImages==0) exit;
+	if (nImages==0) exit();
 	if(!isOpen("count")){
+		count_Line = 0;
 		Table.create("count");
 		Table.setLocationAndSize(0, 50, 230, 120);
-		Table.set("Type 1", 0, 0);
-		Table.set("Type 2", 0, 0);
-		Table.set("Type 3", 0, 0);
+		Table.set("Type 1", count_Line, 0);
+		Table.set("Type 2", count_Line, 0);
+		Table.set("Type 3", count_Line, 0);
 		Table.update;
 	}
-	n = Table.get(column_Name, 0);
+	if (isKeyDown("alt")) {
+		count_Line++;
+		Table.set("Type 1", count_Line, 0);
+		Table.set("Type 2", count_Line, 0);
+		Table.set("Type 3", count_Line, 0);
+		Table.update;
+		exit();
+	}
+	n = Table.get(column_Name, count_Line);
 	if (isKeyDown("space")){
-		Table.set(column_Name, 0, n-1);
+		Table.set(column_Name, count_Line, n-1);
 		remove_Selected_Overlay();
 	}
 	else {
@@ -542,7 +551,7 @@ function count_Button(column_Name, color){
 		Overlay.drawEllipse(x-5, y-5, 10, 10);
 		Overlay.show;
 		setColor("orange");
-		Table.set(column_Name, 0, n+1);
+		Table.set(column_Name, count_Line, n+1);
 	}
 	Table.update;
 
@@ -1196,9 +1205,9 @@ function live_Scroll() {
 
 function box_Auto_Contrast() {
 	if (bitDepth==24) exit("This macro won't work with rgb");
-	size=75;
+	size = 75;
 	getCursorLoc(x, y, z, flags);
-	makeRectangle(x-size/2,y-size/2,size,size);
+	makeRectangle(x - size/2, y - size/2, size, size);
 	auto_Contrast_All_Channels();
 	run("Select None");
 }
@@ -1218,7 +1227,7 @@ function fly_Mode(){
 			new_y = ((y - area_y) / area_height)*height;
 			run("Set... ", "zoom=&zoom x=&new_x y=&new_y");
 			getCursorLoc(last_x, last_y, z, flags);
-			wait(5);
+			wait(10);
 		}
 	}
 	run("Set... ", "zoom=&zoom x=&new_x y=&new_y");
@@ -1233,9 +1242,7 @@ function magic_Wand(){
 	}
 	if (flags == 16) { //left click
 		adjust_Tolerance();
-		if (add_To_Manager)	{
-			roiManager("Add");
-		}
+		if (add_To_Manager)	roiManager("Add");
 	}
 	if (fit != "None"){
 		run(fit);
@@ -1275,12 +1282,12 @@ function estimate_Tolerance(){
 }
 
 function set_Favorite_LUT(){
-	saveAs("lut", getDirectory("temp")+"/favoriteLUT.lut");
+	saveAs("lut", getDirectory("temp") + "/favoriteLUT.lut");
 	showStatus("new favorite LUT");
 }
 
 function paste_Favorite_LUT(){
-	open(getDirectory("temp")+"/favoriteLUT.lut");
+	open(getDirectory("temp") + "/favoriteLUT.lut");
 	showStatus("Paste LUT");
 }
 
@@ -1310,7 +1317,7 @@ function see_All_LUTs(){
 	mode = Property.get("CompositeProjection");
 	getDimensions(width, height, channels, slices, frames);
 	id = getImageID();
-	newImage(title + "_LUTs", "8-bit color-mode", 256, 32*(channels+1), channels, 1, 1);
+	newImage(title + "_LUTs", "8-bit color-mode", 256, 32 * (channels+1), channels, 1, 1);
 	id2 = getImageID();
 	newImage("ramp", "8-bit Ramp", 256, 32, 1);
 	run("Copy");
@@ -1339,36 +1346,36 @@ function see_All_LUTs(){
 function fetch_Or_Pull_StartupMacros() {
 	sync_Path = getDirectory("home") + "/Nextcloud/sync/FIJI/StartupMacros.fiji.ijm";
 	if (!File.exists(sync_Path)) sync_Path = getDirectory("home") + "/Nextcloud2/sync/FIJI/StartupMacros.fiji.ijm";
-	fiji_startup_path = getDirectory("macros")+"/StartupMacros.fiji.ijm";
+	fiji_Startup_Path = getDirectory("macros")+"/StartupMacros.fiji.ijm";
 	 //return true for Fetch and false for pull
 	choice = getBoolean("Fetch or pull?", "Pull", "Fetch");
 	if (!choice){
 		//backup of current StMacros
-		File.saveString(File.openAsString(fiji_startup_path), getDirectory("macros")+"/backups/StM_"+round(random*10000)+".ijm");
+		File.saveString(File.openAsString(fiji_Startup_Path), getDirectory("macros")+"/backups/StM_"+round(random*10000)+".ijm");
 		//import new
-		File.saveString(File.openAsString(sync_Path), fiji_startup_path);
-		run("Install...","install=["+fiji_startup_path+"]");
+		File.saveString(File.openAsString(sync_Path), fiji_Startup_Path);
+		run("Install...","install=["+fiji_Startup_Path+"]");
 		showStatus("Fetch!");
 	}
 	else {
 		//pull
-		File.saveString(File.openAsString(fiji_startup_path), sync_Path);
+		File.saveString(File.openAsString(fiji_Startup_Path), sync_Path);
 		showStatus("Pull!");
 	}
 }
 
 //toggle channel number (i)
 function toggle_Channel(i) { //modified from J.Mutterer
-	if (nImages<1) exit; 
+	if (nImages < 1) exit; 
 	if (is("composite")) {
-		Stack.getActiveChannels(s);
-		c = s.substring(i-1,i);
-		Stack.setActiveChannels(s.substring(0,i-1)+!c+s.substring(i)); //at the end it looks like Stack.setActiveChannels(1101);
-		showStatus("channel "+i+" toggled"); 
+		Stack.getActiveChannels(string);
+		channel_Index = string.substring(i-1,i);
+		Stack.setActiveChannels(string.substring(0, i-1) + !channel_Index + string.substring(i)); //at the end it looks like Stack.setActiveChannels(1101);
+		showStatus("channel " + i + " toggled"); 
 	}
 }
 
-function toggle_All_Channels(i) {
+function toggle_Channel_All(i) {
 	setBatchMode(1);
 	for (k=0; k<nImages; k++) {
 		selectImage(k+1);
