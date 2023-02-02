@@ -409,7 +409,7 @@ function show_Shortcuts_Table(){
 	Table.setLocationAndSize(0, 100, 580, 1000);
 	//				line  Key   Alone								with Space						with Alt		
 	set_Shortcuts_Line(0,  "  0", "Open in ClearVolume", 			"Open in 3D viewer",			"");
-	set_Shortcuts_Line(1,  "  1", "Apply favorite LUTs",				"Apply LUTs to all",			"Set favorite LUTs");
+	set_Shortcuts_Line(1,  "  1", "Apply favorite LUTs",			"Apply LUTs to all",			"Set favorite LUTs");
 	set_Shortcuts_Line(2,  "  2", "Center image",					"Restore position", 			"Full width of screen");
 	set_Shortcuts_Line(3,  "  3", "3D animation",					"Cool 3D animation",			"");
 	set_Shortcuts_Line(4,  "  4", "Make montage",					"Montage to stack",				"");
@@ -423,7 +423,7 @@ function show_Shortcuts_Table(){
 
 	set_Shortcuts_Line(10 , "  a", "Select All",					"Restore Selection",			"Select None");
 	set_Shortcuts_Line(11 , "  A", "Enhance Contrast 0.03%",		"Enhance all channels",			"Enhance all images");
-	set_Shortcuts_Line(12 , "  b", "Vertical colored Splitiview",	"Vertical grayscale split_View",	"");
+	set_Shortcuts_Line(12 , "  b", "Vertical colored Splitiview",	"Vertical grayscale split_View","");
 	set_Shortcuts_Line(13 , "  B", "Switch composite modes",		"",								"");
 	set_Shortcuts_Line(14 , "  c", "Copy",							"",								"");
 	set_Shortcuts_Line(15 , "  C", "Brightness & Contrast",			"",								"");
@@ -447,7 +447,7 @@ function show_Shortcuts_Table(){
 	set_Shortcuts_Line(33 , "  M", "Automatic Merge channels",		"Manual Merge channels",		"");
 	set_Shortcuts_Line(34 , "  n", "Open Hela Cells",				"Create small LUT image",		"Open my test image");
 	set_Shortcuts_Line(35 , "  N", "numerical Keyboard Bar",		"",								"");
-	set_Shortcuts_Line(36 , "  o", "Open for macro montages",		"",								"");
+	set_Shortcuts_Line(36 , "  o", "Open from macro montages",		"",								"");
 	set_Shortcuts_Line(37 , "  p", "Linear grayscale splitview",	"Squared grayscale Splitview",	"");
 	set_Shortcuts_Line(38 , "  P", "Properties...",					"",								"");
 	set_Shortcuts_Line(39 , "  q", "Arrange channels order",		"Arrange LUTs order",			"Animation start/stop");
@@ -517,7 +517,7 @@ function cul(){
 }
 
 macro "[f1]" {
-	count_Button("Mitosis");
+	count_Button("Type 1");
 
 	getCursorLoc(x, y, z, modifiers);
 	setColor("green");
@@ -526,7 +526,7 @@ macro "[f1]" {
 	setColor("orange");
 }
 macro "[f2]" {
-	count_Button("Apoptosis");
+	count_Button("Type 2");
 
 	getCursorLoc(x, y, z, modifiers);
 	setColor("magenta");
@@ -535,7 +535,7 @@ macro "[f2]" {
 	setColor("orange");
 }
 macro "[f3]" {
-	count_Button("Nothing");
+	count_Button("Type 3");
 
 	getCursorLoc(x, y, z, modifiers);
 	setColor("orange");
@@ -567,9 +567,10 @@ function count_Button(column_Name){
 	if (nImages==0) exit;
 	if(!isOpen("count")){
 		Table.create("count");
-		Table.set("Mitosis", 0, 0);
-		Table.set("Apoptosis", 0, 0);
-		Table.set("Nothing", 0, 0);
+		Table.setLocationAndSize(0, 50, 230, 120);
+		Table.set("Type 1", 0, 0);
+		Table.set("Type 2", 0, 0);
+		Table.set("Type 3", 0, 0);
 		Table.update;
 	}
 	n = Table.get(column_Name, 0);
@@ -990,8 +991,8 @@ function multi_Tool(){ //avec menu "que faire avec le middle click? **"
 		if 		(main_Tool == "Move Windows")				move_Windows();
 		else if (main_Tool == "Contrast Adjuster")			live_Contrast();
 		else if (main_Tool == "LUT Gamma Tool")				live_Gamma();
-		else if (main_Tool == "Slice/Frame Scroll")		live_Scroll();
-		else if (main_Tool == "Magic Wand")				magic_Wand();
+		else if (main_Tool == "Slice/Frame Scroll")			live_Scroll();
+		else if (main_Tool == "Magic Wand")					magic_Wand();
 		else if (main_Tool == "Fly mode")					fly_Mode();
 		else if (main_Tool == "Curtain Tool")				curtain_Tool();
 		else if (main_Tool == "Scale Bar Tool")				scale_Bar_Tool();
@@ -1010,18 +1011,7 @@ function k_Rectangle_Tool() {
 	getCursorLoc(x_origin, y_origin, z, flags);
 	getCursorLoc(last_x, last_y, z, flags);
 	remove_ROI = true;
-	if (flags > 32) {
-		getSelectionBounds(roi_x, roi_y, width, height);
-		while (flags > 32) {
-			getCursorLoc(x, y, z, flags);
-			if (x != last_x || y != last_y) {
-				setSelectionLocation(roi_x - (x_origin-x), roi_y - (y_origin-y));
-				getCursorLoc(last_x, last_y, z, flags);
-			}
-			wait(10);
-		}
-		exit();
-	}
+	if (flags > 32) exit();
 	while (flags >= 16) {
 		rect_x = x_origin;
 		rect_y = y_origin;
@@ -1046,13 +1036,15 @@ function move_selection_Tool() {
 	getCursorLoc(x_origin, y_origin, z, flags);
 	getCursorLoc(last_x, last_y, z, flags);
 	getSelectionBounds(roi_x, roi_y, width, height);
-	while (flags > 32) {
+	if (flags >= 32) flags -= 32;
+	while (flags == 16) {
 		getCursorLoc(x, y, z, flags);
 		if (x != last_x || y != last_y) {
 			setSelectionLocation(roi_x - (x_origin-x), roi_y - (y_origin-y));
 			getCursorLoc(last_x, last_y, z, flags);
 		}
 		wait(10);
+		if (flags >= 32) flags -= 32;
 	}
 }
 
@@ -1281,8 +1273,8 @@ function estimate_Tolerance(){
 	run("Select None");
 	setBatchMode(1);
 	getCursorLoc(x, y, z, flags);
-	makeRectangle(x-(wand_Box_Size/2),y-(wand_Box_Size/2),wand_Box_Size,wand_Box_Size);
-	getStatistics(area, mean, min, max, std, histogram);;
+	makeRectangle(x - (wand_Box_Size / 2), y - (wand_Box_Size / 2), wand_Box_Size, wand_Box_Size);
+	getStatistics(bla, bla, bla, max, bla, bla);;
 	tolerance = (tolerance_Threshold / 100) * max;
 	return tolerance;
 }
@@ -2059,6 +2051,7 @@ function plot_LUT(){
 	lutinance = newArray(0); //luminance of LUT...
 	getLut(reds, greens, blues);
 	setBatchMode(1);
+		//LUT snapshot
 		newImage("temp", "8-bit ramp", 385, 32, 1);
 		setLut(reds, greens, blues);
 		run("RGB Color");
@@ -2591,7 +2584,7 @@ function set_Gamma_LUT_All_Channels(gamma){
 Adjust the contrast window between min and max on active channel
 ----------------------------------------------------------------*/
 function adjust_Contrast() { 
-	if (is("Virtual Stack")) {showStatus("marche pas en virtual stack!"); wait(600); exit;}
+	if (is("Virtual Stack")) {resetMinAndMax(); exit();}
 	setBatchMode(1);
 	id = getImageID();
 	getDimensions(width, height, channels, slices, frames);
@@ -2645,6 +2638,12 @@ function auto_Contrast_All_Channels() {
 function is_Active_Channel(channel_Index){
 	getDimensions(width, height, channels, slices, frames);
 	if (channels==1) return true;
+	Stack.getDisplayMode(mode)
+	if (mode == "color") {
+		Stack.getPosition(channel, slice, frame);
+		if (channel_Index+1 == channel) return true;
+		else return false;
+	} 
 	Stack.getActiveChannels(string);
 	if (string.substring(channel_Index, channel_Index+1) == "1") return true;
 	else return false;
