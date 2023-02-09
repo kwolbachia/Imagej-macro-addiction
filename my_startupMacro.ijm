@@ -409,8 +409,8 @@ function show_Shortcuts_Table(){
 	Table.create("Macro shortcuts");
 	Table.setLocationAndSize(0, 100, 580, 600);
 	//				line  Key   Alone									with Space										with Alt
-	add_Shortcuts_Line("F1, F2, F3", "Count++ and add overlay",		"Count-- and remove overlay", 			"new line on Count Table");
-	add_Shortcuts_Line(" F4", "Toggle auto slice scroll", 			"",								 		"Close imageJ...");
+	add_Shortcuts_Line("F1, F2, F3, F4", "Count++ and add overlay",		"Count-- and remove overlay", 			"new line on Count Table");
+	add_Shortcuts_Line(" F5", "Toggle auto slice scroll", 			"",								 		"Close imageJ...");
 	add_Shortcuts_Line("  0", "Open in ClearVolume              ", 	"Open in 3D viewer                ",	"                                 ");
 	add_Shortcuts_Line("  1", "Apply favorite LUTs",				"Apply LUTs to all",					"Set favorite LUTs");
 	add_Shortcuts_Line("  2", "Center image",						"Restore position", 					"Full width of screen");
@@ -523,6 +523,9 @@ macro "[f2]" {
 macro "[f3]" {
 	count_Button("Type 3", "orange");
 }
+macro "[f4]" {
+	count_Button("Type 4", "#00b9ff");
+}
 function count_Button(column_Name, color){
 	if (nImages==0) exit();
 	if(!isOpen("count")){
@@ -532,6 +535,7 @@ function count_Button(column_Name, color){
 		Table.set("Type 1", count_Line, 0);
 		Table.set("Type 2", count_Line, 0);
 		Table.set("Type 3", count_Line, 0);
+		Table.set("Type 4", count_Line, 0);
 		Table.update;
 	}
 	if (isKeyDown("alt")) {
@@ -539,6 +543,7 @@ function count_Button(column_Name, color){
 		Table.set("Type 1", count_Line, 0);
 		Table.set("Type 2", count_Line, 0);
 		Table.set("Type 3", count_Line, 0);
+		Table.set("Type 4", count_Line, 0);
 		Table.update;
 		exit();
 	}
@@ -565,7 +570,7 @@ function remove_Selected_Overlay(){
   if (id!=-1) Overlay.removeSelection(id);
 }
 
-macro "[f4]"{
+macro "[f5]"{
 	if (do_Scroll_Loop) do_Scroll_Loop = false;
 	else do_Scroll_Loop = true;
 	scroll_Loop();
@@ -3056,7 +3061,7 @@ function linear_LUTs_Baker() {
 			getLut(reds, greens, blues); 
 			red = reds[255]; 	green = greens[255]; 	blue = blues[255];
 			reds_255[i] = red;	greens_255[i] = green;	blues_255[i] = blue;
-			Dialog.addMessage("LUT " + (i+1), 20, lut_To_Hex(red, green, blue));
+			Dialog.addMessage("LUT " + (i+1), 20, Color.toString(red, green, blue));
 			Dialog.addSlider("Red",	 0, 255, red);
 			Dialog.addSlider("Green",0, 255, green);
 			Dialog.addSlider("Blue", 0, 255, blue);
@@ -3093,13 +3098,6 @@ function make_LUT(red, green, blue){
 		blues[i] = (blue / 256) * (i+1);
 	}
 	setLut(reds, greens, blues);
-}
-
-function lut_To_Hex(red, green, blue){
-	if (red < 16) 	hex_Red = "0" + toHex(red); else hex_Red = toHex(red);
-	if (green < 16) hex_Green = "0" + toHex(green); else hex_Green = toHex(green);
-	if (blue < 16) 	hex_Blue = "0" + toHex(blue); else hex_Blue = toHex(blue);
-	return "#" + hex_Red + hex_Green + hex_Blue;
 }
 
 function copy_Paste_Source_LUTs(){
