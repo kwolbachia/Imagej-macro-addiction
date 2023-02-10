@@ -6,11 +6,11 @@
 //	showStatus(modifiers);
 // }
 
-var saved_Loc_X = 0;
-var saved_Loc_Y = screenHeight() - 470;
+var SAVED_LOC_X = 0;
+var	SAVED_LOC_Y = screenHeight() - 470;
 
 // for quick Set LUTs
-var chosen_LUTs = newArray("kb","km","ko","kg","Grays","Cyan","Magenta","Yellow");
+var CHOSEN_LUTS = newArray("kb","km","ko","kg","Grays","Cyan","Magenta","Yellow");
 
 // For split_View
 var	color_Mode = "Colored";
@@ -209,8 +209,8 @@ macro "[7]" 	{
 }
 macro "[8]"	{
 	if		(no_Alt_no_Space())		run("Rename...");
-	else if (isKeyDown("space"))	rename(getImageID());
-	// else if (isKeyDown("alt"))		
+	else if (isKeyDown("space"))	rename(get_Time_Stamp("short") + "_" + getTitle());
+	else if (isKeyDown("alt"))		rename(get_Time_Stamp("full") + "_" + getTitle());
 }
 macro "[9]"	{
 	if		(no_Alt_no_Space())		{ if(File.exists(getDirectory("temp")+"temp.tif")) open(getDirectory("temp")+"temp.tif"); }
@@ -419,10 +419,10 @@ function show_Shortcuts_Table(){
 	add_Shortcuts_Line("  5", "Make selection 25x25",				"make selection 500x500",				"");
 	add_Shortcuts_Line("  6", "Force black canvas",					"",										"");
 	add_Shortcuts_Line("  7", "Set target image",					"Set source image",						"Set custom position");
-	add_Shortcuts_Line("  8", "Rename image",						"Random rename",						"");
+	add_Shortcuts_Line("  8", "Rename image",						"Add short time stamp to title",		"Add full time Stamp to title");
 	add_Shortcuts_Line("  9", "Open temp image",					"Save image in temp",					"");
 				
-	add_Shortcuts_Line("numpad-0", "Favorite LUT", 					"Set favorite LUT", 					"convert LUT to IMQ");
+	add_Shortcuts_Line("numpad-0", "Favorite LUT", 					"Set favorite LUT", 					"Convert LUT to IMQ");
 	add_Shortcuts_Line("numpad-1", "Grays LUT", 					"toggle channel 1", 					"toggle channel 1 all images");
 	add_Shortcuts_Line("numpad-2", "Green LUT", 					"toggle channel 2", 					"toggle channel 2 all images");
 	add_Shortcuts_Line("numpad-3", "Red LUT", 						"toggle channel 3", 					"toggle channel 3 all images");
@@ -575,6 +575,7 @@ macro "[f5]"{
 	else do_Scroll_Loop = true;
 	scroll_Loop();
 }
+
 function scroll_Loop(){
 	getDimensions(width, height, channels, slices, frames);
 	if(slices==1 && frames==1) exit;
@@ -1103,33 +1104,31 @@ function scale_Bar_Tool(){
 }
 
 function curtain_Tool() {
-	getCursorLoc(x, y, z, flags);
+	getCursorLoc(last_x, y, z, flags);
+	getDimensions(width, height, channels, slices, frames);
 	setBatchMode(true);
-	id=getImageID;
-	px = x;
+	id = getImageID();
 	while (flags&16>0) {
 		selectImage(id);
 		getCursorLoc(x, y, z, flags);
-		if (x != px) {
+		if (x != last_x) {
 			if (x < 0) x = 0;
 			if (isOpen(source)) selectWindow(source);
-			else exit;
-			makeRectangle(x ,0 ,getWidth-x , getHeight);
+			else exit();
+			makeRectangle(x, 0, width-x, height);
 			run("Duplicate...","title=part");
-			id3 = getImageID;
 			selectImage(id);
 			run("Add Image...", "image=part x="+ x +" y=0 opacity=100"); //zero
 			while (Overlay.size>1) Overlay.removeSelection(0);
-			selectWindow(source);
-			run("Select None");
-			selectImage(id3);
-			close();
-			px=x;
-			wait(30);
+			close("part");
+			last_x = x;
+			wait(10);
 		}
-    }
-   run("Select None");
-   Overlay.remove;
+	}
+	selectWindow(source);
+	run("Select None");
+	selectImage(id);
+	Overlay.remove;
 }
 
 function move_Windows() {
@@ -1358,7 +1357,7 @@ function fetch_Or_Pull_StartupMacros() {
 	choice = getBoolean("Fetch or pull?", "Pull", "Fetch");
 	if (!choice){
 		//backup of current StMacros
-		File.saveString(File.openAsString(fiji_Startup_Path), getDirectory("macros")+"/backups/StM_"+round(random*10000)+".ijm");
+		File.saveString(File.openAsString(fiji_Startup_Path), getDirectory("macros")+"/backups/StM_" + get_Time_Stamp("full") + ".ijm");
 		//import new
 		File.saveString(File.openAsString(sync_Path), fiji_Startup_Path);
 		run("Install...","install=["+fiji_Startup_Path+"]");
@@ -1369,6 +1368,14 @@ function fetch_Or_Pull_StartupMacros() {
 		File.saveString(File.openAsString(fiji_Startup_Path), sync_Path);
 		showStatus("Pull!");
 	}
+}
+
+function get_Time_Stamp(full_or_short) {
+	getDateAndTime(year, month, day_Of_Week, day_Of_Month, hour, minute, second, msec);
+	if (full_or_short == "short") 
+		time_Stamp = "" + toString(year-2000) + toString(IJ.pad(month+1, 2)) + toString(IJ.pad(day_Of_Month, 2)) + "_";
+	else time_Stamp = "" + toString(year-2000) + toString(IJ.pad(month+1, 2)) + toString(IJ.pad(day_Of_Month, 2)) + "_" + toString(hour) + toString(minute) + toString(second);
+	return time_Stamp;
 }
 
 //toggle channel number (i)
@@ -1421,8 +1428,8 @@ function color_Code_Progressive_Max(){
 			selectWindow(title);
 			Stack.setPosition(channel, i+1, k+1);
 			//create LUT with the scaled color :
-			if (slices == 1) index =  (k/frames) * 255;
-			else index = (i/slices) * 255;
+			if (slices == 1) index =  (k/(frames-1)) * 255;
+			else index = (i/(slices-1)) * 255;
 			temp_Reds = newArray(0, code_Reds[index]);	
 			temp_greens = newArray(0, code_Greens[index]);	
 			temp_Blues = newArray(0, code_Blues[index]);
@@ -1432,9 +1439,7 @@ function color_Code_Progressive_Max(){
 			setLut(temp_Reds, temp_greens, temp_Blues);
 			run("Copy");
 			selectWindow("Color Coded Projection");
-			Stack.setPosition(channel, index, index);
-			if (slices == 1) index = Stack.setPosition(channel, k+1, k+1);
-			else index = Stack.setPosition(channel, k+1, k+1);
+			Stack.setPosition(channel, k+1, k+1);
 
 			//"MAX" paste :
 			run("Paste");
@@ -1445,60 +1450,59 @@ function color_Code_Progressive_Max(){
 	setLut(reds, greens, blues);
 	selectWindow("Color Coded Projection");
 	run("Select None");
+	rename(title + "_colored");
 	setBatchMode("exit and display");
 	restoreSettings();
 }
 
 //No projection, heavy on RAM
 function color_Code_No_Projection(){
-	//https://github.com/ndefrancesco/macro-frenzy/blob/master/assorted/Colorize%20stack.ijm
-	title=getTitle();
+	setKeyDown("none"); //bug fixing? alt
+	title = getTitle();
 	getDimensions(width, height, channels, slices, frames);
 	Stack.getPosition(channel, slice, frame);
-	if ((frames > 1) && (slices == 1)) {
-		switch_slices_and_frames = true;
-		Stack.setDimensions(channels, frames, slices);
-	}
-	else switch_slices_and_frames = false;
 	getDimensions(width, height, channels, slices, frames);
+	if (selectionType() != -1) getSelectionBounds(x, y, width, height);
 	setBatchMode(1);
-	run("Duplicate...", "title=duplicate duplicate channels=&channel");
+	newImage("Color Coded Projection", "RGB black", width, height, 1, slices, frames);
+	selectWindow(title);
+	// copy for backup :
+	getLut(reds, greens, blues);
+	//paste copied LUT
 	open(getDirectory("temp")+"/copiedLut.lut");
+	//get current LUT for color coding
 	getLut(code_Reds, code_Greens, code_Blues);
-	run("RGB Color");
-	code_Reds=Array.resample(code_Reds,slices);
-	code_Greens=Array.resample(code_Greens,slices);
-	code_Blues=Array.resample(code_Blues,slices);
 	for (k = 0; k < frames; k++) {
 		for (i = 0; i < slices; i++) {
 			selectWindow(title);
 			Stack.setPosition(channel, i+1, k+1);
-			run("Duplicate...", "title=slice");
 			//create LUT with the scaled color :
-			temp_Reds=newArray(0,code_Reds[i]);	
-			temp_greens=newArray(0,code_Greens[i]);	
-			temp_Blues=newArray(0,code_Blues[i]);
-			temp_Reds=Array.resample(temp_Reds,256); 
-			temp_greens=Array.resample(temp_greens,256); 
-			temp_Blues=Array.resample(temp_Blues,256);
+			if (slices == 1) index =  (k/(frames-1)) * 255;
+			else index = (i/(slices-1)) * 255;
+			temp_Reds = newArray(0, code_Reds[index]);	
+			temp_greens = newArray(0, code_Greens[index]);	
+			temp_Blues = newArray(0, code_Blues[index]);
+			temp_Reds = Array.resample(temp_Reds, 256);
+			temp_greens = Array.resample(temp_greens, 256);
+			temp_Blues = Array.resample(temp_Blues, 256);
 			setLut(temp_Reds, temp_greens, temp_Blues);
 			run("Copy");
-			close();
-			selectWindow("duplicate");
+			selectWindow("Color Coded Projection");
 			Stack.setPosition(1, i+1, k+1);
 			run("Paste");
 		}
 	}
-	if (switch_slices_and_frames) {
-		selectWindow(title);
-		Stack.setDimensions(channels, frames, slices);
-		selectWindow("duplicate");
-		Stack.setDimensions(1, frames, slices);
-	}
+	//restore LUT
+	selectWindow(title);
+	Stack.setPosition(channel, slice, frame);
+	setLut(reds, greens, blues);
+	selectWindow("Color Coded Projection");
+	Stack.setPosition(1, 1, 1);
 	run("Select None");
 	rename(title + "_colored");
-	setBatchMode(false);
+	setBatchMode(0);
 }
+
 
 
 function fastColorCode(Glut) {
@@ -1756,7 +1760,7 @@ function set_my_Target_Image() {
 
 function set_my_Custom_Location() {
 	showStatus("Custom position set");
-	getLocationAndSize(saved_Loc_X, saved_Loc_Y, width, height);
+	getLocationAndSize(SAVED_LOC_X, SAVED_LOC_Y, width, height);
 }
 
 function open_From_Preview_Opener() {
@@ -1907,7 +1911,7 @@ function live_MultiPlot() {
 	getPixelSize(unit, pixel_Width, pixel_Height);
 	getLine(line_x1, line_y1, line_x2, line_y2, line_Width);
 	if (!isOpen("MultiPlot")) {
-		call("ij.gui.ImageWindow.setNextLocation", saved_Loc_X, saved_Loc_Y);
+		call("ij.gui.ImageWindow.setNextLocation", SAVED_LOC_X, SAVED_LOC_Y);
 		run("Plots...", "width=400 height=200");
 	}
 	Plot.create("MultiPlot", "Distance ("+unit+")", "Value");
@@ -1964,7 +1968,7 @@ function multi_Plot(){
 	if (selectionType() == -1) run("Select All");
 	if (bitDepth() == 24){ run("Plot Profile"); exit;}
 	id = getImageID();
-	if (!isOpen("MultiPlot")) call("ij.gui.ImageWindow.setNextLocation", saved_Loc_X, saved_Loc_Y);
+	if (!isOpen("MultiPlot")) call("ij.gui.ImageWindow.setNextLocation", SAVED_LOC_X, SAVED_LOC_Y);
 	run("Plots...", "width=400 height=200");
 	Plot.create("MultiPlot", "Pixels", "Grey value");
 	for (i=1; i<=channels; i++) {
@@ -2013,7 +2017,7 @@ function multi_Plot_Z_Axis(){
 	if (bitDepth()==24){ run("Plot Profile"); exit;}
 	if (channels > 1) Stack.getActiveChannels(active_Channels);
 	id = getImageID();
-	if (!isOpen("Multiplot")) call("ij.gui.ImageWindow.setNextLocation", saved_Loc_X, saved_Loc_Y);
+	if (!isOpen("Multiplot")) call("ij.gui.ImageWindow.setNextLocation", SAVED_LOC_X, SAVED_LOC_Y);
 	run("Plots...", "width=400 height=200");
 	Plot.create("MultiPlot", "Frame", "Grey value");
 	for (i=1; i<=channels; i++) {
@@ -2084,7 +2088,7 @@ function plot_LUT(){
 		run("Copy");
 		close("temp");
 	setBatchMode(0);
-	if (!isOpen("LUT Profile")) call("ij.gui.ImageWindow.setNextLocation", saved_Loc_X, saved_Loc_Y);
+	if (!isOpen("LUT Profile")) call("ij.gui.ImageWindow.setNextLocation", SAVED_LOC_X, SAVED_LOC_Y);
 	run("Plots...", "width=400 height=265");
 	Plot.create("LUT Profile", "Grey Value", "value");
 	lutinance = get_LUTinance(reds, greens, blues);
@@ -2502,20 +2506,20 @@ Set LUTs
 function set_My_LUTs(){
 	LUT_list = newArray("kb","ko","km","kg","Grays" ,"copied" ,"fav");
 	Dialog.create("Set all LUTs");
-	for(i=0; i<4; i++) Dialog.addRadioButtonGroup("LUT " + (i+1), LUT_list, 0, 7, chosen_LUTs[i]);
+	for(i=0; i<4; i++) Dialog.addRadioButtonGroup("LUT " + (i+1), LUT_list, 0, 7, CHOSEN_LUTS[i]);
 	Dialog.addCheckbox("noice?", 0);
 	Dialog.show();
-	for(i=0; i<4; i++) chosen_LUTs[i] = Dialog.getRadioButton();
-	if (Dialog.getCheckbox()) for(i=0; i<4; i++) if (chosen_LUTs[i] != "Grays") chosen_LUTs[i] = chosen_LUTs[i] + "_noice"; 
+	for(i=0; i<4; i++) CHOSEN_LUTS[i] = Dialog.getRadioButton();
+	if (Dialog.getCheckbox()) for(i=0; i<4; i++) if (CHOSEN_LUTS[i] != "Grays") CHOSEN_LUTS[i] = CHOSEN_LUTS[i] + "_noice"; 
 	set_LUTs();
 }
 
 function get_LUTs_Dialog(){
 	LUT_list = newArray("kb","km","ko","kg","Grays","Cyan","Magenta","Yellow","Red","Green","Blue");
 	Dialog.create("Set all LUTs");
-	for(i=0; i<5; i++) Dialog.addChoice("LUT " + (i+1),LUT_list,chosen_LUTs[i]);
+	for(i=0; i<5; i++) Dialog.addChoice("LUT " + (i+1),LUT_list, CHOSEN_LUTS[i]);
 	Dialog.show();
-	for(i=0; i<5; i++) chosen_LUTs[i] = Dialog.getChoice();
+	for(i=0; i<5; i++) CHOSEN_LUTS[i] = Dialog.getChoice();
 }
 
 function set_LUTs(){
@@ -2525,17 +2529,17 @@ function set_LUTs(){
 		Stack.setDisplayMode("composite");
 		for(i=1; i<=channels; i++){
 			Stack.setChannel(i);
-			if (chosen_LUTs[i-1]=="fav") paste_Favorite_LUT();
-			else if (chosen_LUTs[i-1]=="copied") paste_LUT();
-			else run(chosen_LUTs[i-1]);
+			if (CHOSEN_LUTS[i-1]=="fav") paste_Favorite_LUT();
+			else if (CHOSEN_LUTS[i-1]=="copied") paste_LUT();
+			else run(CHOSEN_LUTS[i-1]);
 		}
 		Stack.setChannel(ch);
 		Stack.setDisplayMode("color");Stack.setDisplayMode("composite");
 	}
 	else {
-		if (chosen_LUTs[0]=="fav") paste_Favorite_LUT();
-		else if (chosen_LUTs[0]=="copied") paste_LUT();
-		else  run(chosen_LUTs[0]);
+		if (CHOSEN_LUTS[0]=="fav") paste_Favorite_LUT();
+		else if (CHOSEN_LUTS[0]=="copied") paste_LUT();
+		else  run(CHOSEN_LUTS[0]);
 	}
 }
 function set_All_LUTs(){
