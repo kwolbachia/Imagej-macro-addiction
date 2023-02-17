@@ -622,13 +622,13 @@ function merge_Ladder_And_Signal_From_Licor() {
 	image2 = Dialog.getChoice();
 	setBatchMode(1);
 	selectWindow(image1);
-	run("Duplicate...", "duplicate");
+	run("Duplicate...", "duplicate title=1");
 	setOption("ScaleConversions", true);
 	run("16-bit");
 	selectWindow(image2);
-	run("Duplicate...", "duplicate");
+	run("Duplicate...", "duplicate title=2");
 	run("16-bit");
-	imageCalculator("Subtract create 32-bit", image1+"-1", image2+"-1");
+	imageCalculator("Subtract create 32-bit", "1", "2");
 	setBatchMode(0);
 }
 
