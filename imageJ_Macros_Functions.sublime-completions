@@ -4,1508 +4,1512 @@
 // imagej macro functions for sublime text auto-completion. needs syntax set to javascript
 	"completions":
 	[
-		{ "trigger": "abs", "contents": "abs(${1:n})", "annotation": "abs(n)" },
+		{ "trigger": "abs", "contents": "abs(${1:n});", "annotation": "abs(n)" },
 
-		{ "trigger": "acos", "contents": "acos(${1:n})",  "annotation": "acos(n)" },
+		{ "trigger": "acos", "contents": "acos(${1:n});", "annotation": "acos(n)" },
 
-		{ "trigger": "Array.concat", "contents": "Array.concat(${1:array1}, ${2:array2})",  "annotation": "Array.concat(array1,array2)" },
+		{ "trigger": "Array.concat", "contents": "Array.concat(${1:array1}, ${2:array2});", "annotation": "Array.concat(array1,array2)" },
 
-		{ "trigger": "Array.copy", "contents": "Array.copy(${1:array})",  "annotation": "Array.copy(array)" },
+		{ "trigger": "Array.copy", "contents": "Array.copy(${1:array});", "annotation": "Array.copy(array)" },
 
-		{ "trigger": "Array.deleteValue", "contents": "Array.deleteValue(${1:array}, ${2:value})",  "annotation": "Array.deleteValue(array, value)" },
+		{ "trigger": "Array.deleteValue", "contents": "Array.deleteValue(${1:array}, ${2:value});", "annotation": "Array.deleteValue(array, value)" },
 
-		{ "trigger": "Array.deleteIndex", "contents": "Array.deleteIndex(${1:array}, ${2:index})",  "annotation": "Array.deleteIndex(array, index)" },
+		{ "trigger": "Array.deleteIndex", "contents": "Array.deleteIndex(${1:array}, ${2:index});", "annotation": "Array.deleteIndex(array, index)" },
 
-		{ "trigger": "Array.fill", "contents": "Array.fill(${1:array}, ${2:value})",  "annotation": "Array.fill(array, value)" },
+		{ "trigger": "Array.fill", "contents": "Array.fill(${1:array}, ${2:value});", "annotation": "Array.fill(array, value)" },
 
-		{ "trigger": "Array.filter", "contents": "Array.filter(${1:array}, ${2:filter})",  "annotation": "Array.filter(array, filter)" },
+		{ "trigger": "Array.filter", "contents": "Array.filter(${1:array}, ${2:filter});", "annotation": "Array.filter(array, filter)" },
 
-		{ "trigger": "Array.findMaxima", "contents": "Array.findMaxima(${1:array}, ${2:tolerance})",  "annotation": "Array.findMaxima(array, tolerance)" },
+		{ "trigger": "Array.findMaxima", "contents": "Array.findMaxima(${1:array}, ${2:tolerance});", "annotation": "Array.findMaxima(array, tolerance)" },
 
-		{ "trigger": "Array.findMinima", "contents": "Array.findMinima(${1:array}, ${2:tolerance})",  "annotation": "Array.findMinima(array, tolerance)" },
+		{ "trigger": "Array.findMinima", "contents": "Array.findMinima(${1:array}, ${2:tolerance});", "annotation": "Array.findMinima(array, tolerance)" },
 
-		{ "trigger": "Array.fourier", "contents": "Array.fourier(${1:array}, ${2:windowType})",  "annotation": "Array.fourier(array, windowType)" },
+		{ "trigger": "Array.fourier", "contents": "Array.fourier(${1:array}, ${2:windowType});", "annotation": "Array.fourier(array, windowType)" },
 
-		{ "trigger": "Array.getSequence", "contents": "Array.getSequence(${1:n})",  "annotation": "Array.getSequence(n)" },
+		{ "trigger": "Array.getSequence", "contents": "Array.getSequence(${1:n});", "annotation": "Array.getSequence(n)" },
 
-		{ "trigger": "Array.getStatistics", "contents": "Array.getStatistics(${1:array}, ${2:min}, ${3:max}, ${4:mean}, ${5:stdDev})",  "annotation": "Array.getStatistics(array, min, max, mean, stdDev)" },
+		{ "trigger": "Array.getStatistics", "contents": "Array.getStatistics(${1:array}, ${2:min}, ${3:max}, ${4:mean}, ${5:stdDev});", "annotation": "Array.getStatistics(array, min, max, mean, stdDev)" },
 
-		{ "trigger": "Array.print", "contents": "Array.print(${1:array})",  "annotation": "Array.print(array)" },
+		{ "trigger": "Array.print", "contents": "Array.print(${1:array});", "annotation": "Array.print(array)" },
 
-		{ "trigger": "Array.rankPositions", "contents": "Array.rankPositions(${1:array})",  "annotation": "Array.rankPositions(array)" },
+		{ "trigger": "Array.rankPositions", "contents": "Array.rankPositions(${1:array});", "annotation": "Array.rankPositions(array)" },
 
-		{ "trigger": "Array.resample", "contents": "Array.resample(${1:array}, ${2:len})",  "annotation": "Array.resample(array,len)" },
+		{ "trigger": "Array.resample", "contents": "Array.resample(${1:array}, ${2:len});", "annotation": "Array.resample(array,len)" },
 
-		{ "trigger": "Array.reverse", "contents": "Array.reverse(${1:array})",  "annotation": "Array.reverse(array)" },
+		{ "trigger": "Array.reverse", "contents": "Array.reverse(${1:array});", "annotation": "Array.reverse(array)" },
 
-		{ "trigger": "Array.show", "contents": "Array.show(${1:array})",  "annotation": "Array.show(array)" },
+		{ "trigger": "Array.show", "contents": "Array.show(${1:array});", "annotation": "Array.show(array)" },
 
-		{ "trigger": "Array.show", "contents": "Array.show(${1:\"title\"}, ${2:array1}, ${3:array2}, ${4:...})",  "annotation": "Array.show(\"title\", array1, array2, ...)" },
+		{ "trigger": "Array.show", "contents": "Array.show(${1:\"title\"}, ${2:array1}, ${3:array2}, ${4:...});", "annotation": "Array.show(\"title\", array1, array2, ...)" },
 
-		{ "trigger": "Array.slice", "contents": "Array.slice(${1:array}, ${2:start}, ${3:end})",  "annotation": "Array.slice(array,start,end)" },
+		{ "trigger": "Array.slice", "contents": "Array.slice(${1:array}, ${2:start}, ${3:end});", "annotation": "Array.slice(array,start,end)" },
 
-		{ "trigger": "Array.sort", "contents": "Array.sort(${1:array})",  "annotation": "Array.sort(array)" },
+		{ "trigger": "Array.sort", "contents": "Array.sort(${1:array});", "annotation": "Array.sort(array)" },
 
-		{ "trigger": "Array.sort", "contents": "Array.sort(${1:array1}, ${2:array2}, ${3:array3...})",  "annotation": "Array.sort(array1, array2, array3...)" },
+		{ "trigger": "Array.sort", "contents": "Array.sort(${1:array1}, ${2:array2}, ${3:array3...});", "annotation": "Array.sort(array1, array2, array3...)" },
 
-		{ "trigger": "Array.trim", "contents": "Array.trim(${1:array}, ${2:n})",  "annotation": "Array.trim(array, n)" },
+		{ "trigger": "Array.trim", "contents": "Array.trim(${1:array}, ${2:n});", "annotation": "Array.trim(array, n)" },
 
-		{ "trigger": "Array.rotate", "contents": "Array.rotate(${1:array}, ${2:d})",  "annotation": "Array.rotate(array, d)" },
+		{ "trigger": "Array.rotate", "contents": "Array.rotate(${1:array}, ${2:d});", "annotation": "Array.rotate(array, d)" },
 
-		{ "trigger": "Array.getVertexAngles", "contents": "Array.getVertexAngles(${1:xArr}, ${2:yArr}, ${3:arm})",  "annotation": "Array.getVertexAngles(xArr, yArr, arm)" },
+		{ "trigger": "Array.getVertexAngles", "contents": "Array.getVertexAngles(${1:xArr}, ${2:yArr}, ${3:arm});", "annotation": "Array.getVertexAngles(xArr, yArr, arm)" },
 
-		{ "trigger": "asin", "contents": "asin(${1:n})",  "annotation": "asin(n)" },
+		{ "trigger": "asin", "contents": "asin(${1:n});", "annotation": "asin(n)" },
 
-		{ "trigger": "atan", "contents": "atan(${1:n})",  "annotation": "atan(n)" },
+		{ "trigger": "atan", "contents": "atan(${1:n});", "annotation": "atan(n)" },
 
-		{ "trigger": "atan2", "contents": "atan2(${1:y}, ${2:x})",  "annotation": "atan2(y, x)" },
+		{ "trigger": "atan2", "contents": "atan2(${1:y}, ${2:x});", "annotation": "atan2(y, x)" },
 
-		{ "trigger": "autoUpdate", "contents": "autoUpdate(${1:boolean})",  "annotation": "autoUpdate(boolean)" },
+		{ "trigger": "autoUpdate", "contents": "autoUpdate(${1:boolean});", "annotation": "autoUpdate(boolean)" },
 
-		{ "trigger": "beep", "contents": "beep()",  "annotation": "beep()" },
+		{ "trigger": "beep", "contents": "beep();", "annotation": "beep()" },
 
-		{ "trigger": "bitDepth", "contents": "bitDepth() ",  "annotation": "bitDepth() " },
+		{ "trigger": "bitDepth", "contents": "bitDepth() ;", "annotation": "bitDepth() " },
 
-		{ "trigger": "calibrate", "contents": "calibrate(${1:value})",  "annotation": "calibrate(value)" },
+		{ "trigger": "calibrate", "contents": "calibrate(${1:value});", "annotation": "calibrate(value)" },
 
-		{ "trigger": "call", "contents": "call(${1:\"class.method\"}, ${2:arg1}, ${3:arg2}, ${4:...})",  "annotation": "call(\"class.method\", arg1, arg2, ...)" },
+		{ "trigger": "call", "contents": "call(${1:\"class.method\"}, ${2:arg1}, ${3:arg2}, ${4:...});", "annotation": "call(\"class.method\", arg1, arg2, ...)" },
 
-		{ "trigger": "call", "contents": "call(${1:\"class.method\"})",  "annotation": "call(\"class.method\")" },
+		{ "trigger": "call", "contents": "call(${1:\"class.method\"});", "annotation": "call(\"class.method\")" },
 
-		{ "trigger": "changeValues", "contents": "changeValues(${1:v1}, ${2:v2}, ${3:v3})",  "annotation": "changeValues(v1, v2, v3)" },
+		{ "trigger": "changeValues", "contents": "changeValues(${1:v1}, ${2:v2}, ${3:v3});", "annotation": "changeValues(v1, v2, v3)" },
 
-		{ "trigger": "charCodeAt", "contents": "charCodeAt(${1:string}, ${2:index})",  "annotation": "charCodeAt(string, index)" },
+		{ "trigger": "charCodeAt", "contents": "charCodeAt(${1:string}, ${2:index});", "annotation": "charCodeAt(string, index)" },
 
-		{ "trigger": "close", "contents": "close()",  "annotation": "close()" },
+		{ "trigger": "close", "contents": "close();", "annotation": "close()" },
 
-		{ "trigger": "close", "contents": "close(${1:pattern})",  "annotation": "close(pattern)" },
+		{ "trigger": "close", "contents": "close(${1:pattern});", "annotation": "close(pattern)" },
 
-		{ "trigger": "close", "contents": "close(${1:\"*\"})",  "annotation": "close(\"*\")" },
+		{ "trigger": "close", "contents": "close(${1:\"*\"});", "annotation": "close(\"*\")" },
 
-		{ "trigger": "close", "contents": "close(${1:\"\\Others\"})",  "annotation": "close(\"\\Others\")" },
+		{ "trigger": "close", "contents": "close(${1:\"\\Others\"});", "annotation": "close(\"\\Others\")" },
 
-		{ "trigger": "Color.set", "contents": "Color.set(${1:string})",  "annotation": "Color.set(string)" },
+		{ "trigger": "Color.set", "contents": "Color.set(${1:string});", "annotation": "Color.set(string)" },
 
-		{ "trigger": "Color.set", "contents": "Color.set(${1:value})",  "annotation": "Color.set(value)" },
+		{ "trigger": "Color.set", "contents": "Color.set(${1:value});", "annotation": "Color.set(value)" },
 
-		{ "trigger": "Color.setForeground", "contents": "Color.setForeground(${1:string})",  "annotation": "Color.setForeground(string)" },
+		{ "trigger": "Color.setForeground", "contents": "Color.setForeground(${1:string});", "annotation": "Color.setForeground(string)" },
 
-		{ "trigger": "Color.setForegroundValue", "contents": "Color.setForegroundValue(${1:value})",  "annotation": "Color.setForegroundValue(value)" },
+		{ "trigger": "Color.setForegroundValue", "contents": "Color.setForegroundValue(${1:value});", "annotation": "Color.setForegroundValue(value)" },
 
-		{ "trigger": "Color.setBackground", "contents": "Color.setBackground(${1:string})",  "annotation": "Color.setBackground(string)" },
+		{ "trigger": "Color.setBackground", "contents": "Color.setBackground(${1:string});", "annotation": "Color.setBackground(string)" },
 
-		{ "trigger": "Color.setBackgroundValue", "contents": "Color.setBackgroundValue(${1:value})",  "annotation": "Color.setBackgroundValue(value)" },
+		{ "trigger": "Color.setBackgroundValue", "contents": "Color.setBackgroundValue(${1:value});", "annotation": "Color.setBackgroundValue(value)" },
 
-		{ "trigger": "Color.setForeground", "contents": "Color.setForeground(${1:r}, ${2:g}, ${3:b})",  "annotation": "Color.setForeground(r, g, b)" },
+		{ "trigger": "Color.setForeground", "contents": "Color.setForeground(${1:r}, ${2:g}, ${3:b});", "annotation": "Color.setForeground(r, g, b)" },
 
-		{ "trigger": "Color.setBackground", "contents": "Color.setBackground(${1:r}, ${2:g}, ${3:b})",  "annotation": "Color.setBackground(r, g, b)" },
+		{ "trigger": "Color.setBackground", "contents": "Color.setBackground(${1:r}, ${2:g}, ${3:b});", "annotation": "Color.setBackground(r, g, b)" },
 
-		{ "trigger": "Color.foreground", "contents": "Color.foreground()",  "annotation": "Color.foreground" },
+		{ "trigger": "Color.foreground", "contents": "Color.foreground();", "annotation": "Color.foreground" },
 
-		{ "trigger": "Color.background", "contents": "Color.background()",  "annotation": "Color.background" },
+		{ "trigger": "Color.background", "contents": "Color.background();", "annotation": "Color.background" },
 
-		{ "trigger": "Color.toString", "contents": "Color.toString(${1:r}, ${2:g}, ${3:b})",  "annotation": "Color.toString(r, g, b)" },
+		{ "trigger": "Color.toString", "contents": "Color.toString(${1:r}, ${2:g}, ${3:b});", "annotation": "Color.toString(r, g, b)" },
 
-		{ "trigger": "Color.toArray", "contents": "Color.toArray(${1:string})",  "annotation": "Color.toArray(string)" },
+		{ "trigger": "Color.toArray", "contents": "Color.toArray(${1:string});", "annotation": "Color.toArray(string)" },
 
-		{ "trigger": "Color.getLut", "contents": "Color.getLut(${1:reds}, ${2:greens}, ${3:blues})",  "annotation": "Color.getLut(reds, greens, blues)" },
+		{ "trigger": "Color.getLut", "contents": "Color.getLut(${1:reds}, ${2:greens}, ${3:blues});", "annotation": "Color.getLut(reds, greens, blues)" },
 
-		{ "trigger": "Color.setLut", "contents": "Color.setLut(${1:reds}, ${2:greens}, ${3:blues})",  "annotation": "Color.setLut(reds, greens, blues)" },
+		{ "trigger": "Color.setLut", "contents": "Color.setLut(${1:reds}, ${2:greens}, ${3:blues});", "annotation": "Color.setLut(reds, greens, blues)" },
 
-		{ "trigger": "cos", "contents": "cos(${1:angle})",  "annotation": "cos(angle)" },
+		{ "trigger": "cos", "contents": "cos(${1:angle});", "annotation": "cos(angle)" },
 
-		{ "trigger": "d2s", "contents": "d2s(${1:n}, ${2:decimalPlaces})",  "annotation": "d2s(n, decimalPlaces)" },
+		{ "trigger": "d2s", "contents": "d2s(${1:n}, ${2:decimalPlaces});", "annotation": "d2s(n, decimalPlaces)" },
 
-		{ "trigger": "debug", "contents": "debug(${1:arg})",  "annotation": "debug(arg)" },
+		{ "trigger": "debug", "contents": "debug(${1:arg});", "annotation": "debug(arg)" },
 
-		{ "trigger": "Dialog.create", "contents": "Dialog.create(${1:\"Title\"})",  "annotation": "Dialog.create(\"Title\")" },
+		{ "trigger": "Dialog.create", "contents": "Dialog.create(${1:\"Title\"});", "annotation": "Dialog.create(\"Title\")" },
 
-		{ "trigger": "Dialog.createNonBlocking", "contents": "Dialog.createNonBlocking(${1:\"Title\"})",  "annotation": "Dialog.createNonBlocking(\"Title\")" },
+		{ "trigger": "Dialog.createNonBlocking", "contents": "Dialog.createNonBlocking(${1:\"Title\"});", "annotation": "Dialog.createNonBlocking(\"Title\")" },
 
-		{ "trigger": "Dialog.addMessage", "contents": "Dialog.addMessage(${1:string})",  "annotation": "Dialog.addMessage(string)" },
+		{ "trigger": "Dialog.addMessage", "contents": "Dialog.addMessage(${1:string});", "annotation": "Dialog.addMessage(string)" },
 
-		{ "trigger": "Dialog.addMessage", "contents": "Dialog.addMessage(${1:string}, ${2:fontSize}, ${3:fontColor})",  "annotation": "Dialog.addMessage(string, fontSize, fontColor)" },
+		{ "trigger": "Dialog.addMessage", "contents": "Dialog.addMessage(${1:string}, ${2:fontSize}, ${3:fontColor});", "annotation": "Dialog.addMessage(string, fontSize, fontColor)" },
 
-		{ "trigger": "Dialog.addString", "contents": "Dialog.addString(${1:label}, ${2:initialText})",  "annotation": "Dialog.addString(label, initialText)" },
+		{ "trigger": "Dialog.addString", "contents": "Dialog.addString(${1:label}, ${2:initialText});", "annotation": "Dialog.addString(label, initialText)" },
 
-		{ "trigger": "Dialog.addString", "contents": "Dialog.addString(${1:label}, ${2:initialText}, ${3:columns})",  "annotation": "Dialog.addString(label, initialText, columns)" },
+		{ "trigger": "Dialog.addString", "contents": "Dialog.addString(${1:label}, ${2:initialText}, ${3:columns});", "annotation": "Dialog.addString(label, initialText, columns)" },
 
-		{ "trigger": "Dialog.addNumber", "contents": "Dialog.addNumber(${1:label}, ${2:default})",  "annotation": "Dialog.addNumber(label, default)" },
+		{ "trigger": "Dialog.addNumber", "contents": "Dialog.addNumber(${1:label}, ${2:default});", "annotation": "Dialog.addNumber(label, default)" },
 
-		{ "trigger": "Dialog.addNumber", "contents": "Dialog.addNumber(${1:label}, ${2:default}, ${3:decimalPlaces}, ${4:columns}, ${5:units})",  "annotation": "Dialog.addNumber(label, default, decimalPlaces, columns, units)" },
+		{ "trigger": "Dialog.addNumber", "contents": "Dialog.addNumber(${1:label}, ${2:default}, ${3:decimalPlaces}, ${4:columns}, ${5:units});", "annotation": "Dialog.addNumber(label, default, decimalPlaces, columns, units)" },
 
-		{ "trigger": "Dialog.addSlider", "contents": "Dialog.addSlider(${1:label}, ${2:min}, ${3:max}, ${4:default})",  "annotation": "Dialog.addSlider(label, min, max, default)" },
+		{ "trigger": "Dialog.addSlider", "contents": "Dialog.addSlider(${1:label}, ${2:min}, ${3:max}, ${4:default});", "annotation": "Dialog.addSlider(label, min, max, default)" },
 
-		{ "trigger": "Dialog.addCheckbox", "contents": "Dialog.addCheckbox(${1:label}, ${2:default})",  "annotation": "Dialog.addCheckbox(label, default)" },
+		{ "trigger": "Dialog.addCheckbox", "contents": "Dialog.addCheckbox(${1:label}, ${2:default});", "annotation": "Dialog.addCheckbox(label, default)" },
 
-		{ "trigger": "Dialog.addCheckboxGroup", "contents": "Dialog.addCheckboxGroup(${1:rows}, ${2:columns}, ${3:labels}, ${4:defaults})",  "annotation": "Dialog.addCheckboxGroup(rows, columns, labels, defaults)" },
+		{ "trigger": "Dialog.addCheckboxGroup", "contents": "Dialog.addCheckboxGroup(${1:rows}, ${2:columns}, ${3:labels}, ${4:defaults});", "annotation": "Dialog.addCheckboxGroup(rows, columns, labels, defaults)" },
 
-		{ "trigger": "Dialog.addRadioButtonGroup", "contents": "Dialog.addRadioButtonGroup(${1:label}, ${2:items}, ${3:rows}, ${4:columns}, ${5:default})",  "annotation": "Dialog.addRadioButtonGroup(label, items, rows, columns, default)" },
+		{ "trigger": "Dialog.addRadioButtonGroup", "contents": "Dialog.addRadioButtonGroup(${1:label}, ${2:items}, ${3:rows}, ${4:columns}, ${5:default});", "annotation": "Dialog.addRadioButtonGroup(label, items, rows, columns, default)" },
 
-		{ "trigger": "Dialog.addChoice", "contents": "Dialog.addChoice(${1:label}, ${2:items})",  "annotation": "Dialog.addChoice(label, items)" },
+		{ "trigger": "Dialog.addChoice", "contents": "Dialog.addChoice(${1:label}, ${2:items});", "annotation": "Dialog.addChoice(label, items)" },
 
-		{ "trigger": "Dialog.addChoice", "contents": "Dialog.addChoice(${1:label}, ${2:items}, ${3:default})",  "annotation": "Dialog.addChoice(label, items, default)" },
+		{ "trigger": "Dialog.addChoice", "contents": "Dialog.addChoice(${1:label}, ${2:items}, ${3:default});", "annotation": "Dialog.addChoice(label, items, default)" },
 
-		{ "trigger": "Dialog.addDirectory", "contents": "Dialog.addDirectory(${1:label}, ${2:defaultPath})",  "annotation": "Dialog.addDirectory(label, defaultPath)" },
+		{ "trigger": "Dialog.addDirectory", "contents": "Dialog.addDirectory(${1:label}, ${2:defaultPath});", "annotation": "Dialog.addDirectory(label, defaultPath)" },
 
-		{ "trigger": "Dialog.addFile", "contents": "Dialog.addFile(${1:label}, ${2:defaultPath})",  "annotation": "Dialog.addFile(label, defaultPath)" },
+		{ "trigger": "Dialog.addFile", "contents": "Dialog.addFile(${1:label}, ${2:defaultPath});", "annotation": "Dialog.addFile(label, defaultPath)" },
 
-		{ "trigger": "Dialog.addImage", "contents": "Dialog.addImage(${1:path})",  "annotation": "Dialog.addImage(path)" },
+		{ "trigger": "Dialog.addImage", "contents": "Dialog.addImage(${1:path});", "annotation": "Dialog.addImage(path)" },
 
-		{ "trigger": "Dialog.addImageChoice", "contents": "Dialog.addImageChoice(${1:label})",  "annotation": "Dialog.addImageChoice(label)" },
+		{ "trigger": "Dialog.addImageChoice", "contents": "Dialog.addImageChoice(${1:label});", "annotation": "Dialog.addImageChoice(label)" },
 
-		{ "trigger": "Dialog.addImageChoice", "contents": "Dialog.addImageChoice(${1:label}, ${2:defaultImage})",  "annotation": "Dialog.addImageChoice(label,defaultImage)" },
+		{ "trigger": "Dialog.addImageChoice", "contents": "Dialog.addImageChoice(${1:label}, ${2:defaultImage});", "annotation": "Dialog.addImageChoice(label,defaultImage)" },
 
-		{ "trigger": "Dialog.addHelp", "contents": "Dialog.addHelp(${1:url})",  "annotation": "Dialog.addHelp(url)" },
+		{ "trigger": "Dialog.addHelp", "contents": "Dialog.addHelp(${1:url});", "annotation": "Dialog.addHelp(url)" },
 
-		{ "trigger": "Dialog.addToSameRow", "contents": "Dialog.addToSameRow()",  "annotation": "Dialog.addToSameRow()" },
+		{ "trigger": "Dialog.addToSameRow", "contents": "Dialog.addToSameRow();", "annotation": "Dialog.addToSameRow()" },
 
-		{ "trigger": "Dialog.setInsets", "contents": "Dialog.setInsets(${1:top}, ${2:left}, ${3:bottom})",  "annotation": "Dialog.setInsets(top, left, bottom)" },
+		{ "trigger": "Dialog.setInsets", "contents": "Dialog.setInsets(${1:top}, ${2:left}, ${3:bottom});", "annotation": "Dialog.setInsets(top, left, bottom)" },
 
-		{ "trigger": "Dialog.setLocation", "contents": "Dialog.setLocation(${1:x}, ${2:y})",  "annotation": "Dialog.setLocation(x,y)" },
+		{ "trigger": "Dialog.setLocation", "contents": "Dialog.setLocation(${1:x}, ${2:y});", "annotation": "Dialog.setLocation(x,y)" },
 
-		{ "trigger": "Dialog.show", "contents": "Dialog.show()",  "annotation": "Dialog.show()" },
+		{ "trigger": "Dialog.show", "contents": "Dialog.show();", "annotation": "Dialog.show()" },
 
-		{ "trigger": "Dialog.getString", "contents": "Dialog.getString()",  "annotation": "Dialog.getString()" },
+		{ "trigger": "Dialog.getString", "contents": "Dialog.getString();", "annotation": "Dialog.getString()" },
 
-		{ "trigger": "Dialog.getNumber", "contents": "Dialog.getNumber()",  "annotation": "Dialog.getNumber()" },
+		{ "trigger": "Dialog.getNumber", "contents": "Dialog.getNumber();", "annotation": "Dialog.getNumber()" },
 
-		{ "trigger": "Dialog.getCheckbox", "contents": "Dialog.getCheckbox()",  "annotation": "Dialog.getCheckbox()" },
+		{ "trigger": "Dialog.getCheckbox", "contents": "Dialog.getCheckbox();", "annotation": "Dialog.getCheckbox()" },
 
-		{ "trigger": "Dialog.getChoice", "contents": "Dialog.getChoice()",  "annotation": "Dialog.getChoice()" },
+		{ "trigger": "Dialog.getChoice", "contents": "Dialog.getChoice();", "annotation": "Dialog.getChoice()" },
 
-		{ "trigger": "Dialog.getRadioButton", "contents": "Dialog.getRadioButton()",  "annotation": "Dialog.getRadioButton()" },
+		{ "trigger": "Dialog.getRadioButton", "contents": "Dialog.getRadioButton();", "annotation": "Dialog.getRadioButton()" },
 
-		{ "trigger": "Dialog.getImageChoice", "contents": "Dialog.getImageChoice()",  "annotation": "Dialog.getImageChoice()" },
+		{ "trigger": "Dialog.getImageChoice", "contents": "Dialog.getImageChoice();", "annotation": "Dialog.getImageChoice()" },
 
-		{ "trigger": "doCommand", "contents": "doCommand(${1:\"Command\"})",  "annotation": "doCommand(\"Command\")" },
+		{ "trigger": "doCommand", "contents": "doCommand(${1:\"Command\"});", "annotation": "doCommand(\"Command\")" },
 
-		{ "trigger": "doWand", "contents": "doWand(${1:x}, ${2:y})",  "annotation": "doWand(x, y)" },
+		{ "trigger": "doWand", "contents": "doWand(${1:x}, ${2:y});", "annotation": "doWand(x, y)" },
 
-		{ "trigger": "doWand", "contents": "doWand(${1:x}, ${2:y}, ${3:tolerance}, ${4:mode})",  "annotation": "doWand(x, y, tolerance, mode)" },
+		{ "trigger": "doWand", "contents": "doWand(${1:x}, ${2:y}, ${3:tolerance}, ${4:mode});", "annotation": "doWand(x, y, tolerance, mode)" },
 
-		{ "trigger": "drawLine", "contents": "drawLine(${1:x1}, ${2:y1}, ${3:x2}, ${4:y2})",  "annotation": "drawLine(x1, y1, x2, y2)" },
+		{ "trigger": "drawLine", "contents": "drawLine(${1:x1}, ${2:y1}, ${3:x2}, ${4:y2});", "annotation": "drawLine(x1, y1, x2, y2)" },
 
-		{ "trigger": "drawOval", "contents": "drawOval(${1:x}, ${2:y}, ${3:width}, ${4:height})",  "annotation": "drawOval(x, y, width, height)" },
+		{ "trigger": "drawOval", "contents": "drawOval(${1:x}, ${2:y}, ${3:width}, ${4:height});", "annotation": "drawOval(x, y, width, height)" },
 
-		{ "trigger": "drawRect", "contents": "drawRect(${1:x}, ${2:y}, ${3:width}, ${4:height})",  "annotation": "drawRect(x, y, width, height)" },
+		{ "trigger": "drawRect", "contents": "drawRect(${1:x}, ${2:y}, ${3:width}, ${4:height});", "annotation": "drawRect(x, y, width, height)" },
 
-		{ "trigger": "drawString", "contents": "drawString(${1:\"text\"}, ${2:x}, ${3:y})",  "annotation": "drawString(\"text\", x, y)" },
+		{ "trigger": "drawString", "contents": "drawString(${1:\"text\"}, ${2:x}, ${3:y});", "annotation": "drawString(\"text\", x, y)" },
 
-		{ "trigger": "drawString", "contents": "drawString(${1:\"text\"}, ${2:x}, ${3:y}, ${4:background})",  "annotation": "drawString(\"text\", x, y, background)" },
+		{ "trigger": "drawString", "contents": "drawString(${1:\"text\"}, ${2:x}, ${3:y}, ${4:background});", "annotation": "drawString(\"text\", x, y, background)" },
 
-		{ "trigger": "dump", "contents": "dump()",  "annotation": "dump()" },
+		{ "trigger": "dump", "contents": "dump();", "annotation": "dump()" },
 
-		{ "trigger": "endsWith", "contents": "endsWith(${1:string}, ${2:suffix})",  "annotation": "endsWith(string, suffix)" },
+		{ "trigger": "endsWith", "contents": "endsWith(${1:string}, ${2:suffix});", "annotation": "endsWith(string, suffix)" },
 
-		{ "trigger": "eval", "contents": "eval(${1:macro})",  "annotation": "eval(macro)" },
+		{ "trigger": "eval", "contents": "eval(${1:macro});", "annotation": "eval(macro)" },
 
-		{ "trigger": "eval", "contents": "eval(${1:\"script\"}, ${2:javascript})",  "annotation": "eval(\"script\", javascript)" },
+		{ "trigger": "eval", "contents": "eval(${1:\"script\"}, ${2:javascript});", "annotation": "eval(\"script\", javascript)" },
 
-		{ "trigger": "eval", "contents": "eval(${1:\"js\"}, ${2:script})",  "annotation": "eval(\"js\", script)" },
+		{ "trigger": "eval", "contents": "eval(${1:\"js\"}, ${2:script});", "annotation": "eval(\"js\", script)" },
 
-		{ "trigger": "eval", "contents": "eval(${1:\"bsh\"}, ${2:script})",  "annotation": "eval(\"bsh\", script)" },
+		{ "trigger": "eval", "contents": "eval(${1:\"bsh\"}, ${2:script});", "annotation": "eval(\"bsh\", script)" },
 
-		{ "trigger": "eval", "contents": "eval(${1:\"python\"}, ${2:script})",  "annotation": "eval(\"python\", script)" },
+		{ "trigger": "eval", "contents": "eval(${1:\"python\"}, ${2:script});", "annotation": "eval(\"python\", script)" },
 
-		{ "trigger": "exec", "contents": "exec(${1:string}, ${2:or}, ${3:strings})",  "annotation": "exec(string or strings)" },
+		{ "trigger": "exec", "contents": "exec(${1:string}, ${2:or}, ${3:strings});", "annotation": "exec(string or strings)" },
 
-		{ "trigger": "exit", "contents": "exit()",  "annotation": "exit" },
+		{ "trigger": "exit", "contents": "exit();", "annotation": "exit" },
 
-		{ "trigger": "exit", "contents": "exit(${1:\"error}, ${2:message\"})",  "annotation": "exit(\"error message\")" },
+		{ "trigger": "exit", "contents": "exit(${1:\"error}, ${2:message\"});", "annotation": "exit(\"error message\")" },
 
-		{ "trigger": "exp", "contents": "exp(${1:n})",  "annotation": "exp(n)" },
+		{ "trigger": "exp", "contents": "exp(${1:n});", "annotation": "exp(n)" },
 
-		{ "trigger": "Ext ", "contents": "Ext (${1:Macro}, ${2:Extension})",  "annotation": "Ext (Macro Extension) Functions" },
+		{ "trigger": "Ext ", "contents": "Ext (${1:Macro}, ${2:Extension});", "annotation": "Ext (Macro Extension) Functions" },
 
-		{ "trigger": "File.append", "contents": "File.append(${1:string}, ${2:path})",  "annotation": "File.append(string, path)" },
+		{ "trigger": "File.append", "contents": "File.append(${1:string}, ${2:path});", "annotation": "File.append(string, path)" },
 
-		{ "trigger": "File.close", "contents": "File.close(${1:f})",  "annotation": "File.close(f)" },
+		{ "trigger": "File.close", "contents": "File.close(${1:f});", "annotation": "File.close(f)" },
 
-		{ "trigger": "File.copy", "contents": "File.copy(${1:path1}, ${2:path2})",  "annotation": "File.copy(path1, path2)" },
+		{ "trigger": "File.copy", "contents": "File.copy(${1:path1}, ${2:path2});", "annotation": "File.copy(path1, path2)" },
 
-		{ "trigger": "File.dateLastModified", "contents": "File.dateLastModified(${1:path})",  "annotation": "File.dateLastModified(path)" },
+		{ "trigger": "File.dateLastModified", "contents": "File.dateLastModified(${1:path});", "annotation": "File.dateLastModified(path)" },
 
-		{ "trigger": "File.delete", "contents": "File.delete(${1:path})",  "annotation": "File.delete(path)" },
+		{ "trigger": "File.delete", "contents": "File.delete(${1:path});", "annotation": "File.delete(path)" },
 
-		{ "trigger": "File.directory", "contents": "File.directory()",  "annotation": "File.directory" },
+		{ "trigger": "File.directory", "contents": "File.directory();", "annotation": "File.directory" },
 
-		{ "trigger": "File.exists", "contents": "File.exists(${1:path})",  "annotation": "File.exists(path)" },
+		{ "trigger": "File.exists", "contents": "File.exists(${1:path});", "annotation": "File.exists(path)" },
 
-		{ "trigger": "File.getName", "contents": "File.getName(${1:path})",  "annotation": "File.getName(path)" },
+		{ "trigger": "File.getName", "contents": "File.getName(${1:path});", "annotation": "File.getName(path)" },
 
-		{ "trigger": "File.getNameWithoutExtension", "contents": "File.getNameWithoutExtension(${1:path})",  "annotation": "File.getNameWithoutExtension(path)" },
+		{ "trigger": "File.getNameWithoutExtension", "contents": "File.getNameWithoutExtension(${1:path});", "annotation": "File.getNameWithoutExtension(path)" },
 
-		{ "trigger": "File.getDirectory", "contents": "File.getDirectory(${1:path})",  "annotation": "File.getDirectory(path)" },
+		{ "trigger": "File.getDirectory", "contents": "File.getDirectory(${1:path});", "annotation": "File.getDirectory(path)" },
 
-		{ "trigger": "File.getDefaultDir", "contents": "File.getDefaultDir()",  "annotation": "File.getDefaultDir" },
+		{ "trigger": "File.getDefaultDir", "contents": "File.getDefaultDir();", "annotation": "File.getDefaultDir" },
 
-		{ "trigger": "File.setDefaultDir", "contents": "File.setDefaultDir(${1:directoryPath})",  "annotation": "File.setDefaultDir(directoryPath)" },
+		{ "trigger": "File.setDefaultDir", "contents": "File.setDefaultDir(${1:directoryPath});", "annotation": "File.setDefaultDir(directoryPath)" },
 
-		{ "trigger": "File.getParent", "contents": "File.getParent(${1:path})",  "annotation": "File.getParent(path)" },
+		{ "trigger": "File.getParent", "contents": "File.getParent(${1:path});", "annotation": "File.getParent(path)" },
 
-		{ "trigger": "File.isFile", "contents": "File.isFile(${1:path})",  "annotation": "File.isFile(path)" },
+		{ "trigger": "File.isFile", "contents": "File.isFile(${1:path});", "annotation": "File.isFile(path)" },
 
-		{ "trigger": "File.isDirectory", "contents": "File.isDirectory(${1:path})",  "annotation": "File.isDirectory(path)" },
+		{ "trigger": "File.isDirectory", "contents": "File.isDirectory(${1:path});", "annotation": "File.isDirectory(path)" },
 
-		{ "trigger": "File.lastModified", "contents": "File.lastModified(${1:path})",  "annotation": "File.lastModified(path)" },
+		{ "trigger": "File.lastModified", "contents": "File.lastModified(${1:path});", "annotation": "File.lastModified(path)" },
 
-		{ "trigger": "File.length", "contents": "File.length(${1:path})",  "annotation": "File.length(path)" },
+		{ "trigger": "File.length", "contents": "File.length(${1:path});", "annotation": "File.length(path)" },
 
-		{ "trigger": "File.makeDirectory", "contents": "File.makeDirectory(${1:path})",  "annotation": "File.makeDirectory(path)" },
+		{ "trigger": "File.makeDirectory", "contents": "File.makeDirectory(${1:path});", "annotation": "File.makeDirectory(path)" },
 
-		{ "trigger": "File.name", "contents": "File.name()",  "annotation": "File.name" },
+		{ "trigger": "File.name", "contents": "File.name();", "annotation": "File.name" },
 
-		{ "trigger": "File.nameWithoutExtension", "contents": "File.nameWithoutExtension()",  "annotation": "File.nameWithoutExtension" },
+		{ "trigger": "File.nameWithoutExtension", "contents": "File.nameWithoutExtension();", "annotation": "File.nameWithoutExtension" },
 
-		{ "trigger": "File.open", "contents": "File.open(${1:path})",  "annotation": "File.open(path)" },
+		{ "trigger": "File.open", "contents": "File.open(${1:path});", "annotation": "File.open(path)" },
 
-		{ "trigger": "File.openAsString", "contents": "File.openAsString(${1:path})",  "annotation": "File.openAsString(path)" },
+		{ "trigger": "File.openAsString", "contents": "File.openAsString(${1:path});", "annotation": "File.openAsString(path)" },
 
-		{ "trigger": "File.openAsRawString", "contents": "File.openAsRawString(${1:path})",  "annotation": "File.openAsRawString(path)" },
+		{ "trigger": "File.openAsRawString", "contents": "File.openAsRawString(${1:path});", "annotation": "File.openAsRawString(path)" },
 
-		{ "trigger": "File.openAsRawString", "contents": "File.openAsRawString(${1:path}, ${2:count})",  "annotation": "File.openAsRawString(path, count)" },
+		{ "trigger": "File.openAsRawString", "contents": "File.openAsRawString(${1:path}, ${2:count});", "annotation": "File.openAsRawString(path, count)" },
 
-		{ "trigger": "File.openUrlAsString", "contents": "File.openUrlAsString(${1:url})",  "annotation": "File.openUrlAsString(url)" },
+		{ "trigger": "File.openUrlAsString", "contents": "File.openUrlAsString(${1:url});", "annotation": "File.openUrlAsString(url)" },
 
-		{ "trigger": "File.openSequence", "contents": "File.openSequence(${1:path}, ${2:options})",  "annotation": "File.openSequence(path, options)" },
+		{ "trigger": "File.openSequence", "contents": "File.openSequence(${1:path}, ${2:options});", "annotation": "File.openSequence(path, options)" },
 
-		{ "trigger": "File.openDialog", "contents": "File.openDialog(${1:title})",  "annotation": "File.openDialog(title)" },
+		{ "trigger": "File.openDialog", "contents": "File.openDialog(${1:title});", "annotation": "File.openDialog(title)" },
 
-		{ "trigger": "File.rename", "contents": "File.rename(${1:path1}, ${2:path2})",  "annotation": "File.rename(path1, path2)" },
+		{ "trigger": "File.rename", "contents": "File.rename(${1:path1}, ${2:path2});", "annotation": "File.rename(path1, path2)" },
 
-		{ "trigger": "File.saveString", "contents": "File.saveString(${1:string}, ${2:path})",  "annotation": "File.saveString(string, path)" },
+		{ "trigger": "File.saveString", "contents": "File.saveString(${1:string}, ${2:path});", "annotation": "File.saveString(string, path)" },
 
-		{ "trigger": "File.separator", "contents": "File.separator()",  "annotation": "File.separator" },
+		{ "trigger": "File.separator", "contents": "File.separator();", "annotation": "File.separator" },
 
-		{ "trigger": "fill", "contents": "fill()",  "annotation": "fill()" },
+		{ "trigger": "fill", "contents": "fill();", "annotation": "fill()" },
 
-		{ "trigger": "fillOval", "contents": "fillOval(${1:x}, ${2:y}, ${3:width}, ${4:height})",  "annotation": "fillOval(x, y, width, height)" },
+		{ "trigger": "fillOval", "contents": "fillOval(${1:x}, ${2:y}, ${3:width}, ${4:height});", "annotation": "fillOval(x, y, width, height)" },
 
-		{ "trigger": "fillRect", "contents": "fillRect(${1:x}, ${2:y}, ${3:width}, ${4:height})",  "annotation": "fillRect(x, y, width, height)" },
+		{ "trigger": "fillRect", "contents": "fillRect(${1:x}, ${2:y}, ${3:width}, ${4:height});", "annotation": "fillRect(x, y, width, height)" },
 
-		{ "trigger": "Fit.doFit", "contents": "Fit.doFit(${1:equation}, ${2:xpoints}, ${3:ypoints})",  "annotation": "Fit.doFit(equation, xpoints, ypoints)" },
+		{ "trigger": "Fit.doFit", "contents": "Fit.doFit(${1:equation}, ${2:xpoints}, ${3:ypoints});", "annotation": "Fit.doFit(equation, xpoints, ypoints)" },
 
-		{ "trigger": "Fit.doFit", "contents": "Fit.doFit(${1:equation}, ${2:xpoints}, ${3:ypoints}, ${4:initialGuesses})",  "annotation": "Fit.doFit(equation, xpoints, ypoints, initialGuesses)" },
+		{ "trigger": "Fit.doFit", "contents": "Fit.doFit(${1:equation}, ${2:xpoints}, ${3:ypoints}, ${4:initialGuesses});", "annotation": "Fit.doFit(equation, xpoints, ypoints, initialGuesses)" },
 
-		{ "trigger": "Fit.doWeightedFit", "contents": "Fit.doWeightedFit(${1:equation}, ${2:xpoints}, ${3:ypoints}, ${4:weights}, ${5:initialGuesses})",  "annotation": "Fit.doWeightedFit(equation, xpoints, ypoints, weights, initialGuesses)" },
+		{ "trigger": "Fit.doWeightedFit", "contents": "Fit.doWeightedFit(${1:equation}, ${2:xpoints}, ${3:ypoints}, ${4:weights}, ${5:initialGuesses});", "annotation": "Fit.doWeightedFit(equation, xpoints, ypoints, weights, initialGuesses)" },
 
-		{ "trigger": "Fit.rSquared", "contents": "Fit.rSquared()",  "annotation": "Fit.rSquared" },
+		{ "trigger": "Fit.rSquared", "contents": "Fit.rSquared();", "annotation": "Fit.rSquared" },
 
-		{ "trigger": "Fit.p", "contents": "Fit.p(${1:index})",  "annotation": "Fit.p(index)" },
+		{ "trigger": "Fit.p", "contents": "Fit.p(${1:index});", "annotation": "Fit.p(index)" },
 
-		{ "trigger": "Fit.nParams", "contents": "Fit.nParams()",  "annotation": "Fit.nParams" },
+		{ "trigger": "Fit.nParams", "contents": "Fit.nParams();", "annotation": "Fit.nParams" },
 
-		{ "trigger": "Fit.f", "contents": "Fit.f(${1:x})",  "annotation": "Fit.f(x)" },
+		{ "trigger": "Fit.f", "contents": "Fit.f(${1:x});", "annotation": "Fit.f(x)" },
 
-		{ "trigger": "Fit.nEquations", "contents": "Fit.nEquations()",  "annotation": "Fit.nEquations" },
+		{ "trigger": "Fit.nEquations", "contents": "Fit.nEquations();", "annotation": "Fit.nEquations" },
 
-		{ "trigger": "Fit.getEquation", "contents": "Fit.getEquation(${1:index}, ${2:name}, ${3:formula})",  "annotation": "Fit.getEquation(index, name, formula)" },
+		{ "trigger": "Fit.getEquation", "contents": "Fit.getEquation(${1:index}, ${2:name}, ${3:formula});", "annotation": "Fit.getEquation(index, name, formula)" },
 
-		{ "trigger": "Fit.getEquation", "contents": "Fit.getEquation(${1:index}, ${2:name}, ${3:formula}, ${4:macroCode})",  "annotation": "Fit.getEquation(index, name, formula, macroCode)" },
+		{ "trigger": "Fit.getEquation", "contents": "Fit.getEquation(${1:index}, ${2:name}, ${3:formula}, ${4:macroCode});", "annotation": "Fit.getEquation(index, name, formula, macroCode)" },
 
-		{ "trigger": "Fit.plot", "contents": "Fit.plot()",  "annotation": "Fit.plot" },
+		{ "trigger": "Fit.plot", "contents": "Fit.plot();", "annotation": "Fit.plot" },
 
-		{ "trigger": "Fit.logResults", "contents": "Fit.logResults()",  "annotation": "Fit.logResults" },
+		{ "trigger": "Fit.logResults", "contents": "Fit.logResults();", "annotation": "Fit.logResults" },
 
-		{ "trigger": "Fit.showDialog", "contents": "Fit.showDialog()",  "annotation": "Fit.showDialog" },
+		{ "trigger": "Fit.showDialog", "contents": "Fit.showDialog();", "annotation": "Fit.showDialog" },
 
-		{ "trigger": "floodFill", "contents": "floodFill(${1:x}, ${2:y})",  "annotation": "floodFill(x, y)" },
+		{ "trigger": "floodFill", "contents": "floodFill(${1:x}, ${2:y});", "annotation": "floodFill(x, y)" },
 
-		{ "trigger": "floor", "contents": "floor(${1:n})",  "annotation": "floor(n)" },
+		{ "trigger": "floor", "contents": "floor(${1:n});", "annotation": "floor(n)" },
 
-		{ "trigger": "fromCharCode", "contents": "fromCharCode(${1:value1}, ${2:...}, ${3:valueN})",  "annotation": "fromCharCode(value1,...,valueN)" },
+		{ "trigger": "fromCharCode", "contents": "fromCharCode(${1:value1}, ${2:...}, ${3:valueN});", "annotation": "fromCharCode(value1,...,valueN)" },
 
-		{ "trigger": "getArgument", "contents": "getArgument()",  "annotation": "getArgument()" },
+		{ "trigger": "getArgument", "contents": "getArgument();", "annotation": "getArgument()" },
 
-		{ "trigger": "getBoolean", "contents": "getBoolean(${1:\"message\"})",  "annotation": "getBoolean(\"message\")" },
+		{ "trigger": "getBoolean", "contents": "getBoolean(${1:\"message\"});", "annotation": "getBoolean(\"message\")" },
 
-		{ "trigger": "getBoolean", "contents": "getBoolean(${1:message}, ${2:yesLabel}, ${3:noLabel})",  "annotation": "getBoolean(message, yesLabel, noLabel)" },
+		{ "trigger": "getBoolean", "contents": "getBoolean(${1:message}, ${2:yesLabel}, ${3:noLabel});", "annotation": "getBoolean(message, yesLabel, noLabel)" },
 
-		{ "trigger": "getBoundingRect", "contents": "getBoundingRect(${1:x}, ${2:y}, ${3:width}, ${4:height})",  "annotation": "getBoundingRect(x, y, width, height)" },
+		{ "trigger": "getBoundingRect", "contents": "getBoundingRect(${1:x}, ${2:y}, ${3:width}, ${4:height});", "annotation": "getBoundingRect(x, y, width, height)" },
 
-		{ "trigger": "getCursorLoc", "contents": "getCursorLoc(${1:x}, ${2:y}, ${3:z}, ${4:modifiers})",  "annotation": "getCursorLoc(x, y, z, modifiers)" },
+		{ "trigger": "getCursorLoc", "contents": "getCursorLoc(${1:x}, ${2:y}, ${3:z}, ${4:modifiers});", "annotation": "getCursorLoc(x, y, z, modifiers)" },
 
-		{ "trigger": "getDateAndTime", "contents": "getDateAndTime(${1:year}, ${2:month}, ${3:dayOfWeek}, ${4:dayOfMonth}, ${5:hour}, ${6:minute}, ${7:second}, ${8:msec})",  "annotation": "getDateAndTime(year, month, dayOfWeek, dayOfMonth, hour, minute, second, msec)" },
+		{ "trigger": "getDateAndTime", "contents": "getDateAndTime(${1:year}, ${2:month}, ${3:dayOfWeek}, ${4:dayOfMonth}, ${5:hour}, ${6:minute}, ${7:second}, ${8:msec});", "annotation": "getDateAndTime(year, month, dayOfWeek, dayOfMonth, hour, minute, second, msec)" },
 
-		{ "trigger": "getDimensions", "contents": "getDimensions(${1:width}, ${2:height}, ${3:channels}, ${4:slices}, ${5:frames})",  "annotation": "getDimensions(width, height, channels, slices, frames)" },
+		{ "trigger": "getDimensions", "contents": "getDimensions(${1:width}, ${2:height}, ${3:channels}, ${4:slices}, ${5:frames});", "annotation": "getDimensions(width, height, channels, slices, frames)" },
 
-		{ "trigger": "getDirectory", "contents": "getDirectory(${1:string})",  "annotation": "getDirectory(string)" },
+		{ "trigger": "getDirectory", "contents": "getDirectory(${1:string});", "annotation": "getDirectory(string)" },
 
-		{ "trigger": "getDir", "contents": "getDir(${1:\"Choose}, ${2:a}, ${3:Directory\"})",  "annotation": "getDir(\"Choose a Directory\")" },
+		{ "trigger": "getDir", "contents": "getDir(${1:\"Choose}, ${2:a}, ${3:Directory\"});", "annotation": "getDir(\"Choose a Directory\")" },
 
-		{ "trigger": "getDir", "contents": "getDir(${1:\"downloads\"})",  "annotation": "getDir(\"downloads\")" },
+		{ "trigger": "getDir", "contents": "getDir(${1:\"downloads\"});", "annotation": "getDir(\"downloads\")" },
 
-		{ "trigger": "getDir", "contents": "getDir(${1:\"file\"})",  "annotation": "getDir(\"file\")" },
+		{ "trigger": "getDir", "contents": "getDir(${1:\"file\"});", "annotation": "getDir(\"file\")" },
 
-		{ "trigger": "getDir", "contents": "getDir(${1:\"home\"})",  "annotation": "getDir(\"home\")" },
+		{ "trigger": "getDir", "contents": "getDir(${1:\"home\"});", "annotation": "getDir(\"home\")" },
 
-		{ "trigger": "getDir", "contents": "getDir(${1:\"image\"})",  "annotation": "getDir(\"image\")" },
+		{ "trigger": "getDir", "contents": "getDir(${1:\"image\"});", "annotation": "getDir(\"image\")" },
 
-		{ "trigger": "getDir", "contents": "getDir(${1:\"imagej\"})",  "annotation": "getDir(\"imagej\")" },
+		{ "trigger": "getDir", "contents": "getDir(${1:\"imagej\"});", "annotation": "getDir(\"imagej\")" },
 
-		{ "trigger": "getDir", "contents": "getDir(${1:\"luts\"})",  "annotation": "getDir(\"luts\")" },
+		{ "trigger": "getDir", "contents": "getDir(${1:\"luts\"});", "annotation": "getDir(\"luts\")" },
 
-		{ "trigger": "getDir", "contents": "getDir(${1:\"macros\"})",  "annotation": "getDir(\"macros\")" },
+		{ "trigger": "getDir", "contents": "getDir(${1:\"macros\"});", "annotation": "getDir(\"macros\")" },
 
-		{ "trigger": "getDir", "contents": "getDir(${1:\"plugins\"})",  "annotation": "getDir(\"plugins\")" },
+		{ "trigger": "getDir", "contents": "getDir(${1:\"plugins\"});", "annotation": "getDir(\"plugins\")" },
 
-		{ "trigger": "getDir", "contents": "getDir(${1:\"startup\"})",  "annotation": "getDir(\"startup\")" },
+		{ "trigger": "getDir", "contents": "getDir(${1:\"startup\"});", "annotation": "getDir(\"startup\")" },
 
-		{ "trigger": "getDir", "contents": "getDir(${1:\"temp\"})",  "annotation": "getDir(\"temp\")" },
+		{ "trigger": "getDir", "contents": "getDir(${1:\"temp\"});", "annotation": "getDir(\"temp\")" },
 
-		{ "trigger": "getDir", "contents": "getDir(${1:\"cwd\"})",  "annotation": "getDir(\"cwd\")" },
+		{ "trigger": "getDir", "contents": "getDir(${1:\"cwd\"});", "annotation": "getDir(\"cwd\")" },
 
-		{ "trigger": "getDir", "contents": "getDir(${1:\"preferences\"})",  "annotation": "getDir(\"preferences\")" },
+		{ "trigger": "getDir", "contents": "getDir(${1:\"preferences\"});", "annotation": "getDir(\"preferences\")" },
 
-		{ "trigger": "getDisplayedArea", "contents": "getDisplayedArea(${1:x}, ${2:y}, ${3:width}, ${4:height})",  "annotation": "getDisplayedArea(x, y, width, height)" },
+		{ "trigger": "getDisplayedArea", "contents": "getDisplayedArea(${1:x}, ${2:y}, ${3:width}, ${4:height});", "annotation": "getDisplayedArea(x, y, width, height)" },
 
-		{ "trigger": "getFileList", "contents": "getFileList(${1:directory})",  "annotation": "getFileList(directory)" },
+		{ "trigger": "getFileList", "contents": "getFileList(${1:directory});", "annotation": "getFileList(directory)" },
 
-		{ "trigger": "getFontList", "contents": "getFontList()",  "annotation": "getFontList()" },
+		{ "trigger": "getFontList", "contents": "getFontList();", "annotation": "getFontList()" },
 
-		{ "trigger": "getHeight", "contents": "getHeight()",  "annotation": "getHeight()" },
+		{ "trigger": "getHeight", "contents": "getHeight();", "annotation": "getHeight()" },
 
-		{ "trigger": "getHistogram", "contents": "getHistogram(${1:values}, ${2:counts}, ${3:nBins[}, ${4:histMin}, ${5:histMax]})",  "annotation": "getHistogram(values, counts, nBins[, histMin, histMax])" },
+		{ "trigger": "getHistogram", "contents": "getHistogram(${1:values}, ${2:counts}, ${3:nBins[}, ${4:histMin}, ${5:histMax]});", "annotation": "getHistogram(values, counts, nBins[, histMin, histMax])" },
 
-		{ "trigger": "getImageID", "contents": "getImageID()",  "annotation": "getImageID()" },
+		{ "trigger": "getImageID", "contents": "getImageID();", "annotation": "getImageID()" },
 
-		{ "trigger": "getImageInfo", "contents": "getImageInfo()",  "annotation": "getImageInfo()" },
+		{ "trigger": "getImageInfo", "contents": "getImageInfo();", "annotation": "getImageInfo()" },
 
-		{ "trigger": "getInfo", "contents": "getInfo(${1:\"command.name\"})",  "annotation": "getInfo(\"command.name\")" },
+		{ "trigger": "getInfo", "contents": "getInfo(${1:\"command.name\"});", "annotation": "getInfo(\"command.name\")" },
 
-		{ "trigger": "getInfo", "contents": "getInfo(${1:DICOM_TAG})",  "annotation": "getInfo(DICOM_TAG)" },
+		{ "trigger": "getInfo", "contents": "getInfo(${1:DICOM_TAG});", "annotation": "getInfo(DICOM_TAG)" },
 
-		{ "trigger": "getInfo", "contents": "getInfo(${1:\"font.name\"})",  "annotation": "getInfo(\"font.name\")" },
+		{ "trigger": "getInfo", "contents": "getInfo(${1:\"font.name\"});", "annotation": "getInfo(\"font.name\")" },
 
-		{ "trigger": "getInfo", "contents": "getInfo(${1:\"image.description\"})",  "annotation": "getInfo(\"image.description\")" },
+		{ "trigger": "getInfo", "contents": "getInfo(${1:\"image.description\"});", "annotation": "getInfo(\"image.description\")" },
 
-		{ "trigger": "getInfo", "contents": "getInfo(${1:\"image.directory\"})",  "annotation": "getInfo(\"image.directory\")" },
+		{ "trigger": "getInfo", "contents": "getInfo(${1:\"image.directory\"});", "annotation": "getInfo(\"image.directory\")" },
 
-		{ "trigger": "getInfo", "contents": "getInfo(${1:\"image.filename\"})",  "annotation": "getInfo(\"image.filename\")" },
+		{ "trigger": "getInfo", "contents": "getInfo(${1:\"image.filename\"});", "annotation": "getInfo(\"image.filename\")" },
 
-		{ "trigger": "getInfo", "contents": "getInfo(${1:\"image.title\"})",  "annotation": "getInfo(\"image.title\")" },
+		{ "trigger": "getInfo", "contents": "getInfo(${1:\"image.title\"});", "annotation": "getInfo(\"image.title\")" },
 
-		{ "trigger": "getInfo", "contents": "getInfo(${1:\"image.subtitle\"})",  "annotation": "getInfo(\"image.subtitle\")" },
+		{ "trigger": "getInfo", "contents": "getInfo(${1:\"image.subtitle\"});", "annotation": "getInfo(\"image.subtitle\")" },
 
-		{ "trigger": "getInfo", "contents": "getInfo(${1:\"log\"})",  "annotation": "getInfo(\"log\")" },
+		{ "trigger": "getInfo", "contents": "getInfo(${1:\"log\"});", "annotation": "getInfo(\"log\")" },
 
-		{ "trigger": "getInfo", "contents": "getInfo(${1:\"macro.filepath\"})",  "annotation": "getInfo(\"macro.filepath\")" },
+		{ "trigger": "getInfo", "contents": "getInfo(${1:\"macro.filepath\"});", "annotation": "getInfo(\"macro.filepath\")" },
 
-		{ "trigger": "getInfo", "contents": "getInfo(${1:\"micrometer.abbreviation\"})",  "annotation": "getInfo(\"micrometer.abbreviation\")" },
+		{ "trigger": "getInfo", "contents": "getInfo(${1:\"micrometer.abbreviation\"});", "annotation": "getInfo(\"micrometer.abbreviation\")" },
 
-		{ "trigger": "getInfo", "contents": "getInfo(${1:\"os.name\"})",  "annotation": "getInfo(\"os.name\")" },
+		{ "trigger": "getInfo", "contents": "getInfo(${1:\"os.name\"});", "annotation": "getInfo(\"os.name\")" },
 
-		{ "trigger": "getInfo", "contents": "getInfo(${1:\"overlay\"})",  "annotation": "getInfo(\"overlay\")" },
+		{ "trigger": "getInfo", "contents": "getInfo(${1:\"overlay\"});", "annotation": "getInfo(\"overlay\")" },
 
-		{ "trigger": "getInfo", "contents": "getInfo(${1:\"selection.name\"})",  "annotation": "getInfo(\"selection.name\")" },
+		{ "trigger": "getInfo", "contents": "getInfo(${1:\"selection.name\"});", "annotation": "getInfo(\"selection.name\")" },
 
-		{ "trigger": "getInfo", "contents": "getInfo(${1:\"selection.color\"})",  "annotation": "getInfo(\"selection.color\")" },
+		{ "trigger": "getInfo", "contents": "getInfo(${1:\"selection.color\"});", "annotation": "getInfo(\"selection.color\")" },
 
-		{ "trigger": "getInfo", "contents": "getInfo(${1:\"slice.label\"})",  "annotation": "getInfo(\"slice.label\")" },
+		{ "trigger": "getInfo", "contents": "getInfo(${1:\"slice.label\"});", "annotation": "getInfo(\"slice.label\")" },
 
-		{ "trigger": "getInfo", "contents": "getInfo(${1:\"threshold.method\"})",  "annotation": "getInfo(\"threshold.method\")" },
+		{ "trigger": "getInfo", "contents": "getInfo(${1:\"threshold.method\"});", "annotation": "getInfo(\"threshold.method\")" },
 
-		{ "trigger": "getInfo", "contents": "getInfo(${1:\"threshold.mode\"})",  "annotation": "getInfo(\"threshold.mode\")" },
+		{ "trigger": "getInfo", "contents": "getInfo(${1:\"threshold.mode\"});", "annotation": "getInfo(\"threshold.mode\")" },
 
-		{ "trigger": "getInfo", "contents": "getInfo(${1:\"window.contents\"})",  "annotation": "getInfo(\"window.contents\")" },
+		{ "trigger": "getInfo", "contents": "getInfo(${1:\"window.contents\"});", "annotation": "getInfo(\"window.contents\")" },
 
-		{ "trigger": "getInfo", "contents": "getInfo(${1:\"window.title\"})",  "annotation": "getInfo(\"window.title\")" },
+		{ "trigger": "getInfo", "contents": "getInfo(${1:\"window.title\"});", "annotation": "getInfo(\"window.title\")" },
 
-		{ "trigger": "getInfo", "contents": "getInfo(${1:\"window.type\"})",  "annotation": "getInfo(\"window.type\")" },
+		{ "trigger": "getInfo", "contents": "getInfo(${1:\"window.type\"});", "annotation": "getInfo(\"window.type\")" },
 
-		{ "trigger": "getInfo", "contents": "getInfo(${1:key})",  "annotation": "getInfo(key)" },
+		{ "trigger": "getInfo", "contents": "getInfo(${1:key});", "annotation": "getInfo(key)" },
 
-		{ "trigger": "getLine", "contents": "getLine(${1:x1}, ${2:y1}, ${3:x2}, ${4:y2}, ${5:lineWidth})",  "annotation": "getLine(x1, y1, x2, y2, lineWidth)" },
+		{ "trigger": "getLine", "contents": "getLine(${1:x1}, ${2:y1}, ${3:x2}, ${4:y2}, ${5:lineWidth});", "annotation": "getLine(x1, y1, x2, y2, lineWidth)" },
 
-		{ "trigger": "getList", "contents": "getList(${1:\"image.titles\"})",  "annotation": "getList(\"image.titles\")" },
+		{ "trigger": "getList", "contents": "getList(${1:\"image.titles\"});", "annotation": "getList(\"image.titles\")" },
 
-		{ "trigger": "getList", "contents": "getList(${1:\"window.titles\"})",  "annotation": "getList(\"window.titles\")" },
+		{ "trigger": "getList", "contents": "getList(${1:\"window.titles\"});", "annotation": "getList(\"window.titles\")" },
 
-		{ "trigger": "getList", "contents": "getList(${1:\"java.properties\"})",  "annotation": "getList(\"java.properties\")" },
+		{ "trigger": "getList", "contents": "getList(${1:\"java.properties\"});", "annotation": "getList(\"java.properties\")" },
 
-		{ "trigger": "getList", "contents": "getList(${1:\"threshold.methods\"})",  "annotation": "getList(\"threshold.methods\")" },
+		{ "trigger": "getList", "contents": "getList(${1:\"threshold.methods\"});", "annotation": "getList(\"threshold.methods\")" },
 
-		{ "trigger": "getList", "contents": "getList(${1:\"LUTs\"})",  "annotation": "getList(\"LUTs\")" },
+		{ "trigger": "getList", "contents": "getList(${1:\"LUTs\"});", "annotation": "getList(\"LUTs\")" },
 
-		{ "trigger": "getLocationAndSize", "contents": "getLocationAndSize(${1:x}, ${2:y}, ${3:width}, ${4:height})",  "annotation": "getLocationAndSize(x, y, width, height)" },
+		{ "trigger": "getLocationAndSize", "contents": "getLocationAndSize(${1:x}, ${2:y}, ${3:width}, ${4:height});", "annotation": "getLocationAndSize(x, y, width, height)" },
 
-		{ "trigger": "getLut", "contents": "getLut(${1:reds}, ${2:greens}, ${3:blues})",  "annotation": "getLut(reds, greens, blues)" },
+		{ "trigger": "getLut", "contents": "getLut(${1:reds}, ${2:greens}, ${3:blues});", "annotation": "getLut(reds, greens, blues)" },
 
-		{ "trigger": "getMetadata", "contents": "getMetadata(${1:\"Info\"})",  "annotation": "getMetadata(\"Info\")" },
+		{ "trigger": "getMetadata", "contents": "getMetadata(${1:\"Info\"});", "annotation": "getMetadata(\"Info\")" },
 
-		{ "trigger": "getMetadata", "contents": "getMetadata(${1:\"Label\"})",  "annotation": "getMetadata(\"Label\")" },
+		{ "trigger": "getMetadata", "contents": "getMetadata(${1:\"Label\"});", "annotation": "getMetadata(\"Label\")" },
 
-		{ "trigger": "getMinAndMax", "contents": "getMinAndMax(${1:min}, ${2:max})",  "annotation": "getMinAndMax(min, max)" },
+		{ "trigger": "getMinAndMax", "contents": "getMinAndMax(${1:min}, ${2:max});", "annotation": "getMinAndMax(min, max)" },
 
-		{ "trigger": "getNumber", "contents": "getNumber(${1:\"prompt\"}, ${2:defaultValue})",  "annotation": "getNumber(\"prompt\", defaultValue)" },
+		{ "trigger": "getNumber", "contents": "getNumber(${1:\"prompt\"}, ${2:defaultValue});", "annotation": "getNumber(\"prompt\", defaultValue)" },
 
-		{ "trigger": "getPixel", "contents": "getPixel(${1:x}, ${2:y})",  "annotation": "getPixel(x, y)" },
+		{ "trigger": "getPixel", "contents": "getPixel(${1:x}, ${2:y});", "annotation": "getPixel(x, y)" },
 
-		{ "trigger": "getPixelSize", "contents": "getPixelSize(${1:unit}, ${2:pixelWidth}, ${3:pixelHeight})",  "annotation": "getPixelSize(unit, pixelWidth, pixelHeight)" },
+		{ "trigger": "getPixelSize", "contents": "getPixelSize(${1:unit}, ${2:pixelWidth}, ${3:pixelHeight});", "annotation": "getPixelSize(unit, pixelWidth, pixelHeight)" },
 
-		{ "trigger": "getProfile", "contents": "getProfile()",  "annotation": "getProfile()" },
+		{ "trigger": "getProfile", "contents": "getProfile();", "annotation": "getProfile()" },
 
-		{ "trigger": "getRawStatistics", "contents": "getRawStatistics(${1:nPixels}, ${2:mean}, ${3:min}, ${4:max}, ${5:std}, ${6:histogram})",  "annotation": "getRawStatistics(nPixels, mean, min, max, std, histogram)" },
+		{ "trigger": "getRawStatistics", "contents": "getRawStatistics(${1:nPixels}, ${2:mean}, ${3:min}, ${4:max}, ${5:std}, ${6:histogram});", "annotation": "getRawStatistics(nPixels, mean, min, max, std, histogram)" },
 
-		{ "trigger": "getResult", "contents": "getResult(${1:\"Column\"}, ${2:row})",  "annotation": "getResult(\"Column\", row)" },
+		{ "trigger": "getResult", "contents": "getResult(${1:\"Column\"}, ${2:row});", "annotation": "getResult(\"Column\", row)" },
 
-		{ "trigger": "getResultString", "contents": "getResultString(${1:\"Column\"}, ${2:row})",  "annotation": "getResultString(\"Column\", row)" },
+		{ "trigger": "getResultString", "contents": "getResultString(${1:\"Column\"}, ${2:row});", "annotation": "getResultString(\"Column\", row)" },
 
-		{ "trigger": "getResultLabel", "contents": "getResultLabel(${1:row})",  "annotation": "getResultLabel(row)" },
+		{ "trigger": "getResultLabel", "contents": "getResultLabel(${1:row});", "annotation": "getResultLabel(row)" },
 
-		{ "trigger": "getSelectionBounds", "contents": "getSelectionBounds(${1:x}, ${2:y}, ${3:width}, ${4:height})",  "annotation": "getSelectionBounds(x, y, width, height)" },
+		{ "trigger": "getSelectionBounds", "contents": "getSelectionBounds(${1:x}, ${2:y}, ${3:width}, ${4:height});", "annotation": "getSelectionBounds(x, y, width, height)" },
 
-		{ "trigger": "getSelectionCoordinates", "contents": "getSelectionCoordinates(${1:xpoints}, ${2:ypoints})",  "annotation": "getSelectionCoordinates(xpoints, ypoints)" },
+		{ "trigger": "getSelectionCoordinates", "contents": "getSelectionCoordinates(${1:xpoints}, ${2:ypoints});", "annotation": "getSelectionCoordinates(xpoints, ypoints)" },
 
-		{ "trigger": "getSliceNumber", "contents": "getSliceNumber()",  "annotation": "getSliceNumber()" },
+		{ "trigger": "getSliceNumber", "contents": "getSliceNumber();", "annotation": "getSliceNumber()" },
 
-		{ "trigger": "getStatistics", "contents": "getStatistics(${1:area}, ${2:mean}, ${3:min}, ${4:max}, ${5:std}, ${6:histogram})",  "annotation": "getStatistics(area, mean, min, max, std, histogram)" },
+		{ "trigger": "getStatistics", "contents": "getStatistics(${1:area}, ${2:mean}, ${3:min}, ${4:max}, ${5:std}, ${6:histogram});", "annotation": "getStatistics(area, mean, min, max, std, histogram)" },
 
-		{ "trigger": "getString", "contents": "getString(${1:\"prompt\"}, ${2:\"default\"})",  "annotation": "getString(\"prompt\", \"default\")" },
+		{ "trigger": "getString", "contents": "getString(${1:\"prompt\"}, ${2:\"default\"});", "annotation": "getString(\"prompt\", \"default\")" },
 
-		{ "trigger": "getStringWidth", "contents": "getStringWidth(${1:string})",  "annotation": "getStringWidth(string)" },
+		{ "trigger": "getStringWidth", "contents": "getStringWidth(${1:string});", "annotation": "getStringWidth(string)" },
 
-		{ "trigger": "getThreshold", "contents": "getThreshold(${1:lower}, ${2:upper})",  "annotation": "getThreshold(lower, upper)" },
+		{ "trigger": "getThreshold", "contents": "getThreshold(${1:lower}, ${2:upper});", "annotation": "getThreshold(lower, upper)" },
 
-		{ "trigger": "getTime", "contents": "getTime()",  "annotation": "getTime()" },
+		{ "trigger": "getTime", "contents": "getTime();", "annotation": "getTime()" },
 
-		{ "trigger": "getTitle", "contents": "getTitle()",  "annotation": "getTitle()" },
+		{ "trigger": "getTitle", "contents": "getTitle();", "annotation": "getTitle()" },
 
-		{ "trigger": "getValue", "contents": "getValue(${1:x}, ${2:y})",  "annotation": "getValue(x, y)" },
+		{ "trigger": "getValue", "contents": "getValue(${1:x}, ${2:y});", "annotation": "getValue(x, y)" },
 
-		{ "trigger": "getValue", "contents": "getValue(${1:\"color.foreground\"})",  "annotation": "getValue(\"color.foreground\")" },
+		{ "trigger": "getValue", "contents": "getValue(${1:\"color.foreground\"});", "annotation": "getValue(\"color.foreground\")" },
 
-		{ "trigger": "getValue", "contents": "getValue(${1:\"color.background\"})",  "annotation": "getValue(\"color.background\")" },
+		{ "trigger": "getValue", "contents": "getValue(${1:\"color.background\"});", "annotation": "getValue(\"color.background\")" },
 
-		{ "trigger": "getValue", "contents": "getValue(${1:\"rgb.foreground\"})",  "annotation": "getValue(\"rgb.foreground\")" },
+		{ "trigger": "getValue", "contents": "getValue(${1:\"rgb.foreground\"});", "annotation": "getValue(\"rgb.foreground\")" },
 
-		{ "trigger": "getValue", "contents": "getValue(${1:\"rgb.background\"})",  "annotation": "getValue(\"rgb.background\")" },
+		{ "trigger": "getValue", "contents": "getValue(${1:\"rgb.background\"});", "annotation": "getValue(\"rgb.background\")" },
 
-		{ "trigger": "getValue", "contents": "getValue(${1:\"font.size\"})",  "annotation": "getValue(\"font.size\")" },
+		{ "trigger": "getValue", "contents": "getValue(${1:\"font.size\"});", "annotation": "getValue(\"font.size\")" },
 
-		{ "trigger": "getValue", "contents": "getValue(${1:\"font.height\"})",  "annotation": "getValue(\"font.height\")" },
+		{ "trigger": "getValue", "contents": "getValue(${1:\"font.height\"});", "annotation": "getValue(\"font.height\")" },
 
-		{ "trigger": "getValue", "contents": "getValue(${1:\"selection.size\"})",  "annotation": "getValue(\"selection.size\")" },
+		{ "trigger": "getValue", "contents": "getValue(${1:\"selection.size\"});", "annotation": "getValue(\"selection.size\")" },
 
-		{ "trigger": "getValue", "contents": "getValue(${1:\"selection.width\"})",  "annotation": "getValue(\"selection.width\")" },
+		{ "trigger": "getValue", "contents": "getValue(${1:\"selection.width\"});", "annotation": "getValue(\"selection.width\")" },
 
-		{ "trigger": "getValue", "contents": "getValue(${1:\"results.count\"})",  "annotation": "getValue(\"results.count\")" },
+		{ "trigger": "getValue", "contents": "getValue(${1:\"results.count\"});", "annotation": "getValue(\"results.count\")" },
 
-		{ "trigger": "getValue", "contents": "getValue(${1:\"rotation.angle\"})",  "annotation": "getValue(\"rotation.angle\")" },
+		{ "trigger": "getValue", "contents": "getValue(${1:\"rotation.angle\"});", "annotation": "getValue(\"rotation.angle\")" },
 
-		{ "trigger": "getValue", "contents": "getValue(${1:\"image.size\"})",  "annotation": "getValue(\"image.size\")" },
+		{ "trigger": "getValue", "contents": "getValue(${1:\"image.size\"});", "annotation": "getValue(\"image.size\")" },
 
-		{ "trigger": "getValue", "contents": "getValue(${1:\"Mean}, ${2:Median}, ${3:Feret}, ${4:etc.\"})",  "annotation": "getValue(\"Mean, Median, Feret, etc.\")" },
+		{ "trigger": "getValue", "contents": "getValue(${1:\"Mean}, ${2:Median}, ${3:Feret}, ${4:etc.\"});", "annotation": "getValue(\"Mean, Median, Feret, etc.\")" },
 
-		{ "trigger": "getVoxelSize", "contents": "getVoxelSize(${1:width}, ${2:height}, ${3:depth}, ${4:unit})",  "annotation": "getVoxelSize(width, height, depth, unit)" },
+		{ "trigger": "getVoxelSize", "contents": "getVoxelSize(${1:width}, ${2:height}, ${3:depth}, ${4:unit});", "annotation": "getVoxelSize(width, height, depth, unit)" },
 
-		{ "trigger": "getVersion", "contents": "getVersion()",  "annotation": "getVersion()" },
+		{ "trigger": "getVersion", "contents": "getVersion();", "annotation": "getVersion()" },
 
-		{ "trigger": "getWidth", "contents": "getWidth()",  "annotation": "getWidth()" },
+		{ "trigger": "getWidth", "contents": "getWidth();", "annotation": "getWidth()" },
 
-		{ "trigger": "getZoom", "contents": "getZoom()",  "annotation": "getZoom()" },
+		{ "trigger": "getZoom", "contents": "getZoom();", "annotation": "getZoom()" },
 
-		{ "trigger": "IJ.deleteRows", "contents": "IJ.deleteRows(${1:index1}, ${2:index2})",  "annotation": "IJ.deleteRows(index1, index2)" },
+		{ "trigger": "IJ.deleteRows", "contents": "IJ.deleteRows(${1:index1}, ${2:index2});", "annotation": "IJ.deleteRows(index1, index2)" },
 
-		{ "trigger": "IJ.getToolName", "contents": "IJ.getToolName()",  "annotation": "IJ.getToolName()" },
+		{ "trigger": "IJ.getToolName", "contents": "IJ.getToolName();", "annotation": "IJ.getToolName()" },
 
-		{ "trigger": "IJ.getFullVersion", "contents": "IJ.getFullVersion()",  "annotation": "IJ.getFullVersion" },
+		{ "trigger": "IJ.getFullVersion", "contents": "IJ.getFullVersion();", "annotation": "IJ.getFullVersion" },
 
-		{ "trigger": "IJ.freeMemory", "contents": "IJ.freeMemory()",  "annotation": "IJ.freeMemory()" },
+		{ "trigger": "IJ.freeMemory", "contents": "IJ.freeMemory();", "annotation": "IJ.freeMemory()" },
 
-		{ "trigger": "IJ.checksum", "contents": "IJ.checksum(${1:\"MD5}, ${2:string\"}, ${3:string})",  "annotation": "IJ.checksum(\"MD5 string\", string)" },
+		{ "trigger": "IJ.checksum", "contents": "IJ.checksum(${1:\"MD5}, ${2:string\"}, ${3:string});", "annotation": "IJ.checksum(\"MD5 string\", string)" },
 
-		{ "trigger": "IJ.checksum", "contents": "IJ.checksum(${1:\"MD5}, ${2:file\"}, ${3:filepath})",  "annotation": "IJ.checksum(\"MD5 file\", filepath)" },
+		{ "trigger": "IJ.checksum", "contents": "IJ.checksum(${1:\"MD5}, ${2:file\"}, ${3:filepath});", "annotation": "IJ.checksum(\"MD5 file\", filepath)" },
 
-		{ "trigger": "IJ.currentMemory", "contents": "IJ.currentMemory()",  "annotation": "IJ.currentMemory()" },
+		{ "trigger": "IJ.currentMemory", "contents": "IJ.currentMemory();", "annotation": "IJ.currentMemory()" },
 
-		{ "trigger": "IJ.log", "contents": "IJ.log(${1:string})",  "annotation": "IJ.log(string)" },
+		{ "trigger": "IJ.log", "contents": "IJ.log(${1:string});", "annotation": "IJ.log(string)" },
 
-		{ "trigger": "IJ.maxMemory", "contents": "IJ.maxMemory()",  "annotation": "IJ.maxMemory()" },
+		{ "trigger": "IJ.maxMemory", "contents": "IJ.maxMemory();", "annotation": "IJ.maxMemory()" },
 
-		{ "trigger": "IJ.pad", "contents": "IJ.pad(${1:n}, ${2:length})",  "annotation": "IJ.pad(n, length)" },
+		{ "trigger": "IJ.pad", "contents": "IJ.pad(${1:n}, ${2:length});", "annotation": "IJ.pad(n, length)" },
 
-		{ "trigger": "IJ.redirectErrorMessages", "contents": "IJ.redirectErrorMessages()",  "annotation": "IJ.redirectErrorMessages()" },
+		{ "trigger": "IJ.redirectErrorMessages", "contents": "IJ.redirectErrorMessages();", "annotation": "IJ.redirectErrorMessages()" },
 
-		{ "trigger": "IJ.renameResults", "contents": "IJ.renameResults(${1:name})",  "annotation": "IJ.renameResults(name)" },
+		{ "trigger": "IJ.renameResults", "contents": "IJ.renameResults(${1:name});", "annotation": "IJ.renameResults(name)" },
 
-		{ "trigger": "IJ.renameResults", "contents": "IJ.renameResults(${1:oldName}, ${2:newName})",  "annotation": "IJ.renameResults(oldName,newName)" },
+		{ "trigger": "IJ.renameResults", "contents": "IJ.renameResults(${1:oldName}, ${2:newName});", "annotation": "IJ.renameResults(oldName,newName)" },
 
-		{ "trigger": "Image.title", "contents": "Image.title()",  "annotation": "Image.title" },
+		{ "trigger": "Image.title", "contents": "Image.title();", "annotation": "Image.title" },
 
-		{ "trigger": "Image.width", "contents": "Image.width()",  "annotation": "Image.width" },
+		{ "trigger": "Image.width", "contents": "Image.width();", "annotation": "Image.width" },
 
-		{ "trigger": "Image.height", "contents": "Image.height()",  "annotation": "Image.height" },
+		{ "trigger": "Image.height", "contents": "Image.height();", "annotation": "Image.height" },
 
-		{ "trigger": "Image.copy", "contents": "Image.copy()",  "annotation": "Image.copy" },
+		{ "trigger": "Image.copy", "contents": "Image.copy();", "annotation": "Image.copy" },
 
-		{ "trigger": "Image.paste", "contents": "Image.paste(${1:x}, ${2:y})",  "annotation": "Image.paste(x,y)" },
+		{ "trigger": "Image.paste", "contents": "Image.paste(${1:x}, ${2:y});", "annotation": "Image.paste(x,y)" },
 
-		{ "trigger": "Image.paste", "contents": "Image.paste(${1:x}, ${2:y}, ${3:mode})",  "annotation": "Image.paste(x,y, mode)" },
+		{ "trigger": "Image.paste", "contents": "Image.paste(${1:x}, ${2:y}, ${3:mode});", "annotation": "Image.paste(x,y, mode)" },
 
-		{ "trigger": "imageCalculator", "contents": "imageCalculator(${1:operator}, ${2:img1}, ${3:img2})",  "annotation": "imageCalculator(operator, img1, img2)" },
+		{ "trigger": "imageCalculator", "contents": "imageCalculator(${1:operator}, ${2:img1}, ${3:img2});", "annotation": "imageCalculator(operator, img1, img2)" },
 
-		{ "trigger": "indexOf", "contents": "indexOf(${1:string}, ${2:substring})",  "annotation": "indexOf(string, substring)" },
+		{ "trigger": "indexOf", "contents": "indexOf(${1:string}, ${2:substring});", "annotation": "indexOf(string, substring)" },
 
-		{ "trigger": "indexOf", "contents": "indexOf(${1:string}, ${2:substring}, ${3:fromIndex})",  "annotation": "indexOf(string, substring, fromIndex)" },
+		{ "trigger": "indexOf", "contents": "indexOf(${1:string}, ${2:substring}, ${3:fromIndex});", "annotation": "indexOf(string, substring, fromIndex)" },
 
-		{ "trigger": "is", "contents": "is(${1:\"animated\"})",  "annotation": "is(\"animated\")" },
+		{ "trigger": "is", "contents": "is(${1:\"animated\"});", "annotation": "is(\"animated\")" },
 
-		{ "trigger": "is", "contents": "is(${1:\"applet\"})",  "annotation": "is(\"applet\")" },
+		{ "trigger": "is", "contents": "is(${1:\"applet\"});", "annotation": "is(\"applet\")" },
 
-		{ "trigger": "is", "contents": "is(${1:\"area\"})",  "annotation": "is(\"area\")" },
+		{ "trigger": "is", "contents": "is(${1:\"area\"});", "annotation": "is(\"area\")" },
 
-		{ "trigger": "is", "contents": "is(${1:\"Batch}, ${2:Mode\"})",  "annotation": "is(\"Batch Mode\")" },
+		{ "trigger": "is", "contents": "is(${1:\"Batch}, ${2:Mode\"});", "annotation": "is(\"Batch Mode\")" },
 
-		{ "trigger": "is", "contents": "is(${1:\"binary\"})",  "annotation": "is(\"binary\")" },
+		{ "trigger": "is", "contents": "is(${1:\"binary\"});", "annotation": "is(\"binary\")" },
 
-		{ "trigger": "is", "contents": "is(${1:\"Caps}, ${2:Lock}, ${3:Set\"})",  "annotation": "is(\"Caps Lock Set\")" },
+		{ "trigger": "is", "contents": "is(${1:\"Caps}, ${2:Lock}, ${3:Set\"});", "annotation": "is(\"Caps Lock Set\")" },
 
-		{ "trigger": "is", "contents": "is(${1:\"changes\"})",  "annotation": "is(\"changes\")" },
+		{ "trigger": "is", "contents": "is(${1:\"changes\"});", "annotation": "is(\"changes\")" },
 
-		{ "trigger": "is", "contents": "is(${1:\"composite\"})",  "annotation": "is(\"composite\")" },
+		{ "trigger": "is", "contents": "is(${1:\"composite\"});", "annotation": "is(\"composite\")" },
 
-		{ "trigger": "is", "contents": "is(${1:\"FFT\"})",  "annotation": "is(\"FFT\")" },
+		{ "trigger": "is", "contents": "is(${1:\"FFT\"});", "annotation": "is(\"FFT\")" },
 
-		{ "trigger": "is", "contents": "is(${1:\"global}, ${2:scale\"})",  "annotation": "is(\"global scale\")" },
+		{ "trigger": "is", "contents": "is(${1:\"global}, ${2:scale\"});", "annotation": "is(\"global scale\")" },
 
-		{ "trigger": "is", "contents": "is(${1:\"grayscale\"})",  "annotation": "is(\"grayscale\")" },
+		{ "trigger": "is", "contents": "is(${1:\"grayscale\"});", "annotation": "is(\"grayscale\")" },
 
-		{ "trigger": "is", "contents": "is(${1:\"Inverting}, ${2:LUT\"})",  "annotation": "is(\"Inverting LUT\")" },
+		{ "trigger": "is", "contents": "is(${1:\"Inverting}, ${2:LUT\"});", "annotation": "is(\"Inverting LUT\")" },
 
-		{ "trigger": "is", "contents": "is(${1:\"InvertY\"})",  "annotation": "is(\"InvertY\")" },
+		{ "trigger": "is", "contents": "is(${1:\"InvertY\"});", "annotation": "is(\"InvertY\")" },
 
-		{ "trigger": "is", "contents": "is(${1:\"line\"})",  "annotation": "is(\"line\")" },
+		{ "trigger": "is", "contents": "is(${1:\"line\"});", "annotation": "is(\"line\")" },
 
-		{ "trigger": "is", "contents": "is(${1:\"locked\"})",  "annotation": "is(\"locked\")" },
+		{ "trigger": "is", "contents": "is(${1:\"locked\"});", "annotation": "is(\"locked\")" },
 
-		{ "trigger": "is", "contents": "is(${1:\"Virtual}, ${2:Stack\"})",  "annotation": "is(\"Virtual Stack\")" },
+		{ "trigger": "is", "contents": "is(${1:\"Virtual}, ${2:Stack\"});", "annotation": "is(\"Virtual Stack\")" },
 
-		{ "trigger": "isActive", "contents": "isActive(${1:id})",  "annotation": "isActive(id)" },
+		{ "trigger": "isActive", "contents": "isActive(${1:id});", "annotation": "isActive(id)" },
 
-		{ "trigger": "isKeyDown", "contents": "isKeyDown(${1:key})",  "annotation": "isKeyDown(key)" },
+		{ "trigger": "isKeyDown", "contents": "isKeyDown(${1:key});", "annotation": "isKeyDown(key)" },
 
-		{ "trigger": "isNaN", "contents": "isNaN(${1:n})",  "annotation": "isNaN(n)" },
+		{ "trigger": "isNaN", "contents": "isNaN(${1:n});", "annotation": "isNaN(n)" },
 
-		{ "trigger": "isOpen", "contents": "isOpen(${1:id})",  "annotation": "isOpen(id)" },
+		{ "trigger": "isOpen", "contents": "isOpen(${1:id});", "annotation": "isOpen(id)" },
 
-		{ "trigger": "isOpen", "contents": "isOpen(${1:\"Title\"})",  "annotation": "isOpen(\"Title\")" },
+		{ "trigger": "isOpen", "contents": "isOpen(${1:\"Title\"});", "annotation": "isOpen(\"Title\")" },
 
-		{ "trigger": "lastIndexOf", "contents": "lastIndexOf(${1:string}, ${2:substring})",  "annotation": "lastIndexOf(string, substring)" },
+		{ "trigger": "lastIndexOf", "contents": "lastIndexOf(${1:string}, ${2:substring});", "annotation": "lastIndexOf(string, substring)" },
 
-		{ "trigger": "lengthOf", "contents": "lengthOf(${1:str})",  "annotation": "lengthOf(str)" },
+		{ "trigger": "lengthOf", "contents": "lengthOf(${1:str});", "annotation": "lengthOf(str)" },
 
-		{ "trigger": "lineTo", "contents": "lineTo(${1:x}, ${2:y})",  "annotation": "lineTo(x, y)" },
+		{ "trigger": "lineTo", "contents": "lineTo(${1:x}, ${2:y});", "annotation": "lineTo(x, y)" },
 
-		{ "trigger": "List.set", "contents": "List.set(${1:key}, ${2:value})",  "annotation": "List.set(key, value)" },
+		{ "trigger": "List.set", "contents": "List.set(${1:key}, ${2:value});", "annotation": "List.set(key, value)" },
 
-		{ "trigger": "List.get", "contents": "List.get(${1:key})",  "annotation": "List.get(key)" },
+		{ "trigger": "List.get", "contents": "List.get(${1:key});", "annotation": "List.get(key)" },
 
-		{ "trigger": "List.getValue", "contents": "List.getValue(${1:key})",  "annotation": "List.getValue(key)" },
+		{ "trigger": "List.getValue", "contents": "List.getValue(${1:key});", "annotation": "List.getValue(key)" },
 
-		{ "trigger": "List.size", "contents": "List.size()",  "annotation": "List.size" },
+		{ "trigger": "List.size", "contents": "List.size();", "annotation": "List.size" },
 
-		{ "trigger": "List.clear", "contents": "List.clear()",  "annotation": "List.clear()" },
+		{ "trigger": "List.clear", "contents": "List.clear();", "annotation": "List.clear()" },
 
-		{ "trigger": "List.setList", "contents": "List.setList(${1:list})",  "annotation": "List.setList(list)" },
+		{ "trigger": "List.setList", "contents": "List.setList(${1:list});", "annotation": "List.setList(list)" },
 
-		{ "trigger": "List.getList", "contents": "List.getList()",  "annotation": "List.getList" },
+		{ "trigger": "List.getList", "contents": "List.getList();", "annotation": "List.getList" },
 
-		{ "trigger": " List.setMeasurements", "contents": " List.setMeasurements()",  "annotation": " List.setMeasurements" },
+		{ "trigger": " List.setMeasurements", "contents": " List.setMeasurements();", "annotation": " List.setMeasurements" },
 
-		{ "trigger": " List.setMeasurements", "contents": " List.setMeasurements(${1:\"limit\"})",  "annotation": " List.setMeasurements(\"limit\")" },
+		{ "trigger": " List.setMeasurements", "contents": " List.setMeasurements(${1:\"limit\"});", "annotation": " List.setMeasurements(\"limit\")" },
 
-		{ "trigger": "List.setCommands", "contents": "List.setCommands()",  "annotation": "List.setCommands" },
+		{ "trigger": "List.setCommands", "contents": "List.setCommands();", "annotation": "List.setCommands" },
 
-		{ "trigger": "List.toArrays", "contents": "List.toArrays(${1:keys}, ${2:values})",  "annotation": "List.toArrays(keys, values)" },
+		{ "trigger": "List.toArrays", "contents": "List.toArrays(${1:keys}, ${2:values});", "annotation": "List.toArrays(keys, values)" },
 
-		{ "trigger": "List.fromArrays", "contents": "List.fromArrays(${1:keys}, ${2:values})",  "annotation": "List.fromArrays(keys, values)" },
+		{ "trigger": "List.fromArrays", "contents": "List.fromArrays(${1:keys}, ${2:values});", "annotation": "List.fromArrays(keys, values)" },
 
-		{ "trigger": "List.indexOf", "contents": "List.indexOf(${1:key})",  "annotation": "List.indexOf(key)" },
+		{ "trigger": "List.indexOf", "contents": "List.indexOf(${1:key});", "annotation": "List.indexOf(key)" },
 
-		{ "trigger": "log", "contents": "log(${1:n})",  "annotation": "log(n)" },
+		{ "trigger": "log", "contents": "log(${1:n});", "annotation": "log(n)" },
 
-		{ "trigger": "makeArrow", "contents": "makeArrow(${1:x1}, ${2:y1}, ${3:x2}, ${4:y2}, ${5:style})",  "annotation": "makeArrow(x1, y1, x2, y2, style)" },
+		{ "trigger": "makeArrow", "contents": "makeArrow(${1:x1}, ${2:y1}, ${3:x2}, ${4:y2}, ${5:style});", "annotation": "makeArrow(x1, y1, x2, y2, style)" },
 
-		{ "trigger": "makeEllipse", "contents": "makeEllipse(${1:x1}, ${2:y1}, ${3:x2}, ${4:y2}, ${5:aspectRatio})",  "annotation": "makeEllipse(x1, y1, x2, y2, aspectRatio)" },
+		{ "trigger": "makeEllipse", "contents": "makeEllipse(${1:x1}, ${2:y1}, ${3:x2}, ${4:y2}, ${5:aspectRatio});", "annotation": "makeEllipse(x1, y1, x2, y2, aspectRatio)" },
 
-		{ "trigger": "makeLine", "contents": "makeLine(${1:x1}, ${2:y1}, ${3:x2}, ${4:y2})",  "annotation": "makeLine(x1, y1, x2, y2)" },
+		{ "trigger": "makeLine", "contents": "makeLine(${1:x1}, ${2:y1}, ${3:x2}, ${4:y2});", "annotation": "makeLine(x1, y1, x2, y2)" },
 
-		{ "trigger": "makeLine", "contents": "makeLine(${1:x1}, ${2:y1}, ${3:x2}, ${4:y2}, ${5:lineWidth})",  "annotation": "makeLine(x1, y1, x2, y2, lineWidth)" },
+		{ "trigger": "makeLine", "contents": "makeLine(${1:x1}, ${2:y1}, ${3:x2}, ${4:y2}, ${5:lineWidth});", "annotation": "makeLine(x1, y1, x2, y2, lineWidth)" },
 
-		{ "trigger": "makeLine", "contents": "makeLine(${1:x1}, ${2:y1}, ${3:x2}, ${4:y2}, ${5:x3}, ${6:y3}, ${7:...})",  "annotation": "makeLine(x1, y1, x2, y2, x3, y3, ...)" },
+		{ "trigger": "makeLine", "contents": "makeLine(${1:x1}, ${2:y1}, ${3:x2}, ${4:y2}, ${5:x3}, ${6:y3}, ${7:...});", "annotation": "makeLine(x1, y1, x2, y2, x3, y3, ...)" },
 
-		{ "trigger": "makeOval", "contents": "makeOval(${1:x}, ${2:y}, ${3:width}, ${4:height})",  "annotation": "makeOval(x, y, width, height)" },
+		{ "trigger": "makeOval", "contents": "makeOval(${1:x}, ${2:y}, ${3:width}, ${4:height});", "annotation": "makeOval(x, y, width, height)" },
 
-		{ "trigger": "makePoint", "contents": "makePoint(${1:x}, ${2:y}, ${3:options})",  "annotation": "makePoint(x, y, options)" },
+		{ "trigger": "makePoint", "contents": "makePoint(${1:x}, ${2:y}, ${3:options});", "annotation": "makePoint(x, y, options)" },
 
-		{ "trigger": "makePoint", "contents": "makePoint(${1:x}, ${2:y})",  "annotation": "makePoint(x, y)" },
+		{ "trigger": "makePoint", "contents": "makePoint(${1:x}, ${2:y});", "annotation": "makePoint(x, y)" },
 
-		{ "trigger": "makePolygon", "contents": "makePolygon(${1:x1}, ${2:y1}, ${3:x2}, ${4:y2}, ${5:x3}, ${6:y3}, ${7:...})",  "annotation": "makePolygon(x1, y1, x2, y2, x3, y3, ...)" },
+		{ "trigger": "makePolygon", "contents": "makePolygon(${1:x1}, ${2:y1}, ${3:x2}, ${4:y2}, ${5:x3}, ${6:y3}, ${7:...});", "annotation": "makePolygon(x1, y1, x2, y2, x3, y3, ...)" },
 
-		{ "trigger": "makeRectangle", "contents": "makeRectangle(${1:x}, ${2:y}, ${3:width}, ${4:height})",  "annotation": "makeRectangle(x, y, width, height)" },
+		{ "trigger": "makeRectangle", "contents": "makeRectangle(${1:x}, ${2:y}, ${3:width}, ${4:height});", "annotation": "makeRectangle(x, y, width, height)" },
 
-		{ "trigger": "makeRectangle", "contents": "makeRectangle(${1:x}, ${2:y}, ${3:width}, ${4:height}, ${5:arcSize})",  "annotation": "makeRectangle(x, y, width, height, arcSize)" },
+		{ "trigger": "makeRectangle", "contents": "makeRectangle(${1:x}, ${2:y}, ${3:width}, ${4:height}, ${5:arcSize});", "annotation": "makeRectangle(x, y, width, height, arcSize)" },
 
-		{ "trigger": "makeRotatedRectangle", "contents": "makeRotatedRectangle(${1:x1}, ${2:y1}, ${3:x2}, ${4:y2}, ${5:width})",  "annotation": "makeRotatedRectangle(x1, y1, x2, y2, width)" },
+		{ "trigger": "makeRotatedRectangle", "contents": "makeRotatedRectangle(${1:x1}, ${2:y1}, ${3:x2}, ${4:y2}, ${5:width});", "annotation": "makeRotatedRectangle(x1, y1, x2, y2, width)" },
 
-		{ "trigger": "makeSelection", "contents": "makeSelection(${1:type}, ${2:xpoints}, ${3:ypoints})",  "annotation": "makeSelection(type, xpoints, ypoints)" },
+		{ "trigger": "makeSelection", "contents": "makeSelection(${1:type}, ${2:xpoints}, ${3:ypoints});", "annotation": "makeSelection(type, xpoints, ypoints)" },
 
-		{ "trigger": "makeText", "contents": "makeText(${1:string}, ${2:x}, ${3:y})",  "annotation": "makeText(string, x, y)" },
+		{ "trigger": "makeText", "contents": "makeText(${1:string}, ${2:x}, ${3:y});", "annotation": "makeText(string, x, y)" },
 
-		{ "trigger": "matches", "contents": "matches(${1:string}, ${2:regex})",  "annotation": "matches(string, regex)" },
+		{ "trigger": "matches", "contents": "matches(${1:string}, ${2:regex});", "annotation": "matches(string, regex)" },
 
-		{ "trigger": "Math.abs", "contents": "Math.abs(${1:n})",  "annotation": "Math.abs(n)" },
+		{ "trigger": "Math.abs", "contents": "Math.abs(${1:n});", "annotation": "Math.abs(n)" },
 
-		{ "trigger": "Math.acos", "contents": "Math.acos(${1:n})",  "annotation": "Math.acos(n)" },
+		{ "trigger": "Math.acos", "contents": "Math.acos(${1:n});", "annotation": "Math.acos(n)" },
 
-		{ "trigger": "Math.asin", "contents": "Math.asin(${1:n})",  "annotation": "Math.asin(n)" },
+		{ "trigger": "Math.asin", "contents": "Math.asin(${1:n});", "annotation": "Math.asin(n)" },
 
-		{ "trigger": "Math.atan", "contents": "Math.atan(${1:n})",  "annotation": "Math.atan(n)" },
+		{ "trigger": "Math.atan", "contents": "Math.atan(${1:n});", "annotation": "Math.atan(n)" },
 
-		{ "trigger": "Math.atan2", "contents": "Math.atan2(${1:y}, ${2:x})",  "annotation": "Math.atan2(y, x)" },
+		{ "trigger": "Math.atan2", "contents": "Math.atan2(${1:y}, ${2:x});", "annotation": "Math.atan2(y, x)" },
 
-		{ "trigger": "Math.ceil", "contents": "Math.ceil(${1:n})",  "annotation": "Math.ceil(n)" },
+		{ "trigger": "Math.ceil", "contents": "Math.ceil(${1:n});", "annotation": "Math.ceil(n)" },
 
-		{ "trigger": "Math.cos", "contents": "Math.cos(${1:angle})",  "annotation": "Math.cos(angle)" },
+		{ "trigger": "Math.cos", "contents": "Math.cos(${1:angle});", "annotation": "Math.cos(angle)" },
 
-		{ "trigger": "Math.erf", "contents": "Math.erf(${1:x})",  "annotation": "Math.erf(x)" },
+		{ "trigger": "Math.erf", "contents": "Math.erf(${1:x});", "annotation": "Math.erf(x)" },
 
-		{ "trigger": "Math.exp", "contents": "Math.exp(${1:n})",  "annotation": "Math.exp(n)" },
+		{ "trigger": "Math.exp", "contents": "Math.exp(${1:n});", "annotation": "Math.exp(n)" },
 
-		{ "trigger": "Math.floor", "contents": "Math.floor(${1:n})",  "annotation": "Math.floor(n)" },
+		{ "trigger": "Math.floor", "contents": "Math.floor(${1:n});", "annotation": "Math.floor(n)" },
 
-		{ "trigger": "Math.log", "contents": "Math.log(${1:n})",  "annotation": "Math.log(n)" },
+		{ "trigger": "Math.log", "contents": "Math.log(${1:n});", "annotation": "Math.log(n)" },
 
-		{ "trigger": "Math.log10", "contents": "Math.log10(${1:n})",  "annotation": "Math.log10(n)" },
+		{ "trigger": "Math.log10", "contents": "Math.log10(${1:n});", "annotation": "Math.log10(n)" },
 
-		{ "trigger": "Math.min", "contents": "Math.min(${1:n1}, ${2:n2})",  "annotation": "Math.min(n1, n2)" },
+		{ "trigger": "Math.min", "contents": "Math.min(${1:n1}, ${2:n2});", "annotation": "Math.min(n1, n2)" },
 
-		{ "trigger": "Math.max", "contents": "Math.max(${1:n1}, ${2:n2})",  "annotation": "Math.max(n1, n2)" },
+		{ "trigger": "Math.max", "contents": "Math.max(${1:n1}, ${2:n2});", "annotation": "Math.max(n1, n2)" },
 
-		{ "trigger": "Math.pow", "contents": "Math.pow(${1:base}, ${2:exponent})",  "annotation": "Math.pow(base, exponent)" },
+		{ "trigger": "Math.pow", "contents": "Math.pow(${1:base}, ${2:exponent});", "annotation": "Math.pow(base, exponent)" },
 
-		{ "trigger": "Math.round", "contents": "Math.round(${1:n})",  "annotation": "Math.round(n)" },
+		{ "trigger": "Math.round", "contents": "Math.round(${1:n});", "annotation": "Math.round(n)" },
 
-		{ "trigger": "Math.sin", "contents": "Math.sin(${1:angle})",  "annotation": "Math.sin(angle)" },
+		{ "trigger": "Math.sin", "contents": "Math.sin(${1:angle});", "annotation": "Math.sin(angle)" },
 
-		{ "trigger": "Math.sqr", "contents": "Math.sqr(${1:n})",  "annotation": "Math.sqr(n)" },
+		{ "trigger": "Math.sqr", "contents": "Math.sqr(${1:n});", "annotation": "Math.sqr(n)" },
 
-		{ "trigger": "Math.sqrt", "contents": "Math.sqrt(${1:n})",  "annotation": "Math.sqrt(n)" },
+		{ "trigger": "Math.sqrt", "contents": "Math.sqrt(${1:n});", "annotation": "Math.sqrt(n)" },
 
-		{ "trigger": "Math.tan", "contents": "Math.tan(${1:n})",  "annotation": "Math.tan(n)" },
+		{ "trigger": "Math.tan", "contents": "Math.tan(${1:n});", "annotation": "Math.tan(n)" },
 
-		{ "trigger": "Math.tan", "contents": "Math.tan(${1:n})",  "annotation": "Math.tan(n)" },
+		{ "trigger": "Math.tan", "contents": "Math.tan(${1:n});", "annotation": "Math.tan(n)" },
 
-		{ "trigger": "Math.toRadians", "contents": "Math.toRadians(${1:degrees})",  "annotation": "Math.toRadians(degrees)" },
+		{ "trigger": "Math.toRadians", "contents": "Math.toRadians(${1:degrees});", "annotation": "Math.toRadians(degrees)" },
 
-		{ "trigger": "Math.toDegrees", "contents": "Math.toDegrees(${1:radians})",  "annotation": "Math.toDegrees(radians)" },
+		{ "trigger": "Math.toDegrees", "contents": "Math.toDegrees(${1:radians});", "annotation": "Math.toDegrees(radians)" },
 
-		{ "trigger": "Math.constrain", "contents": "Math.constrain(${1:n}, ${2:min}, ${3:max})",  "annotation": "Math.constrain(n, min, max)" },
+		{ "trigger": "Math.constrain", "contents": "Math.constrain(${1:n}, ${2:min}, ${3:max});", "annotation": "Math.constrain(n, min, max)" },
 
-		{ "trigger": "Math.map", "contents": "Math.map(${1:n}, ${2:low1}, ${3:high1}, ${4:low2}, ${5:high2})",  "annotation": "Math.map(n, low1, high1, low2, high2)" },
+		{ "trigger": "Math.map", "contents": "Math.map(${1:n}, ${2:low1}, ${3:high1}, ${4:low2}, ${5:high2});", "annotation": "Math.map(n, low1, high1, low2, high2)" },
 
-		{ "trigger": "maxOf", "contents": "maxOf(${1:n1}, ${2:n2})",  "annotation": "maxOf(n1, n2)" },
+		{ "trigger": "maxOf", "contents": "maxOf(${1:n1}, ${2:n2});", "annotation": "maxOf(n1, n2)" },
 
-		{ "trigger": "minOf", "contents": "minOf(${1:n1}, ${2:n2})",  "annotation": "minOf(n1, n2)" },
+		{ "trigger": "minOf", "contents": "minOf(${1:n1}, ${2:n2});", "annotation": "minOf(n1, n2)" },
 
-		{ "trigger": "moveTo", "contents": "moveTo(${1:x}, ${2:y})",  "annotation": "moveTo(x, y)" },
+		{ "trigger": "moveTo", "contents": "moveTo(${1:x}, ${2:y});", "annotation": "moveTo(x, y)" },
 
-		{ "trigger": "newArray", "contents": "newArray(${1:size})",  "annotation": "newArray(size)" },
+		{ "trigger": "newArray", "contents": "newArray(${1:size});", "annotation": "newArray(size)" },
 
-		{ "trigger": "newImage", "contents": "newImage(${1:title}, ${2:type}, ${3:width}, ${4:height}, ${5:depth})",  "annotation": "newImage(title, type, width, height, depth)" },
+		{ "trigger": "newImage", "contents": "newImage(${1:title}, ${2:type}, ${3:width}, ${4:height}, ${5:depth});", "annotation": "newImage(title, type, width, height, depth)" },
 
-		{ "trigger": "newMenu", "contents": "newMenu(${1:macroName}, ${2:stringArray})",  "annotation": "newMenu(macroName, stringArray)" },
+		{ "trigger": "newMenu", "contents": "newMenu(${1:macroName}, ${2:stringArray});", "annotation": "newMenu(macroName, stringArray)" },
 
-		{ "trigger": "nImages", "contents": "nImages()",  "annotation": "nImages" },
+		{ "trigger": "nImages", "contents": "nImages();", "annotation": "nImages" },
 
-		{ "trigger": "nResults", "contents": "nResults()",  "annotation": "nResults" },
+		{ "trigger": "nResults", "contents": "nResults();", "annotation": "nResults" },
 
-		{ "trigger": "nSlices", "contents": "nSlices()",  "annotation": "nSlices" },
+		{ "trigger": "nSlices", "contents": "nSlices();", "annotation": "nSlices" },
 
-		{ "trigger": "open", "contents": "open(${1:path})",  "annotation": "open(path)" },
+		{ "trigger": "open", "contents": "open(${1:path});", "annotation": "open(path)" },
 
-		{ "trigger": "open", "contents": "open(${1:path}, ${2:n})",  "annotation": "open(path, n)" },
+		{ "trigger": "open", "contents": "open(${1:path}, ${2:n});", "annotation": "open(path, n)" },
 
-		{ "trigger": "Overlay.moveTo", "contents": "Overlay.moveTo(${1:x}, ${2:y})",  "annotation": "Overlay.moveTo(x, y)" },
+		{ "trigger": "Overlay.moveTo", "contents": "Overlay.moveTo(${1:x}, ${2:y});", "annotation": "Overlay.moveTo(x, y)" },
 
-		{ "trigger": "Overlay.lineTo", "contents": "Overlay.lineTo(${1:x}, ${2:y})",  "annotation": "Overlay.lineTo(x, y)" },
+		{ "trigger": "Overlay.lineTo", "contents": "Overlay.lineTo(${1:x}, ${2:y});", "annotation": "Overlay.lineTo(x, y)" },
 
-		{ "trigger": "Overlay.drawLine", "contents": "Overlay.drawLine(${1:x1}, ${2:y1}, ${3:x2}, ${4:y2})",  "annotation": "Overlay.drawLine(x1, y1, x2, y2)" },
+		{ "trigger": "Overlay.drawLine", "contents": "Overlay.drawLine(${1:x1}, ${2:y1}, ${3:x2}, ${4:y2});", "annotation": "Overlay.drawLine(x1, y1, x2, y2)" },
 
-		{ "trigger": "Overlay.add", "contents": "Overlay.add()",  "annotation": "Overlay.add" },
+		{ "trigger": "Overlay.add", "contents": "Overlay.add();", "annotation": "Overlay.add" },
 
-		{ "trigger": "Overlay.setPosition", "contents": "Overlay.setPosition(${1:n})",  "annotation": "Overlay.setPosition(n)" },
+		{ "trigger": "Overlay.setPosition", "contents": "Overlay.setPosition(${1:n});", "annotation": "Overlay.setPosition(n)" },
 
-		{ "trigger": "Overlay.setPosition", "contents": "Overlay.setPosition(${1:c}, ${2:z}, ${3:t})",  "annotation": "Overlay.setPosition(c, z, t)" },
+		{ "trigger": "Overlay.setPosition", "contents": "Overlay.setPosition(${1:c}, ${2:z}, ${3:t});", "annotation": "Overlay.setPosition(c, z, t)" },
 
-		{ "trigger": "Overlay.drawRect", "contents": "Overlay.drawRect(${1:x}, ${2:y}, ${3:width}, ${4:height})",  "annotation": "Overlay.drawRect(x, y, width, height)" },
+		{ "trigger": "Overlay.drawRect", "contents": "Overlay.drawRect(${1:x}, ${2:y}, ${3:width}, ${4:height});", "annotation": "Overlay.drawRect(x, y, width, height)" },
 
-		{ "trigger": "Overlay.drawEllipse", "contents": "Overlay.drawEllipse(${1:x}, ${2:y}, ${3:width}, ${4:height})",  "annotation": "Overlay.drawEllipse(x, y, width, height)" },
+		{ "trigger": "Overlay.drawEllipse", "contents": "Overlay.drawEllipse(${1:x}, ${2:y}, ${3:width}, ${4:height});", "annotation": "Overlay.drawEllipse(x, y, width, height)" },
 
-		{ "trigger": "Overlay.drawString", "contents": "Overlay.drawString(${1:\"text\"}, ${2:x}, ${3:y})",  "annotation": "Overlay.drawString(\"text\", x, y)" },
+		{ "trigger": "Overlay.drawString", "contents": "Overlay.drawString(${1:\"text\"}, ${2:x}, ${3:y});", "annotation": "Overlay.drawString(\"text\", x, y)" },
 
-		{ "trigger": "Overlay.drawString", "contents": "Overlay.drawString(${1:\"text\"}, ${2:x}, ${3:y}, ${4:angle})",  "annotation": "Overlay.drawString(\"text\", x, y, angle)" },
+		{ "trigger": "Overlay.drawString", "contents": "Overlay.drawString(${1:\"text\"}, ${2:x}, ${3:y}, ${4:angle});", "annotation": "Overlay.drawString(\"text\", x, y, angle)" },
 
-		{ "trigger": "Overlay.show", "contents": "Overlay.show()",  "annotation": "Overlay.show" },
+		{ "trigger": "Overlay.show", "contents": "Overlay.show();", "annotation": "Overlay.show" },
 
-		{ "trigger": "Overlay.hide", "contents": "Overlay.hide()",  "annotation": "Overlay.hide" },
+		{ "trigger": "Overlay.hide", "contents": "Overlay.hide();", "annotation": "Overlay.hide" },
 
-		{ "trigger": "Overlay.hidden", "contents": "Overlay.hidden()",  "annotation": "Overlay.hidden" },
+		{ "trigger": "Overlay.hidden", "contents": "Overlay.hidden();", "annotation": "Overlay.hidden" },
 
-		{ "trigger": "Overlay.remove", "contents": "Overlay.remove()",  "annotation": "Overlay.remove" },
+		{ "trigger": "Overlay.remove", "contents": "Overlay.remove();", "annotation": "Overlay.remove" },
 
-		{ "trigger": "Overlay.clear", "contents": "Overlay.clear()",  "annotation": "Overlay.clear" },
+		{ "trigger": "Overlay.clear", "contents": "Overlay.clear();", "annotation": "Overlay.clear" },
 
-		{ "trigger": "Overlay.size", "contents": "Overlay.size()",  "annotation": "Overlay.size" },
+		{ "trigger": "Overlay.size", "contents": "Overlay.size();", "annotation": "Overlay.size" },
 
-		{ "trigger": "Overlay.addSelection", "contents": "Overlay.addSelection()",  "annotation": "Overlay.addSelection" },
+		{ "trigger": "Overlay.addSelection", "contents": "Overlay.addSelection();", "annotation": "Overlay.addSelection" },
 
-		{ "trigger": "Overlay.addSelection", "contents": "Overlay.addSelection(${1:strokeColor})",  "annotation": "Overlay.addSelection(strokeColor)" },
+		{ "trigger": "Overlay.addSelection", "contents": "Overlay.addSelection(${1:strokeColor});", "annotation": "Overlay.addSelection(strokeColor)" },
 
-		{ "trigger": "Overlay.addSelection", "contents": "Overlay.addSelection(${1:strokeColor}, ${2:strokeWidth})",  "annotation": "Overlay.addSelection(strokeColor, strokeWidth)" },
+		{ "trigger": "Overlay.addSelection", "contents": "Overlay.addSelection(${1:strokeColor}, ${2:strokeWidth});", "annotation": "Overlay.addSelection(strokeColor, strokeWidth)" },
 
-		{ "trigger": "Overlay.addSelection", "contents": "Overlay.addSelection(${1:\"\"}, ${2:0}, ${3:fillColor})",  "annotation": "Overlay.addSelection(\"\", 0, fillColor)" },
+		{ "trigger": "Overlay.addSelection", "contents": "Overlay.addSelection(${1:\"\"}, ${2:0}, ${3:fillColor});", "annotation": "Overlay.addSelection(\"\", 0, fillColor)" },
 
-		{ "trigger": "Overlay.activateSelection", "contents": "Overlay.activateSelection(${1:index})",  "annotation": "Overlay.activateSelection(index)" },
+		{ "trigger": "Overlay.activateSelection", "contents": "Overlay.activateSelection(${1:index});", "annotation": "Overlay.activateSelection(index)" },
 
-		{ "trigger": "Overlay.activateSelectionAndWait", "contents": "Overlay.activateSelectionAndWait(${1:index})",  "annotation": "Overlay.activateSelectionAndWait(index)" },
+		{ "trigger": "Overlay.activateSelectionAndWait", "contents": "Overlay.activateSelectionAndWait(${1:index});", "annotation": "Overlay.activateSelectionAndWait(index)" },
 
-		{ "trigger": "Overlay.removeSelection", "contents": "Overlay.removeSelection(${1:index})",  "annotation": "Overlay.removeSelection(index)" },
+		{ "trigger": "Overlay.removeSelection", "contents": "Overlay.removeSelection(${1:index});", "annotation": "Overlay.removeSelection(index)" },
 
-		{ "trigger": "Overlay.update", "contents": "Overlay.update(${1:index})",  "annotation": "Overlay.update(index)" },
+		{ "trigger": "Overlay.update", "contents": "Overlay.update(${1:index});", "annotation": "Overlay.update(index)" },
 
-		{ "trigger": "Overlay.moveSelection", "contents": "Overlay.moveSelection(${1:index}, ${2:x}, ${3:y})",  "annotation": "Overlay.moveSelection(index, x, y)" },
+		{ "trigger": "Overlay.moveSelection", "contents": "Overlay.moveSelection(${1:index}, ${2:x}, ${3:y});", "annotation": "Overlay.moveSelection(index, x, y)" },
 
-		{ "trigger": "Overlay.indexAt", "contents": "Overlay.indexAt(${1:x}, ${2:y})",  "annotation": "Overlay.indexAt(x,y)" },
+		{ "trigger": "Overlay.indexAt", "contents": "Overlay.indexAt(${1:x}, ${2:y});", "annotation": "Overlay.indexAt(x,y)" },
 
-		{ "trigger": "Overlay.getBounds", "contents": "Overlay.getBounds(${1:index}, ${2:x}, ${3:y}, ${4:width}, ${5:height})",  "annotation": "Overlay.getBounds(index,x,y,width,height)" },
+		{ "trigger": "Overlay.getBounds", "contents": "Overlay.getBounds(${1:index}, ${2:x}, ${3:y}, ${4:width}, ${5:height});", "annotation": "Overlay.getBounds(index,x,y,width,height)" },
 
-		{ "trigger": "Overlay.removeRois", "contents": "Overlay.removeRois(${1:name})",  "annotation": "Overlay.removeRois(name)" },
+		{ "trigger": "Overlay.removeRois", "contents": "Overlay.removeRois(${1:name});", "annotation": "Overlay.removeRois(name)" },
 
-		{ "trigger": "Overlay.copy", "contents": "Overlay.copy()",  "annotation": "Overlay.copy" },
+		{ "trigger": "Overlay.copy", "contents": "Overlay.copy();", "annotation": "Overlay.copy" },
 
-		{ "trigger": "Overlay.paste", "contents": "Overlay.paste()",  "annotation": "Overlay.paste" },
+		{ "trigger": "Overlay.paste", "contents": "Overlay.paste();", "annotation": "Overlay.paste" },
 
-		{ "trigger": "Overlay.drawLabels", "contents": "Overlay.drawLabels(${1:boolean})",  "annotation": "Overlay.drawLabels(boolean)" },
+		{ "trigger": "Overlay.drawLabels", "contents": "Overlay.drawLabels(${1:boolean});", "annotation": "Overlay.drawLabels(boolean)" },
 
-		{ "trigger": "Overlay.setLabelFontSize", "contents": "Overlay.setLabelFontSize(${1:size}, ${2:options})",  "annotation": "Overlay.setLabelFontSize(size, options)" },
+		{ "trigger": "Overlay.setLabelFontSize", "contents": "Overlay.setLabelFontSize(${1:size}, ${2:options});", "annotation": "Overlay.setLabelFontSize(size, options)" },
 
-		{ "trigger": "Overlay.setLabelColor", "contents": "Overlay.setLabelColor(${1:color})",  "annotation": "Overlay.setLabelColor(color)" },
+		{ "trigger": "Overlay.setLabelColor", "contents": "Overlay.setLabelColor(${1:color});", "annotation": "Overlay.setLabelColor(color)" },
 
-		{ "trigger": "Overlay.useNamesAsLabels", "contents": "Overlay.useNamesAsLabels(${1:boolean})",  "annotation": "Overlay.useNamesAsLabels(boolean)" },
+		{ "trigger": "Overlay.useNamesAsLabels", "contents": "Overlay.useNamesAsLabels(${1:boolean});", "annotation": "Overlay.useNamesAsLabels(boolean)" },
 
-		{ "trigger": "Overlay.selectable", "contents": "Overlay.selectable(${1:false})",  "annotation": "Overlay.selectable(false)" },
+		{ "trigger": "Overlay.selectable", "contents": "Overlay.selectable(${1:false});", "annotation": "Overlay.selectable(false)" },
 
-		{ "trigger": "Overlay.measure", "contents": "Overlay.measure()",  "annotation": "Overlay.measure" },
+		{ "trigger": "Overlay.measure", "contents": "Overlay.measure();", "annotation": "Overlay.measure" },
 
-		{ "trigger": "Overlay.setStrokeColor", "contents": "Overlay.setStrokeColor(${1:color})",  "annotation": "Overlay.setStrokeColor(color)" },
+		{ "trigger": "Overlay.setStrokeColor", "contents": "Overlay.setStrokeColor(${1:color});", "annotation": "Overlay.setStrokeColor(color)" },
 
-		{ "trigger": "Overlay.setStrokeWidth", "contents": "Overlay.setStrokeWidth(${1:width})",  "annotation": "Overlay.setStrokeWidth(width)" },
+		{ "trigger": "Overlay.setStrokeWidth", "contents": "Overlay.setStrokeWidth(${1:width});", "annotation": "Overlay.setStrokeWidth(width)" },
 
-		{ "trigger": "Overlay.flatten", "contents": "Overlay.flatten()",  "annotation": "Overlay.flatten" },
+		{ "trigger": "Overlay.flatten", "contents": "Overlay.flatten();", "annotation": "Overlay.flatten" },
 
-		{ "trigger": "Overlay.cropAndSave", "contents": "Overlay.cropAndSave(${1:dir}, ${2:format})",  "annotation": "Overlay.cropAndSave(dir, format)" },
+		{ "trigger": "Overlay.cropAndSave", "contents": "Overlay.cropAndSave(${1:dir}, ${2:format});", "annotation": "Overlay.cropAndSave(dir, format)" },
 
-		{ "trigger": "Overlay.fill", "contents": "Overlay.fill(${1:color})",  "annotation": "Overlay.fill(color)" },
+		{ "trigger": "Overlay.fill", "contents": "Overlay.fill(${1:color});", "annotation": "Overlay.fill(color)" },
 
-		{ "trigger": "Overlay.fill", "contents": "Overlay.fill(${1:color1}, ${2:color2})",  "annotation": "Overlay.fill(color1, color2)" },
+		{ "trigger": "Overlay.fill", "contents": "Overlay.fill(${1:color1}, ${2:color2});", "annotation": "Overlay.fill(color1, color2)" },
 
-		{ "trigger": "Overlay.xor", "contents": "Overlay.xor(${1:array})",  "annotation": "Overlay.xor(array)" },
+		{ "trigger": "Overlay.xor", "contents": "Overlay.xor(${1:array});", "annotation": "Overlay.xor(array)" },
 
-		{ "trigger": " P  ", "contents": " P  ()",  "annotation": " P  " },
+		{ "trigger": " P  ", "contents": " P  ();", "annotation": " P  " },
 
-		{ "trigger": "parseFloat", "contents": "parseFloat(${1:string})",  "annotation": "parseFloat(string)" },
+		{ "trigger": "parseFloat", "contents": "parseFloat(${1:string});", "annotation": "parseFloat(string)" },
 
-		{ "trigger": "parseInt", "contents": "parseInt(${1:string})",  "annotation": "parseInt(string)" },
+		{ "trigger": "parseInt", "contents": "parseInt(${1:string});", "annotation": "parseInt(string)" },
 
-		{ "trigger": "parseInt", "contents": "parseInt(${1:string}, ${2:radix})",  "annotation": "parseInt(string, radix)" },
+		{ "trigger": "parseInt", "contents": "parseInt(${1:string}, ${2:radix});", "annotation": "parseInt(string, radix)" },
 
-		{ "trigger": "PI", "contents": "PI()",  "annotation": "PI" },
+		{ "trigger": "PI", "contents": "PI();", "annotation": "PI" },
 
-		{ "trigger": "Plot.create", "contents": "Plot.create(${1:\"Title\"}, ${2:\"X-axis}, ${3:Label\"}, ${4:\"Y-axis}, ${5:Label\"}, ${6:xValues}, ${7:yValues})",  "annotation": "Plot.create(\"Title\", \"X-axis Label\", \"Y-axis Label\", xValues, yValues)" },
+		{ "trigger": "Plot.create", "contents": "Plot.create(${1:\"Title\"}, ${2:\"X-axis}, ${3:Label\"}, ${4:\"Y-axis}, ${5:Label\"}, ${6:xValues}, ${7:yValues});", "annotation": "Plot.create(\"Title\", \"X-axis Label\", \"Y-axis Label\", xValues, yValues)" },
 
-		{ "trigger": "Plot.create", "contents": "Plot.create(${1:\"Title\"}, ${2:\"{cat1}, ${3:cat2}, ${4:cat3}\"}, ${5:\"Y-axis}, ${6:Label\"})",  "annotation": "Plot.create(\"Title\", \"{cat1,cat2,cat3}\", \"Y-axis Label\")" },
+		{ "trigger": "Plot.create", "contents": "Plot.create(${1:\"Title\"}, ${2:\"{cat1}, ${3:cat2}, ${4:cat3}\"}, ${5:\"Y-axis}, ${6:Label\"});", "annotation": "Plot.create(\"Title\", \"{cat1,cat2,cat3}\", \"Y-axis Label\")" },
 
-		{ "trigger": "Plot.add", "contents": "Plot.add(${1:type}, ${2:xValues}, ${3:yValues})",  "annotation": "Plot.add(type, xValues, yValues)" },
+		{ "trigger": "Plot.add", "contents": "Plot.add(${1:type}, ${2:xValues}, ${3:yValues});", "annotation": "Plot.add(type, xValues, yValues)" },
 
-		{ "trigger": "Plot.add", "contents": "Plot.add(${1:type}, ${2:xValues}, ${3:yValues}, ${4:label})",  "annotation": "Plot.add(type, xValues, yValues, label)" },
+		{ "trigger": "Plot.add", "contents": "Plot.add(${1:type}, ${2:xValues}, ${3:yValues}, ${4:label});", "annotation": "Plot.add(type, xValues, yValues, label)" },
 
-		{ "trigger": "Plot.addHistogram", "contents": "Plot.addHistogram(${1:values}, ${2:binWidth}, ${3:binCenter})",  "annotation": "Plot.addHistogram(values, binWidth, binCenter)" },
+		{ "trigger": "Plot.addHistogram", "contents": "Plot.addHistogram(${1:values}, ${2:binWidth}, ${3:binCenter});", "annotation": "Plot.addHistogram(values, binWidth, binCenter)" },
 
-		{ "trigger": "Plot.drawVectors", "contents": "Plot.drawVectors(${1:xStarts}, ${2:yStarts}, ${3:xEnds}, ${4:yEnds})",  "annotation": "Plot.drawVectors(xStarts, yStarts, xEnds, yEnds)" },
+		{ "trigger": "Plot.drawVectors", "contents": "Plot.drawVectors(${1:xStarts}, ${2:yStarts}, ${3:xEnds}, ${4:yEnds});", "annotation": "Plot.drawVectors(xStarts, yStarts, xEnds, yEnds)" },
 
-		{ "trigger": "Plot.drawLine", "contents": "Plot.drawLine(${1:x1}, ${2:y1}, ${3:x2}, ${4:y2})",  "annotation": "Plot.drawLine(x1, y1, x2, y2)" },
+		{ "trigger": "Plot.drawLine", "contents": "Plot.drawLine(${1:x1}, ${2:y1}, ${3:x2}, ${4:y2});", "annotation": "Plot.drawLine(x1, y1, x2, y2)" },
 
-		{ "trigger": "Plot.drawNormalizedLine", "contents": "Plot.drawNormalizedLine(${1:x1}, ${2:y1}, ${3:x2}, ${4:y2})",  "annotation": "Plot.drawNormalizedLine(x1, y1, x2, y2)" },
+		{ "trigger": "Plot.drawNormalizedLine", "contents": "Plot.drawNormalizedLine(${1:x1}, ${2:y1}, ${3:x2}, ${4:y2});", "annotation": "Plot.drawNormalizedLine(x1, y1, x2, y2)" },
 
-		{ "trigger": "Plot.addText", "contents": "Plot.addText(${1:\"A}, ${2:line}, ${3:of}, ${4:text\"}, ${5:x}, ${6:y})",  "annotation": "Plot.addText(\"A line of text\", x, y)" },
+		{ "trigger": "Plot.addText", "contents": "Plot.addText(${1:\"A}, ${2:line}, ${3:of}, ${4:text\"}, ${5:x}, ${6:y});", "annotation": "Plot.addText(\"A line of text\", x, y)" },
 
-		{ "trigger": "Plot.setLimits", "contents": "Plot.setLimits(${1:xMin}, ${2:xMax}, ${3:yMin}, ${4:yMax})",  "annotation": "Plot.setLimits(xMin, xMax, yMin, yMax)" },
+		{ "trigger": "Plot.setLimits", "contents": "Plot.setLimits(${1:xMin}, ${2:xMax}, ${3:yMin}, ${4:yMax});", "annotation": "Plot.setLimits(xMin, xMax, yMin, yMax)" },
 
-		{ "trigger": "Plot.getLimits", "contents": "Plot.getLimits(${1:xMin}, ${2:xMax}, ${3:yMin}, ${4:yMax})",  "annotation": "Plot.getLimits(xMin, xMax, yMin, yMax)" },
+		{ "trigger": "Plot.getLimits", "contents": "Plot.getLimits(${1:xMin}, ${2:xMax}, ${3:yMin}, ${4:yMax});", "annotation": "Plot.getLimits(xMin, xMax, yMin, yMax)" },
 
-		{ "trigger": "Plot.setLimitsToFit", "contents": "Plot.setLimitsToFit()",  "annotation": "Plot.setLimitsToFit()" },
+		{ "trigger": "Plot.setLimitsToFit", "contents": "Plot.setLimitsToFit();", "annotation": "Plot.setLimitsToFit()" },
 
-		{ "trigger": "Plot.setColor", "contents": "Plot.setColor(${1:color})",  "annotation": "Plot.setColor(color)" },
+		{ "trigger": "Plot.setColor", "contents": "Plot.setColor(${1:color});", "annotation": "Plot.setColor(color)" },
 
-		{ "trigger": "Plot.setColor", "contents": "Plot.setColor(${1:color1}, ${2:color2})",  "annotation": "Plot.setColor(color1, color2)" },
+		{ "trigger": "Plot.setColor", "contents": "Plot.setColor(${1:color1}, ${2:color2});", "annotation": "Plot.setColor(color1, color2)" },
 
-		{ "trigger": "Plot.setBackgroundColor", "contents": "Plot.setBackgroundColor(${1:color})",  "annotation": "Plot.setBackgroundColor(color)" },
+		{ "trigger": "Plot.setBackgroundColor", "contents": "Plot.setBackgroundColor(${1:color});", "annotation": "Plot.setBackgroundColor(color)" },
 
-		{ "trigger": "Plot.setLineWidth", "contents": "Plot.setLineWidth(${1:width})",  "annotation": "Plot.setLineWidth(width)" },
+		{ "trigger": "Plot.setLineWidth", "contents": "Plot.setLineWidth(${1:width});", "annotation": "Plot.setLineWidth(width)" },
 
-		{ "trigger": "Plot.setJustification", "contents": "Plot.setJustification(${1:\"center\"})",  "annotation": "Plot.setJustification(\"center\")" },
+		{ "trigger": "Plot.setJustification", "contents": "Plot.setJustification(${1:\"center\"});", "annotation": "Plot.setJustification(\"center\")" },
 
-		{ "trigger": "Plot.setLegend", "contents": "Plot.setLegend(${1:\"label1\tlabel2...\"}, ${2:\"options\"})",  "annotation": "Plot.setLegend(\"label1\tlabel2...\", \"options\")" },
+		{ "trigger": "Plot.setLegend", "contents": "Plot.setLegend(${1:\"label1\tlabel2...\"}, ${2:\"options\"});", "annotation": "Plot.setLegend(\"label1\tlabel2...\", \"options\")" },
 
-		{ "trigger": "Plot.setFrameSize", "contents": "Plot.setFrameSize(${1:width}, ${2:height})",  "annotation": "Plot.setFrameSize(width, height)" },
+		{ "trigger": "Plot.setFrameSize", "contents": "Plot.setFrameSize(${1:width}, ${2:height});", "annotation": "Plot.setFrameSize(width, height)" },
 
-		{ "trigger": "Plot.getFrameBounds", "contents": "Plot.getFrameBounds(${1:x}, ${2:y}, ${3:width}, ${4:height})",  "annotation": "Plot.getFrameBounds(x, y, width, height)" },
+		{ "trigger": "Plot.getFrameBounds", "contents": "Plot.getFrameBounds(${1:x}, ${2:y}, ${3:width}, ${4:height});", "annotation": "Plot.getFrameBounds(x, y, width, height)" },
 
-		{ "trigger": "Plot.setLogScaleX", "contents": "Plot.setLogScaleX(${1:boolean})",  "annotation": "Plot.setLogScaleX(boolean)" },
+		{ "trigger": "Plot.setLogScaleX", "contents": "Plot.setLogScaleX(${1:boolean});", "annotation": "Plot.setLogScaleX(boolean)" },
 
-		{ "trigger": "Plot.setLogScaleY", "contents": "Plot.setLogScaleY(${1:boolean})",  "annotation": "Plot.setLogScaleY(boolean)" },
+		{ "trigger": "Plot.setLogScaleY", "contents": "Plot.setLogScaleY(${1:boolean});", "annotation": "Plot.setLogScaleY(boolean)" },
 
-		{ "trigger": "Plot.setXYLabels", "contents": "Plot.setXYLabels(${1:\"x}, ${2:Label\"}, ${3:\"y}, ${4:Label\"})",  "annotation": "Plot.setXYLabels(\"x Label\", \"y Label\")" },
+		{ "trigger": "Plot.setXYLabels", "contents": "Plot.setXYLabels(${1:\"x}, ${2:Label\"}, ${3:\"y}, ${4:Label\"});", "annotation": "Plot.setXYLabels(\"x Label\", \"y Label\")" },
 
-		{ "trigger": "Plot.setFontSize", "contents": "Plot.setFontSize(${1:size}, ${2:\"options\"})",  "annotation": "Plot.setFontSize(size, \"options\")" },
+		{ "trigger": "Plot.setFontSize", "contents": "Plot.setFontSize(${1:size}, ${2:\"options\"});", "annotation": "Plot.setFontSize(size, \"options\")" },
 
-		{ "trigger": "Plot.setAxisLabelSize", "contents": "Plot.setAxisLabelSize(${1:size}, ${2:\"options\"})",  "annotation": "Plot.setAxisLabelSize(size, \"options\")" },
+		{ "trigger": "Plot.setAxisLabelSize", "contents": "Plot.setAxisLabelSize(${1:size}, ${2:\"options\"});", "annotation": "Plot.setAxisLabelSize(size, \"options\")" },
 
-		{ "trigger": "Plot.setFormatFlags", "contents": "Plot.setFormatFlags(${1:\"11001100001111\"})",  "annotation": "Plot.setFormatFlags(\"11001100001111\")" },
+		{ "trigger": "Plot.setFormatFlags", "contents": "Plot.setFormatFlags(${1:\"11001100001111\"});", "annotation": "Plot.setFormatFlags(\"11001100001111\")" },
 
-		{ "trigger": "Plot.setStyle", "contents": "Plot.setStyle(${1:index}, ${2:styleString})",  "annotation": "Plot.setStyle(index, styleString)" },
+		{ "trigger": "Plot.setStyle", "contents": "Plot.setStyle(${1:index}, ${2:styleString});", "annotation": "Plot.setStyle(index, styleString)" },
 
-		{ "trigger": "Plot.freeze", "contents": "Plot.freeze(${1:boolean})",  "annotation": "Plot.freeze(boolean)" },
+		{ "trigger": "Plot.freeze", "contents": "Plot.freeze(${1:boolean});", "annotation": "Plot.freeze(boolean)" },
 
-		{ "trigger": "Plot.setOptions", "contents": "Plot.setOptions(${1:string})",  "annotation": "Plot.setOptions(string)" },
+		{ "trigger": "Plot.setOptions", "contents": "Plot.setOptions(${1:string});", "annotation": "Plot.setOptions(string)" },
 
-		{ "trigger": "Plot.replace", "contents": "Plot.replace(${1:index}, ${2:type}, ${3:xValues}, ${4:yValues})",  "annotation": "Plot.replace(index, type, xValues, yValues)" },
+		{ "trigger": "Plot.replace", "contents": "Plot.replace(${1:index}, ${2:type}, ${3:xValues}, ${4:yValues});", "annotation": "Plot.replace(index, type, xValues, yValues)" },
 
-		{ "trigger": "Plot.useTemplate", "contents": "Plot.useTemplate(${1:\"plot}, ${2:name\"}, ${3:or}, ${4:id})",  "annotation": "Plot.useTemplate(\"plot name\" or id)" },
+		{ "trigger": "Plot.useTemplate", "contents": "Plot.useTemplate(${1:\"plot}, ${2:name\"}, ${3:or}, ${4:id});", "annotation": "Plot.useTemplate(\"plot name\" or id)" },
 
-		{ "trigger": "Plot.makeHighResolution", "contents": "Plot.makeHighResolution(${1:factor})",  "annotation": "Plot.makeHighResolution(factor)" },
+		{ "trigger": "Plot.makeHighResolution", "contents": "Plot.makeHighResolution(${1:factor});", "annotation": "Plot.makeHighResolution(factor)" },
 
-		{ "trigger": "Plot.show", "contents": "Plot.show()",  "annotation": "Plot.show()" },
+		{ "trigger": "Plot.show", "contents": "Plot.show();", "annotation": "Plot.show()" },
 
-		{ "trigger": "Plot.update", "contents": "Plot.update()",  "annotation": "Plot.update()" },
+		{ "trigger": "Plot.update", "contents": "Plot.update();", "annotation": "Plot.update()" },
 
-		{ "trigger": "Plot.getValues", "contents": "Plot.getValues(${1:xpoints}, ${2:ypoints})",  "annotation": "Plot.getValues(xpoints, ypoints)" },
+		{ "trigger": "Plot.getValues", "contents": "Plot.getValues(${1:xpoints}, ${2:ypoints});", "annotation": "Plot.getValues(xpoints, ypoints)" },
 
-		{ "trigger": "Plot.showValues", "contents": "Plot.showValues()",  "annotation": "Plot.showValues()" },
+		{ "trigger": "Plot.showValues", "contents": "Plot.showValues();", "annotation": "Plot.showValues()" },
 
-		{ "trigger": "Plot.showValuesWithLabels", "contents": "Plot.showValuesWithLabels()",  "annotation": "Plot.showValuesWithLabels()" },
+		{ "trigger": "Plot.showValuesWithLabels", "contents": "Plot.showValuesWithLabels();", "annotation": "Plot.showValuesWithLabels()" },
 
-		{ "trigger": "Plot.drawGrid", "contents": "Plot.drawGrid()",  "annotation": "Plot.drawGrid()" },
+		{ "trigger": "Plot.drawGrid", "contents": "Plot.drawGrid();", "annotation": "Plot.drawGrid()" },
 
-		{ "trigger": "Plot.drawShapes", "contents": "Plot.drawShapes(${1:\"rectangles\"}, ${2:lefts}, ${3:tops}, ${4:rights}, ${5:bottoms})",  "annotation": "Plot.drawShapes(\"rectangles\", lefts, tops, rights, bottoms)" },
+		{ "trigger": "Plot.drawShapes", "contents": "Plot.drawShapes(${1:\"rectangles\"}, ${2:lefts}, ${3:tops}, ${4:rights}, ${5:bottoms});", "annotation": "Plot.drawShapes(\"rectangles\", lefts, tops, rights, bottoms)" },
 
-		{ "trigger": "Plot.drawBoxes", "contents": "Plot.drawBoxes(${1:\"boxes}, ${2:width=30\"}, ${3:x}, ${4:y1}, ${5:y2}, ${6:y3}, ${7:y4}, ${8:y5})",  "annotation": "Plot.drawBoxes(\"boxes width=30\", x, y1, y2, y3, y4, y5)" },
+		{ "trigger": "Plot.drawBoxes", "contents": "Plot.drawBoxes(${1:\"boxes}, ${2:width=30\"}, ${3:x}, ${4:y1}, ${5:y2}, ${6:y3}, ${7:y4}, ${8:y5});", "annotation": "Plot.drawBoxes(\"boxes width=30\", x, y1, y2, y3, y4, y5)" },
 
-		{ "trigger": "Plot.removeNaNs", "contents": "Plot.removeNaNs()",  "annotation": "Plot.removeNaNs()" },
+		{ "trigger": "Plot.removeNaNs", "contents": "Plot.removeNaNs();", "annotation": "Plot.removeNaNs()" },
 
-		{ "trigger": "pow", "contents": "pow(${1:base}, ${2:exponent})",  "annotation": "pow(base, exponent)" },
+		{ "trigger": "pow", "contents": "pow(${1:base}, ${2:exponent});", "annotation": "pow(base, exponent)" },
 
-		{ "trigger": "print", "contents": "print(${1:string})",  "annotation": "print(string)" },
+		{ "trigger": "print", "contents": "print(${1:string});", "annotation": "print(string)" },
 
-		{ "trigger": "Property.get", "contents": "Property.get(${1:key})",  "annotation": "Property.get(key)" },
+		{ "trigger": "Property.get", "contents": "Property.get(${1:key});", "annotation": "Property.get(key)" },
 
-		{ "trigger": "Property.getNumber", "contents": "Property.getNumber(${1:key})",  "annotation": "Property.getNumber(key)" },
+		{ "trigger": "Property.getNumber", "contents": "Property.getNumber(${1:key});", "annotation": "Property.getNumber(key)" },
 
-		{ "trigger": "Property.set", "contents": "Property.set(${1:key}, ${2:property})",  "annotation": "Property.set(key, property)" },
+		{ "trigger": "Property.set", "contents": "Property.set(${1:key}, ${2:property});", "annotation": "Property.set(key, property)" },
 
-		{ "trigger": "Property.getInfo", "contents": "Property.getInfo()",  "annotation": "Property.getInfo()" },
+		{ "trigger": "Property.getInfo", "contents": "Property.getInfo();", "annotation": "Property.getInfo()" },
 
-		{ "trigger": "Property.getSliceLabel", "contents": "Property.getSliceLabel()",  "annotation": "Property.getSliceLabel" },
+		{ "trigger": "Property.getSliceLabel", "contents": "Property.getSliceLabel();", "annotation": "Property.getSliceLabel" },
 
-		{ "trigger": "Property.setSliceLabel", "contents": "Property.setSliceLabel(${1:string}, ${2:slice})",  "annotation": "Property.setSliceLabel(string, slice)" },
+		{ "trigger": "Property.setSliceLabel", "contents": "Property.setSliceLabel(${1:string}, ${2:slice});", "annotation": "Property.setSliceLabel(string, slice)" },
 
-		{ "trigger": "Property.setSliceLabel", "contents": "Property.setSliceLabel(${1:string})",  "annotation": "Property.setSliceLabel(string)" },
+		{ "trigger": "Property.setSliceLabel", "contents": "Property.setSliceLabel(${1:string});", "annotation": "Property.setSliceLabel(string)" },
 
-		{ "trigger": "Property.getList", "contents": "Property.getList()",  "annotation": "Property.getList" },
+		{ "trigger": "Property.getList", "contents": "Property.getList();", "annotation": "Property.getList" },
 
-		{ "trigger": "Property.setList", "contents": "Property.setList(${1:string})",  "annotation": "Property.setList(string)" },
+		{ "trigger": "Property.setList", "contents": "Property.setList(${1:string});", "annotation": "Property.setList(string)" },
 
-		{ "trigger": "random", "contents": "random()",  "annotation": "random" },
+		{ "trigger": "random", "contents": "random();", "annotation": "random" },
 
-		{ "trigger": "random", "contents": "random(${1:\"gaussian\"})",  "annotation": "random(\"gaussian\")" },
+		{ "trigger": "random", "contents": "random(${1:\"gaussian\"});", "annotation": "random(\"gaussian\")" },
 
-		{ "trigger": "random", "contents": "random(${1:\"seed\"}, ${2:seed})",  "annotation": "random(\"seed\", seed)" },
+		{ "trigger": "random", "contents": "random(${1:\"seed\"}, ${2:seed});", "annotation": "random(\"seed\", seed)" },
 
-		{ "trigger": "rename", "contents": "rename(${1:name})",  "annotation": "rename(name)" },
+		{ "trigger": "rename", "contents": "rename(${1:name});", "annotation": "rename(name)" },
 
-		{ "trigger": "replace", "contents": "replace(${1:string}, ${2:old}, ${3:new})",  "annotation": "replace(string, old, new)" },
+		{ "trigger": "replace", "contents": "replace(${1:string}, ${2:old}, ${3:new});", "annotation": "replace(string, old, new)" },
 
-		{ "trigger": "requires", "contents": "requires(${1:\"1.29p\"})",  "annotation": "requires(\"1.29p\")" },
+		{ "trigger": "requires", "contents": "requires(${1:\"1.29p\"});", "annotation": "requires(\"1.29p\")" },
 
-		{ "trigger": "reset", "contents": "reset()",  "annotation": "reset" },
+		{ "trigger": "reset", "contents": "reset();", "annotation": "reset" },
 
-		{ "trigger": "resetMinAndMax", "contents": "resetMinAndMax()",  "annotation": "resetMinAndMax" },
+		{ "trigger": "resetMinAndMax", "contents": "resetMinAndMax();", "annotation": "resetMinAndMax" },
 
-		{ "trigger": "resetThreshold", "contents": "resetThreshold()",  "annotation": "resetThreshold" },
+		{ "trigger": "resetThreshold", "contents": "resetThreshold();", "annotation": "resetThreshold" },
 
-		{ "trigger": "restoreSettings", "contents": "restoreSettings()",  "annotation": "restoreSettings" },
+		{ "trigger": "restoreSettings", "contents": "restoreSettings();", "annotation": "restoreSettings" },
 
-		{ "trigger": "Roi.size", "contents": "Roi.size()",  "annotation": "Roi.size" },
+		{ "trigger": "Roi.size", "contents": "Roi.size();", "annotation": "Roi.size" },
 
-		{ "trigger": "Roi.contains", "contents": "Roi.contains(${1:x}, ${2:y})",  "annotation": "Roi.contains(x, y)" },
+		{ "trigger": "Roi.contains", "contents": "Roi.contains(${1:x}, ${2:y});", "annotation": "Roi.contains(x, y)" },
 
-		{ "trigger": "Roi.getBounds", "contents": "Roi.getBounds(${1:x}, ${2:y}, ${3:width}, ${4:height})",  "annotation": "Roi.getBounds(x, y, width, height)" },
+		{ "trigger": "Roi.getBounds", "contents": "Roi.getBounds(${1:x}, ${2:y}, ${3:width}, ${4:height});", "annotation": "Roi.getBounds(x, y, width, height)" },
 
-		{ "trigger": "Roi.getFloatBounds", "contents": "Roi.getFloatBounds(${1:x}, ${2:y}, ${3:width}, ${4:height})",  "annotation": "Roi.getFloatBounds(x, y, width, height)" },
+		{ "trigger": "Roi.getFloatBounds", "contents": "Roi.getFloatBounds(${1:x}, ${2:y}, ${3:width}, ${4:height});", "annotation": "Roi.getFloatBounds(x, y, width, height)" },
 
-		{ "trigger": "Roi.getCoordinates", "contents": "Roi.getCoordinates(${1:xpoints}, ${2:ypoints})",  "annotation": "Roi.getCoordinates(xpoints, ypoints)" },
+		{ "trigger": "Roi.getCoordinates", "contents": "Roi.getCoordinates(${1:xpoints}, ${2:ypoints});", "annotation": "Roi.getCoordinates(xpoints, ypoints)" },
 
-		{ "trigger": "Roi.getContainedPoints", "contents": "Roi.getContainedPoints(${1:xpoints}, ${2:ypoints})",  "annotation": "Roi.getContainedPoints(xpoints, ypoints)" },
+		{ "trigger": "Roi.getContainedPoints", "contents": "Roi.getContainedPoints(${1:xpoints}, ${2:ypoints});", "annotation": "Roi.getContainedPoints(xpoints, ypoints)" },
 
-		{ "trigger": "Roi.getDefaultColor", "contents": "Roi.getDefaultColor()",  "annotation": "Roi.getDefaultColor" },
+		{ "trigger": "Roi.getDefaultColor", "contents": "Roi.getDefaultColor();", "annotation": "Roi.getDefaultColor" },
 
-		{ "trigger": "Roi.getStrokeColor", "contents": "Roi.getStrokeColor()",  "annotation": "Roi.getStrokeColor" },
+		{ "trigger": "Roi.getStrokeColor", "contents": "Roi.getStrokeColor();", "annotation": "Roi.getStrokeColor" },
 
-		{ "trigger": "Roi.getFillColor", "contents": "Roi.getFillColor()",  "annotation": "Roi.getFillColor" },
+		{ "trigger": "Roi.getFillColor", "contents": "Roi.getFillColor();", "annotation": "Roi.getFillColor" },
 
-		{ "trigger": "Roi.getName", "contents": "Roi.getName()",  "annotation": "Roi.getName" },
+		{ "trigger": "Roi.getName", "contents": "Roi.getName();", "annotation": "Roi.getName" },
 
-		{ "trigger": "Roi.getProperty", "contents": "Roi.getProperty(${1:key})",  "annotation": "Roi.getProperty(key)" },
+		{ "trigger": "Roi.getProperty", "contents": "Roi.getProperty(${1:key});", "annotation": "Roi.getProperty(key)" },
 
-		{ "trigger": "Roi.setProperty", "contents": "Roi.setProperty(${1:key}, ${2:value})",  "annotation": "Roi.setProperty(key, value)" },
+		{ "trigger": "Roi.setProperty", "contents": "Roi.setProperty(${1:key}, ${2:value});", "annotation": "Roi.setProperty(key, value)" },
 
-		{ "trigger": "Roi.getProperties", "contents": "Roi.getProperties()",  "annotation": "Roi.getProperties" },
+		{ "trigger": "Roi.getProperties", "contents": "Roi.getProperties();", "annotation": "Roi.getProperties" },
 
-		{ "trigger": "Roi.getSplineAnchors", "contents": "Roi.getSplineAnchors(${1:x}, ${2:y})",  "annotation": "Roi.getSplineAnchors(x, y)" },
+		{ "trigger": "Roi.getSplineAnchors", "contents": "Roi.getSplineAnchors(${1:x}, ${2:y});", "annotation": "Roi.getSplineAnchors(x, y)" },
 
-		{ "trigger": "Roi.setPolygonSplineAnchors", "contents": "Roi.setPolygonSplineAnchors(${1:x}, ${2:y})",  "annotation": "Roi.setPolygonSplineAnchors(x, y)" },
+		{ "trigger": "Roi.setPolygonSplineAnchors", "contents": "Roi.setPolygonSplineAnchors(${1:x}, ${2:y});", "annotation": "Roi.setPolygonSplineAnchors(x, y)" },
 
-		{ "trigger": "Roi.setPolylineSplineAnchors", "contents": "Roi.setPolylineSplineAnchors(${1:x}, ${2:y})",  "annotation": "Roi.setPolylineSplineAnchors(x, y)" },
+		{ "trigger": "Roi.setPolylineSplineAnchors", "contents": "Roi.setPolylineSplineAnchors(${1:x}, ${2:y});", "annotation": "Roi.setPolylineSplineAnchors(x, y)" },
 
-		{ "trigger": "Roi.getType", "contents": "Roi.getType()",  "annotation": "Roi.getType" },
+		{ "trigger": "Roi.getType", "contents": "Roi.getType();", "annotation": "Roi.getType" },
 
-		{ "trigger": "Roi.move", "contents": "Roi.move(${1:x}, ${2:y})",  "annotation": "Roi.move(x, y)" },
+		{ "trigger": "Roi.move", "contents": "Roi.move(${1:x}, ${2:y});", "annotation": "Roi.move(x, y)" },
 
-		{ "trigger": "Roi.translate", "contents": "Roi.translate(${1:dx}, ${2:dy})",  "annotation": "Roi.translate(dx, dy)" },
+		{ "trigger": "Roi.translate", "contents": "Roi.translate(${1:dx}, ${2:dy});", "annotation": "Roi.translate(dx, dy)" },
 
-		{ "trigger": "Roi.setStrokeColor", "contents": "Roi.setStrokeColor(${1:color})",  "annotation": "Roi.setStrokeColor(color)" },
+		{ "trigger": "Roi.setStrokeColor", "contents": "Roi.setStrokeColor(${1:color});", "annotation": "Roi.setStrokeColor(color)" },
 
-		{ "trigger": "Roi.setStrokeColor", "contents": "Roi.setStrokeColor(${1:red}, ${2:green}, ${3:blue})",  "annotation": "Roi.setStrokeColor(red, green, blue)" },
+		{ "trigger": "Roi.setStrokeColor", "contents": "Roi.setStrokeColor(${1:red}, ${2:green}, ${3:blue});", "annotation": "Roi.setStrokeColor(red, green, blue)" },
 
-		{ "trigger": "Roi.setStrokeColor", "contents": "Roi.setStrokeColor(${1:rgb})",  "annotation": "Roi.setStrokeColor(rgb)" },
+		{ "trigger": "Roi.setStrokeColor", "contents": "Roi.setStrokeColor(${1:rgb});", "annotation": "Roi.setStrokeColor(rgb)" },
 
-		{ "trigger": "Roi.setFillColor", "contents": "Roi.setFillColor(${1:color})",  "annotation": "Roi.setFillColor(color)" },
+		{ "trigger": "Roi.setFillColor", "contents": "Roi.setFillColor(${1:color});", "annotation": "Roi.setFillColor(color)" },
 
-		{ "trigger": "Roi.setFillColor", "contents": "Roi.setFillColor(${1:red}, ${2:green}, ${3:blue})",  "annotation": "Roi.setFillColor(red, green, blue)" },
+		{ "trigger": "Roi.setFillColor", "contents": "Roi.setFillColor(${1:red}, ${2:green}, ${3:blue});", "annotation": "Roi.setFillColor(red, green, blue)" },
 
-		{ "trigger": "Roi.setFillColor", "contents": "Roi.setFillColor(${1:rgb})",  "annotation": "Roi.setFillColor(rgb)" },
+		{ "trigger": "Roi.setFillColor", "contents": "Roi.setFillColor(${1:rgb});", "annotation": "Roi.setFillColor(rgb)" },
 
-		{ "trigger": "Roi.setAntiAlias", "contents": "Roi.setAntiAlias(${1:boolean})",  "annotation": "Roi.setAntiAlias(boolean)" },
+		{ "trigger": "Roi.setAntiAlias", "contents": "Roi.setAntiAlias(${1:boolean});", "annotation": "Roi.setAntiAlias(boolean)" },
 
-		{ "trigger": "Roi.setName", "contents": "Roi.setName(${1:name})",  "annotation": "Roi.setName(name)" },
+		{ "trigger": "Roi.setName", "contents": "Roi.setName(${1:name});", "annotation": "Roi.setName(name)" },
 
-		{ "trigger": "Roi.setStrokeWidth", "contents": "Roi.setStrokeWidth(${1:width})",  "annotation": "Roi.setStrokeWidth(width)" },
+		{ "trigger": "Roi.setStrokeWidth", "contents": "Roi.setStrokeWidth(${1:width});", "annotation": "Roi.setStrokeWidth(width)" },
 
-		{ "trigger": "Roi.setUnscalableStrokeWidth", "contents": "Roi.setUnscalableStrokeWidth(${1:width})",  "annotation": "Roi.setUnscalableStrokeWidth(width)" },
+		{ "trigger": "Roi.setUnscalableStrokeWidth", "contents": "Roi.setUnscalableStrokeWidth(${1:width});", "annotation": "Roi.setUnscalableStrokeWidth(width)" },
 
-		{ "trigger": "Roi.getStrokeWidth", "contents": "Roi.getStrokeWidth()",  "annotation": "Roi.getStrokeWidth" },
+		{ "trigger": "Roi.getStrokeWidth", "contents": "Roi.getStrokeWidth();", "annotation": "Roi.getStrokeWidth" },
 
-		{ "trigger": "Roi.setGroup", "contents": "Roi.setGroup(${1:group})",  "annotation": "Roi.setGroup(group)" },
+		{ "trigger": "Roi.setGroup", "contents": "Roi.setGroup(${1:group});", "annotation": "Roi.setGroup(group)" },
 
-		{ "trigger": "Roi.getGroup", "contents": "Roi.getGroup()",  "annotation": "Roi.getGroup" },
+		{ "trigger": "Roi.getGroup", "contents": "Roi.getGroup();", "annotation": "Roi.getGroup" },
 
-		{ "trigger": "Roi.setDefaultGroup", "contents": "Roi.setDefaultGroup(${1:group})",  "annotation": "Roi.setDefaultGroup(group)" },
+		{ "trigger": "Roi.setDefaultGroup", "contents": "Roi.setDefaultGroup(${1:group});", "annotation": "Roi.setDefaultGroup(group)" },
 
-		{ "trigger": "Roi.getDefaultGroup", "contents": "Roi.getDefaultGroup()",  "annotation": "Roi.getDefaultGroup" },
+		{ "trigger": "Roi.getDefaultGroup", "contents": "Roi.getDefaultGroup();", "annotation": "Roi.getDefaultGroup" },
 
-		{ "trigger": "Roi.setPosition", "contents": "Roi.setPosition(${1:slice})",  "annotation": "Roi.setPosition(slice)" },
+		{ "trigger": "Roi.setPosition", "contents": "Roi.setPosition(${1:slice});", "annotation": "Roi.setPosition(slice)" },
 
-		{ "trigger": "Roi.setPosition", "contents": "Roi.setPosition(${1:channel}, ${2:slice}, ${3:frame})",  "annotation": "Roi.setPosition(channel, slice, frame)" },
+		{ "trigger": "Roi.setPosition", "contents": "Roi.setPosition(${1:channel}, ${2:slice}, ${3:frame});", "annotation": "Roi.setPosition(channel, slice, frame)" },
 
-		{ "trigger": "Roi.getPosition", "contents": "Roi.getPosition(${1:channel}, ${2:slice}, ${3:frame})",  "annotation": "Roi.getPosition(channel, slice, frame)" },
+		{ "trigger": "Roi.getPosition", "contents": "Roi.getPosition(${1:channel}, ${2:slice}, ${3:frame});", "annotation": "Roi.getPosition(channel, slice, frame)" },
 
-		{ "trigger": "Roi.getPointPosition", "contents": "Roi.getPointPosition(${1:index})",  "annotation": "Roi.getPointPosition(index)" },
+		{ "trigger": "Roi.getPointPosition", "contents": "Roi.getPointPosition(${1:index});", "annotation": "Roi.getPointPosition(index)" },
 
-		{ "trigger": "Roi.setJustification", "contents": "Roi.setJustification(${1:str})",  "annotation": "Roi.setJustification(str)" },
+		{ "trigger": "Roi.setJustification", "contents": "Roi.setJustification(${1:str});", "annotation": "Roi.setJustification(str)" },
 
-		{ "trigger": "Roi.setFontSize", "contents": "Roi.setFontSize(${1:size})",  "annotation": "Roi.setFontSize(size)" },
+		{ "trigger": "Roi.setFontSize", "contents": "Roi.setFontSize(${1:size});", "annotation": "Roi.setFontSize(size)" },
 
-		{ "trigger": "Roi.getGroupNames", "contents": "Roi.getGroupNames()",  "annotation": "Roi.getGroupNames" },
+		{ "trigger": "Roi.getGroupNames", "contents": "Roi.getGroupNames();", "annotation": "Roi.getGroupNames" },
 
-		{ "trigger": "Roi.setGroupNames", "contents": "Roi.setGroupNames(${1:string})",  "annotation": "Roi.setGroupNames(string)" },
+		{ "trigger": "Roi.setGroupNames", "contents": "Roi.setGroupNames(${1:string});", "annotation": "Roi.setGroupNames(string)" },
 
-		{ "trigger": "Roi.remove", "contents": "Roi.remove()",  "annotation": "Roi.remove" },
+		{ "trigger": "Roi.remove", "contents": "Roi.remove();", "annotation": "Roi.remove" },
 
-		{ "trigger": "Roi.selectNone", "contents": "Roi.selectNone()",  "annotation": "Roi.selectNone" },
+		{ "trigger": "Roi.selectNone", "contents": "Roi.selectNone();", "annotation": "Roi.selectNone" },
 
-		{ "trigger": "Roi.copy", "contents": "Roi.copy()",  "annotation": "Roi.copy" },
+		{ "trigger": "Roi.copy", "contents": "Roi.copy();", "annotation": "Roi.copy" },
 
-		{ "trigger": "Roi.paste", "contents": "Roi.paste()",  "annotation": "Roi.paste" },
+		{ "trigger": "Roi.paste", "contents": "Roi.paste();", "annotation": "Roi.paste" },
 
-		{ "trigger": "ROI Manager Functions", "contents": "ROI Manager Functions()",  "annotation": "ROI Manager Functions" },
+		{ "trigger": "ROI Manager Functions", "contents": "ROI Manager Functions();", "annotation": "ROI Manager Functions" },
 
-		{ "trigger": "roiManager", "contents": "roiManager(${1:\"and\"})",  "annotation": "roiManager(\"and\")" },
+		{ "trigger": "roiManager", "contents": "roiManager(${1:\"and\"});", "annotation": "roiManager(\"and\")" },
 
-		{ "trigger": "roiManager", "contents": "roiManager(${1:\"add\"})",  "annotation": "roiManager(\"add\")" },
+		{ "trigger": "roiManager", "contents": "roiManager(${1:\"add\"});", "annotation": "roiManager(\"add\")" },
 
-		{ "trigger": "roiManager", "contents": "roiManager(${1:\"add}, ${2:&}, ${3:draw\"})",  "annotation": "roiManager(\"add & draw\")" },
+		{ "trigger": "roiManager", "contents": "roiManager(${1:\"add}, ${2:&}, ${3:draw\"});", "annotation": "roiManager(\"add & draw\")" },
 
-		{ "trigger": "roiManager", "contents": "roiManager(${1:\"combine\"})",  "annotation": "roiManager(\"combine\")" },
+		{ "trigger": "roiManager", "contents": "roiManager(${1:\"combine\"});", "annotation": "roiManager(\"combine\")" },
 
-		{ "trigger": "roiManager", "contents": "roiManager(${1:\"count\"})",  "annotation": "roiManager(\"count\")" },
+		{ "trigger": "roiManager", "contents": "roiManager(${1:\"count\"});", "annotation": "roiManager(\"count\")" },
 
-		{ "trigger": "roiManager", "contents": "roiManager(${1:\"delete\"})",  "annotation": "roiManager(\"delete\")" },
+		{ "trigger": "roiManager", "contents": "roiManager(${1:\"delete\"});", "annotation": "roiManager(\"delete\")" },
 
-		{ "trigger": "roiManager", "contents": "roiManager(${1:\"deselect\"})",  "annotation": "roiManager(\"deselect\")" },
+		{ "trigger": "roiManager", "contents": "roiManager(${1:\"deselect\"});", "annotation": "roiManager(\"deselect\")" },
 
-		{ "trigger": "roiManager", "contents": "roiManager(${1:\"draw\"})",  "annotation": "roiManager(\"draw\")" },
+		{ "trigger": "roiManager", "contents": "roiManager(${1:\"draw\"});", "annotation": "roiManager(\"draw\")" },
 
-		{ "trigger": "roiManager", "contents": "roiManager(${1:\"fill\"})",  "annotation": "roiManager(\"fill\")" },
+		{ "trigger": "roiManager", "contents": "roiManager(${1:\"fill\"});", "annotation": "roiManager(\"fill\")" },
 
-		{ "trigger": "roiManager", "contents": "roiManager(${1:\"index\"})",  "annotation": "roiManager(\"index\")" },
+		{ "trigger": "roiManager", "contents": "roiManager(${1:\"index\"});", "annotation": "roiManager(\"index\")" },
 
-		{ "trigger": "roiManager", "contents": "roiManager(${1:\"measure\"})",  "annotation": "roiManager(\"measure\")" },
+		{ "trigger": "roiManager", "contents": "roiManager(${1:\"measure\"});", "annotation": "roiManager(\"measure\")" },
 
-		{ "trigger": "roiManager", "contents": "roiManager(${1:\"multi}, ${2:measure\"})",  "annotation": "roiManager(\"multi measure\")" },
+		{ "trigger": "roiManager", "contents": "roiManager(${1:\"multi}, ${2:measure\"});", "annotation": "roiManager(\"multi measure\")" },
 
-		{ "trigger": "roiManager", "contents": "roiManager(${1:\"multi-measure}, ${2:append\"})",  "annotation": "roiManager(\"multi-measure append\")" },
+		{ "trigger": "roiManager", "contents": "roiManager(${1:\"multi-measure}, ${2:append\"});", "annotation": "roiManager(\"multi-measure append\")" },
 
-		{ "trigger": "roiManager", "contents": "roiManager(${1:\"multi-measure}, ${2:one\"})",  "annotation": "roiManager(\"multi-measure one\")" },
+		{ "trigger": "roiManager", "contents": "roiManager(${1:\"multi-measure}, ${2:one\"});", "annotation": "roiManager(\"multi-measure one\")" },
 
-		{ "trigger": "roiManager", "contents": "roiManager(${1:\"multi}, ${2:plot\"})",  "annotation": "roiManager(\"multi plot\")" },
+		{ "trigger": "roiManager", "contents": "roiManager(${1:\"multi}, ${2:plot\"});", "annotation": "roiManager(\"multi plot\")" },
 
-		{ "trigger": "roiManager", "contents": "roiManager(${1:\"open\"}, ${2:file-path})",  "annotation": "roiManager(\"open\", file-path)" },
+		{ "trigger": "roiManager", "contents": "roiManager(${1:\"open\"}, ${2:file-path});", "annotation": "roiManager(\"open\", file-path)" },
 
-		{ "trigger": "roiManager", "contents": "roiManager(${1:\"remove}, ${2:slice}, ${3:info\"})",  "annotation": "roiManager(\"remove slice info\")" },
+		{ "trigger": "roiManager", "contents": "roiManager(${1:\"remove}, ${2:slice}, ${3:info\"});", "annotation": "roiManager(\"remove slice info\")" },
 
-		{ "trigger": "roiManager", "contents": "roiManager(${1:\"rename\"}, ${2:name})",  "annotation": "roiManager(\"rename\", name)" },
+		{ "trigger": "roiManager", "contents": "roiManager(${1:\"rename\"}, ${2:name});", "annotation": "roiManager(\"rename\", name)" },
 
-		{ "trigger": "roiManager", "contents": "roiManager(${1:\"reset\"})",  "annotation": "roiManager(\"reset\")" },
+		{ "trigger": "roiManager", "contents": "roiManager(${1:\"reset\"});", "annotation": "roiManager(\"reset\")" },
 
-		{ "trigger": "roiManager", "contents": "roiManager(${1:\"save\"}, ${2:file-path})",  "annotation": "roiManager(\"save\", file-path)" },
+		{ "trigger": "roiManager", "contents": "roiManager(${1:\"save\"}, ${2:file-path});", "annotation": "roiManager(\"save\", file-path)" },
 
-		{ "trigger": "roiManager", "contents": "roiManager(${1:\"save}, ${2:selected\"}, ${3:file-path})",  "annotation": "roiManager(\"save selected\", file-path)" },
+		{ "trigger": "roiManager", "contents": "roiManager(${1:\"save}, ${2:selected\"}, ${3:file-path});", "annotation": "roiManager(\"save selected\", file-path)" },
 
-		{ "trigger": "roiManager", "contents": "roiManager(${1:\"select\"}, ${2:index})",  "annotation": "roiManager(\"select\", index)" },
+		{ "trigger": "roiManager", "contents": "roiManager(${1:\"select\"}, ${2:index});", "annotation": "roiManager(\"select\", index)" },
 
-		{ "trigger": "roiManager", "contents": "roiManager(${1:\"select\"}, ${2:indexes})",  "annotation": "roiManager(\"select\", indexes)" },
+		{ "trigger": "roiManager", "contents": "roiManager(${1:\"select\"}, ${2:indexes});", "annotation": "roiManager(\"select\", indexes)" },
 
-		{ "trigger": "roiManager", "contents": "roiManager(${1:\"show}, ${2:all\"})",  "annotation": "roiManager(\"show all\")" },
+		{ "trigger": "roiManager", "contents": "roiManager(${1:\"show}, ${2:all\"});", "annotation": "roiManager(\"show all\")" },
 
-		{ "trigger": "roiManager", "contents": "roiManager(${1:\"show}, ${2:all}, ${3:with}, ${4:labels\"})",  "annotation": "roiManager(\"show all with labels\")" },
+		{ "trigger": "roiManager", "contents": "roiManager(${1:\"show}, ${2:all}, ${3:with}, ${4:labels\"});", "annotation": "roiManager(\"show all with labels\")" },
 
-		{ "trigger": "roiManager", "contents": "roiManager(${1:\"show}, ${2:all}, ${3:without}, ${4:labels\"})",  "annotation": "roiManager(\"show all without labels\")" },
+		{ "trigger": "roiManager", "contents": "roiManager(${1:\"show}, ${2:all}, ${3:without}, ${4:labels\"});", "annotation": "roiManager(\"show all without labels\")" },
 
-		{ "trigger": "roiManager", "contents": "roiManager(${1:\"show}, ${2:none\"})",  "annotation": "roiManager(\"show none\")" },
+		{ "trigger": "roiManager", "contents": "roiManager(${1:\"show}, ${2:none\"});", "annotation": "roiManager(\"show none\")" },
 
-		{ "trigger": "roiManager", "contents": "roiManager(${1:\"size\"})",  "annotation": "roiManager(\"size\")" },
+		{ "trigger": "roiManager", "contents": "roiManager(${1:\"size\"});", "annotation": "roiManager(\"size\")" },
 
-		{ "trigger": "roiManager", "contents": "roiManager(${1:\"sort\"})",  "annotation": "roiManager(\"sort\")" },
+		{ "trigger": "roiManager", "contents": "roiManager(${1:\"sort\"});", "annotation": "roiManager(\"sort\")" },
 
-		{ "trigger": "roiManager", "contents": "roiManager(${1:\"split\"})",  "annotation": "roiManager(\"split\")" },
+		{ "trigger": "roiManager", "contents": "roiManager(${1:\"split\"});", "annotation": "roiManager(\"split\")" },
 
-		{ "trigger": "roiManager", "contents": "roiManager(${1:\"update\"})",  "annotation": "roiManager(\"update\")" },
+		{ "trigger": "roiManager", "contents": "roiManager(${1:\"update\"});", "annotation": "roiManager(\"update\")" },
 
-		{ "trigger": "RoiManager.multiCrop", "contents": "RoiManager.multiCrop(${1:dir}, ${2:options})",  "annotation": "RoiManager.multiCrop(dir, options)" },
+		{ "trigger": "RoiManager.multiCrop", "contents": "RoiManager.multiCrop(${1:dir}, ${2:options});", "annotation": "RoiManager.multiCrop(dir, options)" },
 
-		{ "trigger": "RoiManager.getName", "contents": "RoiManager.getName(${1:index})",  "annotation": "RoiManager.getName(index)" },
+		{ "trigger": "RoiManager.getName", "contents": "RoiManager.getName(${1:index});", "annotation": "RoiManager.getName(index)" },
 
-		{ "trigger": "RoiManager.getIndex", "contents": "RoiManager.getIndex(${1:name})",  "annotation": "RoiManager.getIndex(name)" },
+		{ "trigger": "RoiManager.getIndex", "contents": "RoiManager.getIndex(${1:name});", "annotation": "RoiManager.getIndex(name)" },
 
-		{ "trigger": "RoiManager.rotate", "contents": "RoiManager.rotate(${1:angle})",  "annotation": "RoiManager.rotate(angle)" },
+		{ "trigger": "RoiManager.rotate", "contents": "RoiManager.rotate(${1:angle});", "annotation": "RoiManager.rotate(angle)" },
 
-		{ "trigger": "RoiManager.rotate", "contents": "RoiManager.rotate(${1:angle}, ${2:xcenter}, ${3:ycenter})",  "annotation": "RoiManager.rotate(angle, xcenter, ycenter)" },
+		{ "trigger": "RoiManager.rotate", "contents": "RoiManager.rotate(${1:angle}, ${2:xcenter}, ${3:ycenter});", "annotation": "RoiManager.rotate(angle, xcenter, ycenter)" },
 
-		{ "trigger": "RoiManager.scale", "contents": "RoiManager.scale(${1:xscale}, ${2:yscale}, ${3:centered})",  "annotation": "RoiManager.scale(xscale, yscale, centered)" },
+		{ "trigger": "RoiManager.scale", "contents": "RoiManager.scale(${1:xscale}, ${2:yscale}, ${3:centered});", "annotation": "RoiManager.scale(xscale, yscale, centered)" },
 
-		{ "trigger": "RoiManager.select", "contents": "RoiManager.select(${1:index})",  "annotation": "RoiManager.select(index)" },
+		{ "trigger": "RoiManager.select", "contents": "RoiManager.select(${1:index});", "annotation": "RoiManager.select(index)" },
 
-		{ "trigger": "RoiManager.selectByName", "contents": "RoiManager.selectByName(${1:name})",  "annotation": "RoiManager.selectByName(name)" },
+		{ "trigger": "RoiManager.selectByName", "contents": "RoiManager.selectByName(${1:name});", "annotation": "RoiManager.selectByName(name)" },
 
-		{ "trigger": "RoiManager.selected", "contents": "RoiManager.selected()",  "annotation": "RoiManager.selected" },
+		{ "trigger": "RoiManager.selected", "contents": "RoiManager.selected();", "annotation": "RoiManager.selected" },
 
-		{ "trigger": "RoiManager.selectGroup", "contents": "RoiManager.selectGroup(${1:group})",  "annotation": "RoiManager.selectGroup(group)" },
+		{ "trigger": "RoiManager.selectGroup", "contents": "RoiManager.selectGroup(${1:group});", "annotation": "RoiManager.selectGroup(group)" },
 
-		{ "trigger": "RoiManager.setGroup", "contents": "RoiManager.setGroup(${1:group})",  "annotation": "RoiManager.setGroup(group)" },
+		{ "trigger": "RoiManager.setGroup", "contents": "RoiManager.setGroup(${1:group});", "annotation": "RoiManager.setGroup(group)" },
 
-		{ "trigger": "RoiManager.setPosition", "contents": "RoiManager.setPosition()",  "annotation": "RoiManager.setPosition" },
+		{ "trigger": "RoiManager.setPosition", "contents": "RoiManager.setPosition();", "annotation": "RoiManager.setPosition" },
 
-		{ "trigger": "RoiManager.size", "contents": "RoiManager.size()",  "annotation": "RoiManager.size" },
+		{ "trigger": "RoiManager.size", "contents": "RoiManager.size();", "annotation": "RoiManager.size" },
 
-		{ "trigger": "RoiManager.translate", "contents": "RoiManager.translate(${1:dx}, ${2:dy})",  "annotation": "RoiManager.translate(dx, dy)" },
+		{ "trigger": "RoiManager.translate", "contents": "RoiManager.translate(${1:dx}, ${2:dy});", "annotation": "RoiManager.translate(dx, dy)" },
 
-		{ "trigger": "RoiManager.associateROIsWithSlices", "contents": "RoiManager.associateROIsWithSlices(${1:boolean})",  "annotation": "RoiManager.associateROIsWithSlices(boolean)" },
+		{ "trigger": "RoiManager.associateROIsWithSlices", "contents": "RoiManager.associateROIsWithSlices(${1:boolean});", "annotation": "RoiManager.associateROIsWithSlices(boolean)" },
 
-		{ "trigger": "RoiManager.restoreCentered", "contents": "RoiManager.restoreCentered(${1:boolean})",  "annotation": "RoiManager.restoreCentered(boolean)" },
+		{ "trigger": "RoiManager.restoreCentered", "contents": "RoiManager.restoreCentered(${1:boolean});", "annotation": "RoiManager.restoreCentered(boolean)" },
 
-		{ "trigger": "RoiManager.useNamesAsLabels", "contents": "RoiManager.useNamesAsLabels(${1:boolean})",  "annotation": "RoiManager.useNamesAsLabels(boolean)" },
+		{ "trigger": "RoiManager.useNamesAsLabels", "contents": "RoiManager.useNamesAsLabels(${1:boolean});", "annotation": "RoiManager.useNamesAsLabels(boolean)" },
 
-		{ "trigger": "round", "contents": "round(${1:n})",  "annotation": "round(n)" },
+		{ "trigger": "round", "contents": "round(${1:n});", "annotation": "round(n)" },
 
-		{ "trigger": "run", "contents": "run(${1:command})",  "annotation": "run(command)" },
+		{ "trigger": "run", "contents": "run(${1:command});", "annotation": "run(command)" },
 
-		{ "trigger": "run", "contents": "run(${1:command}, ${2:options})",  "annotation": "run(command, options)" },
+		{ "trigger": "run", "contents": "run(${1:command}, ${2:options});", "annotation": "run(command, options)" },
 
-		{ "trigger": "runMacro", "contents": "runMacro(${1:name})",  "annotation": "runMacro(name)" },
+		{ "trigger": "runMacro", "contents": "runMacro(${1:name});", "annotation": "runMacro(name)" },
 
-		{ "trigger": "runMacro", "contents": "runMacro(${1:name}, ${2:arg})",  "annotation": "runMacro(name, arg)" },
+		{ "trigger": "runMacro", "contents": "runMacro(${1:name}, ${2:arg});", "annotation": "runMacro(name, arg)" },
 
-		{ "trigger": "save", "contents": "save(${1:path})",  "annotation": "save(path)" },
+		{ "trigger": "save", "contents": "save(${1:path});", "annotation": "save(path)" },
 
-		{ "trigger": "saveAs", "contents": "saveAs(${1:format}, ${2:path})",  "annotation": "saveAs(format, path)" },
+		{ "trigger": "saveAs", "contents": "saveAs(${1:format}, ${2:path});", "annotation": "saveAs(format, path)" },
 
-		{ "trigger": "saveSettings", "contents": "saveSettings()",  "annotation": "saveSettings()" },
+		{ "trigger": "saveSettings", "contents": "saveSettings();", "annotation": "saveSettings()" },
 
-		{ "trigger": "screenHeight", "contents": "screenHeight()",  "annotation": "screenHeight" },
+		{ "trigger": "screenHeight", "contents": "screenHeight();", "annotation": "screenHeight" },
 
-		{ "trigger": "screenWidth", "contents": "screenWidth()",  "annotation": "screenWidth" },
+		{ "trigger": "screenWidth", "contents": "screenWidth();", "annotation": "screenWidth" },
 
-		{ "trigger": "selectionContains", "contents": "selectionContains(${1:x}, ${2:y})",  "annotation": "selectionContains(x, y)" },
+		{ "trigger": "selectionContains", "contents": "selectionContains(${1:x}, ${2:y});", "annotation": "selectionContains(x, y)" },
 
-		{ "trigger": "selectionName", "contents": "selectionName()",  "annotation": "selectionName" },
+		{ "trigger": "selectionName", "contents": "selectionName();", "annotation": "selectionName" },
 
-		{ "trigger": "selectionType", "contents": "selectionType()",  "annotation": "selectionType" },
+		{ "trigger": "selectionType", "contents": "selectionType();", "annotation": "selectionType" },
 
-		{ "trigger": "selectImage", "contents": "selectImage(${1:id})",  "annotation": "selectImage(id)" },
+		{ "trigger": "selectImage", "contents": "selectImage(${1:id});", "annotation": "selectImage(id)" },
 
-		{ "trigger": "selectWindow", "contents": "selectWindow(${1:\"name\"})",  "annotation": "selectWindow(\"name\")" },
+		{ "trigger": "selectWindow", "contents": "selectWindow(${1:\"name\"});", "annotation": "selectWindow(\"name\")" },
 
-		{ "trigger": "setAutoThreshold", "contents": "setAutoThreshold()",  "annotation": "setAutoThreshold()" },
+		{ "trigger": "setAutoThreshold", "contents": "setAutoThreshold();", "annotation": "setAutoThreshold()" },
 
-		{ "trigger": "setAutoThreshold", "contents": "setAutoThreshold(${1:method})",  "annotation": "setAutoThreshold(method)" },
+		{ "trigger": "setAutoThreshold", "contents": "setAutoThreshold(${1:method});", "annotation": "setAutoThreshold(method)" },
 
-		{ "trigger": "setBackgroundColor", "contents": "setBackgroundColor(${1:r}, ${2:g}, ${3:b})",  "annotation": "setBackgroundColor(r, g, b)" },
+		{ "trigger": "setBackgroundColor", "contents": "setBackgroundColor(${1:r}, ${2:g}, ${3:b});", "annotation": "setBackgroundColor(r, g, b)" },
 
-		{ "trigger": "setBackgroundColor", "contents": "setBackgroundColor(${1:rgb})",  "annotation": "setBackgroundColor(rgb)" },
+		{ "trigger": "setBackgroundColor", "contents": "setBackgroundColor(${1:rgb});", "annotation": "setBackgroundColor(rgb)" },
 
-		{ "trigger": "setBatchMode", "contents": "setBatchMode(${1:arg})",  "annotation": "setBatchMode(arg)" },
+		{ "trigger": "setBatchMode", "contents": "setBatchMode(${1:arg});", "annotation": "setBatchMode(arg)" },
 
-		{ "trigger": "setBatchMode", "contents": "setBatchMode(${1:\"exit}, ${2:and}, ${3:display\"})",  "annotation": "setBatchMode(\"exit and display\")" },
+		{ "trigger": "setBatchMode", "contents": "setBatchMode(${1:\"exit}, ${2:and}, ${3:display\"});", "annotation": "setBatchMode(\"exit and display\")" },
 
-		{ "trigger": "setBatchMode", "contents": "setBatchMode(${1:\"show\"})",  "annotation": "setBatchMode(\"show\")" },
+		{ "trigger": "setBatchMode", "contents": "setBatchMode(${1:\"show\"});", "annotation": "setBatchMode(\"show\")" },
 
-		{ "trigger": "setBatchMode", "contents": "setBatchMode(${1:\"hide\"})",  "annotation": "setBatchMode(\"hide\")" },
+		{ "trigger": "setBatchMode", "contents": "setBatchMode(${1:\"hide\"});", "annotation": "setBatchMode(\"hide\")" },
 
-		{ "trigger": "setColor", "contents": "setColor(${1:r}, ${2:g}, ${3:b})",  "annotation": "setColor(r, g, b)" },
+		{ "trigger": "setColor", "contents": "setColor(${1:r}, ${2:g}, ${3:b});", "annotation": "setColor(r, g, b)" },
 
-		{ "trigger": "setColor", "contents": "setColor(${1:value})",  "annotation": "setColor(value)" },
+		{ "trigger": "setColor", "contents": "setColor(${1:value});", "annotation": "setColor(value)" },
 
-		{ "trigger": "setColor", "contents": "setColor(${1:string})",  "annotation": "setColor(string)" },
+		{ "trigger": "setColor", "contents": "setColor(${1:string});", "annotation": "setColor(string)" },
 
-		{ "trigger": "setFont", "contents": "setFont(${1:name}, ${2:size[}, ${3:style]})",  "annotation": "setFont(name, size[, style])" },
+		{ "trigger": "setFont", "contents": "setFont(${1:name}, ${2:size[}, ${3:style]});", "annotation": "setFont(name, size[, style])" },
 
-		{ "trigger": "setFont", "contents": "setFont(${1:\"user\"})",  "annotation": "setFont(\"user\")" },
+		{ "trigger": "setFont", "contents": "setFont(${1:\"user\"});", "annotation": "setFont(\"user\")" },
 
-		{ "trigger": "setForegroundColor", "contents": "setForegroundColor(${1:r}, ${2:g}, ${3:b})",  "annotation": "setForegroundColor(r, g, b)" },
+		{ "trigger": "setForegroundColor", "contents": "setForegroundColor(${1:r}, ${2:g}, ${3:b});", "annotation": "setForegroundColor(r, g, b)" },
 
-		{ "trigger": "setForegroundColor", "contents": "setForegroundColor(${1:rgb})",  "annotation": "setForegroundColor(rgb)" },
+		{ "trigger": "setForegroundColor", "contents": "setForegroundColor(${1:rgb});", "annotation": "setForegroundColor(rgb)" },
 
-		{ "trigger": "setJustification", "contents": "setJustification(${1:\"center\"})",  "annotation": "setJustification(\"center\")" },
+		{ "trigger": "setJustification", "contents": "setJustification(${1:\"center\"});", "annotation": "setJustification(\"center\")" },
 
-		{ "trigger": "setKeyDown", "contents": "setKeyDown(${1:keys})",  "annotation": "setKeyDown(keys)" },
+		{ "trigger": "setKeyDown", "contents": "setKeyDown(${1:keys});", "annotation": "setKeyDown(keys)" },
 
-		{ "trigger": "setLineWidth", "contents": "setLineWidth(${1:width})",  "annotation": "setLineWidth(width)" },
+		{ "trigger": "setLineWidth", "contents": "setLineWidth(${1:width});", "annotation": "setLineWidth(width)" },
 
-		{ "trigger": "setLocation", "contents": "setLocation(${1:x}, ${2:y})",  "annotation": "setLocation(x, y)" },
+		{ "trigger": "setLocation", "contents": "setLocation(${1:x}, ${2:y});", "annotation": "setLocation(x, y)" },
 
-		{ "trigger": "setLocation", "contents": "setLocation(${1:x}, ${2:y}, ${3:width}, ${4:height})",  "annotation": "setLocation(x, y, width, height)" },
+		{ "trigger": "setLocation", "contents": "setLocation(${1:x}, ${2:y}, ${3:width}, ${4:height});", "annotation": "setLocation(x, y, width, height)" },
 
-		{ "trigger": "setLut", "contents": "setLut(${1:reds}, ${2:greens}, ${3:blues})",  "annotation": "setLut(reds, greens, blues)" },
+		{ "trigger": "setLut", "contents": "setLut(${1:reds}, ${2:greens}, ${3:blues});", "annotation": "setLut(reds, greens, blues)" },
 
-		{ "trigger": "setMetadata", "contents": "setMetadata(${1:\"Info\"}, ${2:string})",  "annotation": "setMetadata(\"Info\", string)" },
+		{ "trigger": "setMetadata", "contents": "setMetadata(${1:\"Info\"}, ${2:string});", "annotation": "setMetadata(\"Info\", string)" },
 
-		{ "trigger": "setMetadata", "contents": "setMetadata(${1:\"Label\"}, ${2:string})",  "annotation": "setMetadata(\"Label\", string)" },
+		{ "trigger": "setMetadata", "contents": "setMetadata(${1:\"Label\"}, ${2:string});", "annotation": "setMetadata(\"Label\", string)" },
 
-		{ "trigger": "setMinAndMax", "contents": "setMinAndMax(${1:min}, ${2:max})",  "annotation": "setMinAndMax(min, max)" },
+		{ "trigger": "setMinAndMax", "contents": "setMinAndMax(${1:min}, ${2:max});", "annotation": "setMinAndMax(min, max)" },
 
-		{ "trigger": "setMinAndMax", "contents": "setMinAndMax(${1:min}, ${2:max}, ${3:channels})",  "annotation": "setMinAndMax(min, max, channels)" },
+		{ "trigger": "setMinAndMax", "contents": "setMinAndMax(${1:min}, ${2:max}, ${3:channels});", "annotation": "setMinAndMax(min, max, channels)" },
 
-		{ "trigger": "setOption", "contents": "setOption(${1:option}, ${2:boolean})",  "annotation": "setOption(option, boolean)" },
+		{ "trigger": "setOption", "contents": "setOption(${1:option}, ${2:boolean});", "annotation": "setOption(option, boolean)" },
 
-		{ "trigger": "setOption", "contents": "setOption(${1:measurement}, ${2:boolean})",  "annotation": "setOption(measurement, boolean)" },
+		{ "trigger": "setOption", "contents": "setOption(${1:measurement}, ${2:boolean});", "annotation": "setOption(measurement, boolean)" },
 
-		{ "trigger": "setOption", "contents": "setOption(${1:\"AutoContrast\"}, ${2:boolean})",  "annotation": "setOption(\"AutoContrast\", boolean)" },
+		{ "trigger": "setOption", "contents": "setOption(${1:\"AutoContrast\"}, ${2:boolean});", "annotation": "setOption(\"AutoContrast\", boolean)" },
 
-		{ "trigger": "setOption", "contents": "setOption(${1:\"Bicubic\"}, ${2:boolean})",  "annotation": "setOption(\"Bicubic\", boolean)" },
+		{ "trigger": "setOption", "contents": "setOption(${1:\"Bicubic\"}, ${2:boolean});", "annotation": "setOption(\"Bicubic\", boolean)" },
 
-		{ "trigger": "setOption", "contents": "setOption(${1:\"BlackBackground\"}, ${2:boolean})",  "annotation": "setOption(\"BlackBackground\", boolean)" },
+		{ "trigger": "setOption", "contents": "setOption(${1:\"BlackBackground\"}, ${2:boolean});", "annotation": "setOption(\"BlackBackground\", boolean)" },
 
-		{ "trigger": "setOption", "contents": "setOption(${1:\"Changes\"}, ${2:boolean})",  "annotation": "setOption(\"Changes\", boolean)" },
+		{ "trigger": "setOption", "contents": "setOption(${1:\"Changes\"}, ${2:boolean});", "annotation": "setOption(\"Changes\", boolean)" },
 
-		{ "trigger": "setOption", "contents": "setOption(${1:\"CopyHeaders\"}, ${2:boolean})",  "annotation": "setOption(\"CopyHeaders\", boolean)" },
+		{ "trigger": "setOption", "contents": "setOption(${1:\"CopyHeaders\"}, ${2:boolean});", "annotation": "setOption(\"CopyHeaders\", boolean)" },
 
-		{ "trigger": "setOption", "contents": "setOption(${1:\"DebugMode\"}, ${2:boolean})",  "annotation": "setOption(\"DebugMode\", boolean)" },
+		{ "trigger": "setOption", "contents": "setOption(${1:\"DebugMode\"}, ${2:boolean});", "annotation": "setOption(\"DebugMode\", boolean)" },
 
-		{ "trigger": "setOption", "contents": "setOption(${1:\"DisablePopupMenu\"}, ${2:boolean})",  "annotation": "setOption(\"DisablePopupMenu\", boolean)" },
+		{ "trigger": "setOption", "contents": "setOption(${1:\"DisablePopupMenu\"}, ${2:boolean});", "annotation": "setOption(\"DisablePopupMenu\", boolean)" },
 
-		{ "trigger": "setOption", "contents": "setOption(${1:\"DisableUndo\"}, ${2:boolean})",  "annotation": "setOption(\"DisableUndo\", boolean)" },
+		{ "trigger": "setOption", "contents": "setOption(${1:\"DisableUndo\"}, ${2:boolean});", "annotation": "setOption(\"DisableUndo\", boolean)" },
 
-		{ "trigger": "setOption", "contents": "setOption(${1:\"ExpandableArrays\"}, ${2:boolean})",  "annotation": "setOption(\"ExpandableArrays\", boolean)" },
+		{ "trigger": "setOption", "contents": "setOption(${1:\"ExpandableArrays\"}, ${2:boolean});", "annotation": "setOption(\"ExpandableArrays\", boolean)" },
 
-		{ "trigger": "setOption", "contents": "setOption(${1:\"FlipFitsImages\"}, ${2:boolean})",  "annotation": "setOption(\"FlipFitsImages\",boolean)" },
+		{ "trigger": "setOption", "contents": "setOption(${1:\"FlipFitsImages\"}, ${2:boolean});", "annotation": "setOption(\"FlipFitsImages\",boolean)" },
 
-		{ "trigger": "setOption", "contents": "setOption(${1:\"InterpolateLines\"}, ${2:boolean})",  "annotation": "setOption(\"InterpolateLines\",boolean)" },
+		{ "trigger": "setOption", "contents": "setOption(${1:\"InterpolateLines\"}, ${2:boolean});", "annotation": "setOption(\"InterpolateLines\",boolean)" },
 
-		{ "trigger": "setOption", "contents": "setOption(${1:\"InvertY\"}, ${2:boolean})",  "annotation": "setOption(\"InvertY\", boolean)" },
+		{ "trigger": "setOption", "contents": "setOption(${1:\"InvertY\"}, ${2:boolean});", "annotation": "setOption(\"InvertY\", boolean)" },
 
-		{ "trigger": "setOption", "contents": "setOption(${1:\"JFileChooser\"}, ${2:boolean})",  "annotation": "setOption(\"JFileChooser\", boolean)" },
+		{ "trigger": "setOption", "contents": "setOption(${1:\"JFileChooser\"}, ${2:boolean});", "annotation": "setOption(\"JFileChooser\", boolean)" },
 
-		{ "trigger": "setOption", "contents": "setOption(${1:\"Loop\"}, ${2:boolean})",  "annotation": "setOption(\"Loop\", boolean)" },
+		{ "trigger": "setOption", "contents": "setOption(${1:\"Loop\"}, ${2:boolean});", "annotation": "setOption(\"Loop\", boolean)" },
 
-		{ "trigger": "setOption", "contents": "setOption(${1:\"OpenUsingPlugins\"}, ${2:boolean})",  "annotation": "setOption(\"OpenUsingPlugins\", boolean)" },
+		{ "trigger": "setOption", "contents": "setOption(${1:\"MonospacedText\"}, ${2:boolean});", "annotation": "setOption(\"MonospacedText\", boolean)" },
 
-		{ "trigger": "setOption", "contents": "setOption(${1:\"QueueMacros\"}, ${2:boolean})",  "annotation": "setOption(\"QueueMacros\", boolean)" },
+		{ "trigger": "setOption", "contents": "setOption(${1:\"OpenUsingPlugins\"}, ${2:boolean});", "annotation": "setOption(\"OpenUsingPlugins\", boolean)" },
 
-		{ "trigger": "setOption", "contents": "setOption(${1:\"ScaleConversions\"}, ${2:boolean})",  "annotation": "setOption(\"ScaleConversions\", boolean)" },
+		{ "trigger": "setOption", "contents": "setOption(${1:\"QueueMacros\"}, ${2:boolean});", "annotation": "setOption(\"QueueMacros\", boolean)" },
 
-		{ "trigger": "setOption", "contents": "setOption(${1:\"Show}, ${2:All\"}, ${3:boolean})",  "annotation": "setOption(\"Show All\", boolean)" },
+		{ "trigger": "setOption", "contents": "setOption(${1:\"ScaleConversions\"}, ${2:boolean});", "annotation": "setOption(\"ScaleConversions\", boolean)" },
 
-		{ "trigger": "setOption", "contents": "setOption(${1:\"ShowAngle\"}, ${2:boolean})",  "annotation": "setOption(\"ShowAngle\", boolean)" },
+		{ "trigger": "setOption", "contents": "setOption(${1:\"Show}, ${2:All\"}, ${3:boolean});", "annotation": "setOption(\"Show All\", boolean)" },
 
-		{ "trigger": "setOption", "contents": "setOption(${1:\"ShowMin\"}, ${2:boolean})",  "annotation": "setOption(\"ShowMin\", boolean)" },
+		{ "trigger": "setOption", "contents": "setOption(${1:\"ShowAngle\"}, ${2:boolean});", "annotation": "setOption(\"ShowAngle\", boolean)" },
 
-		{ "trigger": "setOption", "contents": "setOption(${1:\"WaitForCompletion\"}, ${2:boolean})",  "annotation": "setOption(\"WaitForCompletion\", boolean)" },
+		{ "trigger": "setOption", "contents": "setOption(${1:\"ShowMin\"}, ${2:boolean});", "annotation": "setOption(\"ShowMin\", boolean)" },
 
-		{ "trigger": "setOption", "contents": "setOption(${1:\"WandAllPoints\"}, ${2:boolean})",  "annotation": "setOption(\"WandAllPoints\", boolean)" },
+		{ "trigger": "setOption", "contents": "setOption(${1:\"WaitForCompletion\"}, ${2:boolean});", "annotation": "setOption(\"WaitForCompletion\", boolean)" },
 
-		{ "trigger": "setPasteMode", "contents": "setPasteMode(${1:mode})",  "annotation": "setPasteMode(mode)" },
+		{ "trigger": "setOption", "contents": "setOption(${1:\"WandAllPoints\"}, ${2:boolean});", "annotation": "setOption(\"WandAllPoints\", boolean)" },
 
-		{ "trigger": "setPixel", "contents": "setPixel(${1:x}, ${2:y}, ${3:value})",  "annotation": "setPixel(x, y, value)" },
+		{ "trigger": "setPasteMode", "contents": "setPasteMode(${1:mode});", "annotation": "setPasteMode(mode)" },
 
-		{ "trigger": "setResult", "contents": "setResult(${1:\"Column\"}, ${2:row}, ${3:value})",  "annotation": "setResult(\"Column\", row, value)" },
+		{ "trigger": "setPixel", "contents": "setPixel(${1:x}, ${2:y}, ${3:value});", "annotation": "setPixel(x, y, value)" },
 
-		{ "trigger": "setRGBWeights", "contents": "setRGBWeights(${1:redWeight}, ${2:greenWeight}, ${3:blueWeight})",  "annotation": "setRGBWeights(redWeight, greenWeight, blueWeight)" },
+		{ "trigger": "setResult", "contents": "setResult(${1:\"Column\"}, ${2:row}, ${3:value});", "annotation": "setResult(\"Column\", row, value)" },
 
-		{ "trigger": "setSelectionLocation", "contents": "setSelectionLocation(${1:x}, ${2:y})",  "annotation": "setSelectionLocation(x, y)" },
+		{ "trigger": "setRGBWeights", "contents": "setRGBWeights(${1:redWeight}, ${2:greenWeight}, ${3:blueWeight});", "annotation": "setRGBWeights(redWeight, greenWeight, blueWeight)" },
 
-		{ "trigger": "setSelectionName", "contents": "setSelectionName(${1:name})",  "annotation": "setSelectionName(name)" },
+		{ "trigger": "setSelectionLocation", "contents": "setSelectionLocation(${1:x}, ${2:y});", "annotation": "setSelectionLocation(x, y)" },
 
-		{ "trigger": "setSlice", "contents": "setSlice(${1:n})",  "annotation": "setSlice(n)" },
+		{ "trigger": "setSelectionName", "contents": "setSelectionName(${1:name});", "annotation": "setSelectionName(name)" },
 
-		{ "trigger": "setThreshold", "contents": "setThreshold(${1:lower}, ${2:upper})",  "annotation": "setThreshold(lower, upper)" },
+		{ "trigger": "setSlice", "contents": "setSlice(${1:n});", "annotation": "setSlice(n)" },
 
-		{ "trigger": "setTool", "contents": "setTool(${1:name})",  "annotation": "setTool(name)" },
+		{ "trigger": "setThreshold", "contents": "setThreshold(${1:lower}, ${2:upper});", "annotation": "setThreshold(lower, upper)" },
 
-		{ "trigger": "setTool", "contents": "setTool(${1:id})",  "annotation": "setTool(id)" },
+		{ "trigger": "setTool", "contents": "setTool(${1:name});", "annotation": "setTool(name)" },
 
-		{ "trigger": "setupUndo", "contents": "setupUndo()",  "annotation": "setupUndo()" },
+		{ "trigger": "setTool", "contents": "setTool(${1:id});", "annotation": "setTool(id)" },
 
-		{ "trigger": "setVoxelSize", "contents": "setVoxelSize(${1:width}, ${2:height}, ${3:depth}, ${4:unit})",  "annotation": "setVoxelSize(width, height, depth, unit)" },
+		{ "trigger": "setupUndo", "contents": "setupUndo();", "annotation": "setupUndo()" },
 
-		{ "trigger": "setZCoordinate", "contents": "setZCoordinate(${1:z})",  "annotation": "setZCoordinate(z)" },
+		{ "trigger": "setVoxelSize", "contents": "setVoxelSize(${1:width}, ${2:height}, ${3:depth}, ${4:unit});", "annotation": "setVoxelSize(width, height, depth, unit)" },
 
-		{ "trigger": "showMessage", "contents": "showMessage(${1:\"message\"})",  "annotation": "showMessage(\"message\")" },
+		{ "trigger": "setZCoordinate", "contents": "setZCoordinate(${1:z});", "annotation": "setZCoordinate(z)" },
 
-		{ "trigger": "showMessage", "contents": "showMessage(${1:\"title\"}, ${2:\"message\"})",  "annotation": "showMessage(\"title\", \"message\")" },
+		{ "trigger": "showMessage", "contents": "showMessage(${1:\"message\"});", "annotation": "showMessage(\"message\")" },
 
-		{ "trigger": "showMessageWithCancel", "contents": "showMessageWithCancel(${1:[\"title\"}, ${2:]\"message\"})",  "annotation": "showMessageWithCancel([\"title\",]\"message\")" },
+		{ "trigger": "showMessage", "contents": "showMessage(${1:\"title\"}, ${2:\"message\"});", "annotation": "showMessage(\"title\", \"message\")" },
 
-		{ "trigger": "showProgress", "contents": "showProgress(${1:progress})",  "annotation": "showProgress(progress)" },
+		{ "trigger": "showMessageWithCancel", "contents": "showMessageWithCancel(${1:[\"title\"}, ${2:]\"message\"});", "annotation": "showMessageWithCancel([\"title\",]\"message\")" },
 
-		{ "trigger": "showProgress", "contents": "showProgress(${1:currentIndex}, ${2:finalIndex})",  "annotation": "showProgress(currentIndex, finalIndex)" },
+		{ "trigger": "showProgress", "contents": "showProgress(${1:progress});", "annotation": "showProgress(progress)" },
 
-		{ "trigger": "showStatus", "contents": "showStatus(${1:\"message\"})",  "annotation": "showStatus(\"message\")" },
+		{ "trigger": "showProgress", "contents": "showProgress(${1:currentIndex}, ${2:finalIndex});", "annotation": "showProgress(currentIndex, finalIndex)" },
 
-		{ "trigger": "showText", "contents": "showText(${1:\"string\"})",  "annotation": "showText(\"string\")" },
+		{ "trigger": "showStatus", "contents": "showStatus(${1:\"message\"});", "annotation": "showStatus(\"message\")" },
 
-		{ "trigger": "showText", "contents": "showText(${1:\"Title\"}, ${2:\"string\"})",  "annotation": "showText(\"Title\", \"string\")" },
+		{ "trigger": "showText", "contents": "showText(${1:\"string\"});", "annotation": "showText(\"string\")" },
 
-		{ "trigger": "sin", "contents": "sin(${1:angle})",  "annotation": "sin(angle)" },
+		{ "trigger": "showText", "contents": "showText(${1:\"Title\"}, ${2:\"string\"});", "annotation": "showText(\"Title\", \"string\")" },
 
-		{ "trigger": "snapshot", "contents": "snapshot()",  "annotation": "snapshot()" },
+		{ "trigger": "sin", "contents": "sin(${1:angle});", "annotation": "sin(angle)" },
 
-		{ "trigger": "split", "contents": "split(${1:string}, ${2:delimiters})",  "annotation": "split(string, delimiters)" },
+		{ "trigger": "snapshot", "contents": "snapshot();", "annotation": "snapshot()" },
 
-		{ "trigger": "sqrt", "contents": "sqrt(${1:n})",  "annotation": "sqrt(n)" },
+		{ "trigger": "split", "contents": "split(${1:string}, ${2:delimiters});", "annotation": "split(string, delimiters)" },
 
-		{ "trigger": "Stack.isHyperstack", "contents": "Stack.isHyperstack()",  "annotation": "Stack.isHyperstack" },
+		{ "trigger": "sqrt", "contents": "sqrt(${1:n});", "annotation": "sqrt(n)" },
 
-		{ "trigger": "Stack.getDimensions", "contents": "Stack.getDimensions(${1:width}, ${2:height}, ${3:channels}, ${4:slices}, ${5:frames})",  "annotation": "Stack.getDimensions(width, height, channels, slices, frames)" },
+		{ "trigger": "Stack.isHyperstack", "contents": "Stack.isHyperstack();", "annotation": "Stack.isHyperstack" },
 
-		{ "trigger": "Stack.setDimensions", "contents": "Stack.setDimensions(${1:channels}, ${2:slices}, ${3:frames})",  "annotation": "Stack.setDimensions(channels, slices, frames)" },
+		{ "trigger": "Stack.getDimensions", "contents": "Stack.getDimensions(${1:width}, ${2:height}, ${3:channels}, ${4:slices}, ${5:frames});", "annotation": "Stack.getDimensions(width, height, channels, slices, frames)" },
 
-		{ "trigger": "Stack.setChannel", "contents": "Stack.setChannel(${1:n})",  "annotation": "Stack.setChannel(n)" },
+		{ "trigger": "Stack.setDimensions", "contents": "Stack.setDimensions(${1:channels}, ${2:slices}, ${3:frames});", "annotation": "Stack.setDimensions(channels, slices, frames)" },
 
-		{ "trigger": "Stack.setSlice", "contents": "Stack.setSlice(${1:n})",  "annotation": "Stack.setSlice(n)" },
+		{ "trigger": "Stack.setChannel", "contents": "Stack.setChannel(${1:n});", "annotation": "Stack.setChannel(n)" },
 
-		{ "trigger": "Stack.setFrame", "contents": "Stack.setFrame(${1:n})",  "annotation": "Stack.setFrame(n)" },
+		{ "trigger": "Stack.setSlice", "contents": "Stack.setSlice(${1:n});", "annotation": "Stack.setSlice(n)" },
 
-		{ "trigger": "Stack.getPosition", "contents": "Stack.getPosition(${1:channel}, ${2:slice}, ${3:frame})",  "annotation": "Stack.getPosition(channel, slice, frame)" },
+		{ "trigger": "Stack.setFrame", "contents": "Stack.setFrame(${1:n});", "annotation": "Stack.setFrame(n)" },
 
-		{ "trigger": "Stack.setPosition", "contents": "Stack.setPosition(${1:channel}, ${2:slice}, ${3:frame})",  "annotation": "Stack.setPosition(channel, slice, frame)" },
+		{ "trigger": "Stack.getPosition", "contents": "Stack.getPosition(${1:channel}, ${2:slice}, ${3:frame});", "annotation": "Stack.getPosition(channel, slice, frame)" },
 
-		{ "trigger": "Stack.getFrameRate", "contents": "Stack.getFrameRate()",  "annotation": "Stack.getFrameRate()" },
+		{ "trigger": "Stack.setPosition", "contents": "Stack.setPosition(${1:channel}, ${2:slice}, ${3:frame});", "annotation": "Stack.setPosition(channel, slice, frame)" },
 
-		{ "trigger": "Stack.setFrameRate", "contents": "Stack.setFrameRate(${1:fps})",  "annotation": "Stack.setFrameRate(fps)" },
+		{ "trigger": "Stack.getFrameRate", "contents": "Stack.getFrameRate();", "annotation": "Stack.getFrameRate()" },
 
-		{ "trigger": "Stack.getFrameInterval", "contents": "Stack.getFrameInterval()",  "annotation": "Stack.getFrameInterval()" },
+		{ "trigger": "Stack.setFrameRate", "contents": "Stack.setFrameRate(${1:fps});", "annotation": "Stack.setFrameRate(fps)" },
 
-		{ "trigger": "Stack.setFrameInterval", "contents": "Stack.setFrameInterval(${1:interval})",  "annotation": "Stack.setFrameInterval(interval)" },
+		{ "trigger": "Stack.getFrameInterval", "contents": "Stack.getFrameInterval();", "annotation": "Stack.getFrameInterval()" },
 
-		{ "trigger": "Stack.getUnits", "contents": "Stack.getUnits(${1:X}, ${2:Y}, ${3:Z}, ${4:Time}, ${5:Value})",  "annotation": "Stack.getUnits(X, Y, Z, Time, Value)" },
+		{ "trigger": "Stack.setFrameInterval", "contents": "Stack.setFrameInterval(${1:interval});", "annotation": "Stack.setFrameInterval(interval)" },
 
-		{ "trigger": "Stack.setUnits", "contents": "Stack.setUnits(${1:X}, ${2:Y}, ${3:Z}, ${4:Time}, ${5:Value})",  "annotation": "Stack.setUnits(X, Y, Z, Time, Value)" },
+		{ "trigger": "Stack.getUnits", "contents": "Stack.getUnits(${1:X}, ${2:Y}, ${3:Z}, ${4:Time}, ${5:Value});", "annotation": "Stack.getUnits(X, Y, Z, Time, Value)" },
 
-		{ "trigger": "Stack.setXUnit", "contents": "Stack.setXUnit(${1:string})",  "annotation": "Stack.setXUnit(string)" },
+		{ "trigger": "Stack.setUnits", "contents": "Stack.setUnits(${1:X}, ${2:Y}, ${3:Z}, ${4:Time}, ${5:Value});", "annotation": "Stack.setUnits(X, Y, Z, Time, Value)" },
 
-		{ "trigger": "Stack.setYUnit", "contents": "Stack.setYUnit(${1:string})",  "annotation": "Stack.setYUnit(string)" },
+		{ "trigger": "Stack.setXUnit", "contents": "Stack.setXUnit(${1:string});", "annotation": "Stack.setXUnit(string)" },
 
-		{ "trigger": "Stack.setZUnit", "contents": "Stack.setZUnit(${1:string})",  "annotation": "Stack.setZUnit(string)" },
+		{ "trigger": "Stack.setYUnit", "contents": "Stack.setYUnit(${1:string});", "annotation": "Stack.setYUnit(string)" },
 
-		{ "trigger": "Stack.setTUnit", "contents": "Stack.setTUnit(${1:string})",  "annotation": "Stack.setTUnit(string)" },
+		{ "trigger": "Stack.setZUnit", "contents": "Stack.setZUnit(${1:string});", "annotation": "Stack.setZUnit(string)" },
 
-		{ "trigger": "Stack.setDisplayMode", "contents": "Stack.setDisplayMode(${1:mode})",  "annotation": "Stack.setDisplayMode(mode)" },
+		{ "trigger": "Stack.setTUnit", "contents": "Stack.setTUnit(${1:string});", "annotation": "Stack.setTUnit(string)" },
 
-		{ "trigger": "Stack.getDisplayMode", "contents": "Stack.getDisplayMode(${1:mode})",  "annotation": "Stack.getDisplayMode(mode)" },
+		{ "trigger": "Stack.setDisplayMode", "contents": "Stack.setDisplayMode(${1:mode});", "annotation": "Stack.setDisplayMode(mode)" },
 
-		{ "trigger": "Stack.setActiveChannels", "contents": "Stack.setActiveChannels(${1:string})",  "annotation": "Stack.setActiveChannels(string)" },
+		{ "trigger": "Stack.getDisplayMode", "contents": "Stack.getDisplayMode(${1:mode});", "annotation": "Stack.getDisplayMode(mode)" },
 
-		{ "trigger": "Stack.getActiveChannels", "contents": "Stack.getActiveChannels(${1:string})",  "annotation": "Stack.getActiveChannels(string)" },
+		{ "trigger": "Stack.setActiveChannels", "contents": "Stack.setActiveChannels(${1:string});", "annotation": "Stack.setActiveChannels(string)" },
 
-		{ "trigger": "Stack.swap", "contents": "Stack.swap(${1:n1}, ${2:n2})",  "annotation": "Stack.swap(n1, n2)" },
+		{ "trigger": "Stack.getActiveChannels", "contents": "Stack.getActiveChannels(${1:string});", "annotation": "Stack.getActiveChannels(string)" },
 
-		{ "trigger": "Stack.getStatistics", "contents": "Stack.getStatistics(${1:voxelCount}, ${2:mean}, ${3:min}, ${4:max}, ${5:stdDev})",  "annotation": "Stack.getStatistics(voxelCount, mean, min, max, stdDev)" },
+		{ "trigger": "Stack.toggleChannel", "contents": "Stack.toggleChannel(${1:channel});", "annotation": "Stack.toggleChannel(channel)" },
 
-		{ "trigger": "Stack.setOrthoViews", "contents": "Stack.setOrthoViews(${1:x}, ${2:y}, ${3:z})",  "annotation": "Stack.setOrthoViews(x, y, z)" },
+		{ "trigger": "Stack.swap", "contents": "Stack.swap(${1:n1}, ${2:n2});", "annotation": "Stack.swap(n1, n2)" },
 
-		{ "trigger": "Stack.getOrthoViews", "contents": "Stack.getOrthoViews(${1:x}, ${2:y}, ${3:z})",  "annotation": "Stack.getOrthoViews(x, y, z)" },
+		{ "trigger": "Stack.getStatistics", "contents": "Stack.getStatistics(${1:voxelCount}, ${2:mean}, ${3:min}, ${4:max}, ${5:stdDev});", "annotation": "Stack.getStatistics(voxelCount, mean, min, max, stdDev)" },
 
-		{ "trigger": "Stack.getOrthoViewsID", "contents": "Stack.getOrthoViewsID()",  "annotation": "Stack.getOrthoViewsID" },
+		{ "trigger": "Stack.setOrthoViews", "contents": "Stack.setOrthoViews(${1:x}, ${2:y}, ${3:z});", "annotation": "Stack.setOrthoViews(x, y, z)" },
 
-		{ "trigger": "Stack.getOrthoViewsIDs", "contents": "Stack.getOrthoViewsIDs(${1:XY}, ${2:YZ}, ${3:XZ})",  "annotation": "Stack.getOrthoViewsIDs(XY, YZ, XZ)" },
+		{ "trigger": "Stack.getOrthoViews", "contents": "Stack.getOrthoViews(${1:x}, ${2:y}, ${3:z});", "annotation": "Stack.getOrthoViews(x, y, z)" },
 
-		{ "trigger": "Stack.stopOrthoViews", "contents": "Stack.stopOrthoViews()",  "annotation": "Stack.stopOrthoViews" },
+		{ "trigger": "Stack.getOrthoViewsID", "contents": "Stack.getOrthoViewsID();", "annotation": "Stack.getOrthoViewsID" },
 
-		{ "trigger": "startsWith", "contents": "startsWith(${1:string}, ${2:prefix})",  "annotation": "startsWith(string, prefix)" },
+		{ "trigger": "Stack.getOrthoViewsIDs", "contents": "Stack.getOrthoViewsIDs(${1:XY}, ${2:YZ}, ${3:XZ});", "annotation": "Stack.getOrthoViewsIDs(XY, YZ, XZ)" },
 
-		{ "trigger": "String.resetBuffer", "contents": "String.resetBuffer()",  "annotation": "String.resetBuffer" },
+		{ "trigger": "Stack.stopOrthoViews", "contents": "Stack.stopOrthoViews();", "annotation": "Stack.stopOrthoViews" },
 
-		{ "trigger": "String.append", "contents": "String.append(${1:str})",  "annotation": "String.append(str)" },
+		{ "trigger": "startsWith", "contents": "startsWith(${1:string}, ${2:prefix});", "annotation": "startsWith(string, prefix)" },
 
-		{ "trigger": "String.buffer", "contents": "String.buffer()",  "annotation": "String.buffer" },
+		{ "trigger": "String.resetBuffer", "contents": "String.resetBuffer();", "annotation": "String.resetBuffer" },
 
-		{ "trigger": "String.copy", "contents": "String.copy(${1:str})",  "annotation": "String.copy(str)" },
+		{ "trigger": "String.append", "contents": "String.append(${1:str});", "annotation": "String.append(str)" },
 
-		{ "trigger": "String.copyResults", "contents": "String.copyResults()",  "annotation": "String.copyResults" },
+		{ "trigger": "String.buffer", "contents": "String.buffer();", "annotation": "String.buffer" },
 
-		{ "trigger": "String.getResultsHeadings", "contents": "String.getResultsHeadings()",  "annotation": "String.getResultsHeadings" },
+		{ "trigger": "String.copy", "contents": "String.copy(${1:str});", "annotation": "String.copy(str)" },
 
-		{ "trigger": "String.format", "contents": "String.format(${1:format}, ${2:n1}, ${3:n2}, ${4:...})",  "annotation": "String.format(format, n1, n2, ...)" },
+		{ "trigger": "String.copyResults", "contents": "String.copyResults();", "annotation": "String.copyResults" },
 
-		{ "trigger": "String.pad", "contents": "String.pad(${1:n}, ${2:length})",  "annotation": "String.pad(n, length)" },
+		{ "trigger": "String.getResultsHeadings", "contents": "String.getResultsHeadings();", "annotation": "String.getResultsHeadings" },
 
-		{ "trigger": "String.paste", "contents": "String.paste()",  "annotation": "String.paste" },
+		{ "trigger": "String.format", "contents": "String.format(${1:format}, ${2:n1}, ${3:n2}, ${4:...});", "annotation": "String.format(format, n1, n2, ...)" },
 
-		{ "trigger": "String.join", "contents": "String.join(${1:array})",  "annotation": "String.join(array)" },
+		{ "trigger": "String.pad", "contents": "String.pad(${1:n}, ${2:length});", "annotation": "String.pad(n, length)" },
 
-		{ "trigger": "String.join", "contents": "String.join(${1:array}, ${2:delimiter})",  "annotation": "String.join(array, delimiter)" },
+		{ "trigger": "String.paste", "contents": "String.paste();", "annotation": "String.paste" },
 
-		{ "trigger": "String.trim", "contents": "String.trim(${1:string})",  "annotation": "String.trim(string)" },
+		{ "trigger": "String.join", "contents": "String.join(${1:array});", "annotation": "String.join(array)" },
 
-		{ "trigger": "String.show", "contents": "String.show(${1:str})",  "annotation": "String.show(str)" },
+		{ "trigger": "String.join", "contents": "String.join(${1:array}, ${2:delimiter});", "annotation": "String.join(array, delimiter)" },
 
-		{ "trigger": "String.show", "contents": "String.show(${1:title}, ${2:str})",  "annotation": "String.show(title, str)" },
+		{ "trigger": "String.trim", "contents": "String.trim(${1:string});", "annotation": "String.trim(string)" },
 
-		{ "trigger": "String.setFontSize", "contents": "String.setFontSize(${1:size})",  "annotation": "String.setFontSize(size)" },
+		{ "trigger": "String.show", "contents": "String.show(${1:str});", "annotation": "String.show(str)" },
 
-		{ "trigger": "substring", "contents": "substring(${1:string}, ${2:index1}, ${3:index2})",  "annotation": "substring(string, index1, index2)" },
+		{ "trigger": "String.show", "contents": "String.show(${1:title}, ${2:str});", "annotation": "String.show(title, str)" },
 
-		{ "trigger": "substring", "contents": "substring(${1:string}, ${2:index})",  "annotation": "substring(string, index)" },
+		{ "trigger": "String.setFontSize", "contents": "String.setFontSize(${1:size});", "annotation": "String.setFontSize(size)" },
 
-		{ "trigger": "Table.create", "contents": "Table.create(${1:name})",  "annotation": "Table.create(name)" },
+		{ "trigger": "substring", "contents": "substring(${1:string}, ${2:index1}, ${3:index2});", "annotation": "substring(string, index1, index2)" },
 
-		{ "trigger": "Table.reset", "contents": "Table.reset(${1:name})",  "annotation": "Table.reset(name)" },
+		{ "trigger": "substring", "contents": "substring(${1:string}, ${2:index});", "annotation": "substring(string, index)" },
 
-		{ "trigger": "Table.size", "contents": "Table.size()",  "annotation": "Table.size" },
+		{ "trigger": "Table.create", "contents": "Table.create(${1:name});", "annotation": "Table.create(name)" },
 
-		{ "trigger": "Table.title", "contents": "Table.title()",  "annotation": "Table.title" },
+		{ "trigger": "Table.reset", "contents": "Table.reset(${1:name});", "annotation": "Table.reset(name)" },
 
-		{ "trigger": "Table.headings", "contents": "Table.headings()",  "annotation": "Table.headings" },
+		{ "trigger": "Table.size", "contents": "Table.size();", "annotation": "Table.size" },
 
-		{ "trigger": "Table.allHeadings", "contents": "Table.allHeadings()",  "annotation": "Table.allHeadings" },
+		{ "trigger": "Table.title", "contents": "Table.title();", "annotation": "Table.title" },
 
-		{ "trigger": "Table.get", "contents": "Table.get(${1:columnName}, ${2:rowIndex})",  "annotation": "Table.get(columnName, rowIndex)" },
+		{ "trigger": "Table.headings", "contents": "Table.headings();", "annotation": "Table.headings" },
 
-		{ "trigger": "Table.getString", "contents": "Table.getString(${1:columnName}, ${2:rowIndex})",  "annotation": "Table.getString(columnName, rowIndex)" },
+		{ "trigger": "Table.allHeadings", "contents": "Table.allHeadings();", "annotation": "Table.allHeadings" },
 
-		{ "trigger": "Table.set", "contents": "Table.set(${1:columnName}, ${2:rowIndex}, ${3:value})",  "annotation": "Table.set(columnName, rowIndex, value)" },
+		{ "trigger": "Table.get", "contents": "Table.get(${1:columnName}, ${2:rowIndex});", "annotation": "Table.get(columnName, rowIndex)" },
 
-		{ "trigger": "Table.getColumn", "contents": "Table.getColumn(${1:columnName})",  "annotation": "Table.getColumn(columnName)" },
+		{ "trigger": "Table.getString", "contents": "Table.getString(${1:columnName}, ${2:rowIndex});", "annotation": "Table.getString(columnName, rowIndex)" },
 
-		{ "trigger": "Table.setColumn", "contents": "Table.setColumn(${1:columnName}, ${2:array})",  "annotation": "Table.setColumn(columnName, array)" },
+		{ "trigger": "Table.set", "contents": "Table.set(${1:columnName}, ${2:rowIndex}, ${3:value});", "annotation": "Table.set(columnName, rowIndex, value)" },
 
-		{ "trigger": "Table.renameColumn", "contents": "Table.renameColumn(${1:oldName}, ${2:newName})",  "annotation": "Table.renameColumn(oldName, newName)" },
+		{ "trigger": "Table.getColumn", "contents": "Table.getColumn(${1:columnName});", "annotation": "Table.getColumn(columnName)" },
 
-		{ "trigger": "Table.deleteColumn", "contents": "Table.deleteColumn(${1:columnName})",  "annotation": "Table.deleteColumn(columnName)" },
+		{ "trigger": "Table.setColumn", "contents": "Table.setColumn(${1:columnName}, ${2:array});", "annotation": "Table.setColumn(columnName, array)" },
 
-		{ "trigger": "Table.columnExists", "contents": "Table.columnExists(${1:columnName})",  "annotation": "Table.columnExists(columnName)" },
+		{ "trigger": "Table.renameColumn", "contents": "Table.renameColumn(${1:oldName}, ${2:newName});", "annotation": "Table.renameColumn(oldName, newName)" },
 
-		{ "trigger": "Table.update", "contents": "Table.update()",  "annotation": "Table.update" },
+		{ "trigger": "Table.deleteColumn", "contents": "Table.deleteColumn(${1:columnName});", "annotation": "Table.deleteColumn(columnName)" },
 
-		{ "trigger": "Table.rename", "contents": "Table.rename(${1:oldName}, ${2:newName})",  "annotation": "Table.rename(oldName, newName)" },
+		{ "trigger": "Table.columnExists", "contents": "Table.columnExists(${1:columnName});", "annotation": "Table.columnExists(columnName)" },
 
-		{ "trigger": "Table.setSelection", "contents": "Table.setSelection(${1:firstRowIndex}, ${2:lastRowIndex})",  "annotation": "Table.setSelection(firstRowIndex, lastRowIndex)" },
+		{ "trigger": "Table.update", "contents": "Table.update();", "annotation": "Table.update" },
 
-		{ "trigger": "Table.getSelectionStart", "contents": "Table.getSelectionStart()",  "annotation": "Table.getSelectionStart" },
+		{ "trigger": "Table.rename", "contents": "Table.rename(${1:oldName}, ${2:newName});", "annotation": "Table.rename(oldName, newName)" },
 
-		{ "trigger": "Table.getSelectionEnd", "contents": "Table.getSelectionEnd()",  "annotation": "Table.getSelectionEnd" },
+		{ "trigger": "Table.setSelection", "contents": "Table.setSelection(${1:firstRowIndex}, ${2:lastRowIndex});", "annotation": "Table.setSelection(firstRowIndex, lastRowIndex)" },
 
-		{ "trigger": "Table.save", "contents": "Table.save(${1:filePath})",  "annotation": "Table.save(filePath)" },
+		{ "trigger": "Table.getSelectionStart", "contents": "Table.getSelectionStart();", "annotation": "Table.getSelectionStart" },
 
-		{ "trigger": "Table.open", "contents": "Table.open(${1:filePath})",  "annotation": "Table.open(filePath)" },
+		{ "trigger": "Table.getSelectionEnd", "contents": "Table.getSelectionEnd();", "annotation": "Table.getSelectionEnd" },
 
-		{ "trigger": "Table.deleteRows", "contents": "Table.deleteRows(${1:firstIndex}, ${2:lastIndex})",  "annotation": "Table.deleteRows(firstIndex, lastIndex)" },
+		{ "trigger": "Table.save", "contents": "Table.save(${1:filePath});", "annotation": "Table.save(filePath)" },
 
-		{ "trigger": "Table.sort", "contents": "Table.sort(${1:column})",  "annotation": "Table.sort(column)" },
+		{ "trigger": "Table.open", "contents": "Table.open(${1:filePath});", "annotation": "Table.open(filePath)" },
 
-		{ "trigger": "Table.showRowNumbers", "contents": "Table.showRowNumbers(${1:boolean})",  "annotation": "Table.showRowNumbers(boolean)" },
+		{ "trigger": "Table.deleteRows", "contents": "Table.deleteRows(${1:firstIndex}, ${2:lastIndex});", "annotation": "Table.deleteRows(firstIndex, lastIndex)" },
 
-		{ "trigger": "Table.showRowIndexes", "contents": "Table.showRowIndexes(${1:boolean})",  "annotation": "Table.showRowIndexes(boolean)" },
+		{ "trigger": "Table.sort", "contents": "Table.sort(${1:column});", "annotation": "Table.sort(column)" },
 
-		{ "trigger": "Table.saveColumnHeader", "contents": "Table.saveColumnHeader(${1:boolean})",  "annotation": "Table.saveColumnHeader(boolean)" },
+		{ "trigger": "Table.showRowNumbers", "contents": "Table.showRowNumbers(${1:boolean});", "annotation": "Table.showRowNumbers(boolean)" },
 
-		{ "trigger": " Table.showArrays", "contents": " Table.showArrays(${1:title}, ${2:array1}, ${3:array2}, ${4:...})",  "annotation": " Table.showArrays(title, array1, array2, ...)" },
+		{ "trigger": "Table.showRowIndexes", "contents": "Table.showRowIndexes(${1:boolean});", "annotation": "Table.showRowIndexes(boolean)" },
 
-		{ "trigger": "Table.applyMacro", "contents": "Table.applyMacro(${1:code})",  "annotation": "Table.applyMacro(code)" },
+		{ "trigger": "Table.saveColumnHeader", "contents": "Table.saveColumnHeader(${1:boolean});", "annotation": "Table.saveColumnHeader(boolean)" },
 
-		{ "trigger": "Table.setLocationAndSize", "contents": "Table.setLocationAndSize(${1:x}, ${2:y}, ${3:width}, ${4:height})",  "annotation": "Table.setLocationAndSize(x, y, width, height)" },
+		{ "trigger": " Table.showArrays", "contents": " Table.showArrays(${1:title}, ${2:array1}, ${3:array2}, ${4:...});", "annotation": " Table.showArrays(title, array1, array2, ...)" },
 
-		{ "trigger": "tan", "contents": "tan(${1:angle})",  "annotation": "tan(angle)" },
+		{ "trigger": "Table.applyMacro", "contents": "Table.applyMacro(${1:code});", "annotation": "Table.applyMacro(code)" },
 
-		{ "trigger": "toBinary", "contents": "toBinary(${1:number})",  "annotation": "toBinary(number)" },
+		{ "trigger": "Table.setLocationAndSize", "contents": "Table.setLocationAndSize(${1:x}, ${2:y}, ${3:width}, ${4:height});", "annotation": "Table.setLocationAndSize(x, y, width, height)" },
 
-		{ "trigger": "toHex", "contents": "toHex(${1:number})",  "annotation": "toHex(number)" },
+		{ "trigger": "tan", "contents": "tan(${1:angle});", "annotation": "tan(angle)" },
 
-		{ "trigger": "toLowerCase", "contents": "toLowerCase(${1:string})",  "annotation": "toLowerCase(string)" },
+		{ "trigger": "toBinary", "contents": "toBinary(${1:number});", "annotation": "toBinary(number)" },
 
-		{ "trigger": "toolID", "contents": "toolID()",  "annotation": "toolID" },
+		{ "trigger": "toHex", "contents": "toHex(${1:number});", "annotation": "toHex(number)" },
 
-		{ "trigger": "toScaled", "contents": "toScaled(${1:x}, ${2:y})",  "annotation": "toScaled(x, y)" },
+		{ "trigger": "toLowerCase", "contents": "toLowerCase(${1:string});", "annotation": "toLowerCase(string)" },
 
-		{ "trigger": "toScaled", "contents": "toScaled(${1:x}, ${2:y}, ${3:z})",  "annotation": "toScaled(x, y, z)" },
+		{ "trigger": "toolID", "contents": "toolID();", "annotation": "toolID" },
 
-		{ "trigger": "toUnscaled", "contents": "toUnscaled(${1:x}, ${2:y})",  "annotation": "toUnscaled(x, y)" },
+		{ "trigger": "toScaled", "contents": "toScaled(${1:x}, ${2:y});", "annotation": "toScaled(x, y)" },
 
-		{ "trigger": "toUnscaled", "contents": "toUnscaled(${1:x}, ${2:y}, ${3:z})",  "annotation": "toUnscaled(x, y, z)" },
+		{ "trigger": "toScaled", "contents": "toScaled(${1:x}, ${2:y}, ${3:z});", "annotation": "toScaled(x, y, z)" },
 
-		{ "trigger": "toScaled", "contents": "toScaled(${1:length})",  "annotation": "toScaled(length)" },
+		{ "trigger": "toUnscaled", "contents": "toUnscaled(${1:x}, ${2:y});", "annotation": "toUnscaled(x, y)" },
 
-		{ "trigger": "toUnscaled", "contents": "toUnscaled(${1:length})",  "annotation": "toUnscaled(length)" },
+		{ "trigger": "toUnscaled", "contents": "toUnscaled(${1:x}, ${2:y}, ${3:z});", "annotation": "toUnscaled(x, y, z)" },
 
-		{ "trigger": "toString", "contents": "toString(${1:number})",  "annotation": "toString(number)" },
+		{ "trigger": "toScaled", "contents": "toScaled(${1:length});", "annotation": "toScaled(length)" },
 
-		{ "trigger": "toString", "contents": "toString(${1:number}, ${2:decimalPlaces})",  "annotation": "toString(number, decimalPlaces)" },
+		{ "trigger": "toUnscaled", "contents": "toUnscaled(${1:length});", "annotation": "toUnscaled(length)" },
 
-		{ "trigger": "toUpperCase", "contents": "toUpperCase(${1:string})",  "annotation": "toUpperCase(string)" },
+		{ "trigger": "toString", "contents": "toString(${1:number});", "annotation": "toString(number)" },
 
-		{ "trigger": "updateDisplay", "contents": "updateDisplay()",  "annotation": "updateDisplay()" },
+		{ "trigger": "toString", "contents": "toString(${1:number}, ${2:decimalPlaces});", "annotation": "toString(number, decimalPlaces)" },
 
-		{ "trigger": "updateResults", "contents": "updateResults()",  "annotation": "updateResults()" },
+		{ "trigger": "toUpperCase", "contents": "toUpperCase(${1:string});", "annotation": "toUpperCase(string)" },
 
-		{ "trigger": "wait", "contents": "wait(${1:n})",  "annotation": "wait(n)" },
+		{ "trigger": "updateDisplay", "contents": "updateDisplay();", "annotation": "updateDisplay()" },
 
-		{ "trigger": "waitForUser", "contents": "waitForUser(${1:string})",  "annotation": "waitForUser(string)" },
+		{ "trigger": "updateResults", "contents": "updateResults();", "annotation": "updateResults()" },
 
-		{ "trigger": "waitForUser", "contents": "waitForUser(${1:title}, ${2:message})",  "annotation": "waitForUser(title, message)" },
+		{ "trigger": "wait", "contents": "wait(${1:n});", "annotation": "wait(n)" },
 
-		{ "trigger": "waitForUser", "contents": "waitForUser()",  "annotation": "waitForUser" }
+		{ "trigger": "waitForUser", "contents": "waitForUser(${1:string});", "annotation": "waitForUser(string)" },
+
+		{ "trigger": "waitForUser", "contents": "waitForUser(${1:title}, ${2:message});", "annotation": "waitForUser(title, message)" },
+
+		{ "trigger": "waitForUser", "contents": "waitForUser();", "annotation": "waitForUser" }
 	]
 }

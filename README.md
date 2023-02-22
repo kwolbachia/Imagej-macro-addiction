@@ -44,7 +44,6 @@ room for anything you want to add!
 
 About [my_StartupMacros.ijm](https://github.com/kwolbachia/Imagej-macro-addiction/blob/main/my_startupMacro.ijm):    
 this is my own 'organised' mess full of macros and ideas of macros..
-[![open in ImageJ.JS](https://ij.imjoy.io/assets/badge/open-in-imagej-js-badge.svg)](https://ij.imjoy.io/?open=https://raw.githubusercontent.com/kwolbachia/Imagej-macro-addiction/main/my_startupMacro.ijm)
 
 
 
