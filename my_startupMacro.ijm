@@ -9,6 +9,8 @@
 
 macro "AutoRun" {
 	run("Roi Defaults...", "color=orange stroke=2 group=0");
+	setForegroundColor(255, 255, 255);
+	setBackgroundColor(0, 0, 0);
 	setTool(15);
 }
 
@@ -60,10 +62,10 @@ var DO_SCROLL_LOOP = false;
 
 var ACTION_BAR_STRING = "";
 
-macro "Multitool Tool - N55C000DdeCf00Db8Db9DbaDc7Dc8DcaDcbDd7DdbDe7De8DeaDebCfffDc9Dd8Dd9DdaDe9C777D02D11D12D17D18D21D28D2bD31D36D39D3aD3bD3eD41D42D46D47D4cD4dD4eD51D52D57D5bD5dD62D63D67D6dD72D73D74D75D76D77D83D85D86D94Cf90Da6Da7Da8Da9DaaDabDacDadDaeDb4Db5Dc4Dd4De4C444D03D19D22D29D2cD32D3cD43D4bD53D58D5eD64D68D6eD78D87Cf60D95D96D97D98D99D9aD9bD9cD9dD9eDa4Da5Db3Db6DbcDbdDbeDc3Dc5Dc6DccDcdDceDd3Dd5Dd6DdcDe3De5De6DecDedDeeC333Cf40Db7DbbDddBf0C000Cf00D08D09D0aCfffC777D13D22D23D24D32D33D35D36D37D38D39D3aD3bD42D43D46D47D48D49D4cD4dD52D53D54D58D59D5aD5dD5eD62D63D6aD6bD6cD6dD72D7cD7dD7eD82D8eD92Da2Cf90D05C444Cf60D03D04D06D0cD0dD0eD14D15D16D17D18D19D1aD1bD1cD1dD1eD25D26D27D28D29D2aD2bD2cD2dD2eC333D34D3cD3dD44D4eD64D73D83D93Da3Cf40D07D0bB0fC000D12Cf00CfffC777D50D60D61D62D70D72D73D74D80D81D82D83D84D85D86D91D92D93D94D95D96D97Da3Da4Da5Da6Da7Da8Cf90C444Cf60D00D04D05D06D09D10D18D20D21D23D24D25D26D27C333D01D02D03D40D51D52D63D64D75D76D87D98Da9Cf40D07D08D11D13D14D15D16D17D22Nf0C000Da2Dd2Dd5Cf00CfffC777D42D52D60D61D65D71D73D74D83D85D86Cf90Da0Da5Da6Db7Dc8C444D40D50D53D62D63D72D75D84Cf60D90D91D93D94D95D96D97Da1Da3Da4Da7Da8Db0Db4Db5Db6Db8Db9Dc5Dc6Dc7Dc9Dd7Dd8Dd9De5De6De7De9C333Db1Db2Db3Dc0Dc4Dd0Dd4De0De4Cf40D92Dc1Dc2Dc3Dd1Dd3Dd6De1De2De3De8" {
+macro "Multi Tool - N55C000DdeCf00Db8Db9DbaDc7Dc8DcaDcbDd7DdbDe7De8DeaDebCfffDc9Dd8Dd9DdaDe9C777D02D11D12D17D18D21D28D2bD31D36D39D3aD3bD3eD41D42D46D47D4cD4dD4eD51D52D57D5bD5dD62D63D67D6dD72D73D74D75D76D77D83D85D86D94Cf90Da6Da7Da8Da9DaaDabDacDadDaeDb4Db5Dc4Dd4De4C444D03D19D22D29D2cD32D3cD43D4bD53D58D5eD64D68D6eD78D87Cf60D95D96D97D98D99D9aD9bD9cD9dD9eDa4Da5Db3Db6DbcDbdDbeDc3Dc5Dc6DccDcdDceDd3Dd5Dd6DdcDe3De5De6DecDedDeeC333Cf40Db7DbbDddBf0C000Cf00D08D09D0aCfffC777D13D22D23D24D32D33D35D36D37D38D39D3aD3bD42D43D46D47D48D49D4cD4dD52D53D54D58D59D5aD5dD5eD62D63D6aD6bD6cD6dD72D7cD7dD7eD82D8eD92Da2Cf90D05C444Cf60D03D04D06D0cD0dD0eD14D15D16D17D18D19D1aD1bD1cD1dD1eD25D26D27D28D29D2aD2bD2cD2dD2eC333D34D3cD3dD44D4eD64D73D83D93Da3Cf40D07D0bB0fC000D12Cf00CfffC777D50D60D61D62D70D72D73D74D80D81D82D83D84D85D86D91D92D93D94D95D96D97Da3Da4Da5Da6Da7Da8Cf90C444Cf60D00D04D05D06D09D10D18D20D21D23D24D25D26D27C333D01D02D03D40D51D52D63D64D75D76D87D98Da9Cf40D07D08D11D13D14D15D16D17D22Nf0C000Da2Dd2Dd5Cf00CfffC777D42D52D60D61D65D71D73D74D83D85D86Cf90Da0Da5Da6Db7Dc8C444D40D50D53D62D63D72D75D84Cf60D90D91D93D94D95D96D97Da1Da3Da4Da7Da8Db0Db4Db5Db6Db8Db9Dc5Dc6Dc7Dc9Dd7Dd8Dd9De5De6De7De9C333Db1Db2Db3Dc0Dc4Dd0Dd4De0De4Cf40D92Dc1Dc2Dc3Dd1Dd3Dd6De1De2De3De8" {
 	multi_Tool();
 }
-macro "Multitool Tool Options" {
+macro "Multi Tool Options" {
 	Dialog.createNonBlocking("Multitool Options");
 	Dialog.setInsets(0, 0, 0);
 	Dialog.addMessage("      Hold shift and drag with Multitool to adjust contrast");
@@ -95,7 +97,7 @@ macro "Multitool Tool Options" {
 //------SHORTCUTS
 //--------------------------------------------------------------------------------------------------------------------------------------
 var ShortcutsMenu = newMenu("Custom Menu Tool",
-	newArray("Fetch or pull StartupMacros", "BioFormats_Bar", "Macros Action Bar",
+	newArray("Fetch or pull StartupMacros", "BioFormats_Bar",
 		 "-", "Clipboard to image info", "Correct path from clipboard", "Clipboard to completion", "Clipboard to string",
 		 "-", "Rotate 90 Degrees Right","Rotate 90 Degrees Left", "make my LUTs",
 		 "-", "Median...", "Gaussian Blur...","Gaussian Blur 3D...","Gamma...","Voronoi Threshold Labler (2D/3D)",
@@ -992,7 +994,7 @@ function my_Tool_Roll() {
  * ctrl = +2
  * cmd = +4 (Mac)
  * alt = +8
- * middle click is just 8
+ * middle also +8
  * leftClick = +16
  * cursor over selection = +32
  * So e.g. if (leftclick + alt) Flags = 24
@@ -1037,7 +1039,7 @@ function multi_Tool(){ //avec menu "que faire avec le middle click? **"
 	if (flags == 9) 				if (bitDepth()!=24) paste_LUT();											// shift + middle click
 	if (flags == 10||flags == 14) 	if (bitDepth()!=24) paste_Favorite_LUT();									// shift + middle click
 	if (flags == 17)				live_Contrast();															// shift + drag
-	if (flags == 18||flags == 20)	if (isOpen("MultiPlot")) live_MultiPlot(); else k_Rectangle_Tool();			// ctrl + drag
+	if (flags == 18||flags == 20)	if (isOpen("MultiPlot")) live_MultiPlot(); else scale_Bar_Tool();			// ctrl + drag
 	if (flags == 24)				if (MAIN_TOOL=="Slice/Frame Scroll") move_Windows(); else live_Scroll();	// alt + drag
 	if (flags == 25)				box_Auto_Contrast();														// shift + alt + drag
 	if (flags == 26||flags == 28)	curtain_Tool();
@@ -3380,12 +3382,12 @@ function make_My_LUTs() {
 	Stack.setChannel(1);
 	makeRectangle(0, 0, 213, 213);
 	run("Clear", "slice");
-												make_LUT(10,183,255);//BLUE
+												make_LUT(0,155,255);//BLUE
 	saveAs("LUT", lutsFolder + "/kb.lut");
 	Stack.setChannel(2);
 	makeRectangle(187, 0, 213, 213);
 	run("Clear", "slice");
-												make_LUT(255,142,10);//ORANGE
+												make_LUT(255,100,0);//ORANGE
 	saveAs("LUT", lutsFolder + "/ko.lut");
 	Stack.setChannel(3);
 	makeRectangle(187, 187, 213, 213);
