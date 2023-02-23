@@ -64,7 +64,11 @@ macro "Multitool Tool - N55C000DdeCf00Db8Db9DbaDc7Dc8DcaDcbDd7DdbDe7De8DeaDebCff
 	multi_Tool();
 }
 macro "Multitool Tool Options" {
-	Dialog.createNonBlocking("Options");
+	Dialog.createNonBlocking("Multitool Options");
+	Dialog.setInsets(0, 0, 0);
+	Dialog.addMessage("      Hold shift and drag with Multitool to adjust contrast");
+	Dialog.setInsets(0, 0, 0);
+	Dialog.addMessage("      Shift + alt with Multitool to auto-adjust locally (75px box)");
 	Dialog.addRadioButtonGroup("Main Tool : ", MULTITOOL_LIST, MULTITOOL_LIST.length / 2, 2, MAIN_TOOL);
 	Dialog.addCheckbox("text under scale bar?", ADD_SCALEBAR_TEXT);
 	Dialog.addCheckbox("live auto contrast?", LIVE_AUTOCONTRAST);
@@ -107,7 +111,6 @@ macro "Custom Menu Tool - N55C000D1aD1bD1cD1dD29D2dD39D3dD49D4dD4eD59D5eD69D75D7
 	else if (cmd=="Correct path from clipboard")	correct_Copied_Path();
 	else if (cmd=="Clipboard to completion")		clipboard_To_Completion();
 	else if (cmd=="Clipboard to string")			clipboard_To_String();
-	else if (cmd=="Macros Action Bar")				show_Basic_Macros_Action_Bar();
 	else if (cmd=="make my LUTs")					make_My_LUTs();
 	else if (cmd=="Combine tool") 					install_Tool_From_URL("https://git.io/JXvva");
 	else if (cmd=="Test calculator modes")			test_All_Calculator_Modes();
@@ -256,7 +259,10 @@ macro "[b]"	{
 	else if (isKeyDown("space"))	split_View(0,2,0); //vertical grayscale
 	else if (isKeyDown("alt"))		quick_Figure_Splitview("vertical");
 }
-macro "[B]"	{	switch_Composite_Mode();}
+macro "[B]"	{	
+	if		(no_Alt_no_Space())		switch_Composite_Mode();
+	else if (isKeyDown("space"))	quick_Scale_Bar();
+}
 
 macro "[C]" {	run("Brightness/Contrast...");}
 
@@ -463,7 +469,7 @@ function show_Shortcuts_Table(){
 	add_Shortcuts_Line("a", "Select All",							"Restore Selection",					"Select None");
 	add_Shortcuts_Line("A", "Enhance Contrast 0.03%",				"Enhance all channels",					"Enhance all images");
 	add_Shortcuts_Line("b", "Vertical colored Splitiview",			"Vertical grayscale split_View",		"Quick vertical PPT SplitView");
-	add_Shortcuts_Line("B", "Switch composite modes",				"",										"");
+	add_Shortcuts_Line("B", "Switch composite modes",				"Auto scale bar",										"");
 	add_Shortcuts_Line("c", "Copy",									"",										"");
 	add_Shortcuts_Line("C", "Brightness & Contrast",				"",										"");
 	add_Shortcuts_Line("d", "Split Channels",						"Duplicate slice",						"Duplicate full channel");
@@ -531,7 +537,7 @@ function quick_Figure_Splitview(linear_or_Vertical){
 	BORDER_SIZE = minOf(height, width) * 0.02;
 	if (linear_or_Vertical == "linear") split_View(0,0,1);
 	else split_View(0, 2, 1);
-	quick_Scale_Bar();
+	// quick_Scale_Bar();
 	run("Copy to System");
 }
 
@@ -629,23 +635,22 @@ function scroll_Loop(){
 // Add scale bar to image in 1-2-5 series size
 // adapted from there https://forum.image.sc/t/automatic-scale-bar-in-fiji-imagej/60774?u=k_taz
 function quick_Scale_Bar(){
-	// set the appearance of scalebar
-	if (isKeyDown("shift")) color = "Black";
-	else color = "White";
+	color = "White";
 	// approximate size of the scale bar relative to image width
-	scalebar_Size = 0.2;
+	scalebar_Size = 0.25;
 	getPixelSize(unit, pixel_Width, pixel_Height);
 	if (unit == "pixels") exit("Image not spatially calibrated");
-	scaled_Image_Width = pixel_Width * minOf(Image.width, Image.height);  // image width in measurement units
+	scaled_Image_Width = pixel_Width * Image.width;  // image width in measurement units
 	scalebar_Length = 1;            // initial scale bar length in measurement units
 	// recursively calculate a 1-2-5 series until the length reaches scalebar_Size, default to 1/10th of image width
 	// 1-2-5 series is calculated by repeated multiplication with 2.3, rounded to one significant digit
 	while (scalebar_Length < scaled_Image_Width * scalebar_Size) 
 		scalebar_Length = round((scalebar_Length*2.3)/(Math.pow(10,(floor(Math.log10(abs(scalebar_Length*2.3)))))))*(Math.pow(10,(floor(Math.log10(abs(scalebar_Length*2.3))))));
-	if (ADD_SCALEBAR_TEXT) scalebar_Settings_String = "height=" + (scalebar_Length / pixel_Width)/10 + " font=" + minOf(Image.width, Image.height)/15 + " color="+color+"  bold overlay";
-	else                   scalebar_Settings_String = "height=" + (scalebar_Length / pixel_Width)/10 + " font=" + maxOf(Image.width, Image.height)/30 + " color="+color+"  hide overlay";
+	if (ADD_SCALEBAR_TEXT) scalebar_Settings_String = " height=" + (scalebar_Length / pixel_Width)/10 + " font=" + minOf(Image.width, Image.height)/15 + " color="+color+" bold overlay";
+	else                   scalebar_Settings_String = " height=" + (scalebar_Length / pixel_Width)/10 + " font=" + maxOf(Image.width, Image.height)/30 + " color="+color+" hide overlay";
 	print("Scale Bar length = " + scalebar_Length);
 	run("Scale Bar...", "width=&scalebar_Length " + scalebar_Settings_String);
+	string_To_Recorder("run(\"Scale Bar...\", \"width=" + scalebar_Length  + scalebar_Settings_String + "\"");
 }
 
 function run_Clipboard_Macro_On_All_opened_Images(){
@@ -3706,44 +3711,39 @@ function get_Lum(rgb){
 
 
 
-var Action_Bars_Menu = newMenu("Action Bars Menu Tool", newArray("Numerical Keyboard (N)", "Contrast Macros", "Splitview Macros", "Misc Macros"));
+var Action_Bars_Menu = newMenu("Action Bars Menu Tool", 
+	newArray("All Macros", "Cool Macros", "Contrast Macros", "Splitview Macros"));
+
 macro "Action Bars Menu Tool - C000 T0c15A Tac15B" {
 	cmd = getArgument();
-	if 		(cmd == "Numerical Keyboard (N)") show_Numerical_Keyboard_Bar();
-	else if (cmd == "Contrast Macros") show_Contrast_Bar();
-	else if (cmd == "Splitview Macros") show_SplitView_Bar();
-	else if (cmd == "Misc Macros") show_Utilities_Macros_Action_Bar();
+	if 		(cmd == "All Macros")				show_All_Macros_Action_Bar();
+	else if (cmd == "Cool Macros")				show_Basic_Macros_Action_Bar();
+	else if (cmd == "Contrast Macros")			show_Contrast_Bar();
+	else if (cmd == "Splitview Macros")			show_SplitView_Bar();
 }
 
-function show_Utilities_Macros_Action_Bar(){
-	setup_Action_Bar_Header("Utilities Macros");
-	add_new_Line();
-	add_macro_button_with_hotKey("n", "Hela", "none");
-
-	add_Text_Line("                 Utilities Macros");
-	add_new_Line();
-	add_macro_button_with_hotKey("2", "Center current image", "none");
-	add_macro_button_with_hotKey("D", "Duplicate full image", "none");
-	add_new_Line();
-	add_macro_button_with_hotKey("2", "Full screen current image", "alt");
-	add_macro_button_with_hotKey("d", "Duplicate Slice", "space");
-	add_new_Line();
-	add_macro_button_with_hotKey("2", "Restore last image Location", "space");
-	add_macro_button_with_hotKey("d", "Duplicate full channel", "alt");
-	add_new_Line();
-	add_macro_button_with_hotKey("g", "Z Project...", "none");
-	add_macro_button_with_hotKey("G", "Max Projection full stack", "none");
-	add_new_Line();
-	add_macro_button_with_hotKey("G", "Max Projection all images", "space");
-	add_macro_button_with_hotKey("G", "Sum Projection full stack", "alt");
-
+function show_All_Macros_Action_Bar(){
+	setup_Action_Bar_Header("Main Keyboard Macros");
+	add_Basic_Action_Bar();
+	add_Contrast_Action_Bar();
+	add_SplitView_Action_Bar();
 	run("Action Bar", ACTION_BAR_STRING);
 }
 
-
 function show_Basic_Macros_Action_Bar(){
-	setup_Action_Bar_Header("Contrast & SplitView");
+	setup_Action_Bar_Header("Utilities Macros");
+	add_Basic_Action_Bar();
+	run("Action Bar", ACTION_BAR_STRING);
+}
+
+function show_Contrast_Bar(){
+	setup_Action_Bar_Header("Contrast Macros");
 	add_Contrast_Action_Bar();
+	run("Action Bar", ACTION_BAR_STRING);
+}
+
+function show_SplitView_Bar(){
+	setup_Action_Bar_Header("Splitview Macros");
 	add_SplitView_Action_Bar();
 	run("Action Bar", ACTION_BAR_STRING);
 }
@@ -3754,9 +3754,71 @@ function show_Numerical_Keyboard_Bar(){
 	run("Action Bar", ACTION_BAR_STRING);
 }
 
+function add_Basic_Action_Bar(){
+	add_Text_Line("                  Basics");
+	add_new_Line();
+	add_macro_button_with_hotKey("Q", "Quick composite/channel switch", "none");
+	add_new_Line();
+	add_macro_button_with_hotKey("a", "Restore Selection", "space");
+	add_macro_button_with_hotKey("D", "Duplicate full image", "none");
+	add_new_Line();
+	add_macro_button_with_hotKey("a", "Select None", "alt");
+	add_macro_button_with_hotKey("d", "Duplicate Slice", "space");
+	add_new_Line();
+	add_macro_button_with_hotKey("a", "Select All", "none");
+	add_macro_button_with_hotKey("d", "Duplicate full channel", "alt");
+	add_new_Line();
+	add_macro_button_with_hotKey("Z", "Built-in Channels Tool", "none");
+	add_Text_Line("                  Projections");
+	add_new_Line();
+	add_macro_button_with_hotKey("g", "Built-in Z Project Dialog", "none");
+	add_macro_button_with_hotKey("G", "Max Projection full stack", "none");
+	add_new_Line();
+	add_macro_button_with_hotKey("G", "Projection ALL IMAGES", "space");
+	add_macro_button_with_hotKey("G", "Sum Projection full stack", "alt");
+}
+
+function add_Contrast_Action_Bar(){
+	add_Text_Line("                  Contrast Macros");
+	add_new_Line();
+	add_macro_button_with_hotKey("C", "Brightness & Contrast window", "none");
+	add_new_Line();
+	add_macro_button_with_hotKey("A", "Enhance Contrast active channel", "none");
+	add_macro_button_with_hotKey("r", "Reset Contrast active channel", "none");
+	add_new_Line();
+	add_macro_button_with_hotKey("A", "Enhance Contrast all channels", "space");
+	add_macro_button_with_hotKey("R", "Reset Contrast all channels", "none");
+	add_new_Line();
+	add_macro_button_with_hotKey("A", "Enhance Contrast all images", "alt");
+	add_macro_button_with_hotKey("R", "Reset Contrast all images", "space");
+	add_new_Line();
+	add_macro_button_with_hotKey("R", "Same contrast to all images", "alt");
+}
+
+function add_SplitView_Action_Bar(){
+	add_Text_Line("                  SplitView / Figures Macros");
+	add_new_Line();
+	add_macro_button_with_hotKey("p", "Presets for linear figure", "alt");
+	add_macro_button_with_hotKey("b", "Presets for vertical figure", "alt");
+	add_new_Line();
+	add_macro_button_with_hotKey("B", "Quick auto scale bar", "space");
+	add_macro_button_with_hotKey("x", "Copy to System", "alt");
+	add_new_Line();
+	add_macro_button_with_hotKey("S", "All options dialog", "alt");
+	add_new_Line();
+	add_macro_button_with_hotKey("S", "Colored square", "none");
+	add_macro_button_with_hotKey("p", "Grayscale square", "space");
+	add_new_Line();
+	add_macro_button_with_hotKey("S", "Colored linear", "space");
+	add_macro_button_with_hotKey("p", "Grayscale linear", "none");
+	add_new_Line();
+	add_macro_button_with_hotKey("b", "Colored vertical", "none");
+	add_macro_button_with_hotKey("b", "Grayscale vertical", "space");
+}
+
 function add_Numerical_Keyboard() {
 	add_Text_Line("                  Numerical Keyboard Macros");
-	add_Text_Line("      Shift :toggle channel, alt : toggle channel for all images");
+	// add_Text_Line("      Shift :toggle channel, alt : toggle channel for all images");
 	add_new_Line();
 	add_macro_button_without_hotKey("n7", "7 (cyan)", "none");
 	add_macro_button_without_hotKey("n8", "8 (magenta)", "none");
@@ -3775,54 +3837,6 @@ function add_Numerical_Keyboard() {
 	add_macro_button_without_hotKey("n*", "* (diff of Gaussian)", "none");
 }
 
-function show_Contrast_Bar(){
-	setup_Action_Bar_Header("Contrast Macros");
-	add_Contrast_Action_Bar();
-	run("Action Bar", ACTION_BAR_STRING);
-}
-
-function add_Contrast_Action_Bar(){
-	add_Text_Line("                  Contrast Macros");
-	add_Text_Line("      Hold shift and drag with Multitool to adjust min and max");
-	add_Text_Line("      Shift + alt with Multitool to auto-adjust locally (75px box)");
-	add_new_Line();
-	add_macro_button_with_hotKey("C", "Brightness & Contrast window", "none");
-	add_new_Line();
-	add_macro_button_with_hotKey("A", "Enhance Contrast active channel", "none");
-	add_macro_button_with_hotKey("r", "Reset Contrast active channel", "none");
-	add_new_Line();
-	add_macro_button_with_hotKey("A", "Enhance Contrast all channels", "space");
-	add_macro_button_with_hotKey("R", "Reset Contrast all channels", "none");
-	add_new_Line();
-	add_macro_button_with_hotKey("A", "Enhance Contrast all images", "alt");
-	add_macro_button_with_hotKey("R", "Reset Contrast all images", "space");
-	add_new_Line();
-	add_macro_button_with_hotKey("R", "Same contrast to all images", "alt");
-}
-
-function show_SplitView_Bar(){
-	setup_Action_Bar_Header("Splitview Macros");
-	add_SplitView_Action_Bar();
-	run("Action Bar", ACTION_BAR_STRING);
-}
-
-function add_SplitView_Action_Bar(){
-	add_Text_Line("                  SplitView Macros");
-	add_new_Line();
-	add_macro_button_with_hotKey("p", "Presets for linear figure", "alt");
-	add_macro_button_with_hotKey("b", "Presets for vertical figure", "alt");
-	add_new_Line();
-	add_macro_button_with_hotKey("S", "Colored square", "none");
-	add_macro_button_with_hotKey("p", "Grayscale square", "space");
-	add_new_Line();
-	add_macro_button_with_hotKey("S", "Colored linear", "space");
-	add_macro_button_with_hotKey("p", "Grayscale linear", "none");
-	add_new_Line();
-	add_macro_button_with_hotKey("b", "Colored vertical", "none");
-	add_macro_button_with_hotKey("b", "Grayscale vertical", "space");
-	add_new_Line();
-	add_macro_button_with_hotKey("S", "All options dialog", "alt");
-}
 
 //--------------------------------------------------------------------------------------------------------------------------------------
 
@@ -3835,7 +3849,7 @@ function setup_Action_Bar_Header(main_Title){
 
 function add_fromString(){	ACTION_BAR_STRING += "<fromString>\n<disableAltClose>\n";}
 
-function add_main_title(title){	ACTION_BAR_STRING += "<title><html><font color='black'><b>" + title + "\n";}
+function add_main_title(title){	ACTION_BAR_STRING += "<title>" + title + "\n";}
 
 function add_new_Line(){	ACTION_BAR_STRING+= "</line>\n<line>\n";}
 
