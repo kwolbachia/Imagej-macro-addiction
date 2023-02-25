@@ -3,47 +3,46 @@
 <noGrid>
 <line>
 
-<text> Colorblind Bar
-<separator>
+<text><html><font color='black'><b> Colorblind Bar
 
 <button>
-label=convert
+label=<html><font color='black'><b> Convert
 bgcolor=#ffae00
 arg=noiceLUTs();
 <separator>
 
 <button>
-label=B&C
+label=<html><font color='black'><b> B&C
 bgcolor=#b48aff
 arg=B_and_C();
 <separator>
 
 <button>
-label=composite/RGB
+label=<html><font color='black'><b> Composite/RGB
 bgcolor=#60c1ff
 arg=switcher();
 <separator>
 
 <button>
-label=test CB
+label=<html><font color='black'><b> Test CB
 bgcolor=#ffd03e
 arg=testCB();
 <separator>
 
 <button>
-label=reorder LUTs
+label=<html><font color='black'><b> Reorder LUTs
 bgcolor=#b4e297
 arg=reorderLUTs();
 <separator>
 
 <button>
-label=invert
+label=<html><font color='black'><b> Invert
 bgcolor=white
 arg=invertRoll();
 <separator>
 
 <button>
-label= X 
+label=<html><font color='black'><b> X 
 bgcolor=#ff989c
 arg=<close>
 
@@ -68,13 +67,13 @@ function noiceLUTs(){
 	if (isKeyDown("shift")&&bitDepth() != 24) {
 		getDimensions(width, height, channels, slices, frames);
 		if (channels==2) {
-			Stack.setChannel(1); LUTmaker(255,90,0); //orange
-			Stack.setChannel(2); LUTmaker(0,165,255); //blue
+			Stack.setChannel(1); LUTmaker(255,100,0); //orange
+			Stack.setChannel(2); LUTmaker(0,155,255); //blue
 		}
 		if (channels == 3) {
-			Stack.setChannel(1); LUTmaker(255,0,225); //LUTmaker(205,0,225);
-			Stack.setChannel(2); LUTmaker(255,255,0); //LUTmaker(250,190,0); //alternatives I like
-			Stack.setChannel(3); LUTmaker(0,255,255); //LUTmaker(0,255,230);
+			Stack.setChannel(1); LUTmaker(255,194,0);
+			Stack.setChannel(2); LUTmaker(0,255,194);
+			Stack.setChannel(3); LUTmaker(194,0,255);
 		}
 	}
 	else RGBtoMYC();
@@ -92,9 +91,9 @@ function RGBtoMYC(){
 			newImage("dup", "RGB", width, height, 1);
 			run("Paste");
 			run("Make Composite"); run("Remove Slice Labels");
-			Stack.setChannel(1); LUTmaker(128,0,127); resetMinAndMax;
-			Stack.setChannel(2); LUTmaker(127,128,0); resetMinAndMax;
-			Stack.setChannel(3); LUTmaker(0,127,128); resetMinAndMax;
+			Stack.setChannel(1); LUTmaker(128,97,0); resetMinAndMax;
+			Stack.setChannel(2); LUTmaker(0,128,97); resetMinAndMax;
+			Stack.setChannel(3); LUTmaker(97,0,128); resetMinAndMax;
 			run("Flatten");
 			run("Copy");
 			selectImage(id);
@@ -104,16 +103,16 @@ function RGBtoMYC(){
 		else {
 			run("Duplicate...","duplicate");
 			run("Make Composite"); run("Remove Slice Labels");
-			Stack.setChannel(1); LUTmaker(128,0,127); resetMinAndMax;
-			Stack.setChannel(2); LUTmaker(127,128,0); resetMinAndMax;
-			Stack.setChannel(3); LUTmaker(0,127,128); resetMinAndMax;
+			Stack.setChannel(1); LUTmaker(128,97,0); resetMinAndMax;
+			Stack.setChannel(2); LUTmaker(0,128,97); resetMinAndMax;
+			Stack.setChannel(3); LUTmaker(97,0,128); resetMinAndMax;
 			if (slices*frames == 1) { Stack.setDisplayMode("color"); Stack.setDisplayMode("composite"); run("Stack to RGB"); }
 		}
 	}
 	else {
-		Stack.setChannel(1); LUTmaker(128,0,127);
-		Stack.setChannel(2); LUTmaker(127,128,0);
-		Stack.setChannel(3); LUTmaker(0,127,128);
+		Stack.setChannel(1); LUTmaker(128,97,0);
+		Stack.setChannel(2); LUTmaker(0,128,97);
+		Stack.setChannel(3); LUTmaker(97,0,128);
 	}
 	setOption("Changes", 0);
 	setBatchMode(0);
