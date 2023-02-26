@@ -1,119 +1,88 @@
 <fromString>
-<line>
+<noGrid>
 <title> LUTs
 
-<button>
-label=<html><font color='black'>  Awesome LUT
-bgcolor=grey
-arg=randomAwesomeLUT(4);
-
+<line>
 
 <button>
-label=<html><font color='black'> Awesome 150
-bgcolor=grey
-arg=random150lumLUT(3);
-
+label=<html><html><font color='black'><b>  Awesome BW
+bgcolor=lightgrey
+arg=random_Awesome_LUT(4);
 
 <button>
-label=<html><font color='black'> Viridis-like
-bgcolor=grey
-arg=randomViridis(4);
+label=<html><font color='black'><b> Awesome 150
+bgcolor=lightgrey
+arg=random_150_lum_LUT(3);
 
-</line>
+<button>
+label=<html><font color='black'><b> Viridis-like
+bgcolor=lightgrey
+arg=random_Viridis(4);
+
+</line>//
 
 <line>
 
 <button>
-label=<html><font color='black'> opposite LUT
-bgcolor=grey
-arg=createOppositeLUT();//
-
-
-<button>
-label=<html><font color='black'> enluminate LUT
-bgcolor=grey
-arg=enluminateLUT();
-
+label=<html><font color='black'><b> Opposite LUT
+bgcolor=lightgrey
+arg=create_Opposite_LUT();
 
 <button>
-label=<html><font color='black'> smooth LUT
-bgcolor=grey
-arg=smoothLUT();
+label=<html><font color='black'><b> Spline fit
+bgcolor=lightgrey
+arg=lut_Spline_Fit(3);
 
 <button>
-label=<html><font color='black'> Spline fit
-bgcolor=grey
-arg=lutSplineFit(3);
+label=<html><font color='black'><b> Spline 3-10
+bgcolor=lightgrey
+arg=lut_Spline_Fit_3_to_10();
 
-
-<button>
-label=<html><font color='black'> Spline3-10
-bgcolor=grey
-arg=lutSplineFit3to10();
-
-</line>
+</line>//
 
 <line>
 
 <button>
-label=<html><font color='black'> Crop LUT
-bgcolor=grey
-arg=cropLUT();
+label=<html><font color='black'><b> Smooth LUT
+bgcolor=lightgrey
+arg=smooth_LUT();
 
 <button>
-label=<html><font color='black'> copy LUT
-bgcolor=grey
-arg=copyLUT();
-
-
-<button>
-label=<html><font color='black'> paste LUT
-bgcolor=grey
-arg=pasteLUT();
-
+label=<html><font color='black'><b> Crop LUT
+bgcolor=lightgrey
+arg=crop_LUT();
 
 <button>
-label=<html><font color='black'> show LUT
-bgcolor=grey
-arg=plotLUT();
+label=<html><font color='black'><b> Linearize LUT
+bgcolor=lightgrey
+arg=enluminate_LUT();
 
-</line>
+</line>//
 <line>
 
 <button>
-label=<html><font color='black'> random150 multi
-bgcolor=grey
-arg=randomLightLUTs();
-
-<button>
-label=<html><font color='black'> iMQ Style
-bgcolor=grey
+label=<html><font color='black'><b> iMQ Style
+bgcolor=lightgrey
 arg=convertTo_iMQ_Style();
 
+<button>
+label=<html><font color='black'><b> LUT Generator
+bgcolor=lightgrey
+arg=ultimate_LUT_Generator();
 
 <button>
-label=<html><font color='black'> invert LUT 1
-bgcolor=grey
-arg=invertLUT1();
-
-<button>
-label=<html><font color='black'> ultimate
-bgcolor=grey
-arg=ultimateLUTgenerator();
-
-<button>
-label=<html><font color='black'> lutBaker
-bgcolor=grey
-arg=lutBaker2();
+label=<html><font color='black'><b> Spline LUT Editor
+bgcolor=lightgrey
+arg=spline_LUT_maker();
 
 </line>
 //
 <DnDAction>		
-	dropped_path = getArgument();
-	if (endsWith(dropped_path, ".tif")){
+	dropped_Path = getArgument();
+	if (endsWith(dropped_Path, ".tif")){
 		id = getImageID();
 		setBatchMode(1);
-		run("TIFF Virtual Stack...", "open=["+dropped_path+"]");
+		run("TIFF Virtual Stack...", "open=["+dropped_Path+"]");
 		id2 = getImageID();
 		getDimensions(width, height, channels, slices, frames);
 		for (i = 0; i < channels; i++) {
@@ -127,13 +96,13 @@ arg=lutBaker2();
 		selectImage(id2);
 		close();
 	}
-	else make_LUT_Montage_from_Path(dropped_path);
+	else make_LUT_Montage_from_Path(dropped_Path);
 
 
 	function make_LUT_Montage_from_Path(path){
 		saveSettings();
-		lutdir = path + File.separator;
-		list = getFileList(lutdir);
+		lut_Dir = path + File.separator;
+		file_List = getFileList(lut_Dir);
 		setBatchMode(true);
 		newImage('ramp', '8-bit Ramp', 256, 32, 1);
 		newImage('luts', 'RGB White', 256, 48, 1);
@@ -141,22 +110,22 @@ arg=lutBaker2();
 		setForegroundColor(255, 255, 255);
 		setBackgroundColor(255, 255, 255);
 		//recursive processing
-		processFiles(lutdir, list);
+		processFiles(lut_Dir, file_List);
 		run('Delete Slice');
 		rows = floor(count/4);
-		if (rows<count/4) rows++;
+		if (rows < count/4) rows++;
 		run('Canvas Size...', 'width=258 height=50 position=Center');
 		run('Make Montage...', 'columns=4 rows='+rows+' scale=1 first=1 last='+count+' increment=1 border=0 use');
 		rename('Lookup Tables');
 		setBatchMode(false);
 		restoreSettings();
 
-		function processFiles(dir,list) {
-			list = getFileList(dir);
-			for (i=0; i<list.length; i++) {
-				if (File.isDirectory(dir+list[i])) processFiles(dir+list[i],list);
+		function processFiles(folder, file_List) {
+			file_List = getFileList(folder);
+			for (i=0; i<file_List.length; i++) {
+				if (File.isDirectory(folder + file_List[i])) processFiles(folder + file_List[i], file_List);
 				else {
-					path = dir+list[i];
+					path = folder+file_List[i];
 					processFile(path);
 				}
 			}
@@ -175,8 +144,8 @@ arg=lutBaker2();
 				run('Paste');
 				setJustification('center');
 				setColor(0,0,0);
-			setFont("SansSerif", 11, "antialiased");
-				drawString(list[i], 128, 48);
+				setFont("SansSerif", 11, "antialiased");
+				drawString(file_List[i], 128, 48);
 				run('Add Slice');
 				run('Select All');
 				run('Clear', 'slice');
@@ -193,175 +162,182 @@ arg=lutBaker2();
 						makeRectangle(0, 0, 256, 32);
 						run('Paste');
 						setJustification('center');
-						setColor(0,0,0);
+						setColor(0, 0, 0);
 						setFont('Arial', 14);
-						drawString(list[i], 128, 48);
+						drawString(file_List[i], 128, 48);
 						run('Add Slice');
 						run('Select All');
 						run('Clear', 'slice');
 					}
 				}
 			}
-
 			count++;
 		}
 	}
 </DnDAction>
 
 
-<codeLibrary>
-//
+<codeLibrary>//
 
-	function lutBaker2(){
-		basicErrorCheck();
-		getLut(R, G, B);
-		startLum = getLum(newArray(R[0],G[0],B[0]));
-		stopLum = getLum(newArray(R[255],G[255],B[255]));
+	function spline_LUT_maker(){
+		error_Check_for_LUTs();
+		getLut(reds, greens, blues);
+		start_Lum = get_Luminance(newArray(reds[0], greens[0], blues[0]));
+		stop_Lum =  get_Luminance(newArray(reds[255], greens[255], blues[255]));
 		steps = 4;
 		Dialog.createNonBlocking("steps");
 		Dialog.addSlider("how many steps?", 1, 8, steps);
 		Dialog.show();
 		steps =  Dialog.getNumber();
-		redSteps = newArray(0); greenSteps = newArray(0); blueSteps = newArray(0);
+		red_Steps = newArray(0); 
+		green_Steps = newArray(0); 
+		blue_Steps = newArray(0);
 		//extract the current colors of the LUT at every step
 		for (i = 0; i < steps; i++) {
-			redSteps[i] = R[i*(255/(steps-1))];
-			greenSteps[i] = G[i*(255/(steps-1))];
-			blueSteps[i] = B[i*(255/(steps-1))];
+			red_Steps[i] =     reds[i * (255 / (steps-1))];
+			green_Steps[i] = greens[i * (255 / (steps-1))];
+			blue_Steps[i] =   blues[i * (255 / (steps-1))];
 		}
-		
 		while (true) {
-			getLocationAndSize(x, y, w, h);
+			getLocationAndSize(x, y, width, heigth);
 			Dialog.createNonBlocking("colors");
 			for (i = 0; i < steps; i++) {
-				Dialog.addMessage("COLOR " + (i+1), 20, lutToHex(redSteps[i],greenSteps[i],blueSteps[i]));
-				Dialog.addSlider("red",	 0,255, redSteps[i]);
-				Dialog.addSlider("green",0,255, greenSteps[i]);
-				Dialog.addSlider("blue", 0,255, blueSteps[i]);
-				rgb = newArray(greenSteps[i], greenSteps[i], blueSteps[i]);
-				Dialog.addMessage("actual lum:" + getLum(rgb) + "  expected: " + i*((stopLum - startLum)/(steps-1)));
+				Dialog.addMessage("COLOR " + (i+1), 20, lut_To_Hex(red_Steps[i], green_Steps[i], blue_Steps[i]));
+				Dialog.addSlider("red",	 0,255, red_Steps[i]);
+				Dialog.addSlider("green",0,255, green_Steps[i]);
+				Dialog.addSlider("blue", 0,255, blue_Steps[i]);
+				color = newArray(green_Steps[i], green_Steps[i], blue_Steps[i]);
+				Dialog.addMessage("actual lum:" + get_Luminance(color) + "  expected: " + i*((stop_Lum - start_Lum)/(steps-1)));
 			}
-			Dialog.setLocation(x+w,y);
+			Dialog.setLocation(x + width, y);
 			Dialog.show();
 			for (i = 0; i < steps; i++) {
-				redSteps[i] = Dialog.getNumber();
-				greenSteps[i] = Dialog.getNumber();
-				blueSteps[i] = Dialog.getNumber();
+				red_Steps[i] = Dialog.getNumber();
+				green_Steps[i] = Dialog.getNumber();
+				blue_Steps[i] = Dialog.getNumber();
 			}
 			for(i=0; i<steps; i++) { 
-				R[i*(255/steps)] = redSteps[i];
-				G[i*(255/steps)] = greenSteps[i];
-				B[i*(255/steps)] = blueSteps[i]; 
-				showProgress(i/steps);
+				reds  [i*(255/steps)] =   red_Steps[i];
+				greens[i*(255/steps)] = green_Steps[i];
+				blues [i*(255/steps)] =  blue_Steps[i]; 
+				showProgress(i / steps);
 			}
 			setBatchMode(1);
-			R = splineColor2(redSteps,(steps));
-			G = splineColor2(greenSteps,(steps));
-			B = splineColor2(blueSteps,(steps));
-			setLut(R, G, B);
+			reds =   spline_Color_2(red_Steps,(steps));
+			greens = spline_Color_2(green_Steps,(steps));
+			blues =  spline_Color_2(blue_Steps,(steps));
+			setLut(reds, greens, blues);
 			run("Select None");
 			run("Remove Overlay");
 			setBatchMode(0);
-			plotLUT();
-			copyLUT();
+			plot_LUT();
+			copy_LUT();
 		}
-		
-		function lutToHex(R,G,B){
-			if (R<16) xR = "0" + toHex(R); else xR = toHex(R);
-			if (G<16) xG = "0" + toHex(G); else xG = toHex(G);
-			if (B<16) xB = "0" + toHex(B); else xB = toHex(B);
-			return "#"+xR+xG+xB;
+
+		function lut_To_Hex(red, green, blue){
+		    hex_Red =   IJ.pad(toHex(red), 2);
+		    hex_Green = IJ.pad(toHex(green), 2);
+		    hex_Blue =  IJ.pad(toHex(blue), 2);
+			return "#" + hex_Red + hex_Green + hex_Blue;
 		}
-		
-		function splineColor2(color,steps){
+
+		function spline_Color_2(color,steps){
 			Overlay.remove;
 			X = newArray(0); Y = newArray(0);
-			for (i = 0; i < steps; i++) X[i] = round((255/(steps-1))*i);
+			for (i = 0; i < steps; i++) X[i] = round((255 / (steps-1)) * i);
 			for (i = 0; i < steps; i++) Y[i] = color[i];
-			makeSelection("polyline", X,Y);
+			makeSelection("polyline", X, Y);
 			run("Fit Spline");
 			Overlay.addSelection("white");
-			getSelectionCoordinates(splinedX, splinedY);
-			splinedY = Array.resample(splinedY,256);
-			Array.getStatistics(splinedY, min, max, mean, stdDev);
-			for (k=0;k<256;k++) splinedY[k] = 255-(maxOf(0,minOf(255,255-splinedY[k])));
-			X = Array.resample(X,256);
-			return splinedY;
+			getSelectionCoordinates(splined_X, splined_Y);
+			splined_Y = Array.resample(splined_Y, 256);
+			Array.getStatistics(splined_Y, min, max, mean, stdDev);
+			for (k=0; k<256; k++) splined_Y[k] = 255 - (maxOf(0, minOf(255, 255 - splined_Y[k])));
+			X = Array.resample(X, 256);
+			return splined_Y;
 		}
 	}
 
-	function smoothLUT(){
+	function make_LUT(red, green, blue){
+		reds = newArray(256); greens = newArray(256); blues = newArray(256);
+		for(i=0; i<256; i++) { 
+			reds[i] = (red / 256) * (i+1);
+			greens[i] = (green / 256) * (i+1);
+			blues[i] = (blue / 256) * (i+1);
+		}
+		setLut(reds, greens, blues);
+	}
+
+	function smooth_LUT(){
 		setBatchMode(true);
 		sigma = 2;
 		if (isKeyDown("shift")) sigma = getNumber("blurring sigma?", 2);
 		title = "Smoothed_"+getTitle();
-		getLut(r,g,b);
+		getLut(reds, greens, blues);
 		newImage(title, "8-bit ramp", 256, 32, 1);
-		setLut(r,g,b);
+		setLut(reds, greens, blues);
 		run("Duplicate...","duplicate");
 		run("RGB Color");
 		run("Gaussian Blur...", "sigma=&sigma");
-		R = newArray(1); G = newArray(1); B = newArray(1);
 		for (i = 0; i < 256; i++) {
 			c = getPixel(i, 2);
-			R[i] = (c>>16)&0xff; 	
-			G[i] = (c>>8)&0xff;		
-			B[i] = c&0xff;
+			reds[i] = (c>>16)&0xff; 	
+			greens[i] = (c>>8)&0xff;		
+			blues[i] = c&0xff;
 		}
 		selectWindow(title);
-		setLut(R, G, B);
+		setLut(reds, greens, blues);
 		setBatchMode(false);
 	}
 
-	function ultimateLUTgenerator(){
-		colors = newArray("red","green","blue","cyan","magenta","yellow","orange","gray");
+	function ultimate_LUT_Generator(){
+		colors = newArray("red","orange","yellow","green","cyan","blue","magenta","gray");
 		//colors = newArray("red(10-167)","green(10-225)","blue(10-175)","cyan(10-190)","magenta(10-190)","yellow(10-225)","orange(10-190)","gray(0-255)");
-		chosenColors = newArray("gray","gray","gray","gray","gray","gray","gray","gray");
-		startLum = 0;
-		stopLum = 255;
+		chosen_Colors = newArray("gray","gray","gray","gray","gray","gray","gray","gray");
+		start_Lum = 0;
+		stop_Lum = 255;
 		steps = 4;
 		Dialog.createNonBlocking("steps");
 		Dialog.addSlider("how many steps?", 1, 8, steps);
 		Dialog.show();
 		steps =  Dialog.getNumber();
 		Dialog.createNonBlocking("colors");
-		Dialog.addSlider("start luminance?", 0, 255, startLum);
-		Dialog.addSlider("stop luminance?", 0, 255, stopLum);
-		for (i = 0; i < steps; i++) Dialog.addRadioButtonGroup("color "+i+1, colors,1,8,chosenColors[i]);
+		Dialog.addSlider("start luminance?", 0, 255, start_Lum);
+		Dialog.addSlider("stop luminance?", 0, 255, stop_Lum);
+		for (i = 0; i < steps; i++) Dialog.addRadioButtonGroup("color " + i+1, colors, 1, 8, chosen_Colors[i]);
 		Dialog.show();
-		for (i = 0; i < steps; i++) chosenColors[i] = Dialog.getRadioButton();
-		startLum = Dialog.getNumber();
-		stopLum = Dialog.getNumber();
+		for (i = 0; i < steps; i++) chosen_Colors[i] = Dialog.getRadioButton();
+		start_Lum = Dialog.getNumber();
+		stop_Lum = Dialog.getNumber();
 		while (true) {
-			basicErrorCheck();
+			error_Check_for_LUTs();
 			setBatchMode(1);
-			R = newArray(256); G = newArray(256); B = newArray(256);
-			range = stopLum-startLum;
+			reds = newArray(256); greens = newArray(256); blues = newArray(256);
+			range = stop_Lum - start_Lum;
 			for(i=0; i<steps; i++) { 
-				targetLum = i*(range/(steps-1))+startLum;
-				color = randomColorByTypeAndLum(targetLum, chosenColors[i]);
-				//print(i , targetLum, chosenColors[i]);
-				R[i*(255/(steps-1))] = color[0];
-				G[i*(255/(steps-1))] = color[1];
-				B[i*(255/(steps-1))] = color[2]; 
+				targetLum = i * (range / (steps-1)) + start_Lum;
+				color = random_Color_By_Type_And_Luminance(targetLum, chosen_Colors[i]);
+				reds[i*(255/(steps-1))] = color[0];
+				greens[i*(255/(steps-1))] = color[1];
+				blues[i*(255/(steps-1))] = color[2]; 
 				showProgress(i/steps);
 			}
-			R = splineColor(R,(steps-1));
-			G = splineColor(G,(steps-1));
-			B = splineColor(B,(steps-1));
-			setLut(R, G, B);
+			reds = spline_Color(reds,(steps-1));
+			greens = spline_Color(greens,(steps-1));
+			blues = spline_Color(blues,(steps-1));
+			setLut(reds, greens, blues);
 			run("Select None");
 			run("Remove Overlay");
 			setBatchMode(0);
-			plotLUT();
-			copyLUT();
+			plot_LUT();
+			copy_LUT();
 			Dialog.createNonBlocking("new roll?");
 			Dialog.addMessage("OK to reroll cancel to stop");
 			Dialog.show();
 		}
 	}
 
-	function lutSplineFit3to10(){
+	function lut_Spline_Fit_3_to_10(){
 		setBatchMode(1);
 		title = getTitle();
 		channels = 7;
@@ -379,7 +355,7 @@ arg=lutBaker2();
 			setLut(reds, greens, blues);
 			makeRectangle(0, y, 256, 32);
 			run("Paste");
-			lutSplineFit2(i+3);
+			lut_Spline_Fit2(i+3);
 			Property.setSliceLabel(i+3);
 			y += 32;
 		}
@@ -388,136 +364,110 @@ arg=lutBaker2();
 		setOption("Changes", 0);
 		setBatchMode(0);
 		
-		function lutSplineFit2(steps){
+		function lut_Spline_Fit2(steps){
 			getLut(r,g,b);
-			R = newArray(256); G = newArray(256); B = newArray(256);
-			R = splineColor(r,steps);
-			G = splineColor(g,steps);
-			B = splineColor(b,steps);
-			setLut(R, G, B);
+			reds = newArray(256); greens = newArray(256); blues = newArray(256);
+			reds = spline_Color(r,steps);
+			greens = spline_Color(g,steps);
+			blues = spline_Color(b,steps);
+			setLut(reds, greens, blues);
 			run("Select None");
 			run("Remove Overlay");
 		}
 	}
 
-	function lutSplineFit(steps){
-		basicErrorCheck();
+	function lut_Spline_Fit(steps){
+		error_Check_for_LUTs();
 		if (isKeyDown("shift")) steps = getNumber("how many steps?", 3);
 		getLut(r,g,b);
 		newImage("Smoothed LUT", "8-bit ramp", 256, 32, 1);
-		R = newArray(256); G = newArray(256); B = newArray(256);
-		R = splineColor(r,steps);
-		G = splineColor(g,steps);
-		B = splineColor(b,steps);
-		setLut(R, G, B);
+		reds = newArray(256); greens = newArray(256); blues = newArray(256);
+		reds = spline_Color(r, steps);
+		greens = spline_Color(g, steps);
+		blues = spline_Color(b, steps);
+		setLut(reds, greens, blues);
 		run("Select None");
 		run("Remove Overlay");
-		plotLUT();
+		plot_LUT();
 	}
 
-	function randomAwesomeLUT(steps) {
-		basicErrorCheck();
+	function random_Awesome_LUT(steps) {
+		error_Check_for_LUTs();
 		if (isKeyDown("shift")) steps = getNumber("how many steps?", steps);
 		setBatchMode(1);
-		R = newArray(256); G = newArray(256); B = newArray(256);
+		reds = newArray(256); greens = newArray(256); blues = newArray(256);
 		for(i=0; i<=steps; i++) { 
-			color = randomColorByLuminance(i*(255/steps));
-			R[i*(255/steps)] = color[0];
-			G[i*(255/steps)] = color[1];
-			B[i*(255/steps)] = color[2]; 
+			color = random_Color_By_Luminance(i*(255/steps));
+			reds[i*(255/steps)] = color[0];
+			greens[i*(255/steps)] = color[1];
+			blues[i*(255/steps)] = color[2]; 
 			showProgress(i/steps);
 		}
-		R = splineColor(R,steps);
-		G = splineColor(G,steps);
-		B = splineColor(B,steps);
-		setLut(R, G, B);
+		reds = spline_Color(reds,steps);
+		greens = spline_Color(greens,steps);
+		blues = spline_Color(blues,steps);
+		setLut(reds, greens, blues);
 		run("Select None");
 		run("Remove Overlay");
 		setBatchMode(0);
-		plotLUT();
-		copyLUT();
-	}
+		plot_LUT();
+		copy_LUT();
+	} 
 
-	function coolifyLUT(steps) {
-		basicErrorCheck();
+	function random_150_lum_LUT(steps) {
+		error_Check_for_LUTs();
 		if (isKeyDown("shift")) steps = getNumber("how many steps?", 3);
 		setBatchMode(1);
-		R = newArray(256); G = newArray(256); B = newArray(256);
-		getLut(r, g, b);
-		lum = 0.299*r[255] + g[255]*0.587 + b[255]* 0.114;
+		reds = newArray(256); greens = newArray(256); blues = newArray(256);
 		for(i=0; i<=steps; i++) { 
-			color = randomColorByLuminance(i*(lum/steps)); 
-			R[i*(255/steps)] = color[0]; R[0] = 0; R[255] = r[255];
-			G[i*(255/steps)] = color[1]; G[0] = 0; G[255] = g[255];
-			B[i*(255/steps)] = color[2]; B[0] = 0; B[255] = b[255];
+			color = random_Color_By_Luminance(i*(150/steps)); 
+			reds[i*(255/steps)] = color[0]; reds[0] = 0;
+			greens[i*(255/steps)] = color[1]; greens[0] = 0;
+			blues[i*(255/steps)] = color[2]; blues[0] = 0;
 			showProgress(i/steps);
 		}
-		R = splineColor(R,steps);
-		G = splineColor(G,steps);
-		B = splineColor(B,steps);
-		setLut(R, G, B);
+		reds = spline_Color(reds, steps);
+		greens = spline_Color(greens, steps);
+		blues = spline_Color(blues, steps);
+		setLut(reds, greens, blues);
 		run("Select None");
 		run("Remove Overlay");
-		plotLUT();
+		plot_LUT();
 		setBatchMode(0);
-		copyLUT();
+		copy_LUT();
 	}
 
-
-	function random150lumLUT(steps) {
-		basicErrorCheck();
+	function random_Viridis(steps) {
+		error_Check_for_LUTs();
 		if (isKeyDown("shift")) steps = getNumber("how many steps?", 3);
-		setBatchMode(1);
-		R = newArray(256); G = newArray(256); B = newArray(256);
+		reds = newArray(256); greens = newArray(256); blues = newArray(256);
+		baseColor = random_Color_By_Luminance(50);
 		for(i=0; i<=steps; i++) { 
-			color = randomColorByLuminance(i*(150/steps)); 
-			R[i*(255/steps)] = color[0]; R[0] = 0;
-			G[i*(255/steps)] = color[1]; G[0] = 0;
-			B[i*(255/steps)] = color[2]; B[0] = 0;
+			color = random_Color_By_Luminance(i*(170/steps)+50);
+			reds[i*(255/steps)] = color[0]; reds[0] = baseColor[0];
+			greens[i*(255/steps)] = color[1]; greens[0] = baseColor[1];
+			blues[i*(255/steps)] = color[2]; blues[0] = baseColor[2];
 			showProgress(i/steps);
 		}
-		R = splineColor(R,steps);
-		G = splineColor(G,steps);
-		B = splineColor(B,steps);
-		setLut(R, G, B);
+		reds = spline_Color(reds,steps);
+		greens = spline_Color(greens,steps);
+		blues = spline_Color(blues,steps);
+		setLut(reds, greens, blues);
 		run("Select None");
 		run("Remove Overlay");
-		plotLUT();
+		plot_LUT();
 		setBatchMode(0);
-		copyLUT();
+		copy_LUT();
 	}
 
-	function randomViridis(steps) {
-		basicErrorCheck();
-		if (isKeyDown("shift")) steps = getNumber("how many steps?", 3);
-		R = newArray(256); G = newArray(256); B = newArray(256);
-		baseColor = randomColorByLuminance(50);
-		for(i=0; i<=steps; i++) { 
-			color = randomColorByLuminance(i*(170/steps)+50);
-			R[i*(255/steps)] = color[0]; R[0] = baseColor[0];
-			G[i*(255/steps)] = color[1]; G[0] = baseColor[1];
-			B[i*(255/steps)] = color[2]; B[0] = baseColor[2];
-			showProgress(i/steps);
-		}
-		R = splineColor(R,steps);
-		G = splineColor(G,steps);
-		B = splineColor(B,steps);
-		setLut(R, G, B);
-		run("Select None");
-		run("Remove Overlay");
-		plotLUT();
-		setBatchMode(0);
-		copyLUT();
-	}
-
-	function createOppositeLUT(){
-		basicErrorCheck();
+	function create_Opposite_LUT(){
+		error_Check_for_LUTs();
 		setBatchMode(1);
 		getLut(reds, greens, blues);
 		newImage("opposite LUT", "8-bit ramp", 256, 32, 1);
 		comp = newArray(0);
 		for (i = 0; i < 256; i++) {
-			comp = complementary(reds[i],greens[i],blues[i]);
+			comp = get_Complentary_Color(reds[i], greens[i], blues[i]);
 			reds[i] = comp[0];
 			greens[i] = comp[1];
 			blues[i] = comp[2];
@@ -526,25 +476,25 @@ arg=lutBaker2();
 		setLut(reds, greens, blues);
 		rename("Complementary LUT");
 		setBatchMode(0);
-		copyLUT();
+		copy_LUT();
 	}
 
-	function enluminateLUT(){
-		basicErrorCheck();
+	function enluminate_LUT(){
+		error_Check_for_LUTs();
 		setBatchMode(1);
 		getLut(reds, greens, blues);
-		startLum = getLum(newArray(reds[0], greens[0], blues[0]));
-		stopLum = getLum(newArray(reds[255], greens[255], blues[255]));
+		start_Lum = get_Luminance(newArray(reds[0], greens[0], blues[0]));
+		stop_Lum = get_Luminance(newArray(reds[255], greens[255], blues[255]));
 		Dialog.createNonBlocking("colors");
-		Dialog.addSlider("start luminance?", 0, 255, startLum);
-		Dialog.addSlider("stop luminance?", 0, 255, stopLum);
+		Dialog.addSlider("start luminance?", 0, 255, start_Lum);
+		Dialog.addSlider("stop luminance?", 0, 255, stop_Lum);
 		Dialog.show();
-		startLum = Dialog.getNumber();
-		stopLum = Dialog.getNumber();
-		range = stopLum-startLum;
+		start_Lum = Dialog.getNumber();
+		stop_Lum = Dialog.getNumber();
+		range = stop_Lum - start_Lum;
 		for (i = 0; i < 256; i++) { 
 			rgb = newArray(reds[i], greens[i], blues[i]);
-			color = adjustColorToLuminance(rgb, ((range/256) *i) + startLum);
+			color = adjust_Color_To_Luminance(rgb, ((range/256) *i) + start_Lum);
 			reds[i] = color[0];
 			greens[i] = color[1];
 			blues[i] = color[2];
@@ -553,31 +503,10 @@ arg=lutBaker2();
 		newImage("adjusted LUT", "8-bit ramp", 256, 32, 1);
 		setLut(reds, greens, blues);
 		setBatchMode(0);
-		copyLUT();
+		copy_LUT();
 	}
 
-	function invertLUT1(){
-		basicErrorCheck();
-		getLut(reds, greens, blues);
-		rgb = newArray(reds[255],greens[255],blues[255]);
-		lum = getLum(rgb);
-		setBatchMode(1);
-		comp = newArray(0);
-		for (i = 0; i < 256; i++) {
-			rgb = newArray(reds[i],greens[i],blues[i]);
-			comp = adjustColorToLuminance(rgb,255-(lum/256)*i);
-			reds[i] = comp[0];
-			greens[i] = comp[1];
-			blues[i] = comp[2];
-			showProgress(i/255);
-		}
-		newImage("inverted LUT", "8-bit ramp", 256, 32, 1);
-		setLut(reds, greens, blues);
-		setBatchMode(0);
-		copyLUT();
-	}
-
-	function cropLUT(){
+	function crop_LUT(){
 		id = toolID();
 		run("Select All");
 		setTool(0);
@@ -586,66 +515,69 @@ arg=lutBaker2();
 		run("Duplicate...","duplicate");
 		run("RGB Color");
 		run("Scale...",	"x=- y=- width=256 height=65 interpolation=Bicubic average create");
-		R = newArray(1); G = newArray(1); B = newArray(1);
+		reds = newArray(1); greens = newArray(1); blues = newArray(1);
 		for (i = 0; i < 256; i++) {
-			c = getPixel(i, 2);
-			R[i] = (c>>16)&0xff; 	
-			G[i] = (c>>8)&0xff;		
-			B[i] = c&0xff;
+			color = getPixel(i, 2);
+			reds[i] = (color>>16)&0xff; 	
+			greens[i] = (color>>8)&0xff;		
+			blues[i] = color&0xff;
 		}
 		newImage("new LUT", "8-bit ramp", 256, 32, 1);
-		setLut(R, G, B);
+		setLut(reds, greens, blues);
 		setBatchMode(0);
 		setTool(id);
 	}
 
-	function randomLightLUTs() {
-		Types = newArray("blue","orange","magenta","green","any","any","any");
-		getDimensions(w,h,channels,s,f);
-		if (channels>1){
-			Stack.setDisplayMode("composite");
-			for(i=1; i<=channels; i++){
-				Stack.setChannel(i);
-				rgb = randomColorByTypeAndLum(150, Types[i-1]);
-				LUTmaker(rgb[0],rgb[1],rgb[2]);
-			}
-		}
-	}
-
-	function randomColorByTypeAndLum(lum, targetColorType) {
-		rgb = newArray(3); loop=1; rgb_weight = newArray(0.299,0.587,0.114);
-		luminance = 0;
-		colorType = "";
+	function random_Color_By_Type_And_Luminance(luminance, target_Color_Type) {
+		color = newArray(3); 
+		loop = 1; 
+		rgb_weight = newArray(0.299,0.587,0.114);
+		color_Type = "";
 		count = 0;
 		while (loop) {
-			if (count>20000) exit("can't generate color "+targetColorType+" with a luminance of "+lum);
-			if (targetColorType == "gray") rgb = newArray(lum,lum,lum);
-			else rgb=randomColorByLuminance(lum);
-			Array.getStatistics(rgb, min, max, mean, stdDev);
-			red = rgb[0]; green = rgb[1]; blue = rgb[2];
-			if (red==max && blue<135 && (green/red)<0.5)  
-				colorType = "red";
-			if (green==max && (red/green)<0.75 && (blue/green)<0.75) 	colorType = "green";
-			if (blue==max && red==min && red<100 && (green/blue)<0.8)	colorType = "blue";
-			if (blue==max && red==min && red<50 && (green/blue)>0.85)	colorType = "cyan";
-			if (green==min && (green/red)<0.75 && (green/blue)<0.6) 	colorType = "magenta";
-			if (red==max && blue==min && blue<50 && (green/red)<0.75)  	colorType = "orange";
-			if (red==max && blue==min && blue<50 && (green/red)>0.9) 	colorType = "yellow";
-			if (red==green && blue==green) 								colorType = "gray";
-			if (colorType == targetColorType) loop = 0;
-			if (targetColorType == "any") loop = 0;
+			if (count > 20000) exit("can't generate color "+target_Color_Type+" with a luminance of "+luminance);
+			if (target_Color_Type == "gray") color = newArray(luminance, luminance, luminance);
+			else color = random_Color_By_Luminance(luminance);
+			Array.getStatistics(color, min, max, mean, stdDev);
+			red = color[0]; 
+			green = color[1]; 
+			blue = color[2];
+			if (red==max && (blue/red) <= 0.5 && (green/red) <= 0.5) 									color_Type = "red"; // 165 max lum
+ 
+			if (red==max && blue==min && (blue/max) < 0.2 && (green/red) < 0.63 && (green/red) > 0.4)	color_Type = "orange"; //176
+
+			if (blue==min && (blue/max) < 0.2 && (green/red) >= 0.8 && (red/green) > 0.9) 				color_Type = "yellow"; //232
+
+			if (green==max && (red/green) < 0.85 && (blue/green) < 0.6) 								color_Type = "green"; // 231
+
+			if (green==max && red==min && (red/max) < 0.2 && (blue/green) > 0.8)						color_Type = "cyan"; //194
+
+			if (blue==max && red==min && (red/max) < 0.2 && (green/blue) < 0.85)						color_Type = "blue"; //171
+
+			if (green==min && (green/max) < 0.4 && (green/red) < 0.65 && (green/blue) < 0.75) 			color_Type = "magenta"; //164
+
+			if (red==green && blue==green) 																color_Type = "gray";
+
+			if (color_Type == target_Color_Type) loop = 0;
+			if (target_Color_Type == "any") loop = 0;
+			if (luminance < 100 && (blue > 170 || red > 200)){color_Type = ""; loop=1;} //avoid screen saturation 
 			count++;
-		}
-		return rgb;
+			showProgress(count/20000);
+		}	
+		// s=""; for (i = 0; i < red; i+=2) s+="|"; print(s,red);
+		// s=""; for (i = 0; i < green; i+=2) s+="|"; print(s,green);
+		// s=""; for (i = 0; i < blue; i+=2) s+="|"; print(s,blue);
+		// "     ";
+		return color;
 	}
 
 	function convertTo_iMQ_Style() {
 		if(nImages == 0) exit;
 		greyZero = 0;
-		if (isKeyDown("shift")) greyZero=1;
-		getLut(r,g,b); 
-		newImage("lut", "8-bit ramp", 192, 32, 1); 
-		setLut(r,g,b);
+		if (isKeyDown("shift")) greyZero = 1;
+		getLut(reds, greens, blues);
+		newImage("lut", "8-bit ramp", 192, 32, 1);
+		setLut(reds, greens, blues);
 		setBatchMode(1);
 		run("RGB Color"); rename(1);
 		newImage("iGrays", "8-bit ramp", 64, 32, 1);
@@ -658,13 +590,12 @@ arg=lutBaker2();
 		rename(2);
 		run("Combine...", "stack1=2 stack2=1");
 		selectWindow("Combined Stacks");
-		R = newArray(1); G = newArray(1); B = newArray(1);
 		for (i = 0; i < 256; i++) {
 			color = getPixel(i, 2);
-			R[i] = (color>>16)&0xff; 	G[i] = (color>>8)&0xff;		B[i] = color&0xff;
+			reds[i] = (color>>16)&0xff; 	greens[i] = (color>>8)&0xff;		blues[i] = color&0xff;
 		}
 		newImage("iMQ Style LUT!", "8-bit ramp", 256, 32, 1);
-		setLut(R, G, B);
+		setLut(reds, greens, blues);
 		setBatchMode(0);
 	}
 
@@ -673,7 +604,7 @@ arg=lutBaker2();
 	//--------------------------------------------------------------------------------------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------------------------------------
 
-	function basicErrorCheck(){
+	function error_Check_for_LUTs(){
 		if (nImages == 0) newImage("LUT", "8-bit ramp", 256, 32, 1);
 		if (nImages > 0) {
 			if (getTitle() == "LUT Profile") close("LUT Profile");
@@ -681,8 +612,7 @@ arg=lutBaker2();
 		}
 	}
 
-
-	function randomColorByLuminance(targetLum){ 
+	function random_Color_By_Luminance(targetLum){ 
 		rgb = newArray(3); loop=1; rgb_weight = newArray(0.299,0.587,0.114);
 		luminance = 0;
 		while (loop) {
@@ -696,14 +626,15 @@ arg=lutBaker2();
 				luminance += round(rgb[i]*rgb_weight[i]);
 			}
 			if (luminance >= targetLum-1 && luminance <= targetLum+1) loop=0;
+			if (targetLum < 127 && (rgb[2] > 170 || rgb[0] > 200)){color_Type = ""; loop=1;} //avoid screen saturation 
 			luminance = 0;
 		}
 		return rgb;
 	}
 
-	function adjustColorToLuminance(rgb,targetLum){
-		inputLum = getLum(rgb); rgb_weight = newArray(0.299,0.587,0.114);
-		loop=1; luminance = 0; i=-1;
+	function adjust_Color_To_Luminance(rgb, targetLum){
+		inputLum = get_Luminance(rgb); rgb_weight = newArray(0.299,0.587,0.114);
+		loop=1; luminance = 0; i=1;
 		while (loop) {
 			if (targetLum == 0) {
 				rgb = newArray(0,0,0);
@@ -714,26 +645,25 @@ arg=lutBaker2();
 				break;
 			}
 			if (i==2) i = -1;
-			if (inputLum<targetLum) {
+			if (inputLum < targetLum) {
 				i++;
 				rgb[i]++;
-				if (rgb[i]>255) rgb[i] = 255;
+				if (rgb[i] > 255) rgb[i] = 255;
 			}
-			else if (inputLum>targetLum){
+			else if (inputLum > targetLum){
 				i++;
 				rgb[i]--;
-				if (rgb[i]<0) rgb[i] = 0;
+				if (rgb[i] < 0) rgb[i] = 0;
 			}
 			for (k = 0; k < 3; k++) luminance += round(rgb[k] * rgb_weight[k]);
-			if (luminance>=targetLum-1 && luminance<=targetLum+1) loop=0;
+			if (luminance >= targetLum-1 && luminance <= targetLum+1) loop=0;
 			luminance = 0;
 		}
 		return rgb;
 	}
 
 	//color = reds, greens or blues from getLut
-	function splineColor(color,steps){
-		// steps++;
+	function spline_Color(color, steps){
 		Overlay.remove;
 		X = newArray(0); Y = newArray(0);
 		for (i = 0; i <= steps; i++) X[i] = (255/steps)*i;
@@ -741,40 +671,39 @@ arg=lutBaker2();
 		makeSelection("polyline", X,Y);
 		run("Fit Spline");
 		Overlay.addSelection("white");
-		getSelectionCoordinates(splinedX, splinedY);
-		splinedY = Array.resample(splinedY,256);
-		Array.getStatistics(splinedY, min, max, mean, stdDev);
-		for (k=0;k<256;k++) splinedY[k] = 255-(maxOf(0,minOf(255,255-splinedY[k])));
+		getSelectionCoordinates(splined_X, splined_Y);
+		splined_Y = Array.resample(splined_Y,256);
+		Array.getStatistics(splined_Y, min, max, mean, stdDev);
+		for (k=0;k<256;k++) splined_Y[k] = 255-(maxOf(0,minOf(255,255-splined_Y[k])));
 		X = Array.resample(X,256);
-		return splinedY;
+		return splined_Y;
 	}
 
-	function plotLUT(){
+	function plot_LUT(){
 		close("MultiPlot");
-		if (nImages == 0) exit;
-		if (bitDepth()==24) exit;
-		id=getImageID();
+		if (nImages == 0) exit();
+		if (bitDepth() == 24) exit();
+		id = getImageID();
 		lutinance = newArray(0); //luminance of LUT...
-		getLut(r,g,b);
+		getLut(reds, greens, blues);
 		setBatchMode(1);
+			//LUT snapshot
 			newImage("temp", "8-bit ramp", 385, 32, 1);
-			setLut(r,g,b);
+			setLut(reds, greens, blues);
 			run("RGB Color");
 			rename("temp");
-			getDimensions(width, height, channels, slices, frames);
-			inID = getImageID();
+			temp_1 = getImageID();
 			run("Copy");
-			newImage("temp", "RGB", width, height, 2);
+			newImage("temp", "RGB", 385, 32, 2);
 			setSlice(1); 
 			run("Paste");
-			outID = getImageID();
-			selectImage(inID);
-			run("Duplicate...","duplicate");
-			rename("temp");
-			simulateFullDeuteranopia();
+			temp_2 = getImageID();
+			selectImage(temp_1);
+			run("Duplicate...","title=temp duplicate");
+			simulate_Full_Deuteranopia();	
 			rename("temp");
 			run("Copy");
-			selectImage(outID);	
+			selectImage(temp_2);	
 			setSlice(2);	
 			run("Paste");
 			run("Make Montage...", "columns=1 rows=2 scale=1 border=0");
@@ -785,22 +714,22 @@ arg=lutBaker2();
 			run("Copy");
 			close("temp");
 		setBatchMode(0);
-		if (!isOpen("MultiPlot")) call("ij.gui.ImageWindow.setNextLocation", 0, screenHeight - 470);
+		if (!isOpen("LUT Profile")) call("ij.gui.ImageWindow.setNextLocation", 0, screenHeight() - 470);
 		run("Plots...", "width=400 height=265");
 		Plot.create("LUT Profile", "Grey Value", "value");
-		lutinance = getLUTinance(r,g,b);
-		Plot.setColor("white");
+		lutinance = get_LUTinance(reds, greens, blues);
+		Plot.setColor("white"); 
 		Plot.setLineWidth(2);
 		Plot.add("line", lutinance);
 		Plot.setColor("#ff4a4a");
 		Plot.setLineWidth(2);
-		Plot.add("line", r);
+		Plot.add("line", reds);
 		Plot.setColor("#8ce400");
 		Plot.setLineWidth(2);
-		Plot.add("line", g);
+		Plot.add("line", greens);
 		Plot.setColor("#60c3ff");
 		Plot.setLineWidth(2);
-		Plot.add("line", b);
+		Plot.add("line", blues);
 		Plot.setBackgroundColor("#2f2f2f");
 		Plot.setAxisLabelSize(14.0, "bold");
 		Plot.setFormatFlags("0");
@@ -814,18 +743,19 @@ arg=lutBaker2();
 		setOption("Changes", 0);
 		selectImage(id);
 	}
-	function getLUTinance(reds,greens,blues){
+
+	function get_LUTinance(reds,greens,blues){
 		lutinance = newArray(0);
 		for (i = 0; i < 256; i++) {
 			rgb = newArray(reds[i],greens[i],blues[i]);
-			lutinance[i] = getLum(rgb);
+			lutinance[i] = get_Luminance(rgb);
 		}
 		return lutinance;
 	}
 
-	function complementary(r,g,b){
-		rgb = newArray(r,g,b);
-		lum = getLum(rgb);
+	function get_Complentary_Color(r, g, b){
+		rgb = newArray(r, g, b);
+		lum = get_Luminance(rgb);
 		Array.getStatistics(rgb, min, max, mean, stdDev);
 		third_number = (rgb[0]+rgb[1]+rgb[2])-(min+max);
 		for (i = 0; i < 3; i++) {
@@ -833,41 +763,32 @@ arg=lutBaker2();
 			else if (rgb[i] == third_number) rgb[i] = (max+min)-third_number;
 			else if (rgb[i] == max) rgb[i] = min;
 		}
-		rgb2 = adjustColorToLuminance(rgb,lum);
+		rgb2 = adjust_Color_To_Luminance(rgb,lum);
 		return rgb2;
 	}
 
-	function getLum(rgb){
+	function get_Luminance(rgb){
 		rgb_weight = newArray(0.299,0.587,0.114);
 		luminance = 0;
 		for (i = 0; i < 3; i++) luminance += round(rgb[i]*rgb_weight[i]);
 		return luminance;
 	}
 
-	function LUTmaker(r,g,b){
-		R = newArray(256); G = newArray(256); B = newArray(256);
-		for(i=0; i<256; i++) { 
-			R[i] = (r/256)*(i+1);
-			G[i] = (g/256)*(i+1);
-			B[i] = (b/256)*(i+1);
-		}
-		setLut(R, G, B);
-	}
-
-	function copyLUT() {
+	function copy_LUT() {
 		saveAs("lut", getDirectory("temp")+"/copiedLut.lut");
 		showStatus("Copy LUT");
 	}
 
-	function pasteLUT(){
+	function paste_LUT(){
 		open(getDirectory("temp")+"/copiedLut.lut");
 		showStatus("Paste LUT");
 	}
 
-	function simulateFullDeuteranopia(){
+	function simulate_Full_Deuteranopia(){
+		// from the dichromacy plugin
 		if (nImages==0) exit("No Image");
 		getDimensions(width, height, channels, slices, frames);
-		rgbSnapshot();
+		rgb_Snapshot();
 
 		rgb2lms = newArray(0); lms2rgb = newArray(0); gammaRGB = newArray(0);
 		a1=0.0; b1=0.0; c1=0.0; a2=0.0; b2=0.0; c2=0.0; inflection=0.0;
@@ -970,7 +891,7 @@ arg=lutBaker2();
 
 	//Supposed to create an RGB snapshot of any kind of opened image
 	//check sourcecode for save as jpeg and stuff, how does it works?
-	function rgbSnapshot(){
+	function rgb_Snapshot(){
 		Stack.getPosition(channel, slice, frame);
 		getDimensions(width, height, channels, slices, frames);
 		if (channels>1) Stack.getDisplayMode(mode);
