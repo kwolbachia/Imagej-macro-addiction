@@ -43,6 +43,11 @@ arg=lut_Spline_Fit_3_to_10();
 <line>
 
 <button>
+label=<html><font color='black'><b> Linearize LUT
+bgcolor=lightgrey
+arg=enluminate_LUT();
+
+<button>
 label=<html><font color='black'><b> Smooth LUT
 bgcolor=lightgrey
 arg=smooth_LUT();
@@ -51,11 +56,6 @@ arg=smooth_LUT();
 label=<html><font color='black'><b> Crop LUT
 bgcolor=lightgrey
 arg=crop_LUT();
-
-<button>
-label=<html><font color='black'><b> Linearize LUT
-bgcolor=lightgrey
-arg=enluminate_LUT();
 
 </line>//
 <line>
