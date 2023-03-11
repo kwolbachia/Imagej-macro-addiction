@@ -1138,25 +1138,48 @@ function curtain_Tool() {
 	Overlay.remove;
 }
 
+// function move_Windows() {
+// 	getCursorLoc(x2, y2, z2, flags2);
+// 	zoom = getZoom();
+// 	getCursorLoc(last_x, last_y, z, flags);
+// 	flags = flags%32; //remove "cursor in selection" flag
+// 	while (flags == 16) {
+// 		getLocationAndSize(window_x, window_y, null, null);
+// 		getCursorLoc(x, y, z, flags);
+// 		flags = flags%32; //remove "cursor in selection" flag
+// 		if (x != last_x || y != last_y) {
+// 			window_x = window_x - (x2 * zoom - x * zoom);
+// 			window_y = window_y - (y2 * zoom - y * zoom);
+// 			setLocation(window_x, window_y);
+// 			getCursorLoc(last_x, last_y, z, flags2);
+// 		}
+// 	wait(10);
+// 	}
+// }
 function move_Windows() {
-	getCursorLoc(x2, y2, z2, flags2);
-	zoom = getZoom();
-	getCursorLoc(last_x, last_y, z, flags);
-	flags = flags%32; //remove "cursor in selection" flag
+	getCursorLoc(x, y, z, flags);
+	origin_x = get_Cursor_Screen_Loc_X();
+	origin_y = get_Cursor_Screen_Loc_Y();
+	getLocationAndSize(origin_window_x, origin_window_y, null, null);
 	while (flags == 16) {
-		getLocationAndSize(window_x, window_y, null, null);
+		x = get_Cursor_Screen_Loc_X();
+		y = get_Cursor_Screen_Loc_Y();
+		setLocation(x - (origin_x - origin_window_x), y - (origin_y - origin_window_y));
 		getCursorLoc(x, y, z, flags);
-		flags = flags%32; //remove "cursor in selection" flag
-		if (x != last_x || y != last_y) {
-			window_x = window_x - (x2 * zoom - x * zoom);
-			window_y = window_y - (y2 * zoom - y * zoom);
-			setLocation(window_x, window_y);
-			getCursorLoc(last_x, last_y, z, flags2);
-		}
-	wait(10);
+		wait(10);
 	}
 }
 
+
+function get_Cursor_Screen_Loc_X(){
+	x = parseInt(eval("bsh", "import java.awt.MouseInfo; MouseInfo.getPointerInfo().getLocation().x;"));
+	return x;
+}
+
+function get_Cursor_Screen_Loc_Y(){
+	y = parseInt(eval("bsh", "import java.awt.MouseInfo; MouseInfo.getPointerInfo().getLocation().y;"));
+	return y;
+}
 function live_Contrast() {	
 	if (bitDepth() == 24) exit();
 	resetMinAndMax();
@@ -1522,7 +1545,7 @@ function install_Tool_From_Clipboard() {
 	string = File.openAsString(getDirectory("macros")+"/StartupMacros.fiji.ijm") + String.paste;
 	File.saveString(string, path);
 	run("Install...","install=["+path+"]");
-	setTool(21);
+	setTool(20);
 }
 
 function rotate_LUT() {
