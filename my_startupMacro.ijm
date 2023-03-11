@@ -69,9 +69,9 @@ macro "Multi Tool - N55C000DdeCf00Db8Db9DbaDc7Dc8DcaDcbDd7DdbDe7De8DeaDebCfffDc9
 macro "Multi Tool Options" {
 	Dialog.createNonBlocking("Multitool Options");
 	Dialog.setInsets(0, 0, 0);
-	Dialog.addMessage("      Hold shift and drag with Multitool to adjust contrast");
+	Dialog.addMessage("      Shift and drag to adjust contrast");
 	Dialog.setInsets(0, 0, 0);
-	Dialog.addMessage("      Shift + alt with Multitool to auto-adjust locally (75px box)");
+	Dialog.addMessage("      Shift + alt to auto-adjust locally (75px box)");
 	Dialog.addRadioButtonGroup("Main Tool : ", MULTITOOL_LIST, MULTITOOL_LIST.length / 2, 2, MAIN_TOOL);
 	Dialog.addCheckbox("text under scale bar?", ADD_SCALEBAR_TEXT);
 	Dialog.addCheckbox("live auto contrast?", LIVE_AUTOCONTRAST);
@@ -125,7 +125,7 @@ macro "Popup Menu" {
 	else if (cmd=="Rajout de bout") 		rajout_De_Bout();
 	else if (cmd=="Gaussian Correction") 	gauss_Correction();
 	else if (cmd=="Color Blindness") 		{rgb_Snapshot(); run("Dichromacy", "simulate=Deuteranope");}
-	else if (cmd=="Set LUTs") 				{get_LUTs_Dialog(); set_LUTs();}
+	else if (cmd=="Set LUTs") 				{get_LUTs_Dialog(); apply_LUTs();}
 	else if (cmd=="Rotate LUT") 			rotate_LUT();
 	else run(cmd); 
 }
@@ -179,9 +179,9 @@ macro "[0]"	{
 	// else if (isKeyDown("alt"))		
 }
 macro "[1]"	{
-	if		(no_Alt_no_Space())		set_LUTs();
-	else if (isKeyDown("space"))	set_All_LUTs(); 	
-	else if (isKeyDown("alt"))		set_My_LUTs();
+	if		(no_Alt_no_Space())		apply_LUTs();
+	else if (isKeyDown("space"))	apply_All_LUTs(); 	
+	else if (isKeyDown("alt"))		get_My_LUTs();
 }
 macro "[2]"	{
 	if		(no_Alt_no_Space())		maximize_Image();
@@ -1016,7 +1016,7 @@ function multi_Tool(){ //avec menu "que faire avec le middle click? **"
 	if (flags == 9) 				if (bitDepth()!=24) paste_LUT();											// shift + middle click
 	if (flags == 10||flags == 14) 	if (bitDepth()!=24) paste_Favorite_LUT();									// shift + middle click
 	if (flags == 17)				live_Contrast();															// shift + drag
-	if (flags == 18||flags == 20)	if (isOpen("MultiPlot")) live_MultiPlot(); else scale_Bar_Tool();			// ctrl + drag
+	if (flags == 18||flags == 20)	if (isOpen("MultiPlot")) live_MultiPlot(); else k_Rectangle_Tool();			// ctrl + drag
 	if (flags == 24)				if (MAIN_TOOL=="Slice/Frame Scroll") move_Windows(); else live_Scroll();	// alt + drag
 	if (flags == 25)				box_Auto_Contrast();														// shift + alt + drag
 	if (flags == 26||flags == 28)	curtain_Tool();
@@ -1125,7 +1125,7 @@ function curtain_Tool() {
 			makeRectangle(x, 0, width-x, height);
 			run("Duplicate...","title=part");
 			selectImage(id);
-			run("Add Image...", "image=part x="+ x +" y=0 opacity=60"); //zero
+			run("Add Image...", "image=part x="+ x +" y=0 opacity=100"); //zero
 			while (Overlay.size>1) Overlay.removeSelection(0);
 			close("part");
 			last_x = x;
@@ -1138,24 +1138,6 @@ function curtain_Tool() {
 	Overlay.remove;
 }
 
-// function move_Windows() {
-// 	getCursorLoc(x2, y2, z2, flags2);
-// 	zoom = getZoom();
-// 	getCursorLoc(last_x, last_y, z, flags);
-// 	flags = flags%32; //remove "cursor in selection" flag
-// 	while (flags == 16) {
-// 		getLocationAndSize(window_x, window_y, null, null);
-// 		getCursorLoc(x, y, z, flags);
-// 		flags = flags%32; //remove "cursor in selection" flag
-// 		if (x != last_x || y != last_y) {
-// 			window_x = window_x - (x2 * zoom - x * zoom);
-// 			window_y = window_y - (y2 * zoom - y * zoom);
-// 			setLocation(window_x, window_y);
-// 			getCursorLoc(last_x, last_y, z, flags2);
-// 		}
-// 	wait(10);
-// 	}
-// }
 function move_Windows() {
 	getCursorLoc(x, y, z, flags);
 	origin_x = get_Cursor_Screen_Loc_X();
@@ -1180,6 +1162,7 @@ function get_Cursor_Screen_Loc_Y(){
 	y = parseInt(eval("bsh", "import java.awt.MouseInfo; MouseInfo.getPointerInfo().getLocation().y;"));
 	return y;
 }
+
 function live_Contrast() {	
 	if (bitDepth() == 24) exit();
 	resetMinAndMax();
@@ -1796,7 +1779,7 @@ function Hela(){
 	run("Crop");
 	run("Remove Overlay");
 	run("Remove Slice Labels");
-	set_LUTs();
+	apply_LUTs();
 	makeRectangle(173, 255, 314, 178);
 	enhance_All_Channels();
 	run("Select None");
@@ -2456,27 +2439,29 @@ function batch_ims_To_tif(){
 /*--------
 Set LUTs
 --------*/
-function set_My_LUTs(){
+function get_My_LUTs(){
 	LUT_list = newArray("k_Blue","k_Orange","k_Magenta","k_Green","Grays" ,"copied" ,"fav");
+	getDimensions(width, height, channels, slices, frames);
 	Dialog.create("Set all LUTs");
-	for(i=0; i<4; i++) { Dialog.setInsets(0, 0, 0); Dialog.addRadioButtonGroup("LUT " + (i+1), LUT_list, 0, 7, CHOSEN_LUTS[i]);}
+	for(i=0; i<channels; i++) { Dialog.setInsets(0, 0, 0); Dialog.addRadioButtonGroup("LUT " + (i+1), LUT_list, 2, 4, CHOSEN_LUTS[i]);}
 	Dialog.addCheckbox("noice?", 0);
 	Dialog.show();
-	for(i=0; i<4; i++) CHOSEN_LUTS[i] = Dialog.getRadioButton();
-	if (Dialog.getCheckbox()) for(i=0; i<4; i++) if (CHOSEN_LUTS[i] != "Grays") CHOSEN_LUTS[i] = CHOSEN_LUTS[i] + "_noice"; 
-	set_LUTs();
+	for(i=0; i<channels; i++) CHOSEN_LUTS[i] = Dialog.getRadioButton();
+	if (Dialog.getCheckbox()) for(i=0; i<channels; i++) if (CHOSEN_LUTS[i] != "Grays") CHOSEN_LUTS[i] = CHOSEN_LUTS[i] + "_noice"; 
+	apply_LUTs();
 }
 
 function get_LUTs_Dialog(){
 	LUT_list = newArray("k_Blue","k_Magenta","k_Orange","k_Green","Grays","Cyan","Magenta","Yellow","Red","Green","Blue");
+	getDimensions(width, height, channels, slices, frames);
 	Dialog.create("Set all LUTs");
-	for(i=0; i<5; i++) Dialog.addChoice("LUT " + (i+1),LUT_list, CHOSEN_LUTS[i]);
+	for(i=0; i<channels; i++) Dialog.addChoice("LUT " + (i+1),LUT_list, CHOSEN_LUTS[i]);
 	Dialog.show();
-	for(i=0; i<5; i++) CHOSEN_LUTS[i] = Dialog.getChoice();
+	for(i=0; i<channels; i++) CHOSEN_LUTS[i] = Dialog.getChoice();
 }
 
-function set_LUTs(){
-	Stack.getPosition(ch,s,f);
+function apply_LUTs(){
+	Stack.getPosition(channel,s,f);
 	getDimensions(w,h,channels,s,f);
 	if (channels>1){
 		Stack.setDisplayMode("composite");
@@ -2486,7 +2471,7 @@ function set_LUTs(){
 			else if (CHOSEN_LUTS[i-1]=="copied") paste_LUT();
 			else run(CHOSEN_LUTS[i-1]);
 		}
-		Stack.setChannel(ch);
+		Stack.setChannel(channel);
 		Stack.setDisplayMode("color");Stack.setDisplayMode("composite");
 	}
 	else {
@@ -2495,7 +2480,7 @@ function set_LUTs(){
 		else  run(CHOSEN_LUTS[0]);
 	}
 }
-function set_All_LUTs(){
+function apply_All_LUTs(){
 	setBatchMode(1);
 	all_IDs = newArray(nImages);
 	for (i=0; i<nImages ; i++) {			
@@ -2504,7 +2489,7 @@ function set_All_LUTs(){
 	} 
 	for (i=0; i<nImages; i++) {
 		selectImage(all_IDs[i]);
-		if (bitDepth() != 24) set_LUTs();	
+		if (bitDepth() != 24) apply_LUTs();	
 	}
 	setBatchMode(0);
 }
@@ -2514,12 +2499,12 @@ function gamma_LUT(gamma, reds, greens, blues) {
 	gammaReds = newArray(256); 
 	gammaGreens = newArray(256); 
 	gammaBlues = newArray(256); 
-	gam = newArray(256);
-	for (i=0; i<256; i++) gam[i] = pow(i, gamma);
-	scale = 255 / gam[255];
-	for (i=0; i<256; i++) gam[i] = round(gam[i] * scale);
+	gamma_factor = newArray(256);
+	for (i=0; i<256; i++) gamma_factor[i] = pow(i, gamma);
+	scale = 255 / gamma_factor[255];
+	for (i=0; i<256; i++) gamma_factor[i] = round(gamma_factor[i] * scale);
 	for (i=0; i<256; i++) {
-		j = gam[i];
+		j = gamma_factor[i];
 		gammaReds[i] = reds[j];
 		gammaGreens[i] = greens[j];
 		gammaBlues[i] = blues[j];
@@ -3461,7 +3446,7 @@ function add_Numerical_Keyboard() {
 }
 
 function show_my_Zbeul_Action_Bar(){
-	setup_Popup_Action_Bar_Header("my Zbeul");
+	setup_Action_Bar_Header("my Zbeul");
 	add_new_Line();
 	add_gray_button("Fetch / Pull", "fetch_Or_Pull_StartupMacros();");
 	add_Text_Line("                  Clipboard modifs");
@@ -3473,7 +3458,7 @@ function show_my_Zbeul_Action_Bar(){
 	add_gray_button("Add to image info", "note_In_Infos();");
 	add_Text_Line("                  imgur images");
 	add_new_Line();
-	add_gray_button("3 channels", "setBatchMode(1); open(\"https://i.imgur.com/MZGVdVj.png\"); run(\"Make Composite\"); set_LUTs(); run(\"Remove Slice Labels\"); setBatchMode(0);");
+	add_gray_button("3 channels", "setBatchMode(1); open(\"https://i.imgur.com/MZGVdVj.png\"); run(\"Make Composite\"); apply_LUTs(); run(\"Remove Slice Labels\"); setBatchMode(0);");
 	add_gray_button("Microtubules", "open(\"https://i.imgur.com/LDO1rVL.png\");");
 	add_gray_button("Brain stack", "setBatchMode(1); open(\"https://i.imgur.com/DYIF55D.jpg\"); run(\"Montage to Stack...\", \"columns=20 rows=18 border=0\"); rename(\"brain\"); setBatchMode(0);");
 	add_Text_Line("                  Wheels and tests");
@@ -3487,9 +3472,9 @@ function show_my_Zbeul_Action_Bar(){
 	add_gray_button("Test CLAHE options", "test_CLAHE_Options();");
 	add_gray_button("Test main filters", "test_main_Filters();");
 	add_new_Line();
-	// add_gray_button("Colorblind Bar", "run(\"Action Bar\", File.openUrlAsString(\"https://git.io/JZUZw\"));");
 	add_gray_button("LUT Montage", "display_LUTs();");
 	add_Code_Library();
+	add_Bioformats_DnD();
 	run("Action Bar", ACTION_BAR_STRING);
 }
 
