@@ -967,6 +967,7 @@ function my_Tool_Roll() {
 
 
 /*
+ * About Flags (or Modifiers) from getCursorLoc()
  * shift = +1
  * ctrl = +2
  * cmd = +4 (Mac)
@@ -1153,7 +1154,7 @@ function move_Windows() {
 }
 
 
-function get_Cursor_Screen_Loc_X(){
+function get_Cursor_Screen_Loc_X(){ 
 	x = parseInt(eval("bsh", "import java.awt.MouseInfo; MouseInfo.getPointerInfo().getLocation().x;"));
 	return x;
 }
@@ -1709,7 +1710,8 @@ function open_From_Preview_Opener() {
 	index = (line_Position * rows) + row_Position;
 	path = getDirectory("image") + path_List[index];
 	if (File.exists(path)) {
-		open(path);
+		if (endsWith(path, '.tif')||endsWith(path, '.png')||endsWith(path, '.jpg')||endsWith(path, '.jpeg')) open(path);
+		else run('Bio-Formats Importer', 'open=[' + path + ']');
 		showStatus("opening " + path_List[index]);
 	}
 	else showStatus("can't open " + path_List[index] + " maybe incorrect name or spaces in it?");
@@ -2711,6 +2713,7 @@ function save_All_Images_Dialog() {
 }
 
 function my_Tile() {
+	if (nImages() == 0) exit();
 	all_IDs = newArray(nImages);
 	for (i=0; i<nImages ; i++) {			
 		selectImage(i+1);
@@ -3303,6 +3306,8 @@ function get_Luminance(rgb){
 
 function show_All_Macros_Action_Bar(){
 	setup_Action_Bar_Header("Main Keyboard Macros");
+	add_new_Line();
+	add_macro_button_with_hotKey("E", "Arrange windows on Tiles", "none");
 	add_Contrast_Action_Bar();
 	add_Basic_Action_Bar();
 	add_SplitView_Action_Bar();
@@ -3548,6 +3553,6 @@ function add_Bioformats_DnD(){
 	"if (endsWith(path, '.mp4')) run('Movie (FFMPEG)...', 'choose='+ path +' first_frame=0 last_frame=-1');\n"+
 	"else if (endsWith(path, '.pdf')) run('PDF ...', 'choose=' + path + ' scale=600 page=0');\n"+
 	"else run('Bio-Formats Importer', 'open=[' + path + ']');\n"+
-	"rename(File.nameWithoutExtension);\n"+
+	// "rename(File.nameWithoutExtension);\n"+
 	"</DnDAction>\n";
 }
