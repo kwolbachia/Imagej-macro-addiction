@@ -57,6 +57,11 @@ label=<html><font color='black'><b> Crop LUT
 bgcolor=lightgrey
 arg=crop_LUT();
 
+<button>
+label=<html><font color='black'><b> Rotate LUT
+bgcolor=lightgrey
+arg=rotate_LUT();
+
 </line>//
 <line>
 
@@ -178,6 +183,27 @@ arg=spline_LUT_maker();
 
 
 <codeLibrary>//
+
+	function rotate_LUT() {
+		setBatchMode(1);
+		getLut(reds, greens, blues);
+		newImage("r1", "8-bit color-mode", 256, 32, 6, 1, 1);
+		Stack.setChannel(1);
+		setLut(reds, greens, blues);
+		Stack.setChannel(2);
+		setLut(reds, blues, greens);
+		Stack.setChannel(3);
+		setLut(greens, reds, blues);
+		Stack.setChannel(4);
+		setLut(greens, blues, reds);
+		Stack.setChannel(5);
+		setLut(blues, greens, reds);
+		Stack.setChannel(6);
+		setLut(blues, reds, greens);
+		see_All_LUTs();
+		setBatchMode(0);
+		rename("wiiiii");
+	}
 
 	function spline_LUT_maker(){
 		error_Check_for_LUTs();
