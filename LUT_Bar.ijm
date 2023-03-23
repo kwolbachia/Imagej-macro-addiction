@@ -205,6 +205,38 @@ arg=spline_LUT_maker();
 		rename("wiiiii");
 	}
 
+	function see_All_LUTs(){
+		setBatchMode(1);
+		title = getTitle();
+		mode = Property.get("CompositeProjection");
+		getDimensions(width, height, channels, slices, frames);
+		id = getImageID();
+		newImage(title + "_LUTs", "8-bit color-mode", 256, 32 * (channels+1), channels, 1, 1);
+		id2 = getImageID();
+		newImage("ramp", "8-bit Ramp", 256, 32, 1);
+		run("Copy");
+		selectImage(id2);
+		y = -32;
+		for (i = 0; i < channels; i++) {
+			y += 32;
+			selectImage(id);
+			Stack.setChannel(i+1);
+			getLut(reds, greens, blues);
+			selectImage(id2);
+			Stack.setChannel(i+1);
+			setLut(reds, greens, blues);
+			makeRectangle(0, y, 256, 32);
+			run("Paste");
+			makeRectangle(0, channels*32, 256, 32);
+			run("Paste");
+		}
+		run("Select None");
+		Stack.setDisplayMode("composite");
+		Property.set("CompositeProjection", mode); 
+		setOption("Changes", 0);
+		setBatchMode(0);
+	}
+	
 	function spline_LUT_maker(){
 		error_Check_for_LUTs();
 		getLut(reds, greens, blues);
