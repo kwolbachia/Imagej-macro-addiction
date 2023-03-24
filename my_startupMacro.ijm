@@ -69,7 +69,7 @@ macro "Multi Tool - N55C000DdeCf00Db8Db9DbaDc7Dc8DcaDcbDd7DdbDe7De8DeaDebCfffDc9
 macro "Multi Tool Options" {
 	Dialog.createNonBlocking("Multitool Options");
 	Dialog.setInsets(0, 0, 0);
-	Dialog.addMessage("      Shift and drag to adjust contrast");
+	Dialog.addMessage("      Shift to adjust contrast");
 	Dialog.setInsets(0, 0, 0);
 	Dialog.addMessage("      Shift + alt to auto-adjust locally (75px box)");
 	Dialog.addRadioButtonGroup("Main Tool : ", MULTITOOL_LIST, MULTITOOL_LIST.length / 2, 2, MAIN_TOOL);
@@ -98,12 +98,12 @@ macro "Multi Tool Options" {
 //------SHORTCUTS
 //--------------------------------------------------------------------------------------------------------------------------------------
 var ShortcutsMenu = newMenu("Custom Menu Tool",
-	newArray( "Batch convert imaris to tiff", "Merge Ladder and Signal WB",
+	newArray( "Batch convert to tiff", "Merge Ladder and Signal WB",
 		 "-","Rotate 90 Degrees Right","Rotate 90 Degrees Left", "make my LUTs",
 		 "-", "Median...", "Gaussian Blur...","Gaussian Blur 3D...","Gamma...","Voronoi Threshold Labler (2D/3D)"));
-macro "Custom Menu Tool - N55C000D1aD1bD1cD1dD29D2dD39D3dD49D4dD4eD59D5eD69D75D76D77D78D79D85D88D89D94D98D99Da4Da7Da8Da9Db3Db7Db8Dc3Dc6Dc7DccDcdDd3Dd6Dd8DdbDdcDe2De3De6De8De9DeaDebDecCfffD0dD3cD5cD6dD7bD8bD8cD96D9aD9bDa5DacDadDb5DcaDd4Dd9DdaDe4CdddD0aD1eD2bD6aD74D7aD95Dc4Dc5DeeC333D67D68DbeDd2DddCeeeD00D01D02D03D04D05D06D07D08D09D0eD10D11D12D13D14D15D16D17D18D20D21D22D23D24D25D26D27D30D31D32D33D34D35D36D37D3aD3bD40D41D42D43D44D45D46D47D4bD50D51D52D53D54D55D56D57D60D61D62D63D64D65D6eD70D71D72D73D80D81D82D83D86D8aD8dD90D91D92D97Da0Da1Da2Da6DaaDb0Db1DbbDc0Dc1Dc9Dd0Dd1De0De1C111D38D5bD6bD7dDabDbaDd7C999D4cD58D5aD5dD93DceDd5C777D0bD2eD4aD6cD7cD7eD9cD9dD9eDbdDc8C222D8eDa3DbcCcccD2cDdeDe7C666D19Db4DcbCbbbD0cD87DaeDb2C888D66De5C555D28D2aD84Dc2CaaaDb9DedC444D3eD48Db6Bf0C000D03D06D0cD13D16D1bD23D26D2aD33D37D39D43D44D47D48D54D65D76D77D87D88D89D8aD8bD8cD8dD8eD9bCfffD04D08D0dD0eD14D18D19D24D28D2cD35D3bD3cD3dD3eD45D46D4aD4bD4cD4eD56D57D5aD5bD5cD5dD5eD68D69D6aD6bD6cD6dD7cD7dCdddD1cD25D63D7eD97C333D99CeeeD00D01D07D10D11D1dD20D21D2eD30D31D40D41D42D4dD50D51D52D59D60D61D62D67D6eD70D71D72D73D74D79D7aD7bD80D81D82D83D84D85D90D91D92D93D94D95D96Da0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaDabDacDadDaeC111D02D0bD36C999D1aD2bD58D9eC777D27D3aC222D64D66D9aCcccD09D17C666D12D38D78CbbbD0aD15D1eD2dD32D34C888D98C555D49D55D86D9cD9dCaaaD05D29D53C444D22D75B0fC000D02D03D04D05D08D09D18D27D28D36D37D45D46D54D55D63D64D71D72D80D81CfffD06D07D16D25D30D34D35D40D43D44D52D57D60D61D66D75D83D85CdddD10D22D32D33D42D74C333CeeeD0aD1aD21D29D2aD31D38D39D3aD48D49D4aD50D51D53D58D59D5aD67D68D69D6aD76D77D78D79D7aD84D86D87D88D89D8aD91D92D93D94D95D96D97D98D99D9aDa0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaC111C999D62D65C777D00C222D01D13D14D73CcccD11D26D90C666CbbbD12D15D19D20D23D24D41D82C888D47D56D70C555D17CaaaC444Nf0C000D33D34D35D36D42D43D46D50D51D55D64D65D66D67D73D74D78D88D96D97Da4Da5Db4Dc4Dd4Dd6Dd7Dd8De3De4De6De8De9CfffD15D31D44D53D54D58D62D84D85D86D92D93Da2Db2Dc2Dd2De7CdddD63Da1Da7Dc1Dd0De2C333D25D47D56D77Da0CeeeD00D01D02D03D04D05D06D07D08D09D0aD10D11D12D13D14D16D17D18D19D1aD20D21D22D27D28D29D2aD30D38D39D3aD48D49D4aD59D5aD69D6aD71D7aD82D8aD99D9aDa8Da9DaaDb1Db6Db7Db8Db9DbaDc9DcaDd1DdaDe0DeaC111C999D37D76D90Da6Db5Dc6Dc8Dd3C777D41D81D91D98Dc7De5C222D75D95Db3CcccD61D72D79D83D89Dc5Dd5Dd9De1C666D40D52D57CbbbD70D80D94C888D23D32D45Dc3C555D60D87Da3Db0CaaaD26Dc0C444D24D68" {
+macro "Custom Menu Tool - N55C000D1aD1bD1cD1dD29D2dD39D3dD49D4dD4eD59D5eD69D75D76D77D78D79D85D88D89D94D98D99Da4Da7Da8Da9Db3Db7Db8Dc3Dc6Dc7DccDcdDd3Dd6Dd8DdbDdcDe2De3De6De8De9DeaDebDecCfffD0dD3cD5cD6dD7bD8bD8cD96D9aD9bDa5DacDadDb5DcaDd4Dd9DdaDe4CdddD0aD1eD2bD6aD74D7aD95Dc4Dc5DeeC222D8eDa3DbcC111D38D5bD6bD7dDabDbaDd7C888D66De5C666D19Db4DcbC900CbbbD0cD87DaeDb2C444D28D2aD3eD48D84Db6Dc2CaaaDb9DedC777D0bD2eD4aD6cD7cD7eD9cD9dD9eDbdDc8CcccD2cDdeDe7C333D67D68DbeDd2DddC999D4cD58D5aD5dD93DceDd5Bf0C000D03D06D0cD13D16D1bD23D26D2aD33D37D39D43D44D47D48D54D65D76D77D87D88D89D8aD8bD8cD8dD8eD9bCfffD04D08D0dD0eD14D18D19D24D28D2cD35D3bD3cD3dD3eD45D46D4aD4bD4cD4eD56D57D5aD5bD5cD5dD5eD68D69D6aD6bD6cD6dD7cD7dCdddD1cD25D63D7eD97C222D64D66D9aC111D02D0bD36C888D98C666D12D38D78C900CbbbD0aD15D1eD2dD32D34C444D22D49D55D75D86D9cD9dCaaaD05D29D53C777D27D3aCcccD09D17C333D99C999D1aD2bD58D9eB0fC000D02D03D04D05D08D09D18D27D28D36D37D45D46D54D55D63D64D71D72D80D81CfffD06D07D16D25D30D34D35D40D43D44D52D57D60D61D75D83D85CdddD10D22D32D33D42D74C222D01D13D14D73C111C888D47D70C666C900D56D66D67D76D77D78D86D87D96CbbbD12D15D19D20D23D24D41D82C444D17CaaaC777D00CcccD11D26D90C333C999D62D65Nf0C000D33D34D35D36D42D43D46D50D51D55D64D65D66D67D73D74D78D88D96D97Da4Da5Db4Dc4Dd4Dd6Dd7Dd8De3De4De6De8De9CfffD15D31D44D53D54D58D62D84D85D86D92D93Da2Db2Dc2Dd2De7CdddD63Da1Da7Dc1Dd0De2C222D75D95Db3C111C888D23D32D45Dc3C666D40D52D57C900CbbbD70D80D94C444D24D60D68D87Da3Db0CaaaD26Dc0C777D41D81D91D98Dc7De5CcccD61D72D79D83D89Dc5Dd5Dd9De1C333D25D47D56D77Da0C999D37D76D90Da6Db5Dc6Dc8Dd3" {
 	cmd = getArgument(); 
-	if (cmd=="Batch convert imaris to tiff") 	batch_ims_To_tif();
+	if (cmd=="Batch convert to tiff") 	batch_ims_To_tif();
 	else if (cmd=="Merge Ladder and Signal WB")		merge_Ladder_And_Signal_From_Licor();
 	else if (cmd=="make my LUTs")					make_My_LUTs();
 	else run(cmd);
@@ -115,18 +115,19 @@ macro "Stacks Menu Built-in Tool" {}
 //------POPUP
 //--------------------------------------------------------------------------------------------------------------------------------------
 var pmCmds = newMenu("Popup Menu",
-	newArray("Remove Overlay", "Duplicate...","Set LUTs","Set active path", "Rajout de bout", "Copy to System",
-	 "-", "CLAHE", "Gaussian Correction", "Color Blindness", "Rotate LUT",
+	newArray("Remove Overlay", "Duplicate...","Set LUTs","Set active path", "Set target image",
+	 "-", "CLAHE", "Gaussian Correction", "Color Blindness",
 	 "-", "Record...", "Monitor Memory...","Control Panel...", "Startup Macros..."));
 macro "Popup Menu" {
 	cmd = getArgument(); 
-	if 		(cmd=="CLAHE") 					CLAHE();
-	else if (cmd=="Set active path") 		set_Active_Path();
-	else if (cmd=="Rajout de bout") 		rajout_De_Bout();
-	else if (cmd=="Gaussian Correction") 	gauss_Correction();
-	else if (cmd=="Color Blindness") 		{rgb_Snapshot(); run("Dichromacy", "simulate=Deuteranope");}
-	else if (cmd=="Set LUTs") 				{get_LUTs_Dialog(); apply_LUTs();}
-	else if (cmd=="Rotate LUT") 			rotate_LUT();
+	if 		(cmd == "CLAHE") 				CLAHE();
+	else if (cmd == "Set active path") 		set_Active_Path();
+	else if (cmd == "Rajout de bout") 		rajout_De_Bout();
+	else if (cmd == "Gaussian Correction") 	gauss_Correction();
+	else if (cmd == "Color Blindness") 		{rgb_Snapshot(); run("Dichromacy", "simulate=Deuteranope");}
+	else if (cmd == "Set LUTs") 			{get_LUTs_Dialog(); apply_LUTs();}
+	else if (cmd == "Rotate LUT") 			rotate_LUT();
+	else if (cmd == "Set target image") 	set_Target_Image();
 	else run(cmd); 
 }
 
@@ -137,15 +138,16 @@ macro "Preview Opener Action Tool - N66C000D34D35D36D37D38D39D3aD3bD3cD3dD3eD44D
 }
 
 var Action_Bars_Menu = newMenu("Action Bars Menu Tool", 
-	newArray("Main Macros Shortcuts", "Basics Macros", "Export Macros", "Contrast Macros", "Splitview Macros"));
+	newArray("Main Macros Shortcuts", "Basics Macros", "Export Macros", "Contrast Macros", "Splitview Macros", "Numerical Keyboard Macros"));
 
 macro "Action Bars Menu Tool - C000 T0c15A Tac15B" {
 	cmd = getArgument();
-	if 		(cmd == "Main Macros Shortcuts")	show_All_Macros_Action_Bar();
-	else if (cmd == "Basics Macros")			show_Basic_Macros_Action_Bar();
-	else if (cmd == "Export Macros")			show_Export_Action_Bar();
-	else if (cmd == "Contrast Macros")			show_Contrast_Bar();
-	else if (cmd == "Splitview Macros")			show_SplitView_Bar();
+	if 		(cmd == "Main Macros Shortcuts")		show_All_Macros_Action_Bar();
+	else if (cmd == "Basics Macros")				show_Basic_Macros_Action_Bar();
+	else if (cmd == "Export Macros")				show_Export_Action_Bar();
+	else if (cmd == "Contrast Macros")				show_Contrast_Bar();
+	else if (cmd == "Splitview Macros")				show_SplitView_Bar();
+	else if (cmd == "Numerical Keyboard Macros")	show_Numerical_Keyboard_Bar();
 }
 //--------------------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------------------------------
@@ -627,7 +629,7 @@ function arrange_Channels() {
 function quick_Scale_Bar(){
 	color = "White";
 	// approximate size of the scale bar relative to image width :
-	scalebar_Size = 0.25;
+	scalebar_Size = 0.23;
 	getPixelSize(unit, pixel_Width, pixel_Height);
 	if (unit == "pixels") exit("Image not spatially calibrated");
 	// image width in measurement units
@@ -639,9 +641,9 @@ function quick_Scale_Bar(){
 	while (scalebar_Length < shortest_Image_Edge * scalebar_Size) 
 		scalebar_Length = round((scalebar_Length*2.3)/(Math.pow(10,(floor(Math.log10(abs(scalebar_Length*2.3)))))))*(Math.pow(10,(floor(Math.log10(abs(scalebar_Length*2.3))))));
 	if (ADD_SCALEBAR_TEXT) 
-		scalebar_Settings_String = " height=" + (scalebar_Length / pixel_Width)/10 + " font=" + minOf(Image.width, Image.height)/15 + " color="+color+" bold overlay";
+		scalebar_Settings_String = " height=" + minOf(Image.width, Image.height)/30 + " font=" + minOf(Image.width, Image.height)/15 + " color="+color+" bold overlay";
 	else {
-		scalebar_Settings_String = " height=" + (scalebar_Length / pixel_Width)/10 + " font=" + maxOf(Image.width, Image.height)/30 + " color="+color+" hide overlay";
+		scalebar_Settings_String = " height=" + minOf(Image.width, Image.height)/30 + " font=" + maxOf(Image.width, Image.height)/30 + " color="+color+" hide overlay";
 		print("Scale Bar length = " + scalebar_Length);
 	}
 	run("Scale Bar...", "width=&scalebar_Length " + scalebar_Settings_String);
@@ -978,7 +980,7 @@ function my_Tool_Roll() {
  * So e.g. if (leftclick + alt) Flags = 24
  */
 //ispired by Robert Haase Windows Position tool from clij
-function multi_Tool(){ //avec menu "que faire avec le middle click? **"
+function multi_Tool(){
 	if (nImages == 0) exit();
 	setupUndo();
 	call("ij.plugin.frame.ContrastAdjuster.update");
@@ -994,11 +996,11 @@ function multi_Tool(){ //avec menu "que faire avec le middle click? **"
 	if (flags > 32) flags -= 32;
 	//middle mouse button
 	if (flags == 8) { 
-		if      (startsWith(getTitle(), "Preview Opener")) open_From_Preview_Opener();  
-		else if (startsWith(getTitle(), "Lookup Tables")) set_LUT_From_Montage(); 
-		if (Image.height==32||Image.width==256) { if (isOpen("LUT Profile")) plot_LUT(); copy_LUT();}
+		if      (matches(getTitle(), ".*Preview Opener.*")) open_From_Preview_Opener();  
+		else if (matches(getTitle(), ".*Lookup Tables.*")) set_LUT_From_Montage(); 
+		if (Image.height == 32 || Image.width == 256) { if (isOpen("LUT Profile")) plot_LUT(); copy_LUT();}
 		else {
-			if (MAIN_TOOL=="Curtain Tool") set_Target_Image();
+			if (MAIN_TOOL == "Curtain Tool") set_Target_Image();
 			else composite_Switch();
 		}
 	}
@@ -1015,12 +1017,12 @@ function multi_Tool(){ //avec menu "que faire avec le middle click? **"
 		else if (MAIN_TOOL == "Multi-channel Plot Tool")	live_MultiPlot();
 	}
 	if (flags == 9) 				if (bitDepth()!=24) paste_LUT();											// shift + middle click
-	if (flags == 10||flags == 14) 	if (bitDepth()!=24) paste_Favorite_LUT();									// shift + middle click
+	if (flags == 10 || flags == 14)	if (bitDepth()!=24) paste_Favorite_LUT();									// ctrl + middle click
 	if (flags == 17)				live_Contrast();															// shift + drag
-	if (flags == 18||flags == 20)	if (isOpen("MultiPlot")) live_MultiPlot(); else k_Rectangle_Tool();			// ctrl + drag
+	if (flags == 18 || flags == 20)	if (isOpen("MultiPlot")) live_MultiPlot(); else k_Rectangle_Tool();			// ctrl + drag
 	if (flags == 24)				if (MAIN_TOOL=="Slice/Frame Scroll") move_Windows(); else live_Scroll();	// alt + drag
 	if (flags == 25)				box_Auto_Contrast();														// shift + alt + drag
-	if (flags == 26||flags == 28)	curtain_Tool();
+	if (flags == 26 || flags == 28)	curtain_Tool();
 }
 
 function set_Main_Tool(main_Tool){
@@ -1146,6 +1148,7 @@ function move_Windows() {
 	getLocationAndSize(origin_window_x, origin_window_y, null, null);
 	while (flags == 16) {
 		x = get_Cursor_Screen_Loc_X();
+
 		y = get_Cursor_Screen_Loc_Y();
 		setLocation(x - (origin_x - origin_window_x), y - (origin_y - origin_window_y));
 		getCursorLoc(x, y, z, flags);
@@ -1710,7 +1713,7 @@ function open_From_Preview_Opener() {
 	index = (line_Position * rows) + row_Position;
 	path = getDirectory("image") + path_List[index];
 	if (File.exists(path)) {
-		if (endsWith(path, '.tif')||endsWith(path, '.png')||endsWith(path, '.jpg')||endsWith(path, '.jpeg')) open(path);
+		if (endsWith(path, '.tif')||endsWith(path, '.png')||endsWith(path, '.jpg')||endsWith(path, 'jpeg')) open(path);
 		else run('Bio-Formats Importer', 'open=[' + path + ']');
 		showStatus("opening " + path_List[index]);
 	}
@@ -1831,6 +1834,7 @@ function channels_Roll(){
 }
 
 function live_MultiPlot() {
+	// adapted from jérome Mutterer: https://gist.github.com/mutterer/4a8e226fbe55e8e682a1
 	close("LUT Profile");
 	cursor_Position = "not on a line anchor point";
 	if (bitDepth() == 24){ run("Plot Profile"); exit();}
@@ -1866,7 +1870,7 @@ function live_MultiPlot() {
 		}
 		Stack.getDimensions(w, h, channels, z, t);
 		pre_Profile = getProfile();
-		size = pre_Profile.length;
+		size = pre_Profile.length; 
 		for (i=0; i<size; i++) pre_Profile[i] = i*pixel_Width;
 		Plot.create("MultiPlot", "Distance ("+unit+")", "Value");
 		Plot.setBackgroundColor("#2f2f2f");
@@ -1949,16 +1953,16 @@ function multi_Plot_Z_Axis(){
 	// if (isKeyDown("space")) normalize = 1;
 	getDimensions(width,  height, channels, slices, frames);
 	Stack.getPosition(channel, slice, frame);
-	if (selectionType()==-1) {run("Select All");}
-	if (bitDepth()==24){ run("Plot Profile"); exit();}
+	if (selectionType() == -1) {run("Select All");}
+	if (bitDepth() == 24){ run("Plot Profile"); exit();}
 	if (channels > 1) Stack.getActiveChannels(active_Channels);
 	id = getImageID();
 	if (!isOpen("Multiplot")) call("ij.gui.ImageWindow.setNextLocation", SAVED_LOC_X, SAVED_LOC_Y);
 	run("Plots...", "width=400 height=200");
 	Plot.create("MultiPlot", "Frame", "Grey value");
 	for (i=1; i<=channels; i++) {
-		if (channels>1) Stack.setChannel(i);
-		if (is_Active_Channel(i-1)) {
+		if (channels > 1) Stack.setChannel(i);
+		if (is_Active_Channel(i - 1)) {
 			LUTcolor = lut_To_Hex2();
 			setBatchMode(1);
 			run("Plot Z-axis Profile");
@@ -2702,11 +2706,15 @@ function z_Project_All() {
 }
 
 function save_All_Images_Dialog() {
-	dir = getDirectory("Choose a Directory");
+	Dialog.createNonBlocking("Save all images as");
+	Dialog.addChoice("format", newArray("tiff", "jpeg", "gif", "raw", "avi", "bmp", "png", "pgm", "lut", "selection", "results", "text"), "tiff");
+	Dialog.show();
+	format = Dialog.getChoice();
+	folder = getDirectory("Choose a Directory");
 	for (i=0; i<nImages; i++) {
         selectImage(i+1);
         title = getTitle;
-        saveAs("tiff", dir+title);
+        saveAs("tiff", folder + title);
         print(title + " saved");
 	}
 	print("done");
@@ -3423,7 +3431,7 @@ function add_Exports_Action_Bar(){
 	add_macro_button_with_hotKey("x", "Copy to System", "alt");
 	add_new_Line();
 	add_macro_button_with_hotKey("s", "Save as tiff", "none");
-	add_macro_button_with_hotKey("s", "Save all as tiff", "alt");
+	add_macro_button_with_hotKey("s", "Save all opened images", "alt");
 	add_new_Line();
 	add_macro_button_with_hotKey("J", "Save as JPEG...", "none");
 	add_macro_button_with_hotKey("J", "save As LZW tiff", "space");
@@ -3431,7 +3439,7 @@ function add_Exports_Action_Bar(){
 
 function add_Numerical_Keyboard() {
 	add_Text_Line("                  Numerical Keyboard Macros");
-	// add_Text_Line("      Shift :toggle channel, alt : toggle channel for all images");
+	add_Text_Line("      space : toggle channel, alt : toggle channel for all images");
 	add_new_Line();
 	add_macro_button_without_hotKey("n7", "7 (cyan)", "none");
 	add_macro_button_without_hotKey("n8", "8 (magenta)", "none");
@@ -3553,6 +3561,6 @@ function add_Bioformats_DnD(){
 	"if (endsWith(path, '.mp4')) run('Movie (FFMPEG)...', 'choose='+ path +' first_frame=0 last_frame=-1');\n"+
 	"else if (endsWith(path, '.pdf')) run('PDF ...', 'choose=' + path + ' scale=600 page=0');\n"+
 	"else run('Bio-Formats Importer', 'open=[' + path + ']');\n"+
-	// "rename(File.nameWithoutExtension);\n"+
+	"rename(File.nameWithoutExtension);\n"+
 	"</DnDAction>\n";
 }
