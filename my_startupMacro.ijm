@@ -8,7 +8,7 @@
 // }
 
 macro "AutoRun" {
-	//auto set fav LUT
+	//idée : auto set fav LUT
 	run("Roi Defaults...", "color=orange stroke=2 group=0");
 	setForegroundColor(255, 255, 255);
 	setBackgroundColor(0, 0, 0);
@@ -26,6 +26,7 @@ var HEIGHT_POSITION_BACKUP = 400;
 
 // for quick Set LUTs
 var CHOSEN_LUTS = newArray("k_Blue","k_Magenta","k_Orange","k_Green","Grays","Cyan","Magenta","Yellow");
+var NOICE_LUTs = 0;
 
 // For split_View
 var	COLOR_MODE = "Colored";
@@ -55,12 +56,13 @@ var TARGET_IMAGE_TITLE = "";
 // for Scale Bar Tool
 var ADD_SCALEBAR_TEXT = true; 
 
-// for counting tool
+// for counting tools
 var COUNT_LINE = 0;
 
 // for [f5]
 var DO_SCROLL_LOOP = false;
 
+// for Action Bars
 var ACTION_BAR_STRING = "";
 
 macro "Multi Tool - N55C000DdeCf00Db8Db9DbaDc7Dc8DcaDcbDd7DdbDe7De8DeaDebCfffDc9Dd8Dd9DdaDe9C777D02D11D12D17D18D21D28D2bD31D36D39D3aD3bD3eD41D42D46D47D4cD4dD4eD51D52D57D5bD5dD62D63D67D6dD72D73D74D75D76D77D83D85D86D94Cf90Da6Da7Da8Da9DaaDabDacDadDaeDb4Db5Dc4Dd4De4C444D03D19D22D29D2cD32D3cD43D4bD53D58D5eD64D68D6eD78D87Cf60D95D96D97D98D99D9aD9bD9cD9dD9eDa4Da5Db3Db6DbcDbdDbeDc3Dc5Dc6DccDcdDceDd3Dd5Dd6DdcDe3De5De6DecDedDeeC333Cf40Db7DbbDddBf0C000Cf00D08D09D0aCfffC777D13D22D23D24D32D33D35D36D37D38D39D3aD3bD42D43D46D47D48D49D4cD4dD52D53D54D58D59D5aD5dD5eD62D63D6aD6bD6cD6dD72D7cD7dD7eD82D8eD92Da2Cf90D05C444Cf60D03D04D06D0cD0dD0eD14D15D16D17D18D19D1aD1bD1cD1dD1eD25D26D27D28D29D2aD2bD2cD2dD2eC333D34D3cD3dD44D4eD64D73D83D93Da3Cf40D07D0bB0fC000D12Cf00CfffC777D50D60D61D62D70D72D73D74D80D81D82D83D84D85D86D91D92D93D94D95D96D97Da3Da4Da5Da6Da7Da8Cf90C444Cf60D00D04D05D06D09D10D18D20D21D23D24D25D26D27C333D01D02D03D40D51D52D63D64D75D76D87D98Da9Cf40D07D08D11D13D14D15D16D17D22Nf0C000Da2Dd2Dd5Cf00CfffC777D42D52D60D61D65D71D73D74D83D85D86Cf90Da0Da5Da6Db7Dc8C444D40D50D53D62D63D72D75D84Cf60D90D91D93D94D95D96D97Da1Da3Da4Da7Da8Db0Db4Db5Db6Db8Db9Dc5Dc6Dc7Dc9Dd7Dd8Dd9De5De6De7De9C333Db1Db2Db3Dc0Dc4Dd0Dd4De0De4Cf40D92Dc1Dc2Dc3Dd1Dd3Dd6De1De2De3De8" {
@@ -2450,10 +2452,10 @@ function get_My_LUTs(){
 	getDimensions(width, height, channels, slices, frames);
 	Dialog.create("Set all LUTs");
 	for(i=0; i<channels; i++) { Dialog.setInsets(0, 0, 0); Dialog.addRadioButtonGroup("LUT " + (i+1), LUT_list, 2, 4, CHOSEN_LUTS[i]);}
-	Dialog.addCheckbox("noice?", 0);
+	Dialog.addCheckbox("noice?", NOICE_LUTs);
 	Dialog.show();
 	for(i=0; i<channels; i++) CHOSEN_LUTS[i] = Dialog.getRadioButton();
-	if (Dialog.getCheckbox()) for(i=0; i<channels; i++) if (CHOSEN_LUTS[i] != "Grays") CHOSEN_LUTS[i] = CHOSEN_LUTS[i] + "_noice"; 
+	NOICE_LUTs = Dialog.getCheckbox();
 	apply_LUTs();
 }
 
@@ -2469,23 +2471,26 @@ function get_LUTs_Dialog(){
 function apply_LUTs(){
 	Stack.getPosition(channel,s,f);
 	getDimensions(w,h,channels,s,f);
+	lut_list = Array.copy(CHOSEN_LUTS);
+	if (NOICE_LUTs) for(i=0; i<channels; i++) if (CHOSEN_LUTS[i] != "Grays") lut_list[i] = lut_list[i] + "_noice";
 	if (channels>1){
 		Stack.setDisplayMode("composite");
 		for(i=1; i<=channels; i++){
 			Stack.setChannel(i);
-			if (CHOSEN_LUTS[i-1]=="fav") paste_Favorite_LUT();
-			else if (CHOSEN_LUTS[i-1]=="copied") paste_LUT();
-			else run(CHOSEN_LUTS[i-1]);
+			if (lut_list[i-1]=="fav") paste_Favorite_LUT();
+			else if (lut_list[i-1]=="copied") paste_LUT();
+			else run(lut_list[i-1]);
 		}
 		Stack.setChannel(channel);
 		Stack.setDisplayMode("color");Stack.setDisplayMode("composite");
 	}
 	else {
-		if (CHOSEN_LUTS[0]=="fav") paste_Favorite_LUT();
-		else if (CHOSEN_LUTS[0]=="copied") paste_LUT();
-		else  run(CHOSEN_LUTS[0]);
+		if (lut_list[0]=="fav") paste_Favorite_LUT();
+		else if (lut_list[0]=="copied") paste_LUT();
+		else  run(lut_list[0]);
 	}
 }
+
 function apply_All_LUTs(){
 	setBatchMode(1);
 	all_IDs = newArray(nImages);
