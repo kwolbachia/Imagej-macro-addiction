@@ -41,7 +41,7 @@ var TILES = newArray(1);
 var MAIN_TOOL = "Move Windows";
 var LIVE_AUTOCONTRAST = 0;
 var SATURATION_RATE = 0.03;
-var MULTITOOL_LIST = newArray("Move Windows", "Slice/Frame Scroll", "LUT Gamma Tool", "Curtain Tool", "Fly mode", "Magic Wand", "Scale Bar Tool", "Multi-channel Plot Tool");
+var MULTITOOL_LIST = newArray("Move Windows", "Slice/Frame Scroll", "LUT Gamma Tool", "Curtain Tool", "Magic Wand", "Scale Bar Tool", "Multi-channel Plot Tool");
 
 //For wand tool
 var WAND_BOX_SIZE = 5;
@@ -74,22 +74,23 @@ macro "Multi Tool Options" {
 	Dialog.addMessage("      Shift to adjust contrast");
 	Dialog.setInsets(0, 0, 0);
 	Dialog.addMessage("      Shift + alt to auto-adjust locally (75px box)");
-	Dialog.addRadioButtonGroup("Main Tool : ", MULTITOOL_LIST, MULTITOOL_LIST.length / 2, 2, MAIN_TOOL);
+	Dialog.addRadioButtonGroup("Main Tool : ", MULTITOOL_LIST, 4, 2, MAIN_TOOL);
 	Dialog.addCheckbox("text under scale bar?", ADD_SCALEBAR_TEXT);
-	Dialog.addCheckbox("live auto contrast?", LIVE_AUTOCONTRAST);
-	Dialog.addSlider("%", 0, 0.5, SATURATION_RATE);
+	// Dialog.addCheckbox("live auto contrast?", LIVE_AUTOCONTRAST);
+	// Dialog.addSlider("%", 0, 0.5, SATURATION_RATE);
 	Dialog.setInsets(0, 0, 0);
-	Dialog.addMessage("Magic Wand options : _______________");
+	Dialog.addMessage("Magic Wand options : ______________________________");
 	Dialog.addNumber("Maxima window size", WAND_BOX_SIZE);
 	Dialog.addSlider("tolerance estimation threshold", 0, 100, TOLERANCE_THRESHOLD);
 	Dialog.addSlider("Exponent for adjustment value", 1, 2, EXPONENT);
 	Dialog.addCheckbox("auto add ROI to manager?", ADD_TO_MANAGER);
 	Dialog.addChoice("Fit selection? How?", newArray("None","Fit Spline","Fit Ellipse"), FIT_MODE);
+	Dialog.addHelp("https://kwolby.notion.site/Multi-Tool-526950d8bafc41fd9402605c60e74a99");
 	Dialog.show();
 	MAIN_TOOL =				Dialog.getRadioButton();
 	ADD_SCALEBAR_TEXT = 	Dialog.getCheckbox();
-	LIVE_AUTOCONTRAST = 	Dialog.getCheckbox();
-	SATURATION_RATE =		Dialog.getNumber();
+	// LIVE_AUTOCONTRAST = 	Dialog.getCheckbox();
+	// SATURATION_RATE =		Dialog.getNumber();
 	WAND_BOX_SIZE =			Dialog.getNumber();
 	TOLERANCE_THRESHOLD =	Dialog.getNumber();
 	EXPONENT =				Dialog.getNumber();
@@ -105,7 +106,7 @@ var ShortcutsMenu = newMenu("Custom Menu Tool",
 		 "-", "Median...", "Gaussian Blur...","Gaussian Blur 3D...","Gamma...","Voronoi Threshold Labler (2D/3D)"));
 macro "Custom Menu Tool - N55C000D1aD1bD1cD1dD29D2dD39D3dD49D4dD4eD59D5eD69D75D76D77D78D79D85D88D89D94D98D99Da4Da7Da8Da9Db3Db7Db8Dc3Dc6Dc7DccDcdDd3Dd6Dd8DdbDdcDe2De3De6De8De9DeaDebDecCfffD0dD3cD5cD6dD7bD8bD8cD96D9aD9bDa5DacDadDb5DcaDd4Dd9DdaDe4CdddD0aD1eD2bD6aD74D7aD95Dc4Dc5DeeC222D8eDa3DbcC111D38D5bD6bD7dDabDbaDd7C888D66De5C666D19Db4DcbC900CbbbD0cD87DaeDb2C444D28D2aD3eD48D84Db6Dc2CaaaDb9DedC777D0bD2eD4aD6cD7cD7eD9cD9dD9eDbdDc8CcccD2cDdeDe7C333D67D68DbeDd2DddC999D4cD58D5aD5dD93DceDd5Bf0C000D03D06D0cD13D16D1bD23D26D2aD33D37D39D43D44D47D48D54D65D76D77D87D88D89D8aD8bD8cD8dD8eD9bCfffD04D08D0dD0eD14D18D19D24D28D2cD35D3bD3cD3dD3eD45D46D4aD4bD4cD4eD56D57D5aD5bD5cD5dD5eD68D69D6aD6bD6cD6dD7cD7dCdddD1cD25D63D7eD97C222D64D66D9aC111D02D0bD36C888D98C666D12D38D78C900CbbbD0aD15D1eD2dD32D34C444D22D49D55D75D86D9cD9dCaaaD05D29D53C777D27D3aCcccD09D17C333D99C999D1aD2bD58D9eB0fC000D02D03D04D05D08D09D18D27D28D36D37D45D46D54D55D63D64D71D72D80D81CfffD06D07D16D25D30D34D35D40D43D44D52D57D60D61D75D83D85CdddD10D22D32D33D42D74C222D01D13D14D73C111C888D47D70C666C900D56D66D67D76D77D78D86D87D96CbbbD12D15D19D20D23D24D41D82C444D17CaaaC777D00CcccD11D26D90C333C999D62D65Nf0C000D33D34D35D36D42D43D46D50D51D55D64D65D66D67D73D74D78D88D96D97Da4Da5Db4Dc4Dd4Dd6Dd7Dd8De3De4De6De8De9CfffD15D31D44D53D54D58D62D84D85D86D92D93Da2Db2Dc2Dd2De7CdddD63Da1Da7Dc1Dd0De2C222D75D95Db3C111C888D23D32D45Dc3C666D40D52D57C900CbbbD70D80D94C444D24D60D68D87Da3Db0CaaaD26Dc0C777D41D81D91D98Dc7De5CcccD61D72D79D83D89Dc5Dd5Dd9De1C333D25D47D56D77Da0C999D37D76D90Da6Db5Dc6Dc8Dd3" {
 	cmd = getArgument(); 
-	if (cmd=="Batch convert to tiff") 	batch_ims_To_tif();
+	if 		(cmd=="Batch convert to tiff") 			batch_ims_To_tif();
 	else if (cmd=="Merge Ladder and Signal WB")		merge_Ladder_And_Signal_From_Licor();
 	else if (cmd=="make my LUTs")					make_My_LUTs();
 	else run(cmd);
@@ -1726,6 +1727,8 @@ function open_From_Preview_Opener() {
 //in their curent state.  Will close all but the montage.
 function make_Preview_Opener() {
 	if (nImages == 0) exit();
+	waitForUser("Make Preview Opener", "Creates a montage with snapshots of all opened images (virtual or not).\n" +
+	"This will close all but the montage. Are you sure?");
 	setBatchMode(1);
 	all_IDs = newArray(nImages);
 	paths_List = "";
@@ -1755,7 +1758,7 @@ function make_Preview_Opener() {
 	run("Concatenate...", concat_Options);
 	run("Make Montage...", "scale=1");
 	rename("Preview Opener");
-	infos=getMetadata("Info");
+	infos = getMetadata("Info");
 	setMetadata("Info", paths_List + "\n" + infos);
 	close("\\Others");
 	setBatchMode(0);
@@ -2433,11 +2436,9 @@ function batch_ims_To_tif(){
 		print("opening "+ fileList[i]);
 		run("Bio-Formats Importer", "open=&current_imagePath");
 		rename(fileList[i]);
-		currentImage_name = getTitle();
-		saveAs("tiff", directory + currentImage_name);
+		saveAs("tiff", directory + fileList[i]);
 		run("Z Project...", "projection=[Max Intensity] all");
-		currentImage_name = getTitle();
-		saveAs("tiff", directory + currentImage_name);
+		saveAs("tiff", directory + getTitle());
 		run("Close All");
 	}
 	print("done");
