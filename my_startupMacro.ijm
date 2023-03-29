@@ -1148,12 +1148,12 @@ function move_Windows() {
 	getCursorLoc(x, y, z, flags);
 	origin_x = get_Cursor_Screen_Loc_X();
 	origin_y = get_Cursor_Screen_Loc_Y();
-	getLocationAndSize(origin_window_x, origin_window_y, null, null);
+	getLocationAndSize(origin_window_x, origin_window_y, width, height);
+ 	showStatus(origin_window_x);
 	while (flags == 16) {
 		x = get_Cursor_Screen_Loc_X();
-
 		y = get_Cursor_Screen_Loc_Y();
-		setLocation(x - (origin_x - origin_window_x), y - (origin_y - origin_window_y));
+		Table.setLocationAndSize(x - (origin_x - origin_window_x), y - (origin_y - origin_window_y), width, height, getTitle());
 		getCursorLoc(x, y, z, flags);
 		wait(10);
 	}
