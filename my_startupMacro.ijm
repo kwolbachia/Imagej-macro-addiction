@@ -7,9 +7,8 @@
 // 	showStatus(flags);
 // }
 
-requires("1.54");
-
 macro "AutoRun" {
+	requires("1.54");
 	//set inferno as default favorite lut (numerical 0 key)
 	if (!File.exists(getDirectory("temp") + "/favoriteLUT.lut"))
 		File.copy(getDirectory("luts") + "mpl-inferno.lut", getDirectory("temp") + "/favoriteLUT.lut");
