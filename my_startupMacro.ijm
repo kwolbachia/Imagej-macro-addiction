@@ -8,11 +8,13 @@
 // }
 
 macro "AutoRun" {
-	//idée : auto set fav LUT
+	//set inferno as default favorite lut (numerical 0 key)
+	if (!File.exists(getDirectory("temp") + "/favoriteLUT.lut"))
+		File.copy(getDirectory("luts") + "mpl-inferno.lut", getDirectory("temp") + "/favoriteLUT.lut");
 	run("Roi Defaults...", "color=orange stroke=2 group=0");
 	setForegroundColor(255, 255, 255);
 	setBackgroundColor(0, 0, 0);
-	setTool(15);
+	setTool(15);setTool(15);
 }
 
 var SAVED_LOC_X = 0;
@@ -418,7 +420,10 @@ macro "[y]"	{
 	else if (isKeyDown("space"))	{getCursorLoc(x, y, z, modifiers); doWand(x, y, estimate_Tolerance(), "8-connected");}	
 }
 
-macro "[Z]" {	run("Channels Tool...");}
+macro "[Z]" {	
+	if		(no_Alt_no_Space())		run("Channels Tool...");
+	else if (isKeyDown("space"))	run("LUT Channels Tool");
+}
 
 macro "[n/]" {
 	show_Shortcuts_Table();
@@ -1128,6 +1133,7 @@ function curtain_Tool() {
 			if (x < 0) x = 0;
 			if (isOpen(TARGET_IMAGE_TITLE)) selectWindow(TARGET_IMAGE_TITLE);
 			else exit();
+			setKeyDown("none");
 			makeRectangle(x, 0, width-x, height);
 			run("Duplicate...","title=part");
 			selectImage(id);
@@ -1762,7 +1768,7 @@ function make_Preview_Opener() {
 	setMetadata("Info", paths_List + "\n" + infos);
 	close("\\Others");
 	setBatchMode(0);
-	saveAs("tiff", source_Folder + "Preview Opener");
+	saveAs("tiff", source_Folder + "_Preview Opener");
 }
 
 //Supposed to create an RGB snapshot of any kind of opened image
@@ -1777,7 +1783,7 @@ function rgb_Snapshot(){
 	else if (mode!="composite") 	run("Duplicate...", "title=toClose channels=channel slices=&slice frames=&frame");
 	else 							run("Duplicate...", "duplicate title=toClose slices=&slice frames=&frame");
 	run("RGB Color", "keep");
-	rename(title);
+	rename("rgb_" + title);
 	close("toClose");
 	setOption("Changes", 0);
 }
@@ -2208,7 +2214,6 @@ function rgb_To_Composite_switch(){ //RGB to Composite et vice versa
 	}
 	else { 
 		rgb_Snapshot();
-		rename(title+"_u");
 	}
 	setOption("Changes", 0);
 }
@@ -2544,7 +2549,7 @@ function set_Gamma_LUT_All_Channels(gamma){
 Adjust the contrast window between min and max on active channel
 ----------------------------------------------------------------*/
 function adjust_Contrast() { 
-	if (is("Virtual Stack")) {resetMinAndMax(); exit();}
+	if (is("Virtual Stack")) {run("Enhance Contrast", "saturated=0"); run("Select None"); exit();}
 	setBatchMode(1);
 	id = getImageID();
 	getDimensions(width, height, channels, slices, frames);
