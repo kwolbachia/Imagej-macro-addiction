@@ -9,12 +9,15 @@
 
 macro "AutoRun" {
 	requires("1.54");
+
+	setForegroundColor(255, 255, 255);
+	setBackgroundColor(0, 0, 0);
+
 	//set inferno as default favorite lut (numerical 0 key)
 	if (!File.exists(getDirectory("temp") + "/favoriteLUT.lut"))
 		File.copy(getDirectory("luts") + "mpl-inferno.lut", getDirectory("temp") + "/favoriteLUT.lut");
+
 	run("Roi Defaults...", "color=orange stroke=2 group=0");
-	setForegroundColor(255, 255, 255);
-	setBackgroundColor(0, 0, 0);
 	setTool(15);setTool(15);
 }
 
@@ -41,10 +44,11 @@ var CHANNEL_LABELS = newArray("CidB","CidA","DNA","H4Ac","DIC");
 var TILES = newArray(1);
 
 // For MultiTool
-var MAIN_TOOL = "Move Windows";
+var	MAIN_TOOL = get_Main_Tool("Move Windows"); // = "Move Windows" if not set yet
+// var MAIN_TOOL = "Move Windows";
 var LIVE_AUTOCONTRAST = 0;
 var SATURATION_RATE = 0.03;
-var MULTITOOL_LIST = newArray("Move Windows", "Slice/Frame Scroll", "LUT Gamma Tool", "Curtain Tool", "Magic Wand", "Scale Bar Tool", "Multi-channel Plot Tool");
+var MULTITOOL_LIST = newArray("Move Windows", "Slice / Frame Tool", "LUT Gamma Tool", "Curtain Tool", "Magic Wand", "Scale Bar Tool", "Multi-channel Plot Tool");
 
 //For wand tool
 var WAND_BOX_SIZE = 5;
@@ -73,15 +77,8 @@ macro "Multi Tool - N55C000DdeCf00Db8Db9DbaDc7Dc8DcaDcbDd7DdbDe7De8DeaDebCfffDc9
 }
 macro "Multi Tool Options" {
 	Dialog.createNonBlocking("Multitool Options");
-	Dialog.setInsets(0, 0, 0);
-	Dialog.addMessage("      Shift to adjust contrast");
-	Dialog.setInsets(0, 0, 0);
-	Dialog.addMessage("      Shift + alt to auto-adjust locally (75px box)");
 	Dialog.addRadioButtonGroup("Main Tool : ", MULTITOOL_LIST, 4, 2, MAIN_TOOL);
 	Dialog.addCheckbox("text under scale bar?", ADD_SCALEBAR_TEXT);
-	// Dialog.addCheckbox("live auto contrast?", LIVE_AUTOCONTRAST);
-	// Dialog.addSlider("%", 0, 0.5, SATURATION_RATE);
-	Dialog.setInsets(0, 0, 0);
 	Dialog.addMessage("Magic Wand options : ______________________________");
 	Dialog.addNumber("Maxima window size", WAND_BOX_SIZE);
 	Dialog.addSlider("tolerance estimation threshold", 0, 100, TOLERANCE_THRESHOLD);
@@ -90,16 +87,16 @@ macro "Multi Tool Options" {
 	Dialog.addChoice("Fit selection? How?", newArray("None","Fit Spline","Fit Ellipse"), FIT_MODE);
 	Dialog.addHelp("https://kwolby.notion.site/Multi-Tool-526950d8bafc41fd9402605c60e74a99");
 	Dialog.show();
-	MAIN_TOOL =				Dialog.getRadioButton();
+	MAIN_TOOL =				Dialog.getRadioButton();	
 	ADD_SCALEBAR_TEXT = 	Dialog.getCheckbox();
-	// LIVE_AUTOCONTRAST = 	Dialog.getCheckbox();
-	// SATURATION_RATE =		Dialog.getNumber();
 	WAND_BOX_SIZE =			Dialog.getNumber();
 	TOLERANCE_THRESHOLD =	Dialog.getNumber();
 	EXPONENT =				Dialog.getNumber();
 	ADD_TO_MANAGER =		Dialog.getCheckbox();
 	FIT_MODE =				Dialog.getChoice();
+	save_Main_Tool(MAIN_TOOL);
 }
+
 //--------------------------------------------------------------------------------------------------------------------------------------
 //------SHORTCUTS
 //--------------------------------------------------------------------------------------------------------------------------------------
@@ -108,11 +105,11 @@ var ShortcutsMenu = newMenu("Custom Menu Tool",
 		 "-","Rotate 90 Degrees Right","Rotate 90 Degrees Left", "make my LUTs",
 		 "-", "Median...", "Gaussian Blur...","Gaussian Blur 3D...","Gamma...","Voronoi Threshold Labler (2D/3D)"));
 macro "Custom Menu Tool - N55C000D1aD1bD1cD1dD29D2dD39D3dD49D4dD4eD59D5eD69D75D76D77D78D79D85D88D89D94D98D99Da4Da7Da8Da9Db3Db7Db8Dc3Dc6Dc7DccDcdDd3Dd6Dd8DdbDdcDe2De3De6De8De9DeaDebDecCfffD0dD3cD5cD6dD7bD8bD8cD96D9aD9bDa5DacDadDb5DcaDd4Dd9DdaDe4CdddD0aD1eD2bD6aD74D7aD95Dc4Dc5DeeC222D8eDa3DbcC111D38D5bD6bD7dDabDbaDd7C888D66De5C666D19Db4DcbC900CbbbD0cD87DaeDb2C444D28D2aD3eD48D84Db6Dc2CaaaDb9DedC777D0bD2eD4aD6cD7cD7eD9cD9dD9eDbdDc8CcccD2cDdeDe7C333D67D68DbeDd2DddC999D4cD58D5aD5dD93DceDd5Bf0C000D03D06D0cD13D16D1bD23D26D2aD33D37D39D43D44D47D48D54D65D76D77D87D88D89D8aD8bD8cD8dD8eD9bCfffD04D08D0dD0eD14D18D19D24D28D2cD35D3bD3cD3dD3eD45D46D4aD4bD4cD4eD56D57D5aD5bD5cD5dD5eD68D69D6aD6bD6cD6dD7cD7dCdddD1cD25D63D7eD97C222D64D66D9aC111D02D0bD36C888D98C666D12D38D78C900CbbbD0aD15D1eD2dD32D34C444D22D49D55D75D86D9cD9dCaaaD05D29D53C777D27D3aCcccD09D17C333D99C999D1aD2bD58D9eB0fC000D02D03D04D05D08D09D18D27D28D36D37D45D46D54D55D63D64D71D72D80D81CfffD06D07D16D25D30D34D35D40D43D44D52D57D60D61D75D83D85CdddD10D22D32D33D42D74C222D01D13D14D73C111C888D47D70C666C900D56D66D67D76D77D78D86D87D96CbbbD12D15D19D20D23D24D41D82C444D17CaaaC777D00CcccD11D26D90C333C999D62D65Nf0C000D33D34D35D36D42D43D46D50D51D55D64D65D66D67D73D74D78D88D96D97Da4Da5Db4Dc4Dd4Dd6Dd7Dd8De3De4De6De8De9CfffD15D31D44D53D54D58D62D84D85D86D92D93Da2Db2Dc2Dd2De7CdddD63Da1Da7Dc1Dd0De2C222D75D95Db3C111C888D23D32D45Dc3C666D40D52D57C900CbbbD70D80D94C444D24D60D68D87Da3Db0CaaaD26Dc0C777D41D81D91D98Dc7De5CcccD61D72D79D83D89Dc5Dd5Dd9De1C333D25D47D56D77Da0C999D37D76D90Da6Db5Dc6Dc8Dd3" {
-	cmd = getArgument(); 
-	if 		(cmd=="Batch convert to tiff") 			batch_ims_To_tif();
-	else if (cmd=="Merge Ladder and Signal WB")		merge_Ladder_And_Signal_From_Licor();
-	else if (cmd=="make my LUTs")					make_My_LUTs();
-	else run(cmd);
+	command = getArgument(); 
+	if 		(command=="Batch convert to tiff") 			batch_ims_To_tif();
+	else if (command=="Merge Ladder and Signal WB")		merge_Ladder_And_Signal_From_Licor();
+	else if (command=="make my LUTs")					make_My_LUTs();
+	else run(command);
 }
 
 macro "Stacks Menu Built-in Tool" {}
@@ -125,16 +122,16 @@ var pmCmds = newMenu("Popup Menu",
 	 "-", "CLAHE", "Gaussian Correction", "Color Blindness",
 	 "-", "Record...", "Monitor Memory...","Control Panel...", "Startup Macros..."));
 macro "Popup Menu" {
-	cmd = getArgument(); 
-	if 		(cmd == "CLAHE") 				CLAHE();
-	else if (cmd == "Set active path") 		set_Active_Path();
-	else if (cmd == "Rajout de bout") 		rajout_De_Bout();
-	else if (cmd == "Gaussian Correction") 	gauss_Correction();
-	else if (cmd == "Color Blindness") 		{rgb_Snapshot(); run("Dichromacy", "simulate=Deuteranope");}
-	else if (cmd == "Set LUTs") 			{get_LUTs_Dialog(); apply_LUTs();}
-	else if (cmd == "Rotate LUT") 			rotate_LUT();
-	else if (cmd == "Set target image") 	set_Target_Image();
-	else run(cmd); 
+	command = getArgument(); 
+	if 		(command == "CLAHE") 				CLAHE();
+	else if (command == "Set active path") 		set_Active_Path();
+	// else if (command == "Rajout de bout") 		rajout_De_Bout();
+	else if (command == "Gaussian Correction") 	gauss_Correction();
+	else if (command == "Color Blindness") 		{rgb_Snapshot(); run("Dichromacy", "simulate=Deuteranope");}
+	else if (command == "Set LUTs") 			{get_LUTs_Dialog(); apply_LUTs();}
+	// else if (command == "Rotate LUT") 			rotate_LUT();
+	else if (command == "Set target image") 	set_Target_Image();
+	else run(command); 
 }
 
 // macro "LUT Menu Built-in Tool" {}
@@ -147,13 +144,13 @@ var Action_Bars_Menu = newMenu("Action Bars Menu Tool",
 	newArray("Main Macros Shortcuts", "Basics Macros", "Export Macros", "Contrast Macros", "Splitview Macros", "Numerical Keyboard Macros"));
 
 macro "Action Bars Menu Tool - C000 T0c15A Tac15B" {
-	cmd = getArgument();
-	if 		(cmd == "Main Macros Shortcuts")		show_All_Macros_Action_Bar();
-	else if (cmd == "Basics Macros")				show_Basic_Macros_Action_Bar();
-	else if (cmd == "Export Macros")				show_Export_Action_Bar();
-	else if (cmd == "Contrast Macros")				show_Contrast_Bar();
-	else if (cmd == "Splitview Macros")				show_SplitView_Bar();
-	else if (cmd == "Numerical Keyboard Macros")	show_Numerical_Keyboard_Bar();
+	command = getArgument();
+	if 		(command == "Main Macros Shortcuts")		show_All_Macros_Action_Bar();
+	else if (command == "Basics Macros")				show_Basic_Macros_Action_Bar();
+	else if (command == "Export Macros")				show_Export_Action_Bar();
+	else if (command == "Contrast Macros")				show_Contrast_Bar();
+	else if (command == "Splitview Macros")				show_SplitView_Bar();
+	else if (command == "Numerical Keyboard Macros")	show_Numerical_Keyboard_Bar();
 }
 //--------------------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------------------------------
@@ -512,6 +509,14 @@ function add_Shortcuts_Line(key, alone, space, alt){
 	Table.set("Alone",		SHORTCUT_LINE_INDEX, alone);
 	Table.set("with Space",	SHORTCUT_LINE_INDEX, space);
 	Table.set("with Alt",	SHORTCUT_LINE_INDEX, alt);
+}
+
+function save_Main_Tool(Main_Tool) {
+	call("ij.Prefs.set","Multi_Tool.Main_Tool", Main_Tool);
+}
+
+function get_Main_Tool(default_Main_Tool) {
+	return call("ij.Prefs.get","Multi_Tool.Main_Tool", default_Main_Tool);
 }
 
 function string_To_Recorder(string) {
@@ -981,7 +986,7 @@ function my_Tool_Roll() {
  * About Flags (or Modifiers) from getCursorLoc()
  * shift = +1
  * ctrl = +2
- * cmd = +4 (Mac)
+ * command = +4 (Mac)
  * alt = +8
  * middle also +8
  * leftClick = +16
@@ -991,36 +996,43 @@ function my_Tool_Roll() {
 //ispired by Robert Haase Windows Position tool from clij
 function multi_Tool(){
 	if (nImages == 0) exit();
+	MAIN_TOOL = get_Main_Tool("Move Windows"); // = "Move Windows" if not set yet
 	setupUndo();
 	call("ij.plugin.frame.ContrastAdjuster.update");
 	updateDisplay();
 	getCursorLoc(x, y, z, flags);
+
 	//middle click on selection
 	if (flags == 40) { 
 		roiManager("Add"); 
 		exit();
 	}
-	//click on selection
-	if (flags > 32 && MAIN_TOOL != "Magic Wand") move_selection_Tool(); 
-	if (flags > 32) flags -= 32;
+
 	//middle mouse button
 	if (flags == 8) { 
 		if      (matches(getTitle(), ".*Preview Opener.*")) open_From_Preview_Opener();  
 		else if (matches(getTitle(), ".*Lookup Tables.*")) set_LUT_From_Montage(); 
-		if (Image.height == 32 || Image.width == 256) { if (isOpen("LUT Profile")) plot_LUT(); copy_LUT();}
+		if (Image.height == 32 || Image.width == 256) { //lut image probably
+			if (isOpen("LUT Profile")) plot_LUT();
+			copy_LUT();
+		}
 		else {
 			if (MAIN_TOOL == "Curtain Tool") set_Target_Image();
 			else composite_Switch();
 		}
 	}
+
+	//left Click on selection
+	if (flags > 32 && MAIN_TOOL != "Magic Wand") move_selection_Tool(); 
+	if (flags > 32) flags -= 32;
+
 	//left Click
 	if (flags == 16) { 
 		if 		(MAIN_TOOL == "Move Windows")				move_Windows();
 		else if (MAIN_TOOL == "Contrast Adjuster")			live_Contrast();
 		else if (MAIN_TOOL == "LUT Gamma Tool")				live_Gamma();
-		else if (MAIN_TOOL == "Slice/Frame Scroll")			live_Scroll();
+		else if (MAIN_TOOL == "Slice / Frame Tool")			live_Scroll();
 		else if (MAIN_TOOL == "Magic Wand")					magic_Wand();
-		else if (MAIN_TOOL == "Fly mode")					fly_Mode();
 		else if (MAIN_TOOL == "Curtain Tool")				curtain_Tool();
 		else if (MAIN_TOOL == "Scale Bar Tool")				scale_Bar_Tool();
 		else if (MAIN_TOOL == "Multi-channel Plot Tool")	live_MultiPlot();
@@ -1029,13 +1041,9 @@ function multi_Tool(){
 	if (flags == 10 || flags == 14)	if (bitDepth()!=24) paste_Favorite_LUT();									// ctrl + middle click
 	if (flags == 17)				live_Contrast();															// shift + drag
 	if (flags == 18 || flags == 20)	if (isOpen("MultiPlot")) live_MultiPlot(); else k_Rectangle_Tool();			// ctrl + drag
-	if (flags == 24)				if (MAIN_TOOL=="Slice/Frame Scroll") move_Windows(); else live_Scroll();	// alt + drag
+	if (flags == 24)				if (MAIN_TOOL=="Slice / Frame Tool") move_Windows(); else live_Scroll();	// alt + drag
 	if (flags == 25)				box_Auto_Contrast();														// shift + alt + drag
 	if (flags == 26 || flags == 28)	curtain_Tool();
-}
-
-function set_Main_Tool(main_Tool){
-	MAIN_TOOL = main_Tool;
 }
 
 function k_Rectangle_Tool() {
@@ -1245,7 +1253,7 @@ function box_Auto_Contrast() {
 	run("Select None");
 }
 
-function fly_Mode(){
+function fly_Mode(){//améliorable
 	getCursorLoc(x, y, z, flag);
 	zoom = getZoom()*100;
 	getDimensions(width, height, channels, slices, frames);
