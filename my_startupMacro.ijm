@@ -44,9 +44,7 @@ var CHANNEL_LABELS = newArray("CidB","CidA","DNA","H4Ac","DIC");
 var TILES = newArray(1);
 
 // For MultiTool
-var	MAIN_TOOL = get_Main_Tool("Move Windows"); // = "Move Windows" if not set yet
-var LIVE_AUTOCONTRAST = 0;
-var SATURATION_RATE = 0.03;
+var	MAIN_TOOL = save_Main_Tool("Move Windows");
 var MULTITOOL_LIST = newArray("Move Windows", "Slice / Frame Tool", "LUT Gamma Tool", "Curtain Tool", "Magic Wand", "Scale Bar Tool", "Multi-channel Plot Tool");
 var LAST_CLICK_TIME = 0;
 
@@ -61,7 +59,7 @@ var FIT_MODE = "None";
 var TARGET_IMAGE_TITLE = ""; 
 
 // for Scale Bar Tool
-var ADD_SCALEBAR_TEXT = true; 
+var REMOVE_SCALEBAR_TEXT = false; 
 
 // for counting tools
 var COUNT_LINE = 0;
@@ -78,8 +76,8 @@ macro "Multi Tool - N55C000DdeCf00Db8Db9DbaDc7Dc8DcaDcbDd7DdbDe7De8DeaDebCfffDc9
 }
 macro "Multi Tool Options" {
 	Dialog.createNonBlocking("Multitool Options");
-	Dialog.addRadioButtonGroup("Main Tool : ", MULTITOOL_LIST, 4, 2, MAIN_TOOL);
-	Dialog.addCheckbox("text under scale bar?", ADD_SCALEBAR_TEXT);
+	// Dialog.addRadioButtonGroup("Main Tool : ", MULTITOOL_LIST, 4, 2, MAIN_TOOL);
+	Dialog.addCheckbox("Remove text under scale bar?", REMOVE_SCALEBAR_TEXT);
 	Dialog.addMessage("Magic Wand options : ______________________________");
 	Dialog.addNumber("Maxima window size", WAND_BOX_SIZE);
 	Dialog.addSlider("tolerance estimation threshold", 0, 100, TOLERANCE_THRESHOLD);
@@ -89,7 +87,7 @@ macro "Multi Tool Options" {
 	Dialog.addHelp("https://kwolby.notion.site/Multi-Tool-526950d8bafc41fd9402605c60e74a99");
 	Dialog.show();
 	MAIN_TOOL =				Dialog.getRadioButton();	
-	ADD_SCALEBAR_TEXT = 	Dialog.getCheckbox();
+	REMOVE_SCALEBAR_TEXT = 	Dialog.getCheckbox();
 	WAND_BOX_SIZE =			Dialog.getNumber();
 	TOLERANCE_THRESHOLD =	Dialog.getNumber();
 	EXPONENT =				Dialog.getNumber();
@@ -114,12 +112,13 @@ macro "Custom Menu Tool - N55C000D1aD1bD1cD1dD29D2dD39D3dD49D4dD4eD59D5eD69D75D7
 }
 
 macro "Stacks Menu Built-in Tool" {}
+macro "LUT Menu Built-in Tool" {}
 
 //--------------------------------------------------------------------------------------------------------------------------------------
 //------POPUP
 //--------------------------------------------------------------------------------------------------------------------------------------
 var pmCmds = newMenu("Popup Menu",
-	newArray("Multi Tool", "Remove Overlay", "Duplicate...","Set LUTs","Set active path", "Set target image",
+	newArray("Set Main Tool", "Remove Overlay", "Duplicate...","Set LUTs","Set active path", "Set target image",
 	 "-", "CLAHE", "Color Blindness",
 	 "-", "Record...", "Monitor Memory...","Control Panel...", "Startup Macros..."));
 macro "Popup Menu" {
@@ -132,11 +131,10 @@ macro "Popup Menu" {
 	else if (command == "Set LUTs") 			{get_LUTs_Dialog(); apply_LUTs();}
 	// else if (command == "Rotate LUT") 			rotate_LUT();
 	else if (command == "Set target image") 	set_Target_Image();
-	else if (command == "Multi Tool") 			show_main_Tools_Popup_Bar();
+	else if (command == "Set Main Tool") 		show_main_Tools_Popup_Bar();
 	else run(command); 
 }
 
-// macro "LUT Menu Built-in Tool" {}
 
 macro "Preview Opener Action Tool - N66C000D34D35D36D37D38D39D3aD3bD3cD3dD3eD44D49D4eD54D59D5eD64D69D6eD74D79D7eD84D85D86D87D88D89D8aD8bD8cD8dD8eD94D99D9eDa4Da9DaeDb4Db9DbeDc4Dc9DceDd4Dd5Dd6Dd7Dd8Dd9DdaDdbDdcDddDdeDe4De9DeeC95fD4aD4bD4cD4dD5aD5bD5cD5dD6aD6bD6cD6dD7aD7bD7cD7dC09bC5ffCf05Cf85C8bfDeaDebDecDedCfc0D9aD9bD9cD9dDaaDabDacDadDbaDbbDbcDbdDcaDcbDccDcdCf5bCaf8Cfb8Ccf8D95D96D97D98Da5Da6Da7Da8Db5Db6Db7Db8Dc5Dc6Dc7Dc8Cf5dDe5De6De7De8C8fdCfa8D45D46D47D48D55D56D57D58D65D66D67D68D75D76D77D78Bf0C000D04D09D0eD14D19D1eD24D29D2eD34D35D36D37D38D39D3aD3bD3cD3dD3eD44D49D4eD54D59D5eD64D69D6eD74D79D7eD84D85D86D87D88D89D8aD8bD8cD8dD8eC95fC09bC5ffCf05Cf85D45D46D47D48D55D56D57D58D65D66D67D68D75D76D77D78C8bfD0aD0bD0cD0dD1aD1bD1cD1dD2aD2bD2cD2dCfc0Cf5bCaf8Cfb8Ccf8Cf5dD05D06D07D08D15D16D17D18D25D26D27D28C8fdD4aD4bD4cD4dD5aD5bD5cD5dD6aD6bD6cD6dD7aD7bD7cD7dCfa8B0fC000D03D07D13D17D23D27D30D31D32D33D34D35D36D37D43D47D53D57D63D67D73D77D80D81D82D83D84D85D86D87C95fC09bC5ffCf05Cf85C8bfCfc0D44D45D46D54D55D56D64D65D66D74D75D76Cf5bD04D05D06D14D15D16D24D25D26Caf8Cfb8D40D41D42D50D51D52D60D61D62D70D71D72Ccf8Cf5dC8fdD00D01D02D10D11D12D20D21D22Cfa8Nf0C000D30D31D32D33D34D35D36D37D43D47D53D57D63D67D73D77D80D81D82D83D84D85D86D87D93D97Da3Da7Db3Db7Dc3Dc7Dd0Dd1Dd2Dd3Dd4Dd5Dd6Dd7De3De7C95fC09bD94D95D96Da4Da5Da6Db4Db5Db6Dc4Dc5Dc6C5ffD40D41D42D50D51D52D60D61D62D70D71D72Cf05D90D91D92Da0Da1Da2Db0Db1Db2Dc0Dc1Dc2Cf85C8bfCfc0Cf5bDe4De5De6Caf8D44D45D46D54D55D56D64D65D66D74D75D76Cfb8Ccf8Cf5dC8fdDe0De1De2Cfa8"{
 	if (!isOpen("Preview Opener.tif")) make_Preview_Opener();
@@ -513,9 +511,10 @@ function add_Shortcuts_Line(key, alone, space, alt){
 	Table.set("with Alt",	SHORTCUT_LINE_INDEX, alt);
 }
 
-function save_Main_Tool(Main_Tool) {
-	call("ij.Prefs.set","Multi_Tool.Main_Tool", Main_Tool);
+function save_Main_Tool(main_Tool) {
+	call("ij.Prefs.set","Multi_Tool.Main_Tool", main_Tool);
 	setTool(15);
+	return main_Tool;
 }
 
 function get_Main_Tool(default_Main_Tool) {
@@ -671,12 +670,11 @@ function quick_Scale_Bar(){
 	// 1-2-5 series is calculated by repeated multiplication with 2.3, rounded to one significant digit
 	while (scalebar_Length < shortest_Image_Edge * scalebar_Size) 
 		scalebar_Length = round((scalebar_Length*2.3)/(Math.pow(10,(floor(Math.log10(abs(scalebar_Length*2.3)))))))*(Math.pow(10,(floor(Math.log10(abs(scalebar_Length*2.3))))));
-	if (ADD_SCALEBAR_TEXT) 
-		scalebar_Settings_String = " height=" + minOf(Image.width, Image.height)/30 + " font=" + minOf(Image.width, Image.height)/15 + " color="+color+" bold overlay";
-	else {
+	if (REMOVE_SCALEBAR_TEXT) {
 		scalebar_Settings_String = " height=" + minOf(Image.width, Image.height)/30 + " font=" + maxOf(Image.width, Image.height)/30 + " color="+color+" hide overlay";
 		print("Scale Bar length = " + scalebar_Length);
 	}
+	else scalebar_Settings_String = " height=" + minOf(Image.width, Image.height)/30 + " font=" + minOf(Image.width, Image.height)/15 + " color="+color+" bold overlay";
 	run("Scale Bar...", "width=&scalebar_Length " + scalebar_Settings_String);
 	string_To_Recorder("run(\"Scale Bar...\", \"width=" + scalebar_Length  + scalebar_Settings_String + "\"");
 }
@@ -1125,8 +1123,8 @@ function scale_Bar_Tool(){
 	bar_Length = 1;	// initial scale bar length in measurement units
 	bar_Relative_Size = 0;
 	bar_Height = 0;
-	if (ADD_SCALEBAR_TEXT == true) text_Parameter = "bold";
-	else text_Parameter = "hide";
+	if (REMOVE_SCALEBAR_TEXT == true) text_Parameter = "hide";
+	else text_Parameter = "bold";
 	font_Size = minOf(Image.width, Image.height) / 15; // estimation of "good" font size
 	getCursorLoc(x2, y2, z2, flags2);
 	getCursorLoc(last_x, last_y, z, flags);
@@ -1195,7 +1193,6 @@ function move_Windows() {
 	origin_x = get_Cursor_Screen_Loc_X();
 	origin_y = get_Cursor_Screen_Loc_Y();
 	getLocationAndSize(origin_window_x, origin_window_y, width, height);
- 	showStatus(origin_window_x);
 	while (flags == 16) {
 		x = get_Cursor_Screen_Loc_X();
 		y = get_Cursor_Screen_Loc_Y();
@@ -3424,7 +3421,7 @@ function show_Numerical_Keyboard_Bar(){
 function show_main_Tools_Popup_Bar(){
 	setup_Popup_Action_Bar_Header("Main Tools");
 	add_new_Line();
-	add_gray_button("X", "<close>");
+	add_gray_button("X (close)", "<close>");
 	add_new_Line();
 	add_gray_button("Move Windows", "save_Main_Tool('Move Windows');");
 	add_gray_button("LUT Gamma", "save_Main_Tool('LUT Gamma Tool');");
@@ -3434,6 +3431,8 @@ function show_main_Tools_Popup_Bar(){
 	add_new_Line();
 	add_gray_button("Multi-channel Plot ", "save_Main_Tool('Multi-channel Plot Tool');");
 	add_gray_button("Curtain Tool", "save_Main_Tool('Curtain Tool');");
+	add_new_Line();
+	add_gray_button("Slice / Frame Tool ", "save_Main_Tool('Slice / Frame Tool');");
 	run("Action Bar", ACTION_BAR_STRING);
 }
 
@@ -3443,7 +3442,7 @@ function add_Basic_Action_Bar(){
 	add_macro_button_with_hotKey("1", "Apply default LUTs", "none");
 	add_new_Line();
 	add_macro_button_with_hotKey("1", "Set default LUTs", "alt");
-	add_macro_button_with_hotKey("1", "Default LUTs to all", "space");
+	add_macro_button_with_hotKey("1", "Apply LUTs to all", "space");
 	add_new_Line();
 	add_macro_button_with_hotKey("Q", "Composite/channel switch", "none");
 	add_macro_button_with_hotKey("Z", "Channels Tool", "none");
@@ -3591,7 +3590,7 @@ function add_Code_Library() {
 
 function add_fromString(){	ACTION_BAR_STRING += "<fromString>\n<disableAltClose>\n";}
 
-function add_Popup_fromString(){	ACTION_BAR_STRING += "<fromString>\n<popup>\n";}
+function add_Popup_fromString(){	ACTION_BAR_STRING += "<fromString>\n<popup>\n<onTop>\n";}
 
 function add_main_title(title){	ACTION_BAR_STRING += "<title>" + title + "\n";}
 
