@@ -8,7 +8,7 @@
 // }
 
 macro "AutoRun" {
-	requires("1.54");
+	requires("1.53t");
 
 	setForegroundColor(255, 255, 255);
 	setBackgroundColor(0, 0, 0);
@@ -1266,8 +1266,6 @@ function live_Scroll() {
 		flags = flags%32; //remove "cursor in selection" flag
 		if (frames > 1) Stack.setFrame(((x - area_x) / width) * frames);
 		else 			Stack.setSlice(((x - area_x) / width) * slices);
-		if (LIVE_AUTOCONTRAST) run("Enhance Contrast", "saturated=&SATURATION_RATE");
-		call("ij.plugin.frame.ContrastAdjuster.update");
 		wait(10);
 	}
 }
