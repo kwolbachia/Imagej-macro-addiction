@@ -25,6 +25,7 @@ var SAVED_LOC_X = 0;
 var SAVED_LOC_Y = screenHeight() - 470;
 
 //for image window size backup (macro[2])
+var POSITION_BACKUP_TITLE = "";
 var X_POSITION_BACKUP = 300;
 var Y_POSITION_BACKUP = 300;
 var WIDTH_POSITION_BACKUP = 400;
@@ -71,6 +72,9 @@ var DO_SCROLL_LOOP = false;
 var ACTION_BAR_STRING = "";
 var GITHUB_LIBRARY = File.openUrlAsString("https://raw.githubusercontent.com/kwolbachia/Imagej-macro-addiction/main/my_startupMacro.ijm");
 
+//--------------------------------------------------------------------------------------------------------------------------------------
+//		MULTI TOOL
+//--------------------------------------------------------------------------------------------------------------------------------------
 macro "Multi Tool - N55C000DdeCf00Db8Db9DbaDc7Dc8DcaDcbDd7DdbDe7De8DeaDebCfffDc9Dd8Dd9DdaDe9C777D02D11D12D17D18D21D28D2bD31D36D39D3aD3bD3eD41D42D46D47D4cD4dD4eD51D52D57D5bD5dD62D63D67D6dD72D73D74D75D76D77D83D85D86D94Cf90Da6Da7Da8Da9DaaDabDacDadDaeDb4Db5Dc4Dd4De4C444D03D19D22D29D2cD32D3cD43D4bD53D58D5eD64D68D6eD78D87Cf60D95D96D97D98D99D9aD9bD9cD9dD9eDa4Da5Db3Db6DbcDbdDbeDc3Dc5Dc6DccDcdDceDd3Dd5Dd6DdcDe3De5De6DecDedDeeC333Cf40Db7DbbDddBf0C000Cf00D08D09D0aCfffC777D13D22D23D24D32D33D35D36D37D38D39D3aD3bD42D43D46D47D48D49D4cD4dD52D53D54D58D59D5aD5dD5eD62D63D6aD6bD6cD6dD72D7cD7dD7eD82D8eD92Da2Cf90D05C444Cf60D03D04D06D0cD0dD0eD14D15D16D17D18D19D1aD1bD1cD1dD1eD25D26D27D28D29D2aD2bD2cD2dD2eC333D34D3cD3dD44D4eD64D73D83D93Da3Cf40D07D0bB0fC000D12Cf00CfffC777D50D60D61D62D70D72D73D74D80D81D82D83D84D85D86D91D92D93D94D95D96D97Da3Da4Da5Da6Da7Da8Cf90C444Cf60D00D04D05D06D09D10D18D20D21D23D24D25D26D27C333D01D02D03D40D51D52D63D64D75D76D87D98Da9Cf40D07D08D11D13D14D15D16D17D22Nf0C000Da2Dd2Dd5Cf00CfffC777D42D52D60D61D65D71D73D74D83D85D86Cf90Da0Da5Da6Db7Dc8C444D40D50D53D62D63D72D75D84Cf60D90D91D93D94D95D96D97Da1Da3Da4Da7Da8Db0Db4Db5Db6Db8Db9Dc5Dc6Dc7Dc9Dd7Dd8Dd9De5De6De7De9C333Db1Db2Db3Dc0Dc4Dd0Dd4De0De4Cf40D92Dc1Dc2Dc3Dd1Dd3Dd6De1De2De3De8" {
 	multi_Tool();
 }
@@ -97,7 +101,7 @@ macro "Multi Tool Options" {
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------------
-//------SHORTCUTS
+//		SHORTCUTS
 //--------------------------------------------------------------------------------------------------------------------------------------
 var ShortcutsMenu = newMenu("Custom Menu Tool",
 	newArray( "Batch convert to tiff", "Merge Ladder and Signal WB",
@@ -115,7 +119,7 @@ macro "Stacks Menu Built-in Tool" {}
 macro "LUT Menu Built-in Tool" {}
 
 //--------------------------------------------------------------------------------------------------------------------------------------
-//------POPUP
+//		POPUP
 //--------------------------------------------------------------------------------------------------------------------------------------
 var pmCmds = newMenu("Popup Menu",
 	newArray("Set Main Tool", "Remove Overlay", "Duplicate...","Set LUTs","Set active path", "Set target image",
@@ -136,10 +140,16 @@ macro "Popup Menu" {
 }
 
 
-macro "Preview Opener Action Tool - N66C000D34D35D36D37D38D39D3aD3bD3cD3dD3eD44D49D4eD54D59D5eD64D69D6eD74D79D7eD84D85D86D87D88D89D8aD8bD8cD8dD8eD94D99D9eDa4Da9DaeDb4Db9DbeDc4Dc9DceDd4Dd5Dd6Dd7Dd8Dd9DdaDdbDdcDddDdeDe4De9DeeC95fD4aD4bD4cD4dD5aD5bD5cD5dD6aD6bD6cD6dD7aD7bD7cD7dC09bC5ffCf05Cf85C8bfDeaDebDecDedCfc0D9aD9bD9cD9dDaaDabDacDadDbaDbbDbcDbdDcaDcbDccDcdCf5bCaf8Cfb8Ccf8D95D96D97D98Da5Da6Da7Da8Db5Db6Db7Db8Dc5Dc6Dc7Dc8Cf5dDe5De6De7De8C8fdCfa8D45D46D47D48D55D56D57D58D65D66D67D68D75D76D77D78Bf0C000D04D09D0eD14D19D1eD24D29D2eD34D35D36D37D38D39D3aD3bD3cD3dD3eD44D49D4eD54D59D5eD64D69D6eD74D79D7eD84D85D86D87D88D89D8aD8bD8cD8dD8eC95fC09bC5ffCf05Cf85D45D46D47D48D55D56D57D58D65D66D67D68D75D76D77D78C8bfD0aD0bD0cD0dD1aD1bD1cD1dD2aD2bD2cD2dCfc0Cf5bCaf8Cfb8Ccf8Cf5dD05D06D07D08D15D16D17D18D25D26D27D28C8fdD4aD4bD4cD4dD5aD5bD5cD5dD6aD6bD6cD6dD7aD7bD7cD7dCfa8B0fC000D03D07D13D17D23D27D30D31D32D33D34D35D36D37D43D47D53D57D63D67D73D77D80D81D82D83D84D85D86D87C95fC09bC5ffCf05Cf85C8bfCfc0D44D45D46D54D55D56D64D65D66D74D75D76Cf5bD04D05D06D14D15D16D24D25D26Caf8Cfb8D40D41D42D50D51D52D60D61D62D70D71D72Ccf8Cf5dC8fdD00D01D02D10D11D12D20D21D22Cfa8Nf0C000D30D31D32D33D34D35D36D37D43D47D53D57D63D67D73D77D80D81D82D83D84D85D86D87D93D97Da3Da7Db3Db7Dc3Dc7Dd0Dd1Dd2Dd3Dd4Dd5Dd6Dd7De3De7C95fC09bD94D95D96Da4Da5Da6Db4Db5Db6Dc4Dc5Dc6C5ffD40D41D42D50D51D52D60D61D62D70D71D72Cf05D90D91D92Da0Da1Da2Db0Db1Db2Dc0Dc1Dc2Cf85C8bfCfc0Cf5bDe4De5De6Caf8D44D45D46D54D55D56D64D65D66D74D75D76Cfb8Ccf8Cf5dC8fdDe0De1De2Cfa8"{
+//--------------------------------------------------------------------------------------------------------------------------------------
+//		PREVIEW OPENER
+//--------------------------------------------------------------------------------------------------------------------------------------
+macro "Preview Opener Action Tool - N30C000D00D01D02D03D04D05D06D07D08D09D0aD0bD0cD0dD0eD0fD10D15D1aD1fD20D25D2aD2fD30D35D3aD3fD40D45D4aD4fD50D51D52D53D54D55D56D57D58D59D5aD5bD5cD5dD5eD5fD60D65D6aD6fD70D75D7aD7fD80D85D8aD8fD90D95D9aD9fDa0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaDabDacDadDaeDafDb0Db5DbaDbfDc0Dc5DcaDcfDd0Dd5DdaDdfDe0De5DeaDefDf0Df1Df2Df3Df4Df5Df6Df7Df8Df9DfaDfbDfcDfdDfeDffDg0Dg5DgaDgfDh0Dh5DhaDhfDi0Di5DiaDifDj0Dj5DjaDjfDk0Dk1Dk2Dk3Dk4Dk5Dk6Dk7Dk8Dk9DkaDkbDkcDkdDkeDkfC09bD6bD6cD6dD6eD7bD7cD7dD7eD8bD8cD8dD8eD9bD9cD9dD9eCfb0D66D67D68D69D76D77D78D79D86D87D88D89D96D97D98D99DgbDgcDgdDgeDhbDhcDhdDheDibDicDidDieDjbDjcDjdDjeCf98D11D12D13D14D21D22D23D24D31D32D33D34D41D42D43D44Cf84Dg1Dg2Dg3Dg4Dh1Dh2Dh3Dh4Di1Di2Di3Di4Dj1Dj2Dj3Dj4C8bfDb6Db7Db8Db9Dc6Dc7Dc8Dc9Dd6Dd7Dd8Dd9De6De7De8De9Ce05DbbDbcDbdDbeDcbDccDcdDceDdbDdcDddDdeDebDecDedDeeCcf8D61D62D63D64D71D72D73D74D81D82D83D84D91D92D93D94Cf4dDb1Db2Db3Db4Dc1Dc2Dc3Dc4Dd1Dd2Dd3Dd4De1De2De3De4C8fdDg6Dg7Dg8Dg9Dh6Dh7Dh8Dh9Di6Di7Di8Di9Dj6Dj7Dj8Dj9C95eD16D17D18D19D26D27D28D29D36D37D38D39D46D47D48D49Caf7D1bD1cD1dD1eD2bD2cD2dD2eD3bD3cD3dD3eD4bD4cD4dD4e"{
 	if (!isOpen("Preview Opener.tif")) make_Preview_Opener();
 }
 
+//--------------------------------------------------------------------------------------------------------------------------------------
+//		ACTION BARS
+//--------------------------------------------------------------------------------------------------------------------------------------
 var Action_Bars_Menu = newMenu("Action Bars Menu Tool", 
 	newArray("Main Macros Shortcuts", "Basics Macros", "Export Macros", "Contrast Macros", "Splitview Macros", "Numerical Keyboard Macros"));
 
@@ -1011,9 +1021,9 @@ function my_Tool_Roll() {
 //ispired by Robert Haase Windows Position tool from clij
 function multi_Tool(){
 	if (nImages == 0) exit();
-	// Double click
+	// Double click ?
 	if (is_double_click()) {
-		show_main_Tools_Popup_Bar();
+		maximize_Image();
 		exit();
 	}
 	//Main Tool stored on Pref file 
@@ -2290,7 +2300,17 @@ function Red_Green_to_Orange_Blue() { //Red Green to Orange Blue
 }
 
 function maximize_Image() {
-	getLocationAndSize(X_POSITION_BACKUP, Y_POSITION_BACKUP, WIDTH_POSITION_BACKUP, HEIGHT_POSITION_BACKUP);
+	// if already maximized, restore previous loc and size
+	if (Property.get("is_Maximized") == "True") {
+		Property.set("is_Maximized", "False");
+		restore_Image_Position();
+		exit();
+	}
+	// else :
+	//if same title as previous backup, keep previous.
+	getLocationAndSize(x, null, null, null);
+	if (getTitle()!= POSITION_BACKUP_TITLE || x != X_POSITION_BACKUP)	getLocationAndSize(X_POSITION_BACKUP, Y_POSITION_BACKUP, WIDTH_POSITION_BACKUP, HEIGHT_POSITION_BACKUP);
+	// maxmize
 	getDimensions(width, height, null, null, null);
 	if (width/height <= 2.5) {
 		newHeight = (screenHeight()/11) * 10;
@@ -2304,6 +2324,8 @@ function maximize_Image() {
 		run("Maximize");
 		setLocation(0, 200);
 	}
+	Property.set("is_Maximized", "True");
+	POSITION_BACKUP_TITLE = getTitle();
 }
 
 function full_Screen_Image() {
