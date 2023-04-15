@@ -75,18 +75,18 @@ var GITHUB_LIBRARY = File.openUrlAsString("https://raw.githubusercontent.com/kwo
 //--------------------------------------------------------------------------------------------------------------------------------------
 //		MULTI TOOL
 //--------------------------------------------------------------------------------------------------------------------------------------
-macro "Multi Tool - N55C000DdeCf00Db8Db9DbaDc7Dc8DcaDcbDd7DdbDe7De8DeaDebCfffDc9Dd8Dd9DdaDe9C777D02D11D12D17D18D21D28D2bD31D36D39D3aD3bD3eD41D42D46D47D4cD4dD4eD51D52D57D5bD5dD62D63D67D6dD72D73D74D75D76D77D83D85D86D94Cf90Da6Da7Da8Da9DaaDabDacDadDaeDb4Db5Dc4Dd4De4C444D03D19D22D29D2cD32D3cD43D4bD53D58D5eD64D68D6eD78D87Cf60D95D96D97D98D99D9aD9bD9cD9dD9eDa4Da5Db3Db6DbcDbdDbeDc3Dc5Dc6DccDcdDceDd3Dd5Dd6DdcDe3De5De6DecDedDeeC333Cf40Db7DbbDddBf0C000Cf00D08D09D0aCfffC777D13D22D23D24D32D33D35D36D37D38D39D3aD3bD42D43D46D47D48D49D4cD4dD52D53D54D58D59D5aD5dD5eD62D63D6aD6bD6cD6dD72D7cD7dD7eD82D8eD92Da2Cf90D05C444Cf60D03D04D06D0cD0dD0eD14D15D16D17D18D19D1aD1bD1cD1dD1eD25D26D27D28D29D2aD2bD2cD2dD2eC333D34D3cD3dD44D4eD64D73D83D93Da3Cf40D07D0bB0fC000D12Cf00CfffC777D50D60D61D62D70D72D73D74D80D81D82D83D84D85D86D91D92D93D94D95D96D97Da3Da4Da5Da6Da7Da8Cf90C444Cf60D00D04D05D06D09D10D18D20D21D23D24D25D26D27C333D01D02D03D40D51D52D63D64D75D76D87D98Da9Cf40D07D08D11D13D14D15D16D17D22Nf0C000Da2Dd2Dd5Cf00CfffC777D42D52D60D61D65D71D73D74D83D85D86Cf90Da0Da5Da6Db7Dc8C444D40D50D53D62D63D72D75D84Cf60D90D91D93D94D95D96D97Da1Da3Da4Da7Da8Db0Db4Db5Db6Db8Db9Dc5Dc6Dc7Dc9Dd7Dd8Dd9De5De6De7De9C333Db1Db2Db3Dc0Dc4Dd0Dd4De0De4Cf40D92Dc1Dc2Dc3Dd1Dd3Dd6De1De2De3De8" {
+macro "Multi Tool - N44C000D0cD0dD0eD1dD1eD1fD2aD2eD2fD3aD3bD3eD3fD4aD4bD4cD4dD4eD4fD4gD5bD5cD5dD5eD5fD5gD5hD6fD6gD6hD6iD7gD7hD7iD7jD83D84D85D86D87D88D89D8aD8bD8cD8dD8eD8fD8gD8hD8iD8jD8kD8lD92D93D9lD9mDa1Da2DamDanDb1DbnDc1DcnDd1DdnDe1De2DemDenDf2Df3DflDfmDg3Dg4Dg5Dg6Dg7Dg8Dg9DgaDgbDgcDgdDgeDgfDggDghDgiDgjDgkDh6Dh7Dh8Dh9DhaDhbDhcDi7Di8Di9DiaDicDidDj8Dj9DjaDjbDjdDjeDk9DkaDkbDkcDkdDkeDkfDlbDlcDldDleDlfDlgDmdDmeDmfDmgDmhCfffDa8Db8Dc6Dc7Dc8Dc9DcaDd8De8DibDjcCf30D94D95D96D97D98D99D9aD9bD9cD9dD9eD9fD9gD9hD9iD9jD9kDa3Da4Da5Da6Da7Da9DaaDabDacDadDaeDafDagDahDaiDajDakDalDb2Db3Db4Db5Db6Db7Db9DbaDbbDbcDbdDbeDbfDbgDbhDbiDbjDbkDblDbmDc2Dc3Dc4Dc5DcbDccDcdDceDcfDcgDchDciDcjDckDclDcmDd2Dd3Dd4Dd5Dd6Dd7Dd9DdaDdbDdcDddDdeDdfDdgDdhDdiDdjDdkDdlDdmDe3De4De5De6De7De9DeaDebDecDedDeeDefDegDehDeiDejDekDelDf4Df5Df6Df7Df8Df9DfaDfbDfcDfdDfeDffDfgDfhDfiDfjDfk" {
 	multi_Tool();
 }
 macro "Multi Tool Options" {
 	Dialog.createNonBlocking("Multitool Options");
 	// Dialog.addRadioButtonGroup("Main Tool : ", MULTITOOL_LIST, 4, 2, MAIN_TOOL);
 	Dialog.addCheckbox("Remove text under scale bar?", REMOVE_SCALEBAR_TEXT);
-	Dialog.addMessage("Magic Wand options : ______________________________");
-	Dialog.addNumber("Maxima window size", WAND_BOX_SIZE);
+	Dialog.addMessage("________________ Magic Wand options : ______________");
+	Dialog.addNumber("Detection window size", WAND_BOX_SIZE);
 	Dialog.addSlider("tolerance estimation threshold", 0, 100, TOLERANCE_THRESHOLD);
-	Dialog.addSlider("Exponent for adjustment value", 1, 2, EXPONENT);
-	Dialog.addCheckbox("auto add ROI to manager?", ADD_TO_MANAGER);
+	Dialog.addSlider("Adjustment speed", 1, 2, EXPONENT);
+	Dialog.addCheckbox("Auto add ROI to manager?", ADD_TO_MANAGER);
 	Dialog.addChoice("Fit selection? How?", newArray("None","Fit Spline","Fit Ellipse"), FIT_MODE);
 	Dialog.addHelp("https://kwolby.notion.site/Multi-Tool-526950d8bafc41fd9402605c60e74a99");
 	Dialog.show();
@@ -133,7 +133,6 @@ macro "Popup Menu" {
 	else if (command == "Gaussian Correction") 	gauss_Correction();
 	else if (command == "Color Blindness") 		{rgb_Snapshot(); run("Dichromacy", "simulate=Deuteranope");}
 	else if (command == "Set LUTs") 			{get_LUTs_Dialog(); apply_LUTs();}
-	// else if (command == "Rotate LUT") 			rotate_LUT();
 	else if (command == "Set target image") 	set_Target_Image();
 	else if (command == "Set Main Tool") 		show_main_Tools_Popup_Bar();
 	else run(command); 
@@ -143,7 +142,7 @@ macro "Popup Menu" {
 //--------------------------------------------------------------------------------------------------------------------------------------
 //		PREVIEW OPENER
 //--------------------------------------------------------------------------------------------------------------------------------------
-macro "Preview Opener Action Tool - N30C000D00D01D02D03D04D05D06D07D08D09D0aD0bD0cD0dD0eD0fD10D15D1aD1fD20D25D2aD2fD30D35D3aD3fD40D45D4aD4fD50D51D52D53D54D55D56D57D58D59D5aD5bD5cD5dD5eD5fD60D65D6aD6fD70D75D7aD7fD80D85D8aD8fD90D95D9aD9fDa0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaDabDacDadDaeDafDb0Db5DbaDbfDc0Dc5DcaDcfDd0Dd5DdaDdfDe0De5DeaDefDf0Df1Df2Df3Df4Df5Df6Df7Df8Df9DfaDfbDfcDfdDfeDffDg0Dg5DgaDgfDh0Dh5DhaDhfDi0Di5DiaDifDj0Dj5DjaDjfDk0Dk1Dk2Dk3Dk4Dk5Dk6Dk7Dk8Dk9DkaDkbDkcDkdDkeDkfC09bD6bD6cD6dD6eD7bD7cD7dD7eD8bD8cD8dD8eD9bD9cD9dD9eCfb0D66D67D68D69D76D77D78D79D86D87D88D89D96D97D98D99DgbDgcDgdDgeDhbDhcDhdDheDibDicDidDieDjbDjcDjdDjeCf98D11D12D13D14D21D22D23D24D31D32D33D34D41D42D43D44Cf84Dg1Dg2Dg3Dg4Dh1Dh2Dh3Dh4Di1Di2Di3Di4Dj1Dj2Dj3Dj4C8bfDb6Db7Db8Db9Dc6Dc7Dc8Dc9Dd6Dd7Dd8Dd9De6De7De8De9Ce05DbbDbcDbdDbeDcbDccDcdDceDdbDdcDddDdeDebDecDedDeeCcf8D61D62D63D64D71D72D73D74D81D82D83D84D91D92D93D94Cf4dDb1Db2Db3Db4Dc1Dc2Dc3Dc4Dd1Dd2Dd3Dd4De1De2De3De4C8fdDg6Dg7Dg8Dg9Dh6Dh7Dh8Dh9Di6Di7Di8Di9Dj6Dj7Dj8Dj9C95eD16D17D18D19D26D27D28D29D36D37D38D39D46D47D48D49Caf7D1bD1cD1dD1eD2bD2cD2dD2eD3bD3cD3dD3eD4bD4cD4dD4e"{
+macro "Preview Opener Action Tool - B00C000D00D01D02D03D04D05D06D07D08D09D0aD0bD0cD0dD0eD0fD10D15D1aD1fD20D25D2aD2fD30D35D3aD3fD40D45D4aD4fD50D51D52D53D54D55D56D57D58D59D5aD5bD5cD5dD5eD5fD60D65D6aD6fD70D75D7aD7fD80D85D8aD8fD90D95D9aD9fDa0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaDabDacDadDaeDafDb0Db5DbaDbfDc0Dc5DcaDcfDd0Dd5DdaDdfDe0De5DeaDefDf0Df1Df2Df3Df4Df5Df6Df7Df8Df9DfaDfbDfcDfdDfeDffC09bD1bD1cD1dD1eD2bD2cD2dD2eD3bD3cD3dD3eD4bD4cD4dD4eCfb0D16D17D18D19D26D27D28D29D36D37D38D39D46D47D48D49DbbDbcDbdDbeDcbDccDcdDceDdbDdcDddDdeDebDecDedDeeCcf8D11D12D13D14D21D22D23D24D31D32D33D34D41D42D43D44Cf84Db1Db2Db3Db4Dc1Dc2Dc3Dc4Dd1Dd2Dd3Dd4De1De2De3De4C8bfD66D67D68D69D76D77D78D79D86D87D88D89D96D97D98D99Ce05D6bD6cD6dD6eD7bD7cD7dD7eD8bD8cD8dD8eD9bD9cD9dD9eC8fdDb6Db7Db8Db9Dc6Dc7Dc8Dc9Dd6Dd7Dd8Dd9De6De7De8De9Cf4dD61D62D63D64D71D72D73D74D81D82D83D84D91D92D93D94"{
 	if (!isOpen("Preview Opener.tif")) make_Preview_Opener();
 }
 
@@ -153,7 +152,7 @@ macro "Preview Opener Action Tool - N30C000D00D01D02D03D04D05D06D07D08D09D0aD0bD
 var Action_Bars_Menu = newMenu("Action Bars Menu Tool", 
 	newArray("Main Macros Shortcuts", "Basics Macros", "Export Macros", "Contrast Macros", "Splitview Macros", "Numerical Keyboard Macros"));
 
-macro "Action Bars Menu Tool - C000 T0c15A Tac15B" {
+macro "Action Bars Menu Tool - B00C000D00D01D02D03D05D06D07D08D0aD0bD0cD0dD10D13D15D18D1aD1dD20D23D25D28D2aD2dD30D33D35D38D3aD3dD40D43D45D48D4aD4bD4cD4dD50D53D55D58D60D63D65D68D6aD6bD6cD6dD70D73D75D76D77D78D7aD7dD80D83D8aD8dD90D93D95D96D97D98D9aD9dDa0Da3Da5Da8DaaDadDb0Db3Db5Db8DbaDbdDc0Dc3Dc5Dc8DcaDcdDd0Dd3Dd5Dd8DdaDddDe0De3De5De8DeaDedDf0Df1Df2Df3Df5Df6Df7Df8DfaDfbDfcDfd" {
 	command = getArgument();
 	if 		(command == "Main Macros Shortcuts")		show_All_Macros_Action_Bar();
 	else if (command == "Basics Macros")				show_Basic_Macros_Action_Bar();
@@ -2110,6 +2109,7 @@ function plot_LUT(){
 	Plot.freeze(1);
 	makeRectangle(81, 214, 385, 64);
 	run("Paste"); run("Select None"); 
+	run("Set... ", "zoom=75");
 	setOption("Changes", 0);
 	selectImage(id);
 }
