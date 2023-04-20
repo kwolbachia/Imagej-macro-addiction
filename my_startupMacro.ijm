@@ -9,14 +9,14 @@
 
 macro "AutoRun" {
 	requires("1.53t");
-
 	setForegroundColor(255, 255, 255);
 	setBackgroundColor(0, 0, 0);
-
 	//set inferno as default favorite lut (numerical 0 key)
 	if (!File.exists(getDirectory("temp") + "/favoriteLUT.lut"))
 		File.copy(getDirectory("luts") + "mpl-inferno.lut", getDirectory("temp") + "/favoriteLUT.lut");
-
+	//set viridis as default copied lut (alt + v)
+	if (!File.exists(getDirectory("temp") + "/copiedLut.lut"))
+		File.copy(getDirectory("luts") + "mpl-viridis.lut", getDirectory("temp") + "/copiedLut.lut");
 	run("Roi Defaults...", "color=orange stroke=2 group=0");
 	setTool(15);
 }
@@ -65,6 +65,9 @@ var REMOVE_SCALEBAR_TEXT = false;
 // for counting tools
 var COUNT_LINE = 0;
 
+// for multitool switch
+var LAST_TOOL = 0;
+
 // for [f5]
 var DO_SCROLL_LOOP = false;
 
@@ -80,11 +83,11 @@ macro "Multi Tool - N44C000D0cD0dD0eD1dD1eD1fD2aD2eD2fD3aD3bD3eD3fD4aD4bD4cD4dD4
 }
 macro "Multi Tool Options" {
 	Dialog.createNonBlocking("Multitool Options");
-	// Dialog.addRadioButtonGroup("Main Tool : ", MULTITOOL_LIST, 4, 2, MAIN_TOOL);
+	Dialog.addRadioButtonGroup("____________________ Main Tool : ____________________", MULTITOOL_LIST, 4, 2, MAIN_TOOL);
 	Dialog.addCheckbox("Remove text under scale bar?", REMOVE_SCALEBAR_TEXT);
 	Dialog.addMessage("________________ Magic Wand options : ______________");
 	Dialog.addNumber("Detection window size", WAND_BOX_SIZE);
-	Dialog.addSlider("tolerance estimation threshold", 0, 100, TOLERANCE_THRESHOLD);
+	Dialog.addSlider("Tolerance estimation threshold", 0, 100, TOLERANCE_THRESHOLD);
 	Dialog.addSlider("Adjustment speed", 1, 2, EXPONENT);
 	Dialog.addCheckbox("Auto add ROI to manager?", ADD_TO_MANAGER);
 	Dialog.addChoice("Fit selection? How?", newArray("None","Fit Spline","Fit Ellipse"), FIT_MODE);
@@ -116,7 +119,7 @@ macro "Custom Menu Tool - N55C000D1aD1bD1cD1dD29D2dD39D3dD49D4dD4eD59D5eD69D75D7
 }
 
 macro "Stacks Menu Built-in Tool" {}
-macro "LUT Menu Built-in Tool" {}
+// macro "LUT Menu Built-in Tool" {}
 
 //--------------------------------------------------------------------------------------------------------------------------------------
 //		POPUP
@@ -138,7 +141,6 @@ macro "Popup Menu" {
 	else run(command); 
 }
 
-
 //--------------------------------------------------------------------------------------------------------------------------------------
 //		PREVIEW OPENER
 //--------------------------------------------------------------------------------------------------------------------------------------
@@ -150,16 +152,20 @@ macro "Preview Opener Action Tool - B00C000D00D01D02D03D04D05D06D07D08D09D0aD0bD
 //		ACTION BARS
 //--------------------------------------------------------------------------------------------------------------------------------------
 var Action_Bars_Menu = newMenu("Action Bars Menu Tool", 
-	newArray("Main Macros Shortcuts", "Basics Macros", "Export Macros", "Contrast Macros", "Splitview Macros", "Numerical Keyboard Macros"));
-
-macro "Action Bars Menu Tool - B00C000D00D01D02D03D05D06D07D08D0aD0bD0cD0dD10D13D15D18D1aD1dD20D23D25D28D2aD2dD30D33D35D38D3aD3dD40D43D45D48D4aD4bD4cD4dD50D53D55D58D60D63D65D68D6aD6bD6cD6dD70D73D75D76D77D78D7aD7dD80D83D8aD8dD90D93D95D96D97D98D9aD9dDa0Da3Da5Da8DaaDadDb0Db3Db5Db8DbaDbdDc0Dc3Dc5Dc8DcaDcdDd0Dd3Dd5Dd8DdaDddDe0De3De5De8DeaDedDf0Df1Df2Df3Df5Df6Df7Df8DfaDfbDfcDfd" {
+	newArray("Main Macro Shortcuts",
+	"-", "Splitview Macros", "Numerical Keyboard Macros", "More Macros",
+	"-", "Online Help"));
+// "Utilities Macros", "Contrast Macros","Export Macros",
+macro "Action Bars Menu Tool - icon:viz_toolset_3.jpg" {
 	command = getArgument();
-	if 		(command == "Main Macros Shortcuts")		show_All_Macros_Action_Bar();
-	else if (command == "Basics Macros")				show_Basic_Macros_Action_Bar();
-	else if (command == "Export Macros")				show_Export_Action_Bar();
-	else if (command == "Contrast Macros")				show_Contrast_Bar();
-	else if (command == "Splitview Macros")				show_SplitView_Bar();
+	if 		(command == "Main Macro Shortcuts")			show_All_Macros_Action_Bar();
+	// else if (command == "Utilities Macros")				show_Basic_Macros_Action_Bar();
+	// else if (command == "Export Macros")				show_Export_Action_Bar();
+	// else if (command == "Contrast Macros")				show_Contrast_Bar();
+	else if (command == "SplitView Macros")				show_SplitView_Bar();
 	else if (command == "Numerical Keyboard Macros")	show_Numerical_Keyboard_Bar();
+	else if (command == "More Macros")					show_Other_Macros();
+	else if (command == "Online Help")					run("URL...", "url=[https://kwolby.notion.site/Macros-Shortcuts-f6a0cb526bcf4cb78ac72ff8cd29f30b]");
 }
 //--------------------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------------------------------
@@ -221,8 +227,7 @@ macro "[6]"	{
 	if		(no_Alt_no_Space())		force_black_canvas();
 	else if (isKeyDown("space"))	show_my_Zbeul_Action_Bar();
 }
-
-macro "[7]" 	{
+macro "[7]" {
 	if		(no_Alt_no_Space())		set_Target_Image();
 	else if (isKeyDown("space"))	set_my_Custom_Location();
 }
@@ -232,8 +237,8 @@ macro "[8]"	{
 	else if (isKeyDown("alt"))		rename(get_Time_Stamp("full") + "_" + getTitle());
 }
 macro "[9]"	{
-	if		(no_Alt_no_Space())		{ if(File.exists(getDirectory("temp")+"temp.tif")) open(getDirectory("temp")+"temp.tif"); }
-	else if (isKeyDown("space"))	saveAs("tif", getDirectory("temp")+"temp.tif");
+	if		(no_Alt_no_Space())		{ if(File.exists(getDirectory("temp")+"test.tif")) open(getDirectory("temp")+"test.tif"); }
+	else if (isKeyDown("space"))	saveAs("tif", getDirectory("temp")+"test.tif");
 	// else if (isKeyDown("alt"))	
 }
 
@@ -258,7 +263,6 @@ macro "[B]"	{
 	if		(no_Alt_no_Space())		switch_Composite_Mode();
 	else if (isKeyDown("space"))	quick_Scale_Bar();
 }
-
 macro "[C]" {	run("Brightness/Contrast...");}
 
 macro "[d]"	{
@@ -282,7 +286,6 @@ macro "[F]"	{
 	if (no_Alt_no_Space())			my_Tool_Roll();
 	else if (isKeyDown("space")) 	multichannel_CliJ_Stack_Focuser();
 }
-
 macro "[f]"	{
 	if		(no_Alt_no_Space())		run("Gamma...");
 	else if (isKeyDown("space"))	set_Gamma_LUT_All_Channels(0.8);
@@ -305,18 +308,15 @@ macro "[i]"	{
 	else if (isKeyDown("space"))	inverted_Overlay_HSB();
 	else if (isKeyDown("alt"))		run("Invert LUT");
 }
-
 macro "[J]"	{
 	if		(no_Alt_no_Space())		{run("Input/Output...", "jpeg=100"); saveAs("Jpeg");}
 	else if (isKeyDown("space"))	save_As_LZW_compressed_tif();
 }
-
 macro "[j]"  {
 	if		(no_Alt_no_Space())		run("Macro");
 	else if (isKeyDown("space")) 	run("Subtract Background...");
 	else if (isKeyDown("alt"))		run_Clipboard_Macro_On_All_opened_Images();	
 }
-
 macro "[k]"  {
 	if		(no_Alt_no_Space())		multi_Plot();
 	else if (isKeyDown("space"))	multi_Plot(); //normalized multiplot
@@ -338,10 +338,10 @@ macro "[M]"	{
 	// else if (isKeyDown("alt"))		
 } 
 macro "[m]"	{	
-	if		(no_Alt_no_Space())		linear_LUTs_Baker();
-	else if (isKeyDown("space"))	{setPasteMode("Max"); run("Paste"); setPasteMode("Copy"); run("Select None");}
+	if		(no_Alt_no_Space())		{setPasteMode("Max"); run("Paste"); setPasteMode("Copy"); run("Select None");}
+	else if (isKeyDown("space"))	{setPasteMode("Add"); run("Paste"); setPasteMode("Copy"); run("Select None");}
+	else if (isKeyDown("alt"))		linear_LUTs_Baker();
 }
-
 macro "[n]"	{
 	if		(no_Alt_no_Space())		Hela();
 	else if (isKeyDown("space"))	make_LUT_Image();
@@ -351,10 +351,11 @@ macro "[N]"	{
 	if		(no_Alt_no_Space())		show_Numerical_Keyboard_Bar();
 	else if (isKeyDown("space"))	run("Text Window...", "name=Untitled width=50 height=10 menu");
 }
-
 macro "[o]"	{
-	if (startsWith(getTitle(), "Preview Opener")) open_From_Preview_Opener();
-	else if (startsWith(getTitle(), "Lookup Tables")) set_LUT_From_Montage();
+	if (nImages > 0) {
+		if (startsWith(getTitle(), "Preview Opener")) open_From_Preview_Opener();
+		else if (startsWith(getTitle(), "Lookup Tables")) set_LUT_From_Montage();
+	}
 	else open("["+ String.paste() + "]");
 }
 macro "[p]"	{
@@ -426,12 +427,10 @@ macro "[y]"	{
 	if		(no_Alt_no_Space())		run("Synchronize Windows");
 	else if (isKeyDown("space"))	{getCursorLoc(x, y, z, modifiers); doWand(x, y, estimate_Tolerance(), "8-connected");}	
 }
-
 macro "[Z]" {	
 	if		(no_Alt_no_Space())		run("Channels Tool...");
 	else if (isKeyDown("space"))	run("LUT Channels Tool");
 }
-
 macro "[n/]" {
 	show_Shortcuts_Table();
 }
@@ -443,7 +442,7 @@ function show_Shortcuts_Table(){
 	//				line  Key   Alone									with Space										with Alt
 	add_Shortcuts_Line("f1, f2, f3, f4", "Count++ and add overlay",		"Count-- and remove overlay", 			"new line on Count Table (not f4!)");
 	add_Shortcuts_Line("f5", "Toggle auto slice scroll", 			"",								 		"");
-	add_Shortcuts_Line("0", "Open in ClearVolume              ", 	"Open in 3D viewer                ",	"                                 ");
+	add_Shortcuts_Line("0", "Open in ClearVolume              ", 	"Open in 3D viewer                ",	"__________________                ");
 	add_Shortcuts_Line("1", "Apply favorite LUTs",					"Apply LUTs to all",					"Set favorite LUTs");
 	add_Shortcuts_Line("2", "Center image",							"Restore position", 					"Full width of screen");
 	add_Shortcuts_Line("3", "3D animation",							"Cool 3D animation",					"");
@@ -650,10 +649,6 @@ function scroll_Loop(){
 		wait(10);
 	}
 }
-
-//Ah jérôme... \o/
-// macro "Table Action" {}
-
 
 function arrange_Channels() { 
 	// whithout losing metadata
@@ -946,8 +941,10 @@ function difference_Of_Gaussian_Clij(){
 
 function open_Memory_And_Recorder() {
 	run("Record...");
+	wait(20);
 	Table.setLocationAndSize(screenWidth()-430, 0, 430, 125,"Recorder");
 	run("Monitor Memory...");
+	wait(20);
 	Table.setLocationAndSize(screenWidth()-676, 0, 255, 120,"Memory");
 }
 
@@ -1001,10 +998,13 @@ function Bioformats_Bar(){
 }
 
 function my_Tool_Roll() {
-	if (toolID() != 15) setTool(15);
-	else if (toolID() == 15) setTool(0);
+	if (toolID() != 15) {
+		LAST_TOOL = toolID();
+		setTool(15);
+	}
+	else 
+		setTool(LAST_TOOL);
 }
-
 
 /*
  * About Flags (or Modifiers) from getCursorLoc()
@@ -1028,8 +1028,8 @@ function multi_Tool(){
 	//Main Tool stored on Pref file 
 	MAIN_TOOL = get_Main_Tool("Move Windows"); //"Move Windows" if not set yet
 	setupUndo();
-	call("ij.plugin.frame.ContrastAdjuster.update");
-	updateDisplay();
+	//limit this to stay reactive on big images
+	if (Image.width() < 1400 && Image.height() < 1400) call("ij.plugin.frame.ContrastAdjuster.update");
 	getCursorLoc(x, y, z, flags);
 
 	//middle click on selection
@@ -1473,7 +1473,7 @@ function toggle_Channel_All(i) {
 //K.Terretaz 2022
 //Max projection with color coding based on the current LUT
 //to save RAM, it uses the Max copy paste mode to avoid creation of big RGB stack before projection
-//even works with virtual stacks
+// works with virtual stacks
 function color_Code_Progressive_Max(){
 	saveSettings();
 	setPasteMode("Max");
@@ -1520,9 +1520,10 @@ function color_Code_Progressive_Max(){
 	setLut(reds, greens, blues);
 	selectWindow("Color Coded Projection");
 	run("Select None");
-	rename(title + "_Max_colored");
+	rename(title + "_Max_colored_" + getImageID());
 	setBatchMode("exit and display");
 	restoreSettings();
+	setOption("Changes", 0);
 }
 
 //No projection, heavy on RAM
@@ -1570,8 +1571,9 @@ function color_Code_No_Projection(){
 	selectWindow("Color Coded Projection");
 	Stack.setPosition(1, 1, 1);
 	run("Select None");
-	rename(title + "_colored");
+	rename(title + "_colored_" + getImageID());
 	setVoxelSize(voxel_width, voxel_height, voxel_depth, unit);
+	setOption("Changes", 0);
 	setBatchMode(0);
 }
 
@@ -2109,7 +2111,7 @@ function plot_LUT(){
 	Plot.freeze(1);
 	makeRectangle(81, 214, 385, 64);
 	run("Paste"); run("Select None"); 
-	run("Set... ", "zoom=75");
+	// run("Set... ", "zoom=75");
 	setOption("Changes", 0);
 	selectImage(id);
 }
@@ -2231,7 +2233,7 @@ function fast_Merge(){
 	if (nImages>4) {run("Merge Channels..."); exit();}
 	for (i=0; i<nImages; i++) {
 		selectImage(i+1);
-		if(bitDepth()==24) run("8-bit");
+		if(bitDepth()==24 || is("composite")) exit("cannot merge all opened images");
 	}
 	list = getList("image.titles");
 	txt = "";
@@ -2330,13 +2332,15 @@ function maximize_Image() {
 
 function full_Screen_Image() {
 	getLocationAndSize(X_POSITION_BACKUP, Y_POSITION_BACKUP, WIDTH_POSITION_BACKUP, HEIGHT_POSITION_BACKUP);
-	setBatchMode(1);
+	setLocation(0, screenHeight()/11, screenWidth(), screenHeight()*0.88);
 	run("Set... ", "zoom="+round((screenWidth()/getWidth())*100)-1);
 	setLocation(0, screenHeight()/11, screenWidth(), screenHeight()*0.88);
 }
 
 function restore_Image_Position(){
 	setLocation(X_POSITION_BACKUP, Y_POSITION_BACKUP, WIDTH_POSITION_BACKUP, HEIGHT_POSITION_BACKUP);
+	zoom = floor(getZoom()*100);
+	run("Set... ", "zoom=&zoom");
 }
 
 function note_In_Infos(){
@@ -2638,8 +2642,7 @@ function adjust_Contrast() {
 	setBatchMode("exit and display");
 	updateDisplay();
 	call("ij.plugin.frame.ContrastAdjuster.update");
-}// Note : I discovered that the built-in command 'run("Enhance Contrast...", "saturated=0.001 use");' give same results
-//		  but it only works on single channel stacks so this macro is still necessary for hyperstacks.
+}
 
 function reduce_Contrast(){
 	getDimensions(width, height, channels, slices, frames);
@@ -2685,7 +2688,7 @@ function enhance_All_Channels() {
 	Stack.getPosition(channel, slice, frame);
 	for (i = 1; i <= channels; i++) {
 		Stack.setPosition(i, slice, frame);
-		run("Enhance Contrast", "saturated=0.03");	
+		run("Enhance Contrast", "saturated=0.1");	
 	}
 	Stack.setPosition(channel, slice, frame);
 	updateDisplay();
@@ -2697,29 +2700,19 @@ All opened images
 ------------------*/
 function auto_Contrast_All_Images(){
 	showStatus("Reset all contrasts");
-	all_IDs = newArray(nImages);
 	for (i=0; i<nImages ; i++) {			
 		selectImage(i+1);
-		all_IDs[i] = getImageID(); 
-	} 
-	for (i=0; i<all_IDs.length; i++) {
-		showProgress(i/all_IDs.length);
-		selectImage(all_IDs[i]);
-	    auto_Contrast_All_Channels();	
+	    auto_Contrast_All_Channels();
+		showProgress(i/nImages);	
 	}
 }
 
 function enhance_All_Images_Contrasts() {
 	showStatus("Enhance all contrasts");
-	all_IDs = newArray(nImages);
 	for (i=0; i<nImages ; i++) {			
 		selectImage(i+1);
-		all_IDs[i] = getImageID(); 
-	} 
-	for (i=0; i<all_IDs.length; i++) {
-		showProgress(i/all_IDs.length);
-		selectImage(all_IDs[i]);
-	    enhance_All_Channels();
+		enhance_All_Channels();
+		showProgress(i/nImages);
 	}
 }
 
@@ -2799,15 +2792,11 @@ function save_All_Images_Dialog() {
 
 function my_Tile() {
 	if (nImages() == 0) exit();
-	all_IDs = newArray(nImages);
 	for (i=0; i<nImages ; i++) {			
 		selectImage(i+1);
-		all_IDs[i] = getImageID(); 
-	} 
-	for (i=0; i<all_IDs.length; i++) {
-		selectImage(all_IDs[i]);
+		Stack.getPosition(channel, slice, frame);
 		getDimensions(width, height, channels, slices, frames);
-		Stack.setPosition(1, round(slices/2), round(frames/2));
+		Stack.setPosition(channel, round(slices/2), round(frames/2));
 	}
 	run("Tile");
 }
@@ -2908,7 +2897,8 @@ function split_View(COLOR_MODE, MONTAGE_STYLE, LABELS) {
 	if (MONTAGE_STYLE == 0)	linear_SplitView();
 	if (MONTAGE_STYLE == 1)	square_SplitView();
 	if (MONTAGE_STYLE == 2)	vertical_SplitView();
-	rename(title + "_SplitView");
+	if (isOpen(title + "_SplitView")) rename(title + "_SplitView" + getImageID());
+	else rename(title + "_SplitView");
 	setOption("Changes", 0);
 	setBatchMode("exit and display");
 
@@ -3393,9 +3383,10 @@ function show_All_Macros_Action_Bar(){
 	setup_Action_Bar_Header("Main Keyboard Macros");
 	add_new_Line();
 	add_macro_button_with_hotKey("E", "Arrange windows as Tiles", "none");
+	add_macro_button_with_hotKey("H", "Show All", "none");
 	add_Contrast_Action_Bar();
 	add_Basic_Action_Bar();
-	add_SplitView_Action_Bar();
+	// add_SplitView_Action_Bar();
 	add_Exports_Action_Bar();
 	add_Bioformats_DnD();
 	run("Action Bar", ACTION_BAR_STRING);
@@ -3405,24 +3396,25 @@ function show_Basic_Macros_Action_Bar(){
 	setup_Action_Bar_Header("Utilities Macros");
 	add_new_Line();
 	add_macro_button_with_hotKey("E", "Arrange windows as Tiles", "none");
+	add_macro_button_with_hotKey("H", "Show All", "none");
 	add_Basic_Action_Bar();
 	add_Bioformats_DnD();
 	run("Action Bar", ACTION_BAR_STRING);
 }
 
-function show_Export_Action_Bar(){
-	setup_Action_Bar_Header("Exports");
-	add_Exports_Action_Bar();
-	add_Bioformats_DnD();
-	run("Action Bar", ACTION_BAR_STRING);
-}
+// function show_Export_Action_Bar(){
+// 	setup_Action_Bar_Header("Exports");
+// 	add_Exports_Action_Bar();
+// 	add_Bioformats_DnD();
+// 	run("Action Bar", ACTION_BAR_STRING);
+// }
 
-function show_Contrast_Bar(){
-	setup_Action_Bar_Header("Contrast Macros");
-	add_Contrast_Action_Bar();
-	add_Bioformats_DnD();
-	run("Action Bar", ACTION_BAR_STRING);
-}
+// function show_Contrast_Bar(){
+// 	setup_Action_Bar_Header("Contrast Macros");
+// 	add_Contrast_Action_Bar();
+// 	add_Bioformats_DnD();
+// 	run("Action Bar", ACTION_BAR_STRING);
+// }
 
 function show_SplitView_Bar(){
 	setup_Action_Bar_Header("Splitview Macros");
@@ -3456,27 +3448,30 @@ function show_main_Tools_Popup_Bar(){
 	run("Action Bar", ACTION_BAR_STRING);
 }
 
+//--------------------------------------------------------------------------------------------------------------------------------------
+
 function add_Basic_Action_Bar(){
-	add_Text_Line("                  Channels & LUTs");
+	add_Text_Line("__________________ Channels & LUTs");
+	add_new_Line();
+	add_macro_button_with_hotKey("Q", "Composite/channel switch", "none");
+	add_macro_button_with_hotKey("Z", "Channels Tool", "none");
 	add_new_Line();
 	add_macro_button_with_hotKey("1", "Apply default LUTs", "none");
 	add_new_Line();
 	add_macro_button_with_hotKey("1", "Set default LUTs", "alt");
 	add_macro_button_with_hotKey("1", "Apply LUTs to all", "space");
 	add_new_Line();
-	add_macro_button_with_hotKey("Q", "Composite/channel switch", "none");
-	add_macro_button_with_hotKey("Z", "Channels Tool", "none");
-	add_Text_Line("                  Selections / Duplicates");
+	add_macro_button_with_hotKey("d", "Split Channels", "none");
 	add_new_Line();
-	add_macro_button_with_hotKey("a", "Restore Selection", "space");
-	add_macro_button_with_hotKey("D", "Duplicate full image", "none");
+	add_macro_button_with_hotKey("M", "Auto Merge channels", "none");
+	add_macro_button_with_hotKey("M", "Manual Merge", "space");
+	add_Text_Line("__________________ Close");
 	add_new_Line();
-	add_macro_button_with_hotKey("a", "Select None", "alt");
-	add_macro_button_with_hotKey("d", "Duplicate Slice", "space");
+	add_macro_button_with_hotKey("w", "Close image", "none");
+	add_macro_button_with_hotKey("w", "Close others", "alt");
 	add_new_Line();
-	add_macro_button_with_hotKey("a", "Select All", "none");
-	add_macro_button_with_hotKey("d", "Duplicate full channel", "alt");
-	add_Text_Line("                  Stack Projections");
+	add_macro_button_with_hotKey("w", "Open last closed", "space");
+	add_Text_Line("__________________ Stack Projections");
 	add_new_Line();
 	add_macro_button_with_hotKey("G", "MAX full stack", "none");
 	add_macro_button_with_hotKey("g", "Z Project Dialog", "none");
@@ -3486,7 +3481,7 @@ function add_Basic_Action_Bar(){
 }
 
 function add_Contrast_Action_Bar(){
-	add_Text_Line("                  Contrast Macros");
+	add_Text_Line("__________________ Contrast Macros");
 	add_new_Line();
 	add_macro_button_with_hotKey("C", "Brightness & Contrast", "none");
 	add_new_Line();
@@ -3502,8 +3497,20 @@ function add_Contrast_Action_Bar(){
 	add_macro_button_with_hotKey("R", "Same contrast to all images", "alt");
 }
 
+function add_Exports_Action_Bar(){
+	add_Text_Line("__________________ Export Images");
+	add_new_Line();
+	add_macro_button_with_hotKey("x", "Copy to System Clipboard", "alt");
+	add_new_Line();
+	add_macro_button_with_hotKey("s", "Save as tiff", "none");
+	add_macro_button_with_hotKey("s", "Save all opened images", "alt");
+	add_new_Line();
+	add_macro_button_with_hotKey("J", "Save as JPEG...", "none");
+	add_macro_button_with_hotKey("J", "save As LZW tiff", "space");
+}
+
 function add_SplitView_Action_Bar(){
-	add_Text_Line("                  SplitView / Figures Macros");
+	add_Text_Line("__________________ SplitView / Figures Macros");
 	add_new_Line();
 	add_macro_button_with_hotKey("p", "Preset linear figure", "alt");
 	add_macro_button_with_hotKey("b", "Preset vertical figure", "alt");
@@ -3522,20 +3529,8 @@ function add_SplitView_Action_Bar(){
 	add_macro_button_with_hotKey("B", "Auto scale bar", "space");
 }
 
-function add_Exports_Action_Bar(){
-	add_Text_Line("                  Export Images");
-	add_new_Line();
-	add_macro_button_with_hotKey("x", "Copy to System", "alt");
-	add_new_Line();
-	add_macro_button_with_hotKey("s", "Save as tiff", "none");
-	add_macro_button_with_hotKey("s", "Save all opened images", "alt");
-	add_new_Line();
-	add_macro_button_with_hotKey("J", "Save as JPEG...", "none");
-	add_macro_button_with_hotKey("J", "save As LZW tiff", "space");
-}
-
 function add_Numerical_Keyboard() {
-	add_Text_Line("                  Numerical Keyboard Macros");
+	add_Text_Line("__________________ Numerical Keyboard Macros");
 	add_Text_Line("      space : toggle channel, alt : toggle channel for all images");
 	add_new_Line();
 	add_macro_button_without_hotKey("n7", "7 (cyan)", "none");
@@ -3555,23 +3550,71 @@ function add_Numerical_Keyboard() {
 	add_macro_button_without_hotKey("n*", "* (diff of Gaussian)", "none");
 }
 
+function show_Other_Macros(){
+	setup_Action_Bar_Header("Other Macros");
+	add_new_Line();
+	add_macro_button_with_hotKey("F", "MultiTool switch", "none");
+	add_macro_button_with_hotKey("7", "Set target image", "none");
+	add_new_Line();
+	add_macro_button_with_hotKey("n", "Open Hela Cells", "none");
+	add_macro_button_with_hotKey("N", "Num Keyboard Bar", "none");
+	add_Text_Line("__________________ Selections / Duplicates");
+	add_new_Line();
+	add_macro_button_with_hotKey("a", "Restore Selection", "space");
+	add_macro_button_with_hotKey("D", "Duplicate full image", "none");
+	add_new_Line();
+	add_macro_button_with_hotKey("a", "Select None", "alt");
+	add_macro_button_with_hotKey("d", "Duplicate Slice", "space");
+	add_new_Line();
+	add_macro_button_with_hotKey("a", "Select All", "none");
+	add_macro_button_with_hotKey("d", "Duplicate full channel", "alt");
+	add_Text_Line("__________________ LUTs");
+	add_new_Line();
+	add_macro_button_with_hotKey("f", "Gamma 0.8 on all LUTs", "space");
+	add_macro_button_with_hotKey("i", "Invert all LUTs", "none");
+	add_new_Line();
+	add_macro_button_with_hotKey("x", "Copy LUT", "none");
+	add_macro_button_with_hotKey("v", "Paste LUT", "alt");
+	add_new_Line();
+	add_macro_button_with_hotKey("n0", "Set favorite LUT", "space");
+	add_Text_Line("__________________ Images");
+	add_new_Line();
+	add_macro_button_with_hotKey("v", "Paste system", "space");
+	add_macro_button_with_hotKey("i", "invert keep color", "space");
+	add_new_Line();
+	add_macro_button_with_hotKey("9", "Save as test", "space");
+	add_macro_button_with_hotKey("9", "Open test image", "none");
+	add_new_Line();
+	add_macro_button_with_hotKey("4", "Make montage", "none");
+	add_macro_button_with_hotKey("4", "Montage to stack", "space");
+	add_Text_Line("__________________ Color Coding with copied LUT(x)");
+	add_new_Line();
+	add_macro_button_with_hotKey("g", "Max ColorCoding", "space");
+	add_macro_button_with_hotKey("g", "ColorCoding no max", "alt");
+	add_Text_Line("__________________ Scripts");
+	add_new_Line();
+	add_macro_button_with_hotKey("j", "open Script Editor", "none");
+	add_Bioformats_DnD();
+	run("Action Bar", ACTION_BAR_STRING);
+}
+
 function show_my_Zbeul_Action_Bar(){
 	setup_Action_Bar_Header("my Zbeul");
 	add_new_Line();
 	add_gray_button("Fetch / Pull", "fetch_Or_Pull_StartupMacros();");
-	add_Text_Line("                  Clipboard modifs");
+	add_Text_Line("__________________ Clipboard modifs");
 	add_new_Line();
 	add_gray_button("To string", "clipboard_To_String();");
 	add_gray_button("To completion", "clipboard_To_Completion();");
 	add_new_Line();
 	add_gray_button("Correct path", "correct_Copied_Path();");
 	add_gray_button("Add to image info", "note_In_Infos();");
-	add_Text_Line("                  imgur images");
+	add_Text_Line("__________________ imgur images");
 	add_new_Line();
 	add_gray_button("3 channels", "setBatchMode(1); open(\"https://i.imgur.com/MZGVdVj.png\"); run(\"Make Composite\"); apply_LUTs(); run(\"Remove Slice Labels\"); setBatchMode(0);");
 	add_gray_button("Microtubules", "open(\"https://i.imgur.com/LDO1rVL.png\");");
 	add_gray_button("Brain stack", "setBatchMode(1); open(\"https://i.imgur.com/DYIF55D.jpg\"); run(\"Montage to Stack...\", \"columns=20 rows=18 border=0\"); rename(\"brain\"); setBatchMode(0);");
-	add_Text_Line("                  Wheels and tests");
+	add_Text_Line("__________________ Wheels and tests");
 	add_new_Line();
 	add_gray_button("Jeromes RGB Wheel", "Jeromes_Wheel();");
 	add_gray_button("RGB time Is Over", "RGB_time_Is_Over();");
@@ -3595,6 +3638,7 @@ function setup_Action_Bar_Header(main_Title){
 	add_main_title(main_Title);
 	add_Code_Library();
 }
+
 function setup_Popup_Action_Bar_Header(main_Title){
 	ACTION_BAR_STRING = "";
 	if (isOpen(main_Title)) run("Close AB", main_Title);
