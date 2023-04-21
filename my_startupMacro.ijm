@@ -156,12 +156,9 @@ var Action_Bars_Menu = newMenu("Action Bars Menu Tool",
 	"-", "Splitview Macros", "Numerical Keyboard Macros", "More Macros",
 	"-", "Online Help"));
 // "Utilities Macros", "Contrast Macros","Export Macros",
-macro "Action Bars Menu Tool - icon:viz_toolset_3.jpg" {
+macro "Action Bars Menu Tool - B00C000D00D01D02D03D05D06D07D08D0aD0bD0cD0dD10D13D15D18D1aD1dD20D23D25D28D2aD2dD30D33D35D38D3aD3dD40D43D45D48D4aD4bD4cD4dD50D53D55D58D60D63D65D68D6aD6bD6cD6dD70D73D75D76D77D78D7aD7dD80D83D8aD8dD90D93D95D96D97D98D9aD9dDa0Da3Da5Da8DaaDadDb0Db3Db5Db8DbaDbdDc0Dc3Dc5Dc8DcaDcdDd0Dd3Dd5Dd8DdaDddDe0De3De5De8DeaDedDf0Df1Df2Df3Df5Df6Df7Df8DfaDfbDfcDfd" {
 	command = getArgument();
 	if 		(command == "Main Macro Shortcuts")			show_All_Macros_Action_Bar();
-	// else if (command == "Utilities Macros")				show_Basic_Macros_Action_Bar();
-	// else if (command == "Export Macros")				show_Export_Action_Bar();
-	// else if (command == "Contrast Macros")				show_Contrast_Bar();
 	else if (command == "SplitView Macros")				show_SplitView_Bar();
 	else if (command == "Numerical Keyboard Macros")	show_Numerical_Keyboard_Bar();
 	else if (command == "More Macros")					show_Other_Macros();
