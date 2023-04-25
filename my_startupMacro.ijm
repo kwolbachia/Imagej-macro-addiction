@@ -110,7 +110,8 @@ var ShortcutsMenu = newMenu("Custom Menu Tool",
 	newArray( "Batch convert to tiff", "Merge Ladder and Signal WB",
 		 "-","Rotate 90 Degrees Right","Rotate 90 Degrees Left", "make my LUTs",
 		 "-", "Median...", "Gaussian Blur...","Gaussian Blur 3D...","Gamma...","Voronoi Threshold Labler (2D/3D)"));
-macro "Custom Menu Tool - N55C000D1aD1bD1cD1dD29D2dD39D3dD49D4dD4eD59D5eD69D75D76D77D78D79D85D88D89D94D98D99Da4Da7Da8Da9Db3Db7Db8Dc3Dc6Dc7DccDcdDd3Dd6Dd8DdbDdcDe2De3De6De8De9DeaDebDecCfffD0dD3cD5cD6dD7bD8bD8cD96D9aD9bDa5DacDadDb5DcaDd4Dd9DdaDe4CdddD0aD1eD2bD6aD74D7aD95Dc4Dc5DeeC222D8eDa3DbcC111D38D5bD6bD7dDabDbaDd7C888D66De5C666D19Db4DcbC900CbbbD0cD87DaeDb2C444D28D2aD3eD48D84Db6Dc2CaaaDb9DedC777D0bD2eD4aD6cD7cD7eD9cD9dD9eDbdDc8CcccD2cDdeDe7C333D67D68DbeDd2DddC999D4cD58D5aD5dD93DceDd5Bf0C000D03D06D0cD13D16D1bD23D26D2aD33D37D39D43D44D47D48D54D65D76D77D87D88D89D8aD8bD8cD8dD8eD9bCfffD04D08D0dD0eD14D18D19D24D28D2cD35D3bD3cD3dD3eD45D46D4aD4bD4cD4eD56D57D5aD5bD5cD5dD5eD68D69D6aD6bD6cD6dD7cD7dCdddD1cD25D63D7eD97C222D64D66D9aC111D02D0bD36C888D98C666D12D38D78C900CbbbD0aD15D1eD2dD32D34C444D22D49D55D75D86D9cD9dCaaaD05D29D53C777D27D3aCcccD09D17C333D99C999D1aD2bD58D9eB0fC000D02D03D04D05D08D09D18D27D28D36D37D45D46D54D55D63D64D71D72D80D81CfffD06D07D16D25D30D34D35D40D43D44D52D57D60D61D75D83D85CdddD10D22D32D33D42D74C222D01D13D14D73C111C888D47D70C666C900D56D66D67D76D77D78D86D87D96CbbbD12D15D19D20D23D24D41D82C444D17CaaaC777D00CcccD11D26D90C333C999D62D65Nf0C000D33D34D35D36D42D43D46D50D51D55D64D65D66D67D73D74D78D88D96D97Da4Da5Db4Dc4Dd4Dd6Dd7Dd8De3De4De6De8De9CfffD15D31D44D53D54D58D62D84D85D86D92D93Da2Db2Dc2Dd2De7CdddD63Da1Da7Dc1Dd0De2C222D75D95Db3C111C888D23D32D45Dc3C666D40D52D57C900CbbbD70D80D94C444D24D60D68D87Da3Db0CaaaD26Dc0C777D41D81D91D98Dc7De5CcccD61D72D79D83D89Dc5Dd5Dd9De1C333D25D47D56D77Da0C999D37D76D90Da6Db5Dc6Dc8Dd3" {
+// macro "Custom Menu Tool - N55C000D1aD1bD1cD1dD29D2dD39D3dD49D4dD4eD59D5eD69D75D76D77D78D79D85D88D89D94D98D99Da4Da7Da8Da9Db3Db7Db8Dc3Dc6Dc7DccDcdDd3Dd6Dd8DdbDdcDe2De3De6De8De9DeaDebDecCfffD0dD3cD5cD6dD7bD8bD8cD96D9aD9bDa5DacDadDb5DcaDd4Dd9DdaDe4CdddD0aD1eD2bD6aD74D7aD95Dc4Dc5DeeC222D8eDa3DbcC111D38D5bD6bD7dDabDbaDd7C888D66De5C666D19Db4DcbC900CbbbD0cD87DaeDb2C444D28D2aD3eD48D84Db6Dc2CaaaDb9DedC777D0bD2eD4aD6cD7cD7eD9cD9dD9eDbdDc8CcccD2cDdeDe7C333D67D68DbeDd2DddC999D4cD58D5aD5dD93DceDd5Bf0C000D03D06D0cD13D16D1bD23D26D2aD33D37D39D43D44D47D48D54D65D76D77D87D88D89D8aD8bD8cD8dD8eD9bCfffD04D08D0dD0eD14D18D19D24D28D2cD35D3bD3cD3dD3eD45D46D4aD4bD4cD4eD56D57D5aD5bD5cD5dD5eD68D69D6aD6bD6cD6dD7cD7dCdddD1cD25D63D7eD97C222D64D66D9aC111D02D0bD36C888D98C666D12D38D78C900CbbbD0aD15D1eD2dD32D34C444D22D49D55D75D86D9cD9dCaaaD05D29D53C777D27D3aCcccD09D17C333D99C999D1aD2bD58D9eB0fC000D02D03D04D05D08D09D18D27D28D36D37D45D46D54D55D63D64D71D72D80D81CfffD06D07D16D25D30D34D35D40D43D44D52D57D60D61D75D83D85CdddD10D22D32D33D42D74C222D01D13D14D73C111C888D47D70C666C900D56D66D67D76D77D78D86D87D96CbbbD12D15D19D20D23D24D41D82C444D17CaaaC777D00CcccD11D26D90C333C999D62D65Nf0C000D33D34D35D36D42D43D46D50D51D55D64D65D66D67D73D74D78D88D96D97Da4Da5Db4Dc4Dd4Dd6Dd7Dd8De3De4De6De8De9CfffD15D31D44D53D54D58D62D84D85D86D92D93Da2Db2Dc2Dd2De7CdddD63Da1Da7Dc1Dd0De2C222D75D95Db3C111C888D23D32D45Dc3C666D40D52D57C900CbbbD70D80D94C444D24D60D68D87Da3Db0CaaaD26Dc0C777D41D81D91D98Dc7De5CcccD61D72D79D83D89Dc5Dd5Dd9De1C333D25D47D56D77Da0C999D37D76D90Da6Db5Dc6Dc8Dd3" {
+macro "Custom Menu Tool - C000H6580a5f5c9de8b3e4915" {
 	command = getArgument(); 
 	if 		(command=="Batch convert to tiff") 			batch_ims_To_tif();
 	else if (command=="Merge Ladder and Signal WB")		merge_Ladder_And_Signal_From_Licor();
@@ -335,9 +336,11 @@ macro "[M]"	{
 	// else if (isKeyDown("alt"))		
 } 
 macro "[m]"	{	
-	if		(no_Alt_no_Space())		{setPasteMode("Max"); run("Paste"); setPasteMode("Copy"); run("Select None");}
-	else if (isKeyDown("space"))	{setPasteMode("Add"); run("Paste"); setPasteMode("Copy"); run("Select None");}
-	else if (isKeyDown("alt"))		linear_LUTs_Baker();
+	if		(no_Alt_no_Space())		
+	// 	{setPasteMode("Max"); run("Paste"); setPasteMode("Copy"); run("Select None");}
+	// else if (isKeyDown("space"))	{setPasteMode("Add"); run("Paste"); setPasteMode("Copy"); run("Select None");}
+	// else if (isKeyDown("alt"))		
+		linear_LUTs_Baker();
 }
 macro "[n]"	{
 	if		(no_Alt_no_Space())		Hela();
@@ -3379,11 +3382,10 @@ function get_Luminance(rgb){
 function show_All_Macros_Action_Bar(){
 	setup_Action_Bar_Header("Main Keyboard Macros");
 	add_new_Line();
-	add_macro_button_with_hotKey("E", "Arrange windows as Tiles", "none");
-	add_macro_button_with_hotKey("H", "Show All", "none");
+	add_macro_button_with_hotKey("E", "Arrange windows as Tiles", "none", "Fit all windows in screen");
+	add_macro_button_with_hotKey("H", "Show All", "none", "Bring all imageJ windows to front");
 	add_Contrast_Action_Bar();
 	add_Basic_Action_Bar();
-	// add_SplitView_Action_Bar();
 	add_Exports_Action_Bar();
 	add_Bioformats_DnD();
 	run("Action Bar", ACTION_BAR_STRING);
@@ -3392,26 +3394,12 @@ function show_All_Macros_Action_Bar(){
 function show_Basic_Macros_Action_Bar(){
 	setup_Action_Bar_Header("Utilities Macros");
 	add_new_Line();
-	add_macro_button_with_hotKey("E", "Arrange windows as Tiles", "none");
-	add_macro_button_with_hotKey("H", "Show All", "none");
+	add_macro_button_with_hotKey("E", "Arrange windows as Tiles", "none", "Fit all windows in screen");
+	add_macro_button_with_hotKey("H", "Show All", "none", "Bring all imageJ windows to front");
 	add_Basic_Action_Bar();
 	add_Bioformats_DnD();
 	run("Action Bar", ACTION_BAR_STRING);
 }
-
-// function show_Export_Action_Bar(){
-// 	setup_Action_Bar_Header("Exports");
-// 	add_Exports_Action_Bar();
-// 	add_Bioformats_DnD();
-// 	run("Action Bar", ACTION_BAR_STRING);
-// }
-
-// function show_Contrast_Bar(){
-// 	setup_Action_Bar_Header("Contrast Macros");
-// 	add_Contrast_Action_Bar();
-// 	add_Bioformats_DnD();
-// 	run("Action Bar", ACTION_BAR_STRING);
-// }
 
 function show_SplitView_Bar(){
 	setup_Action_Bar_Header("Splitview Macros");
@@ -3430,18 +3418,18 @@ function show_Numerical_Keyboard_Bar(){
 function show_main_Tools_Popup_Bar(){
 	setup_Popup_Action_Bar_Header("Main Tools");
 	add_new_Line();
-	add_gray_button("X (close)", "<close>");
+	add_gray_button("X (close)", "<close>", "Close this popup");
 	add_new_Line();
-	add_gray_button("Move Windows", "save_Main_Tool('Move Windows');");
-	add_gray_button("LUT Gamma", "save_Main_Tool('LUT Gamma Tool');");
+	add_gray_button("Move Windows", "save_Main_Tool('Move Windows');", "Drag anywhere on image to move image window");
+	add_gray_button("LUT Gamma", "save_Main_Tool('LUT Gamma Tool');", "Adjust the gamma of the current LUT <br> pixel values remain unchanged");
 	add_new_Line();
-	add_gray_button("Magic Wand", "save_Main_Tool('Magic Wand');");
-	add_gray_button("Scale Bar", "save_Main_Tool('Scale Bar Tool');");
+	add_gray_button("Magic Wand", "save_Main_Tool('Magic Wand');", "Detects local signal in a 5 pixel box to estimate the right Wand tolerance. <br> Drag mouse laterally to adjust tolerance if needed. <br> Double click on Multi Tool to adjust parameters");
+	add_gray_button("Scale Bar", "save_Main_Tool('Scale Bar Tool');", "Adjust the length and height by dragging the mouse on the image. <br> You can remove the text on the Multitool options");
 	add_new_Line();
-	add_gray_button("Multi-channel Plot ", "save_Main_Tool('Multi-channel Plot Tool');");
-	add_gray_button("Curtain Tool", "save_Main_Tool('Curtain Tool');");
+	add_gray_button("Multi-channel Plot ", "save_Main_Tool('Multi-channel Plot Tool');", "Line intensity profile Plot of all active channels");
+	add_gray_button("Curtain Tool", "save_Main_Tool('Curtain Tool');", "Compare two images : first set the 'target image' <br> (the image you want to overlay) by a right click and 'set target image'");
 	add_new_Line();
-	add_gray_button("Slice / Frame Tool ", "save_Main_Tool('Slice / Frame Tool');");
+	add_gray_button("Slice / Frame Tool ", "save_Main_Tool('Slice / Frame Tool');", "Navigate the Z dimension (slice or frame) <br> from anywhere in the image");
 	run("Action Bar", ACTION_BAR_STRING);
 }
 
@@ -3450,147 +3438,147 @@ function show_main_Tools_Popup_Bar(){
 function add_Basic_Action_Bar(){
 	add_Text_Line("__________________ Channels & LUTs");
 	add_new_Line();
-	add_macro_button_with_hotKey("Q", "Composite/channel switch", "none");
-	add_macro_button_with_hotKey("Z", "Channels Tool", "none");
+	add_macro_button_with_hotKey("Q", "Composite/channel switch", "none", "Switch between Color and Composite<br>display mode on multichannel images");
+	add_macro_button_with_hotKey("Z", "Channels Tool", "none", "Built-in Tools to manage Display mode, <br> Active channels and basic LUTs");
 	add_new_Line();
-	add_macro_button_with_hotKey("1", "Apply default LUTs", "none");
+	add_macro_button_with_hotKey("1", "Apply default LUTs", "none", "Apply saved LUTs to current image");
 	add_new_Line();
-	add_macro_button_with_hotKey("1", "Set default LUTs", "alt");
-	add_macro_button_with_hotKey("1", "Apply LUTs to all", "space");
+	add_macro_button_with_hotKey("1", "Set default LUTs", "alt", "Select LUTs to save as default. <br> Note: the number of LUTs to be set matches the active image <br> An alternative way is to right click on image and 'Set LUTs'");
+	add_macro_button_with_hotKey("1", "Apply LUTs to all", "space", "Apply saved LUTs to all opened images");
 	add_new_Line();
-	add_macro_button_with_hotKey("d", "Split Channels", "none");
+	add_macro_button_with_hotKey("d", "Split Channels", "none", "Built-in Split Channels");
 	add_new_Line();
-	add_macro_button_with_hotKey("M", "Auto Merge channels", "none");
-	add_macro_button_with_hotKey("M", "Manual Merge", "space");
+	add_macro_button_with_hotKey("M", "Auto Merge channels", "none", "Up to 4 opened images and no RGB Image");
+	add_macro_button_with_hotKey("M", "Manual Merge", "space", "Built-in Merge channels tool");
 	add_Text_Line("__________________ Close");
 	add_new_Line();
-	add_macro_button_with_hotKey("w", "Close image", "none");
-	add_macro_button_with_hotKey("w", "Close others", "alt");
+	add_macro_button_with_hotKey("w", "Close image", "none", "Close active image without 'sure?' warning <br> And stores path of image to reopen later");
+	add_macro_button_with_hotKey("w", "Close others", "alt", "Close All Images except the active one");
 	add_new_Line();
-	add_macro_button_with_hotKey("w", "Open last closed", "space");
+	add_macro_button_with_hotKey("w", "Open last closed", "space", "Open last closed image if the 'w' key was used");
 	add_Text_Line("__________________ Stack Projections");
 	add_new_Line();
-	add_macro_button_with_hotKey("G", "MAX full stack", "none");
-	add_macro_button_with_hotKey("g", "Z Project Dialog", "none");
+	add_macro_button_with_hotKey("G", "MAX full stack", "none", "Quick MAX Z projection with all slices or frames");
+	add_macro_button_with_hotKey("g", "Z Project Dialog", "none", "Built-in Projection Dialog");
 	add_new_Line();
-	add_macro_button_with_hotKey("G", "SUM full stack", "alt");
-	add_macro_button_with_hotKey("G", "MAX ALL IMAGES", "space");
+	add_macro_button_with_hotKey("G", "SUM full stack", "alt", "Quick SUM Z projection with all slices or frames");
+	add_macro_button_with_hotKey("G", "MAX ALL IMAGES", "space", "Quick MAX Z projection on all opened images <br> Warning : will close non projected images");
 }
 
 function add_Contrast_Action_Bar(){
 	add_Text_Line("__________________ Contrast Macros");
 	add_new_Line();
-	add_macro_button_with_hotKey("C", "Brightness & Contrast", "none");
+	add_macro_button_with_hotKey("C", "Brightness & Contrast", "none", "Built-in Contrast Tool");
 	add_new_Line();
-	add_macro_button_with_hotKey("A", "Enhance active channel", "none");
-	add_macro_button_with_hotKey("r", "Reset active channel", "none");
+	add_macro_button_with_hotKey("A", "Enhance active channel", "none", "Enhance active channel : only based on current slice,<br> Adjust the contrast with 0.1% of saturated pixels.<br> If image type is RGB, uses Biovoxxel's 'True color contrast'");
+	add_macro_button_with_hotKey("r", "Reset active channel", "none", "Resets contrast to min and max based on the entire stack <br> So you can navigate through slices without signal saturation.");
 	add_new_Line();
-	add_macro_button_with_hotKey("A", "Enhance all channels", "space");
-	add_macro_button_with_hotKey("R", "Reset all channels", "none");
+	add_macro_button_with_hotKey("A", "Enhance all channels", "space", "Enhance all channels : only based on current slice,<br>Adjust the contrast with 0.1% of saturated pixels.");
+	add_macro_button_with_hotKey("R", "Reset all channels", "none", "Resets contrast on all channels");
 	add_new_Line();
-	add_macro_button_with_hotKey("A", "Enhance all images", "alt");
-	add_macro_button_with_hotKey("R", "Reset all images", "space");
+	add_macro_button_with_hotKey("A", "Enhance all images", "alt", "Enhance all channels of all opened images");
+	add_macro_button_with_hotKey("R", "Reset all images", "space", "Resets contrast of all channels <br> On all opened images");
 	add_new_Line();
-	add_macro_button_with_hotKey("R", "Same contrast to all images", "alt");
+	add_macro_button_with_hotKey("R", "Same contrast to all images", "alt", "Apply current contrast to all other opened images");
 }
 
 function add_Exports_Action_Bar(){
 	add_Text_Line("__________________ Export Images");
 	add_new_Line();
-	add_macro_button_with_hotKey("x", "Copy to System Clipboard", "alt");
+	add_macro_button_with_hotKey("x", "Copy to System Clipboard", "alt", "Copies a snapshot of active image <br> that can be pasted elsewhere <br> i.e. powerpoint or inkscape");
 	add_new_Line();
-	add_macro_button_with_hotKey("s", "Save as tiff", "none");
-	add_macro_button_with_hotKey("s", "Save all opened images", "alt");
+	add_macro_button_with_hotKey("s", "Save as tiff", "none", "Save active image as tiff <br> Note: in this format, all metadata and pixel scales are kept inside");
+	add_macro_button_with_hotKey("s", "Save all opened images", "alt", "Save all opened images on specified format and directory <br> Note : beware of deletions, similar titles are overwritten !");
 	add_new_Line();
-	add_macro_button_with_hotKey("J", "Save as JPEG...", "none");
-	add_macro_button_with_hotKey("J", "save As LZW tiff", "space");
+	add_macro_button_with_hotKey("J", "Save as JPEG...", "none", "Save as 100% quality JPEG, <br> reminder : this format is destructive for image data");
+	add_macro_button_with_hotKey("J", "save As LZW tiff", "space", "Lossless compression for RGB tiffs <br> i.e. final paper figure");
 }
 
 function add_SplitView_Action_Bar(){
 	add_Text_Line("__________________ SplitView / Figures Macros");
 	add_new_Line();
-	add_macro_button_with_hotKey("p", "Preset linear figure", "alt");
-	add_macro_button_with_hotKey("b", "Preset vertical figure", "alt");
+	add_macro_button_with_hotKey("p", "Preset linear figure", "alt", "Quickly make a linear grayscale SplitView <br> with colored labels and white borders<br> and copy the result so you can paste directly in a presentation slide");
+	add_macro_button_with_hotKey("b", "Preset vertical figure", "alt", "Quickly make a vertical grayscale SplitView <br> with colored labels and white borders<br> and copy the result so you can paste directly in a presentation slide");
 	add_new_Line();
-	add_macro_button_with_hotKey("S", "All options dialog", "alt");
+	add_macro_button_with_hotKey("S", "All options dialog", "alt", "SplitView dialog to choose all parameters <br> Including border size and channel labels");
 	add_new_Line();
-	add_macro_button_with_hotKey("S", "Colored square", "none");
-	add_macro_button_with_hotKey("p", "Grayscale square", "space");
+	add_macro_button_with_hotKey("S", "Colored square", "none", "Colored square SplitView : For multichannel visualization,<br> Creates a RGB montage of composite and individual channels<br>You can still navigate through slices or frames");
+	add_macro_button_with_hotKey("p", "Grayscale square", "space", "Grayscale square SplitView: For multichannel visualization,<br> Creates a RGB montage of composite and individual channels<br>You can still navigate through slices or frames");
 	add_new_Line();
-	add_macro_button_with_hotKey("S", "Colored linear", "space");
-	add_macro_button_with_hotKey("p", "Grayscale linear", "none");
+	add_macro_button_with_hotKey("S", "Colored linear", "space", "Colored linear SplitView: For multichannel visualization,<br> Creates a RGB montage of composite and individual channels<br>You can still navigate through slices or frames");
+	add_macro_button_with_hotKey("p", "Grayscale linear", "none", "Grayscale linear SplitV For multichannel visualization,<br> Creates a RGB montage of composite and individual channels<br>You can still navigate through slices or frames");
 	add_new_Line();
-	add_macro_button_with_hotKey("b", "Colored vertical", "none");
-	add_macro_button_with_hotKey("b", "Grayscale vertical", "space");
+	add_macro_button_with_hotKey("b", "Colored vertical", "none", "Colored vertical SplitView: For multichannel visualization,<br> Creates a RGB montage of composite and individual channels<br>You can still navigate through slices or frames");
+	add_macro_button_with_hotKey("b", "Grayscale vertical", "space", "Grayscale vertical SplitView: For multichannel visualization,<br> Creates a RGB montage of composite and individual channels<br>You can still navigate through slices or frames");
 	add_new_Line();
-	add_macro_button_with_hotKey("B", "Auto scale bar", "space");
+	add_macro_button_with_hotKey("B", "Auto scale bar", "space", "Estimate a 'good' scale bar, <br>You can remove the text on the Multitool options");
 }
 
 function add_Numerical_Keyboard() {
 	add_Text_Line("__________________ Numerical Keyboard Macros");
-	add_Text_Line("      space : toggle channel, alt : toggle channel for all images");
 	add_new_Line();
-	add_macro_button_without_hotKey("n7", "7 (cyan)", "none");
-	add_macro_button_without_hotKey("n8", "8 (magenta)", "none");
-	add_macro_button_without_hotKey("n9", "9 (yellow)", "none");
+	add_macro_button_without_hotKey("n7", "7 (cyan)", "none", "With space : toggle channel <br> With alt : toggle channel for all images");
+	add_macro_button_without_hotKey("n8", "8 (magenta)", "none", "With space, convert current image to 8-bit <br> With alt, 16-bit");
+	add_macro_button_without_hotKey("n9", "9 (yellow)", "none", " With space, apply Glasbey on dark LUT");
 	add_new_Line();
-	add_macro_button_without_hotKey("n4", "4 (k blue)", "none");
-	add_macro_button_without_hotKey("n5", "5 (k magenta)", "none");
-	add_macro_button_without_hotKey("n6", "6 (k orange)", "none");
+	add_macro_button_without_hotKey("n4", "4 (k blue)", "none", "With space : toggle channel <br> With alt : toggle channel for all images");
+	add_macro_button_without_hotKey("n5", "5 (k magenta)", "none", "With space : toggle channel <br> With alt : toggle channel for all images");
+	add_macro_button_without_hotKey("n6", "6 (k orange)", "none", "With space : toggle channel <br> With alt : toggle channel for all images");
 	add_new_Line();
-	add_macro_button_without_hotKey("n1", "1 (grey)", "none");
-	add_macro_button_without_hotKey("n2", "2 (k green)", "none");
-	add_macro_button_without_hotKey("n3", "3 (red)", "none");
+	add_macro_button_without_hotKey("n1", "1 (grey)", "none", "With space : toggle channel <br> With alt : toggle channel for all images");
+	add_macro_button_without_hotKey("n2", "2 (k green)", "none", "With space : toggle channel <br> With alt : toggle channel for all images");
+	add_macro_button_without_hotKey("n3", "3 (red)", "none", "With space : toggle channel <br> With alt : toggle channel for all images");
 	add_new_Line();
-	add_macro_button_without_hotKey("n0", "0 (favorite)", "none");
-	add_macro_button_without_hotKey("n/", "/ (shortcuts list)", "none");
-	add_macro_button_without_hotKey("n*", "* (diff of Gaussian)", "none");
+	add_macro_button_without_hotKey("n0", "0 (favorite)", "none", "With space, associate current LUT to numerical key 0");
+	add_macro_button_without_hotKey("n/", "/ (shortcuts list)", "none", "All shortcuts list in table");
+	add_macro_button_without_hotKey("n*", "* (diff of Gaussian)", "none", "Clij macro for difference of Gaussian filter");
 }
 
 function show_Other_Macros(){
 	setup_Action_Bar_Header("Other Macros");
 	add_new_Line();
-	add_macro_button_with_hotKey("F", "MultiTool switch", "none");
-	add_macro_button_with_hotKey("7", "Set target image", "none");
+	add_macro_button_with_hotKey("F", "MultiTool switch", "none", "Switch between current Tool (default is rectangle) and MultiTool icon");
+	add_macro_button_with_hotKey("7", "Set target image", "none", "Stores the title of current image as 'target' image <br> for the Curtain Tool");
 	add_new_Line();
-	add_macro_button_with_hotKey("n", "Open Hela Cells", "none");
-	add_macro_button_with_hotKey("N", "Num Keyboard Bar", "none");
+	add_macro_button_with_hotKey("n", "Open Hela Cells", "none", "Open a croped version of Hela Cells sample image <br> and applies saved LUTs");
+	add_macro_button_with_hotKey("N", "Num Keyboard Bar", "none", "Open the Numerical Keyboard shortcuts Action Bar");
 	add_Text_Line("__________________ Selections / Duplicates");
 	add_new_Line();
-	add_macro_button_with_hotKey("a", "Restore Selection", "space");
-	add_macro_button_with_hotKey("D", "Duplicate full image", "none");
+	add_macro_button_with_hotKey("a", "Restore Selection", "space", "Create same selection as previously active image,<br> or recreate last deleted one");
+	add_macro_button_with_hotKey("D", "Duplicate full image", "none", "Duplicate full image");
 	add_new_Line();
-	add_macro_button_with_hotKey("a", "Select None", "alt");
-	add_macro_button_with_hotKey("d", "Duplicate Slice", "space");
+	add_macro_button_with_hotKey("a", "Select None", "alt", "Remove all ROIs of active image");
+	add_macro_button_with_hotKey("d", "Duplicate Slice", "space", "Duplicates current slice only");
 	add_new_Line();
-	add_macro_button_with_hotKey("a", "Select All", "none");
-	add_macro_button_with_hotKey("d", "Duplicate full channel", "alt");
+	add_macro_button_with_hotKey("a", "Select All", "none", "Creates a selection on full image");
+	add_macro_button_with_hotKey("d", "Duplicate full channel", "alt", "Duplicate full stack of current channel");
 	add_Text_Line("__________________ LUTs");
 	add_new_Line();
-	add_macro_button_with_hotKey("f", "Gamma 0.8 on all LUTs", "space");
-	add_macro_button_with_hotKey("i", "Invert all LUTs", "none");
+	add_macro_button_with_hotKey("f", "Gamma 0.8 on all LUTs", "space", "Adjust the gamma to 0.8 of all channels LUTs,<br> pixel values remain unchanged");
+	add_macro_button_with_hotKey("i", "Invert all LUTs", "none", "Invert luminosity of all LUTs and <br> switch the display mode from Composite to Composite Invert");
 	add_new_Line();
-	add_macro_button_with_hotKey("x", "Copy LUT", "none");
-	add_macro_button_with_hotKey("v", "Paste LUT", "alt");
+	add_macro_button_with_hotKey("x", "Copy LUT", "none", "Copy current LUT");
+	add_macro_button_with_hotKey("v", "Paste LUT", "alt", "Paste LUT");
 	add_new_Line();
-	add_macro_button_with_hotKey("n0", "Set favorite LUT", "space");
+	add_macro_button_with_hotKey("n0", "Set favorite LUT", "space", "Associate current LUT to numerical key 0 <br> default LUT is Inferno");
 	add_Text_Line("__________________ Images");
 	add_new_Line();
-	add_macro_button_with_hotKey("v", "Paste system", "space");
-	add_macro_button_with_hotKey("i", "invert keep color", "space");
+	add_macro_button_with_hotKey("v", "Paste system", "space", "Open the Image or text <br>from the current system Clipboard");
+	add_macro_button_with_hotKey("i", "invert keep color", "space", "Create a RGB snapshot of current image and <br> invert brightness while keeping the same color hues");
 	add_new_Line();
-	add_macro_button_with_hotKey("9", "Save as test", "space");
-	add_macro_button_with_hotKey("9", "Open test image", "none");
+	add_macro_button_with_hotKey("9", "Save as test", "space", "Save current image as a temp file <br> to use it as a test image");
+	add_macro_button_with_hotKey("9", "Open test image", "none", "Open test image");
 	add_new_Line();
-	add_macro_button_with_hotKey("4", "Make montage", "none");
-	add_macro_button_with_hotKey("4", "Montage to stack", "space");
+	add_macro_button_with_hotKey("4", "Make montage", "none", "Quickly make montage with scale set to 1");
+	add_macro_button_with_hotKey("4", "Montage to stack", "space", "Convert montage to stack");
+
 	add_Text_Line("__________________ Color Coding with copied LUT(x)");
 	add_new_Line();
-	add_macro_button_with_hotKey("g", "Max ColorCoding", "space");
-	add_macro_button_with_hotKey("g", "ColorCoding no max", "alt");
+	add_macro_button_with_hotKey("g", "Max ColorCoding", "space", "Creates a color coded projection with the current copied LUT (x key) <br> This version is usefull for limited RAM devices <br> only the final projection is stored in memory");
+	add_macro_button_with_hotKey("g", "ColorCoding no max", "alt", "Creates a RGB color coded stack of active channel with the current copied LUT <br> Note: A RGB stack is eavy, beware of available memory");
 	add_Text_Line("__________________ Scripts");
 	add_new_Line();
-	add_macro_button_with_hotKey("j", "open Script Editor", "none");
+	add_macro_button_with_hotKey("j", "Open Script Editor", "none", "Open Script Editor");
 	add_Bioformats_DnD();
 	run("Action Bar", ACTION_BAR_STRING);
 }
@@ -3598,35 +3586,37 @@ function show_Other_Macros(){
 function show_my_Zbeul_Action_Bar(){
 	setup_Action_Bar_Header("my Zbeul");
 	add_new_Line();
-	add_gray_button("Fetch / Pull", "fetch_Or_Pull_StartupMacros();");
+	add_gray_button("Fetch / Pull", "fetch_Or_Pull_StartupMacros();", "tooltip");
 	add_Text_Line("__________________ Clipboard modifs");
 	add_new_Line();
-	add_gray_button("To string", "clipboard_To_String();");
-	add_gray_button("To completion", "clipboard_To_Completion();");
+	add_gray_button("To string", "clipboard_To_String();", "tooltip");
+	add_gray_button("To completion", "clipboard_To_Completion();", "tooltip");
 	add_new_Line();
-	add_gray_button("Correct path", "correct_Copied_Path();");
-	add_gray_button("Add to image info", "note_In_Infos();");
+	add_gray_button("Correct path", "correct_Copied_Path();", "tooltip");
+	add_gray_button("Add to image info", "note_In_Infos();", "tooltip");
 	add_Text_Line("__________________ imgur images");
 	add_new_Line();
-	add_gray_button("3 channels", "setBatchMode(1); open(\"https://i.imgur.com/MZGVdVj.png\"); run(\"Make Composite\"); apply_LUTs(); run(\"Remove Slice Labels\"); setBatchMode(0);");
-	add_gray_button("Microtubules", "open(\"https://i.imgur.com/LDO1rVL.png\");");
-	add_gray_button("Brain stack", "setBatchMode(1); open(\"https://i.imgur.com/DYIF55D.jpg\"); run(\"Montage to Stack...\", \"columns=20 rows=18 border=0\"); rename(\"brain\"); setBatchMode(0);");
+	add_gray_button("3 channels", "setBatchMode(1); open(\"https://i.imgur.com/MZGVdVj.png\"); run(\"Make Composite\"); apply_LUTs(); run(\"Remove Slice Labels\"); setBatchMode(0);", "tooltip");
+	add_gray_button("Microtubules", "open(\"https://i.imgur.com/LDO1rVL.png\");", "tooltip");
+	add_gray_button("Brain stack", "setBatchMode(1); open(\"https://i.imgur.com/DYIF55D.jpg\"); run(\"Montage to Stack...\", \"columns=20 rows=18 border=0\"); rename(\"brain\"); setBatchMode(0);", "tooltip");
 	add_Text_Line("__________________ Wheels and tests");
 	add_new_Line();
-	add_gray_button("Jeromes RGB Wheel", "Jeromes_Wheel();");
-	add_gray_button("RGB time Is Over", "RGB_time_Is_Over();");
+	add_gray_button("Jeromes RGB Wheel", "Jeromes_Wheel();", "tooltip");
+	add_gray_button("RGB time Is Over", "RGB_time_Is_Over();", "tooltip");
 	add_new_Line();
-	add_gray_button("Test calculator modes", "test_All_Calculator_Modes();");
-	add_gray_button("Test all Z project", "test_All_Zprojections();");
+	add_gray_button("Test calculator modes", "test_All_Calculator_Modes();", "tooltip");
+	add_gray_button("Test all Z project", "test_All_Zprojections();", "tooltip");
 	add_new_Line();
-	add_gray_button("Test CLAHE options", "test_CLAHE_Options();");
-	add_gray_button("Test main filters", "test_main_Filters();");
+	add_gray_button("Test CLAHE options", "test_CLAHE_Options();", "tooltip");
+	add_gray_button("Test main filters", "test_main_Filters();", "tooltip");
 	add_new_Line();
-	add_gray_button("LUT Montage", "display_LUTs();");
+	add_gray_button("LUT Montage", "display_LUTs();", "tooltip");
 	add_Code_Library();
 	add_Bioformats_DnD();
 	run("Action Bar", ACTION_BAR_STRING);
 }
+
+//--------------------------------------------------------------------------------------------------------------------------------------
 
 function setup_Action_Bar_Header(main_Title){
 	ACTION_BAR_STRING = "";
@@ -3668,28 +3658,37 @@ function add_Text(text){
 	ACTION_BAR_STRING += "<text>" + text + "\n";
 }
 
-function add_gray_button(label, command){
+function add_button(color, label, command, tooltip){
 	ACTION_BAR_STRING += "<button>\n"+
 	"label=<html><font color='black'><b> " + label + "\n"+
+	"tooltip=<html>" + tooltip + "\n"+
+	"bgcolor=" + color + "\n"+
+	"arg=" + command + "\n";
+}
+
+function add_gray_button(label, command, tooltip){
+	ACTION_BAR_STRING += "<button>\n"+
+	"label=<html><font color='black'><b> " + label + "\n"+
+	"tooltip=<html>" + tooltip+ "\n"+
 	"bgcolor=lightgray\n"+
 	"arg=" + command + "\n";
 }
 
-function add_macro_button_with_hotKey(key, label, alt_space){
+function add_macro_button_with_hotKey(key, label, alt_space, tooltip){
 	// auto adds hot keys <3
 	if (alt_space == "none") {
 		label += " (" + key + ")"; 
-		add_gray_button( label, "run('[" + key + "]');" );
+		add_gray_button( label, "run('[" + key + "]');" , tooltip);
 	}
 	else label += " (" + alt_space + "+" + key + ")"; 
-	if (alt_space == "space") add_gray_button( label,	"setKeyDown('space');	run('[" + key + "]'); setKeyDown('none');" );
-	if (alt_space == "alt")   add_gray_button( label,	"setKeyDown('alt');		run('[" + key + "]'); setKeyDown('none');" );
+	if (alt_space == "space") add_gray_button( label,	"setKeyDown('space');	run('[" + key + "]'); setKeyDown('none');", tooltip);
+	if (alt_space == "alt")   add_gray_button( label,	"setKeyDown('alt');		run('[" + key + "]'); setKeyDown('none');", tooltip);
 }
 
-function add_macro_button_without_hotKey(key, label, alt_space){
-	add_gray_button( label, "run('[" + key + "]');" );
-	if (alt_space == "space") add_gray_button( label,	"setKeyDown('space');	run('[" + key + "]'); setKeyDown('none');" );
-	if (alt_space == "alt")   add_gray_button( label,	"setKeyDown('alt');		run('[" + key + "]'); setKeyDown('none');" );
+function add_macro_button_without_hotKey(key, label, alt_space, tooltip){
+	add_gray_button( label, "run('[" + key + "]');" , tooltip);
+	if (alt_space == "space") add_gray_button( label,	"setKeyDown('space');	run('[" + key + "]'); setKeyDown('none');", tooltip);
+	if (alt_space == "alt")   add_gray_button( label,	"setKeyDown('alt');		run('[" + key + "]'); setKeyDown('none');", tooltip);
 }
 
 function add_Bioformats_DnD(){
