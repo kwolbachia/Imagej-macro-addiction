@@ -71,12 +71,17 @@ bgcolor=lightgrey
 arg=convertTo_iMQ_Style();
 
 <button>
+label=<html><font color='black'><b> my MQ
+bgcolor=lightgrey
+arg=convert_To_My_MQ();
+
+<button>
 label=<html><font color='black'><b> LUT Generator
 bgcolor=lightgrey
 arg=ultimate_LUT_Generator();
 
 <button>
-label=<html><font color='black'><b> Spline LUT Editor
+label=<html><font color='black'><b> LUT Editor
 bgcolor=lightgrey
 arg=spline_LUT_maker();
 
@@ -653,6 +658,28 @@ arg=spline_LUT_maker();
 			reds[i] = (color>>16)&0xff; 	greens[i] = (color>>8)&0xff;		blues[i] = color&0xff;
 		}
 		newImage("iMQ Style LUT!", "8-bit ramp", 256, 32, 1);
+		setLut(reds, greens, blues);
+		setBatchMode(0);
+	}
+
+	function convert_To_My_MQ(){
+		if(nImages == 0) exit;
+		getLut(reds, greens, blues);
+		newImage("lut", "8-bit ramp", 192, 32, 1);
+		setLut(reds, greens, blues);
+		run("Invert LUT");
+		setBatchMode(1);
+		run("RGB Color"); rename(1);
+		newImage("iGrays", "8-bit ramp", 64, 32, 1);
+		run("RGB Color");
+		rename(2);
+		run("Combine...", "stack1=2 stack2=1");
+		selectWindow("Combined Stacks");
+		for (i = 0; i < 256; i++) {
+			color = getPixel(i, 2);
+			reds[i] = (color>>16)&0xff; 	greens[i] = (color>>8)&0xff;		blues[i] = color&0xff;
+		}
+		newImage("my MQ Style LUT!", "8-bit ramp", 256, 32, 1);
 		setLut(reds, greens, blues);
 		setBatchMode(0);
 	}
