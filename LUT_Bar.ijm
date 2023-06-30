@@ -7,12 +7,12 @@
 <button>
 label=<html><html><font color='black'><b>  Awesome BW
 bgcolor=lightgrey
-arg=random_Awesome_LUT(4);
+arg=random_Awesome_LUT(3);
 
 <button>
 label=<html><font color='black'><b> Awesome 150
 bgcolor=lightgrey
-arg=random_150_lum_LUT(3);
+arg=random_150_lum_LUT(2);
 
 <button>
 label=<html><font color='black'><b> Viridis-like
