@@ -231,8 +231,8 @@ macro "[7]" {
 }
 macro "[8]"	{
 	if		(no_Alt_no_Space())		run("Rename...");
-	else if (isKeyDown("space"))	rename(get_Time_Stamp("short") + "_" + getTitle());
-	else if (isKeyDown("alt"))		unique_Rename(getTitle());//rename(get_Time_Stamp("full") + "_" + getTitle());
+	else if (isKeyDown("space"))	unique_Rename(getTitle());//rename(get_Time_Stamp("full") + "_" + getTitle());
+	else if (isKeyDown("alt"))		rename(get_Time_Stamp("short") + "_" + getTitle());
 }
 macro "[9]"	{
 	if		(no_Alt_no_Space())		{ if(File.exists(getDirectory("temp")+"test.tif")) open(getDirectory("temp")+"test.tif"); }
@@ -299,6 +299,11 @@ macro "[g]"	{
 	else if (isKeyDown("space"))	color_Code_Progressive_Max();
 	else if (isKeyDown("alt"))		color_Code_No_Projection();	
 }
+macro "[h]"	{
+	if		(no_Alt_no_Space())		run("Histogram");
+	else if (isKeyDown("space"))	open(getDir("home") + "/desktop/Lookup Tables.tif");
+	else if (isKeyDown("alt"))		open(getDir("home") + "/Nextcloud/sync/FIJI/images/_Preview Opener.tif");
+}
 macro "[H]"	{	run("Show All");}
 
 macro "[i]"	{
@@ -336,11 +341,7 @@ macro "[M]"	{
 	// else if (isKeyDown("alt"))		
 } 
 macro "[m]"	{	
-	if		(no_Alt_no_Space())		
-	// 	{setPasteMode("Max"); run("Paste"); setPasteMode("Copy"); run("Select None");}
-	// else if (isKeyDown("space"))	{setPasteMode("Add"); run("Paste"); setPasteMode("Copy"); run("Select None");}
-	// else if (isKeyDown("alt"))		
-		linear_LUTs_Baker();
+	if		(no_Alt_no_Space())		linear_LUTs_Baker();
 }
 macro "[n]"	{
 	if		(no_Alt_no_Space())		Hela();
@@ -2269,8 +2270,8 @@ function my_RGB_Converter(half_or_full_colors){
 		run("Remove Slice Labels");
 	}
 	if (half_or_full_colors == "full") {
-		Stack.setChannel(1); make_LUT(255,194,0);
-		Stack.setChannel(2); make_LUT(0,255,194);
+		Stack.setChannel(2); make_LUT(255,194,0);
+		Stack.setChannel(1); make_LUT(0,255,194);
 		Stack.setChannel(3); make_LUT(194,0,255);
 	}
 	else {
@@ -3610,10 +3611,25 @@ function show_my_Zbeul_Action_Bar(){
 	// add_gray_button("Fetch / Pull", "fetch_Or_Pull_StartupMacros();", "tooltip");
 	add_Text_Line("__________________ K");
 	add_new_Line();
-	add_gray_button("8-bit", "run('8-bit');", "tooltip");
-	add_gray_button("Calc", "run(\"Image Calculator...\");", "tooltip");
-	add_gray_button("sub", "run(\"Subtract...\");", "tooltip");
-	add_Text_Line("__________________ Clipboard modifs");
+	add_gray_button("8-bit", "run('8-bit');", "convert to 8 bit");
+	add_gray_button("delete", "run(\"Delete Slice\");", "delete slice");
+	add_gray_button("calculator", "run(\"Image Calculator...\");", "Image Calculator");
+	add_gray_button("substract", "run(\"Subtract...\");", "substract");
+
+	add_new_Line();
+	add_gray_button("Gaussian", "run(\"Gaussian Blur...\");", "Gaussian Blur filter");
+	add_gray_button("Median", "run(\"Median...\");", "Median filter");
+	add_gray_button("top hat", "run(\"Top Hat...\");", "top hat");
+
+	add_new_Line();
+	add_gray_button("Gauss correction", "gauss_Correction();", "Gaussian blur background correction");
+
+	add_new_Line();
+	add_gray_button("substack", "run(\"Make Substack...\");", "make substack");
+	add_gray_button("Max paste", "setPasteMode(\"Max\"); run(\"Paste\"); setPasteMode(\"Copy\"); run(\"Select None\");", "Max paste");
+	add_gray_button("Add paste", "setPasteMode(\"Add\"); run(\"Paste\"); setPasteMode(\"Copy\"); run(\"Select None\");", "Add paste");
+
+	add_Text_Line("__________________ Text modifs");
 	add_new_Line();
 	add_gray_button("To string", "clipboard_To_String();", "tooltip");
 	add_gray_button("To completion", "clipboard_To_Completion();", "tooltip");
@@ -3635,8 +3651,8 @@ function show_my_Zbeul_Action_Bar(){
 	add_new_Line();
 	add_gray_button("Test CLAHE options", "test_CLAHE_Options();", "tooltip");
 	add_gray_button("Test main filters", "test_main_Filters();", "tooltip");
-	add_new_Line();
-	add_gray_button("LUT Montage", "display_LUTs();", "tooltip");
+	// add_new_Line();
+	// add_gray_button("LUT Montage", "display_LUTs();", "tooltip");
 	add_Code_Library();
 	add_Bioformats_DnD();
 	run("Action Bar", ACTION_BAR_STRING);
