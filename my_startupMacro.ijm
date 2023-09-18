@@ -109,7 +109,7 @@ macro "Multi Tool Options" {
 var ShortcutsMenu = newMenu("Custom Menu Tool",
 	newArray( "Batch convert to tiff", "Merge Ladder and Signal WB",
 		 "-","Rotate 90 Degrees Right","Rotate 90 Degrees Left", "make my LUTs",
-		 "-", "Median...", "Gaussian Blur...","Gaussian Blur 3D...","Gamma...","Voronoi Threshold Labler (2D/3D)"));
+		 "-", "Median...", "Gaussian Blur...","Gaussian Blur 3D...","Gamma...","Voronoi Threshold Labler (2D/3D)", "Start CLIJ2-Assistant"));
 // macro "Custom Menu Tool - N55C000D1aD1bD1cD1dD29D2dD39D3dD49D4dD4eD59D5eD69D75D76D77D78D79D85D88D89D94D98D99Da4Da7Da8Da9Db3Db7Db8Dc3Dc6Dc7DccDcdDd3Dd6Dd8DdbDdcDe2De3De6De8De9DeaDebDecCfffD0dD3cD5cD6dD7bD8bD8cD96D9aD9bDa5DacDadDb5DcaDd4Dd9DdaDe4CdddD0aD1eD2bD6aD74D7aD95Dc4Dc5DeeC222D8eDa3DbcC111D38D5bD6bD7dDabDbaDd7C888D66De5C666D19Db4DcbC900CbbbD0cD87DaeDb2C444D28D2aD3eD48D84Db6Dc2CaaaDb9DedC777D0bD2eD4aD6cD7cD7eD9cD9dD9eDbdDc8CcccD2cDdeDe7C333D67D68DbeDd2DddC999D4cD58D5aD5dD93DceDd5Bf0C000D03D06D0cD13D16D1bD23D26D2aD33D37D39D43D44D47D48D54D65D76D77D87D88D89D8aD8bD8cD8dD8eD9bCfffD04D08D0dD0eD14D18D19D24D28D2cD35D3bD3cD3dD3eD45D46D4aD4bD4cD4eD56D57D5aD5bD5cD5dD5eD68D69D6aD6bD6cD6dD7cD7dCdddD1cD25D63D7eD97C222D64D66D9aC111D02D0bD36C888D98C666D12D38D78C900CbbbD0aD15D1eD2dD32D34C444D22D49D55D75D86D9cD9dCaaaD05D29D53C777D27D3aCcccD09D17C333D99C999D1aD2bD58D9eB0fC000D02D03D04D05D08D09D18D27D28D36D37D45D46D54D55D63D64D71D72D80D81CfffD06D07D16D25D30D34D35D40D43D44D52D57D60D61D75D83D85CdddD10D22D32D33D42D74C222D01D13D14D73C111C888D47D70C666C900D56D66D67D76D77D78D86D87D96CbbbD12D15D19D20D23D24D41D82C444D17CaaaC777D00CcccD11D26D90C333C999D62D65Nf0C000D33D34D35D36D42D43D46D50D51D55D64D65D66D67D73D74D78D88D96D97Da4Da5Db4Dc4Dd4Dd6Dd7Dd8De3De4De6De8De9CfffD15D31D44D53D54D58D62D84D85D86D92D93Da2Db2Dc2Dd2De7CdddD63Da1Da7Dc1Dd0De2C222D75D95Db3C111C888D23D32D45Dc3C666D40D52D57C900CbbbD70D80D94C444D24D60D68D87Da3Db0CaaaD26Dc0C777D41D81D91D98Dc7De5CcccD61D72D79D83D89Dc5Dd5Dd9De1C333D25D47D56D77Da0C999D37D76D90Da6Db5Dc6Dc8Dd3" {
 macro "Custom Menu Tool - C000H6580a5f5c9de8b3e4915" {
 	command = getArgument(); 
@@ -302,7 +302,7 @@ macro "[g]"	{
 macro "[h]"	{
 	if		(no_Alt_no_Space())		run("Histogram");
 	else if (isKeyDown("space"))	open(getDir("home") + "/desktop/Lookup Tables.tif");
-	else if (isKeyDown("alt"))		open(getDir("home") + "/Nextcloud/sync/FIJI/images/_Preview Opener.tif");
+	else if (isKeyDown("alt"))		open(getDir("home") + "/Nextcloud/images/_Preview Opener.tif");
 }
 macro "[H]"	{	run("Show All");}
 
@@ -934,7 +934,7 @@ function test_main_Filters() {
 		selectImage(result);	
 		setSlice(i+1);	
 		run("Paste");
-		Property.setSliceLabel(filters_List[i], i+1)
+		Property.setSliceLabel(filters_List[i], i+1);
 	}
 	setSlice(1);
 	run("Select None");
@@ -1773,7 +1773,7 @@ function make_Preview_Opener() {
 	all_IDs = newArray(nImages);
 	paths_List = "";
 	concat_Options = "open ";
-	for (i=0; i<nImages ; i++) {			
+	for (i=0; i<nImages ; i++) {
 		selectImage(i+1);
 		if (i==0) {
 			source_Folder = getDirectory("image"); 
@@ -1843,22 +1843,23 @@ function channels_Roll(){
 	if (bitDepth()==24) run("Make Composite");
 	getDimensions(width,  height, channels, slices, frames);
 	id = getImageID();
-	txt = "open";
-	if (channels == 3) newList = newArray(123,132,312,213,321,231);
-	else newList = newArray(1234,1243,1342,1324,1423,1432,2134,2143,2341,2314,2431,2413,3124,3142,3241,3214,3412,3421,4123,4132,4231,4213,4312,4321);
-	for (i = 0; i < newList.length; i++) {
+	concatenate_Text = "open";
+	if (channels == 3) order_List = newArray(123,132,312,213,321,231);
+	else order_List = newArray(1234,1243,1342,1324,1423,1432,2134,2143,2341,2314,2431,2413,3124,3142,3241,3214,3412,3421,4123,4132,4231,4213,4312,4321);
+	for (i = 0; i < order_List.length; i++) {
 		setBatchMode(1);
 		selectImage(id);
 		run("Duplicate...","duplicate");
 		if(bitDepth() == 24) run("Make Composite");
-		reorderLUTs(newList[i]);
+		reorderLUTs(order_List[i]);
 		run("Stack to RGB");
 		rename(i);
+		Property.setSliceLabel(order_List[i]);
 		setOption("Changes", 0);
-		txt += " image" + i+1 + "=[" + i + "]";
+		concatenate_Text += " image" + i+1 + "=[" + i + "]";
 		setBatchMode(0);
 	}
-	run("Concatenate...", txt);
+	run("Concatenate...", concatenate_Text);
 	rename("rolled");
 
 	function reorderLUTs(order) {//for channels_Roll
@@ -2236,6 +2237,7 @@ function fast_Merge(){
 		txt = txt + "c" + i+1 + "=[" + list[i] + "] ";
 	}
 	run("Merge Channels...", txt + "create");
+	unique_Rename(list[0]);
 }
 
 function CLAHE(){
@@ -2279,6 +2281,7 @@ function my_RGB_Converter(half_or_full_colors){
 		Stack.setChannel(2); make_LUT(0,128,97);
 		Stack.setChannel(3); make_LUT(97,0,128);
 	}
+	Property.set("CompositeProjection", "Max");
 	setOption("Changes", 0);
 	setBatchMode(0);
 }
@@ -2489,8 +2492,8 @@ function fancy_3D_montage() {
 function my_3D_projection() {
 	if (nImages()==0) exit();
 	showStatus("3D project");
-	run("3D Project...", "projection=[Mean Value] initial=312 total=96 rotation=12 interpolate");
-	run("Animation Options...", "speed=8 loop start");
+	run("3D Project...", "projection=[Mean Value] initial=312 total=96 rotation=6 interpolate");
+	run("Animation Options...", "speed=14 loop start");
 	setOption("Changes", 0);
 }
 
@@ -3614,7 +3617,7 @@ function show_my_Zbeul_Action_Bar(){
 	add_gray_button("8-bit", "run('8-bit');", "convert to 8 bit");
 	add_gray_button("delete", "run(\"Delete Slice\");", "delete slice");
 	add_gray_button("calculator", "run(\"Image Calculator...\");", "Image Calculator");
-	add_gray_button("substract", "run(\"Subtract...\");", "substract");
+	add_gray_button("subtract", "run(\"Subtract...\");", "subtract");
 
 	add_new_Line();
 	add_gray_button("Gaussian", "run(\"Gaussian Blur...\");", "Gaussian Blur filter");
@@ -3625,7 +3628,7 @@ function show_my_Zbeul_Action_Bar(){
 	add_gray_button("Gauss correction", "gauss_Correction();", "Gaussian blur background correction");
 
 	add_new_Line();
-	add_gray_button("substack", "run(\"Make Substack...\");", "make substack");
+	add_gray_button("make sub", "run(\"Make Substack...\");", "make substack");
 	add_gray_button("Max paste", "setPasteMode(\"Max\"); run(\"Paste\"); setPasteMode(\"Copy\"); run(\"Select None\");", "Max paste");
 	add_gray_button("Add paste", "setPasteMode(\"Add\"); run(\"Paste\"); setPasteMode(\"Copy\"); run(\"Select None\");", "Add paste");
 
@@ -3740,6 +3743,6 @@ function add_Bioformats_DnD(){
 	"if (endsWith(path, '.mp4')) run('Movie (FFMPEG)...', 'choose='+ path +' first_frame=0 last_frame=-1');\n"+
 	"else if (endsWith(path, '.pdf')) run('PDF ...', 'choose=' + path + ' scale=600 page=0');\n"+
 	"else run('Bio-Formats Importer', 'open=[' + path + ']');\n"+
-	"rename(File.nameWithoutExtension);\n"+
+	"rename(File.name);\n"+
 	"</DnDAction>\n";
 }
