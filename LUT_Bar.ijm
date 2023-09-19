@@ -264,21 +264,22 @@ arg=spline_LUT_maker();
 		while (true) {
 			getLocationAndSize(x, y, width, heigth);
 			Dialog.createNonBlocking("colors");
-			for (i = 0; i < steps; i++) {
-				Dialog.addMessage("COLOR " + (i+1), 20, lut_To_Hex(red_Steps[i], green_Steps[i], blue_Steps[i]));
-				Dialog.addSlider("red",	 0,255, red_Steps[i]);
-				Dialog.addSlider("green",0,255, green_Steps[i]);
-				Dialog.addSlider("blue", 0,255, blue_Steps[i]);
-				color = newArray(green_Steps[i], green_Steps[i], blue_Steps[i]);
-				Dialog.addMessage("actual lum:" + get_Luminance(color) + "  expected: " + i*((stop_Lum - start_Lum)/(steps-1)));
-			}
+			
+			Dialog.addMessage("REDS", 20, lut_To_Hex(150,0,0));
+			for (i = 0; i < steps; i++) Dialog.addSlider("red " + i, 0,255, red_Steps[i]);
+
+			Dialog.addMessage("GREENS", 20, lut_To_Hex(0,150,0));
+			for (i = 0; i < steps; i++) Dialog.addSlider("green " + i, 0,255, green_Steps[i]);
+			
+			Dialog.addMessage("BLUES", 20, lut_To_Hex(0,0,150));
+			for (i = 0; i < steps; i++) Dialog.addSlider("blue " + i, 0,255, blue_Steps[i]);
 			Dialog.setLocation(x + width, y);
 			Dialog.show();
-			for (i = 0; i < steps; i++) {
-				red_Steps[i] = Dialog.getNumber();
-				green_Steps[i] = Dialog.getNumber();
-				blue_Steps[i] = Dialog.getNumber();
-			}
+
+			for (i = 0; i < steps; i++) red_Steps[i] = Dialog.getNumber();
+			for (i = 0; i < steps; i++) green_Steps[i] = Dialog.getNumber();
+			for (i = 0; i < steps; i++) blue_Steps[i] = Dialog.getNumber();
+
 			for(i=0; i<steps; i++) { 
 				reds  [i*(255/steps)] =   red_Steps[i];
 				greens[i*(255/steps)] = green_Steps[i];
@@ -286,9 +287,9 @@ arg=spline_LUT_maker();
 				showProgress(i / steps);
 			}
 			setBatchMode(1);
-			reds =   spline_Color_2(red_Steps,(steps));
-			greens = spline_Color_2(green_Steps,(steps));
-			blues =  spline_Color_2(blue_Steps,(steps));
+			reds =   spline_Color_2(red_Steps,steps);
+			greens = spline_Color_2(green_Steps,steps);
+			blues =  spline_Color_2(blue_Steps,steps);
 			setLut(reds, greens, blues);
 			run("Select None");
 			run("Remove Overlay");
