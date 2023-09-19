@@ -1767,8 +1767,11 @@ function open_From_Preview_Opener() {
 //in their curent state.  Will close all but the montage.
 function make_Preview_Opener() {
 	if (nImages == 0) exit();
-	waitForUser("Make Preview Opener", "Creates a montage with snapshots of all opened images (virtual or not).\n" +
-	"This will close all but the montage. Are you sure?");
+	Dialog.createNonBlocking("Make Preview Opener");
+	Dialog.addMessage("Creates a montage with snapshots of all opened images (virtual or not).\n" +
+		"This will close all but the montage. Are you sure?");
+	Dialog.addHelp("https://kwolby.notion.site/Preview-Opener-581219eab9f748bc8269d0d8ffe9172d");
+	Dialog.show();
 	setBatchMode(1);
 	all_IDs = newArray(nImages);
 	paths_List = "";
@@ -2226,6 +2229,7 @@ function simulate_Full_Deuteranopia(){
 
 function fast_Merge(){
 	if (nImages()==0) exit();
+	if (isOpen("LUT Profile")) close("LUT Profile");
 	if (nImages>4) {run("Merge Channels..."); exit();}
 	for (i=0; i<nImages; i++) {
 		selectImage(i+1);
