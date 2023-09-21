@@ -521,6 +521,28 @@ function add_Shortcuts_Line(key, alone, space, alt){
 	Table.set("with Alt",	SHORTCUT_LINE_INDEX, alt);
 }
 
+function signal_normalisation_BIOP(){
+	noiseLimit=30; // set this to 3-5 times the standard deviation in a region with only noise
+	radius=10;
+	title=getTitle();
+	run("Duplicate...", "duplicate");
+	setBatchMode(1);
+	rename("orig");
+	run("32-bit");
+	run("Duplicate...", "title=average");
+	run("Mean...", "radius=&radius");
+	selectWindow("orig");
+	run("Duplicate...", "title=normalization");
+	run("Variance...", "radius=&radius");
+	run("Square Root");
+	run("Min...", "value=&noiseLimit");
+	imageCalculator("Subtract", "orig","average");
+	imageCalculator("Divide", "orig","normalization");
+	unique_Rename(title);
+	setBatchMode(0);
+}
+
+
 function save_Main_Tool(main_Tool) {
 	call("ij.Prefs.set","Multi_Tool.Main_Tool", main_Tool);
 	setTool(15);
@@ -3627,6 +3649,7 @@ function show_my_Zbeul_Action_Bar(){
 	add_gray_button("Gaussian", "run(\"Gaussian Blur...\");", "Gaussian Blur filter");
 	add_gray_button("Median", "run(\"Median...\");", "Median filter");
 	add_gray_button("top hat", "run(\"Top Hat...\");", "top hat");
+	add_gray_button("Normalize", "signal_normalisation_BIOP();", "Square root signal normalization");
 
 	add_new_Line();
 	add_gray_button("Gauss correction", "gauss_Correction();", "Gaussian blur background correction");
