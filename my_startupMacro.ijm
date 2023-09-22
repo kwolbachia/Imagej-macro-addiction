@@ -219,7 +219,7 @@ macro "[4]"	{
 macro "[5]"	{
 	if		(no_Alt_no_Space())		make_Scaled_Rectangle(25);
 	else if (isKeyDown("space"))	make_Scaled_Rectangle(500);
-	// else if (isKeyDown("alt"))		
+	// else if (isKeyDown("alt"))		signal_normalisation_BIOP();
 }
 macro "[6]"	{
 	if		(no_Alt_no_Space())		force_black_canvas();
@@ -2914,7 +2914,7 @@ function split_View_Dialog(){
 	Dialog.createNonBlocking("split_View");
 	Dialog.addRadioButtonGroup("color Mode", newArray("Colored","Grayscale"), 1, 3, COLOR_MODE);
 	Dialog.addRadioButtonGroup("Montage Style", newArray("Linear","Square","Vertical"), 1, 3, MONTAGE_STYLE);
-	Dialog.addSlider("border size", 0, 50, minOf(height, width) * 0.02);
+	Dialog.addSlider("border size", 0, 50, round(minOf(height, width) * 0.02));
 	Dialog.addCheckbox("label channels?", LABELS);
 	Dialog.show();
 	COLOR_MODE = Dialog.getRadioButton();
@@ -2927,12 +2927,14 @@ function split_View_Dialog(){
 	else if (COLOR_MODE == "Grayscale" && MONTAGE_STYLE == "Square")  { if (LABELS) split_View(0,1,1); else split_View(0,1,0); }
 	else if (COLOR_MODE == "Colored"   && MONTAGE_STYLE == "Vertical"){ if (LABELS) split_View(1,2,1); else split_View(1,2,0); }
 	else if (COLOR_MODE == "Grayscale" && MONTAGE_STYLE == "Vertical"){ if (LABELS) split_View(0,2,1); else split_View(0,2,0); }
+	BORDER_SIZE = 0;
 }
 
 function split_View(COLOR_MODE, MONTAGE_STYLE, LABELS) {
 	// COLOR_MODE : 0 = grayscale , 1 = color 
-	// MONTAGE_STYLE : 0 = linear montage , 1 = squared montage , 2 = vertical montageage
+	// MONTAGE_STYLE : 0 = linear montage , 1 = squared montage , 2 = vertical montage
 	// LABELS : 0 = no , 1 = yes.
+	if (nImages()==0) exit();
 	setBatchMode(1);
 	title = getTitle();
 	saveSettings();
@@ -2961,6 +2963,7 @@ function split_View(COLOR_MODE, MONTAGE_STYLE, LABELS) {
 		} 
 		TILES = newArray(channels + 1);
 		getDimensions(width, height, channels, slices, frames); 
+		if (BORDER_SIZE == 0) BORDER_SIZE = round(minOf(height, width) * 0.02);
 		FONT_SIZE = height / 9;
 		run("Duplicate...", "title=split duplicate");
 		run("Split Channels");
@@ -3017,6 +3020,7 @@ function split_View(COLOR_MODE, MONTAGE_STYLE, LABELS) {
 				TILES[i] = getTitle();	
 			}
 		}
+		BORDER_SIZE = 0;
 	}
 
 	function add_Borders(){
@@ -3637,7 +3641,6 @@ function show_Other_Macros(){
 
 function show_my_Zbeul_Action_Bar(){
 	setup_Action_Bar_Header("my Zbeul");
-	// add_gray_button("Fetch / Pull", "fetch_Or_Pull_StartupMacros();", "tooltip");
 	add_Text_Line("__________________ K");
 	add_new_Line();
 	add_gray_button("8-bit", "run('8-bit');", "convert to 8 bit");
