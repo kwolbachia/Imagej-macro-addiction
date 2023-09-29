@@ -1070,7 +1070,7 @@ function multi_Tool(){
 			copy_LUT();
 		}
 		else {
-			if (MAIN_TOOL == "Curtain Tool") set_Target_Image();
+			if (MAIN_TOOL == "Curtain Tool" || isKeyDown("alt")) set_Target_Image();
 			else composite_Switch();
 		}
 	}
