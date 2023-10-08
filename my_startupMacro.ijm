@@ -2381,18 +2381,21 @@ function note_In_Infos(){
 
 function gauss_Correction(){
 	if (nImages()==0) exit();
-	if (isKeyDown("shift")) EXIT_MODE = "exit and display";
-	else EXIT_MODE = 0;
+	//shift will show the gaussian blured image
+	if (isKeyDown("shift")) exit_Mode = "exit and display";
+	else exit_Mode = 0;
 	setBatchMode(1);
 	TITLE = getTitle();
 	run("Duplicate...", "title=gaussed duplicate");
 	getDimensions(width, height, channels, slices, frames);
 	SIGMA = maxOf(height,width) / 4;
 	run("Gaussian Blur...", "sigma=" + SIGMA + " stack");
+	getStatistics(area, mean, min, max, std, histogram);
+	run("Subtract...", "value=" + max*0.15);
 	imageCalculator("Substract create stack", TITLE, "gaussed");
 	unique_Rename(TITLE + "_corrected");
 	setOption("Changes", 0);
-	setBatchMode(EXIT_MODE);
+	setBatchMode(exit_Mode);
 }
 
 function test_CLAHE_Options() {
