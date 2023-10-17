@@ -1,3 +1,4 @@
+// 1
 // Kevin Terretaz
 // StartupMacros perso
 // global variables are in UPPER_CASE
@@ -341,7 +342,8 @@ macro "[M]"	{
 	// else if (isKeyDown("alt"))		
 } 
 macro "[m]"	{	
-	if		(no_Alt_no_Space())		linear_LUTs_Baker();
+	if		(no_Alt_no_Space())		run("Measure");
+	else if (isKeyDown("alt"))		linear_LUTs_Baker();
 }
 macro "[n]"	{
 	if		(no_Alt_no_Space())		Hela();
@@ -698,6 +700,7 @@ function arrange_Channels() {
 // adapted from there https://forum.image.sc/t/automatic-scale-bar-in-fiji-imagej/60774?u=k_taz
 function quick_Scale_Bar(){
 	if (nImages()==0) exit();
+	if ( Overlay.size > 0) {run("Remove Overlay"); exit();}
 	color = "White";
 	// approximate size of the scale bar relative to image width :
 	scalebar_Size = 0.23;
@@ -3672,11 +3675,13 @@ function show_my_Zbeul_Action_Bar(){
 	add_new_Line();
 	add_gray_button("Correct path", "correct_Copied_Path();", "tooltip");
 	add_gray_button("Add to image info", "note_In_Infos();", "tooltip");
+
 	add_Text_Line("__________________ imgur images");
 	add_new_Line();
 	add_gray_button("3 channels", "setBatchMode(1); open(\"https://i.imgur.com/MZGVdVj.png\"); run(\"Make Composite\"); apply_LUTs(); run(\"Remove Slice Labels\"); setBatchMode(0);", "tooltip");
 	add_gray_button("Microtubules", "open(\"https://i.imgur.com/LDO1rVL.png\");", "tooltip");
 	add_gray_button("Brain stack", "setBatchMode(1); open(\"https://i.imgur.com/DYIF55D.jpg\"); run(\"Montage to Stack...\", \"columns=20 rows=18 border=0\"); rename(\"brain\"); setBatchMode(0);", "tooltip");
+
 	add_Text_Line("__________________ Wheels and tests");
 	add_new_Line();
 	add_gray_button("Jeromes RGB Wheel", "Jeromes_Wheel();", "tooltip");
@@ -3687,8 +3692,8 @@ function show_my_Zbeul_Action_Bar(){
 	add_new_Line();
 	add_gray_button("Test CLAHE options", "test_CLAHE_Options();", "tooltip");
 	add_gray_button("Test main filters", "test_main_Filters();", "tooltip");
-	// add_new_Line();
-	// add_gray_button("LUT Montage", "display_LUTs();", "tooltip");
+	add_new_Line();
+	add_gray_button("print", "print(GITHUB_LIBRARY);", "tooltip");
 	add_Code_Library();
 	add_Bioformats_DnD();
 	run("Action Bar", ACTION_BAR_STRING);
