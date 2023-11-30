@@ -1,4 +1,3 @@
-// 1
 // Kevin Terretaz
 // StartupMacros perso
 // global variables are in UPPER_CASE
@@ -39,8 +38,8 @@ var NOICE_LUTs = 0;
 // For split_View
 var	COLOR_MODE = "Colored";
 var MONTAGE_STYLE = "Linear";
-var LABELS = 0;
-var BORDER_SIZE = 0;
+var LABELS = "No labels";
+var BORDER_SIZE = "Auto";
 var FONT_SIZE = 30;
 var CHANNEL_LABELS = newArray("CidB","CidA","DNA","H4Ac","DIC");
 var TILES = newArray(1);
@@ -139,7 +138,7 @@ macro "Popup Menu" {
 	else if (command == "Color Blindness") 		{rgb_Snapshot(); run("Dichromacy", "simulate=Deuteranope");}
 	else if (command == "Set LUTs") 			{get_LUTs_Dialog(); apply_LUTs();}
 	else if (command == "Set target image") 	set_Target_Image();
-	else if (command == "Set Main Tool") 		show_main_Tools_Popup_Bar();
+	else if (command == "Set Main Tool") 		show_main_Tools_Regular_Bar();
 	else run(command); 
 }
 
@@ -238,13 +237,16 @@ macro "[8]"	{
 macro "[9]"	{
 	if		(no_Alt_no_Space())		{ if(File.exists(getDirectory("temp")+"test.tif")) open(getDirectory("temp")+"test.tif"); }
 	else if (isKeyDown("space"))	saveAs("tif", getDirectory("temp")+"test.tif");
-	// else if (isKeyDown("alt"))	
+	else if (isKeyDown("alt"))		{ run("Install...","install=["+getDirectory("macros")+"/toolsets/Visualization_toolset.ijm]"); setTool(15);}
 }
 
+macro "[V]" {
+	run("Install...","install=["+getDirectory("macros")+"/toolsets/Visualization_toolset.ijm]"); 
+}
 
 //LETTER KEYS
 macro "[a]"	{
-	if		(no_Alt_no_Space())		run("Select All");
+	if		(no_Alt_no_Space())		if (matches(getTitle(), ".*Lookup Tables.*")) select_Montage_Panel(); else run("Select All");
 	else if (isKeyDown("space"))	run("Restore Selection");
 	else if (isKeyDown("alt"))		run("Select None");
 }
@@ -254,8 +256,8 @@ macro "[A]"	{
 	else if (isKeyDown("alt"))		enhance_All_Images_Contrasts();
 }
 macro "[b]"	{
-	if		(no_Alt_no_Space())		split_View(1,2,0); //vertical colored
-	else if (isKeyDown("space"))	split_View(0,2,0); //vertical grayscale
+	if		(no_Alt_no_Space())		split_View("Vertical", "Colored", "No labels");
+	else if (isKeyDown("space"))	split_View("Vertical", "Grayscale", "No labels");
 	else if (isKeyDown("alt"))		quick_Figure_Splitview("vertical");
 }
 macro "[B]"	{	
@@ -265,7 +267,7 @@ macro "[B]"	{
 macro "[C]" {	run("Brightness/Contrast...");}
 
 macro "[d]"	{
-	if		(no_Alt_no_Space())		{getDimensions(width, height, channels, slices, frames); if (channels>1) run("Split Channels"); else run("Stack to Images");}
+	if		(no_Alt_no_Space())		{getDimensions(width, height, channels, slices, frames); if (channels>1 || bitDepth()==24) run("Split Channels"); else run("Stack to Images");}
 	else if (isKeyDown("space"))	{run("Duplicate...", " "); string_To_Recorder("run(\"Duplicate...\", \" \");");}//slice
 	else if (isKeyDown("alt"))		duplicate_The_Way_I_Want();
 }
@@ -362,8 +364,8 @@ macro "[o]"	{
 	else open("["+ String.paste() + "]");
 }
 macro "[p]"	{
-	if		(no_Alt_no_Space())		split_View(0,0,0); //linear grayscale
-	else if (isKeyDown("space"))	split_View(0,1,0); //squared grayscale
+	if		(no_Alt_no_Space())		split_View("Linear", "Grayscale", "No labels");
+	else if (isKeyDown("space"))	split_View("Square", "Grayscale", "No labels");
 	else if (isKeyDown("alt"))		quick_Figure_Splitview("linear");
 }
 macro "[Q]" 	{	composite_Switch();	}
@@ -384,8 +386,8 @@ macro "[r]"	{
 	else if (isKeyDown("alt"))		reduce_Contrast();
 }
 macro "[S]"	{
-	if		(no_Alt_no_Space())		split_View(1,1,0); //colored squared
-	else if (isKeyDown("space"))	split_View(1,0,0); //colored linear
+	if		(no_Alt_no_Space())		split_View("Square", "Colored", "No labels");
+	else if (isKeyDown("space"))	split_View("Linear", "Colored", "No labels");
 	else if (isKeyDown("alt"))		split_View_Dialog();
 }
 macro "[s]"	{
@@ -414,9 +416,12 @@ macro "[v]"	{
 macro "[w]"  {
 	if		(no_Alt_no_Space())		{
 		//avoid "are you sure?" and stores path in case of misclick
-		path = getDirectory("image") + getTitle();
-		if (File.exists(path)) call("ij.Prefs.set","last.closed", path); 
-		close();
+		if (getInfo("window.type") == "Image") {
+			path = getDirectory("image") + getTitle();
+			if (File.exists(path)) call("ij.Prefs.set","last.closed", path);
+			close();
+		}
+		else close(getInfo("window.title"));
 	}
 	else if (isKeyDown("space"))	open(call("ij.Prefs.get","last.closed",""));	
 	else if (isKeyDown("alt"))		close("\\Others");
@@ -593,9 +598,8 @@ function quick_Figure_Splitview(linear_or_Vertical){
 	if (nImages()==0) exit();
 	getDimensions(width, height, channels, slices, frames);
 	BORDER_SIZE = minOf(height, width) * 0.02;
-	if (linear_or_Vertical == "linear") split_View(0,0,1);
-	else split_View(0, 2, 1);
-	// quick_Scale_Bar();
+	if (linear_or_Vertical == "linear") split_View("Linear", "Grayscale", "Add labels");
+	else split_View("Vertical", "Grayscale", "Add labels");
 	run("Copy to System");
 }
 
@@ -1701,6 +1705,28 @@ function set_LUT_From_Montage() {
 	}
 }
 
+function select_Montage_Panel() {
+	// Clear any existing selections
+	run("Select None");
+	getDimensions(width, height, channels, slices, frames);
+	// Get cursor location
+	getCursorLoc(cursorX, cursorY, cursorZ, cursorFlags);
+	// Get montage information
+	x_Montage_Count = getInfo("xMontage");
+	y_Montage_Count = getInfo("yMontage");
+	// Exit if montage information is not available
+	if ((x_Montage_Count == 0) || (y_Montage_Count == 0)) exit;
+	// Calculate the coordinates of the selected panel in the montage
+	panel_X = floor(cursorX / (width / x_Montage_Count));
+	panel_Y = floor(cursorY / (height / y_Montage_Count));
+	// Create a rectangular selection for the selected panel
+	makeRectangle(
+		panel_X * (width / x_Montage_Count), 
+		panel_Y * (height / y_Montage_Count),
+		width / x_Montage_Count, 
+		height / y_Montage_Count);
+}
+
 function apply_ChrisLUTs_Montage() {
 	default_Dir = File.getDefaultDir;
 	imagej_Dir = getDir("imagej");
@@ -1779,6 +1805,7 @@ function open_From_Preview_Opener() {
 	line_Position = floor(y / bloc_Size);
 	row_Position = floor(x / bloc_Size);
 	index = (line_Position * rows) + row_Position;
+	if (index >= path_List.length-1) exit();
 	path = getDirectory("image") + path_List[index];
 	if (File.exists(path)) {
 		if (endsWith(path, '.tif')||endsWith(path, '.png')||endsWith(path, '.jpg')||endsWith(path, 'jpeg')) open(path);
@@ -1831,6 +1858,64 @@ function make_Preview_Opener() {
 	close("\\Others");
 	setBatchMode(0);
 	saveAs("tiff", source_Folder + "_Preview Opener");
+}
+
+//open the new images of the forder and run this to add it to the opener,
+//keeping the snapshots from the previous one.
+function update_Preview_Opener() {
+	if (nImages == 0) exit();
+	setBatchMode(1);
+	all_IDs = newArray(nImages);
+	paths_List = "";
+	concat_Options = "open ";
+	//get list of IDs and names
+	for (i=0; i<nImages ; i++) {
+		selectImage(i+1);
+		if (i==0) {
+			source_Folder = getDirectory("image"); 
+			File.setDefaultDir(source_Folder);
+		}
+		all_IDs[i] = getImageID();
+		paths_List += getTitle() +",,";
+	}
+	// project stacks if not virtual and rescale to 400 px squares 
+	for (i=0; i<all_IDs.length; i++) {
+		selectImage(all_IDs[i]); 
+		if (!is("Virtual Stack") && bitDepth()!=24) {
+			getDimensions(width, height, channels, slices, frames);
+			getLut(reds,greens,blues);
+			if (slices * frames != 1) run("Z Project...", "projection=[Max Intensity] all");
+			setLut(reds, greens, blues);
+		}
+		rgb_Snapshot();
+		run("Scale...", "x=- y=- width=400 height=400 interpolation=Bilinear average create");
+		rename("image"+i);
+		concat_Options +=  "image"+i+1+"=[image"+i+"] ";
+	}
+	//make stack, montage, add list in infos and save.
+	if (all_IDs.length > 1) run("Concatenate...", concat_Options);
+	rename("new");
+	close("\\Others");
+	//recycle the previous Opener montage and combine into a new one
+	open(source_Folder + "/_Preview Opener.tif");
+	columns = getInfo("xMontage");
+	lines = getInfo("yMontage");
+	infos = getMetadata("Info");
+	split_List = split(infos, ",,");
+	//remove the rest of montage infos
+	old_path_List = Array.slice(split_List, 0, split_List.length-1);
+	list = "";
+	for ( i = 0; i < old_path_List.length; i++) list += old_path_List[i] +",,";
+	paths_List = list + paths_List;
+	run("Montage to Stack...", "columns=&columns rows=&lines border=0");
+	run("Duplicate...", "duplicate title=old range=1-" + split_List.length-1);
+	run("Concatenate...", "open image1=old image2=new");
+	run("Make Montage...", "scale=1");
+	infos = getMetadata("Info");
+	setMetadata("Info", paths_List + "\n" + infos);
+	close("\\Others");
+	setBatchMode(0);
+	saveAs("tiff", source_Folder + "_New Preview Opener");
 }
 
 //Supposed to create an RGB snapshot of any kind of opened image
@@ -2916,48 +3001,48 @@ function ultimate_SplitView() {
 
 function split_View_Dialog(){
 	if (nImages == 0) exit();
-	getDimensions(width, height, channels, slices, frames);
+	getSelectionBounds(x, y, width, height);
+	auto_border_size = round(minOf(height, width) * 0.02);
 	Dialog.createNonBlocking("split_View");
 	Dialog.addRadioButtonGroup("color Mode", newArray("Colored","Grayscale"), 1, 3, COLOR_MODE);
 	Dialog.addRadioButtonGroup("Montage Style", newArray("Linear","Square","Vertical"), 1, 3, MONTAGE_STYLE);
-	Dialog.addSlider("border size", 0, 50, round(minOf(height, width) * 0.02));
-	Dialog.addCheckbox("label channels?", LABELS);
+	Dialog.addSlider("border size", 0, 50, auto_border_size);
+	Dialog.addRadioButtonGroup("Add Labels?", newArray("Add labels","No labels"), 1, 3, LABELS);
 	Dialog.show();
 	COLOR_MODE = Dialog.getRadioButton();
 	MONTAGE_STYLE = Dialog.getRadioButton();
 	BORDER_SIZE = Dialog.getNumber();
-	LABELS = Dialog.getCheckbox();
-	if	    (COLOR_MODE == "Colored"   && MONTAGE_STYLE == "Linear")  { if (LABELS) split_View(1,0,1); else split_View(1,0,0); }
-	else if (COLOR_MODE == "Grayscale" && MONTAGE_STYLE == "Linear")  { if (LABELS) split_View(0,0,1); else split_View(0,0,0); }
-	else if (COLOR_MODE == "Colored"   && MONTAGE_STYLE == "Square")  { if (LABELS) split_View(1,1,1); else split_View(1,1,0); }
-	else if (COLOR_MODE == "Grayscale" && MONTAGE_STYLE == "Square")  { if (LABELS) split_View(0,1,1); else split_View(0,1,0); }
-	else if (COLOR_MODE == "Colored"   && MONTAGE_STYLE == "Vertical"){ if (LABELS) split_View(1,2,1); else split_View(1,2,0); }
-	else if (COLOR_MODE == "Grayscale" && MONTAGE_STYLE == "Vertical"){ if (LABELS) split_View(0,2,1); else split_View(0,2,0); }
-	BORDER_SIZE = 0;
+	LABELS = Dialog.getRadioButton();
+	split_View(MONTAGE_STYLE, COLOR_MODE, LABELS);
+	BORDER_SIZE = "Auto";
 }
 
-function split_View(COLOR_MODE, MONTAGE_STYLE, LABELS) {
-	// COLOR_MODE : 0 = grayscale , 1 = color 
-	// MONTAGE_STYLE : 0 = linear montage , 1 = squared montage , 2 = vertical montage
-	// LABELS : 0 = no , 1 = yes.
+function split_View(MONTAGE_STYLE, COLOR_MODE, LABELS) {
+	// COLOR_MODE : "Grayscale" or "Colored" 
+	// MONTAGE_STYLE : "Linear","Square" or "Vertical"
+	// LABELS : "Add labels" or "No labels"
 	if (nImages()==0) exit();
 	setBatchMode(1);
 	title = getTitle();
+	// prepares TILES before montage :
 	saveSettings();
-	getDimensions(width, height, channels, slices, frames);
+	getDimensions(width, height, channels, slices, frames); 
 	Setup_SplitView(COLOR_MODE, LABELS);
 	restoreSettings();
-	if (MONTAGE_STYLE == 0)	linear_SplitView();
-	if (MONTAGE_STYLE == 1)	square_SplitView();
-	if (MONTAGE_STYLE == 2)	vertical_SplitView();
+	// Tiles assembly
+	if (MONTAGE_STYLE == "Linear")		linear_SplitView();
+	if (MONTAGE_STYLE == "Square")		square_SplitView();
+	if (MONTAGE_STYLE == "Vertical")	vertical_SplitView();
+	//output
 	unique_Rename(title + "_SplitView");
 	setOption("Changes", 0);
 	setBatchMode("exit and display");
 
 	function Setup_SplitView(COLOR_MODE, LABELS){
-		//prepare TILES before montage : 
+		// prepares TILES before montage : 
 		// duplicate twice for overlay and splitted channels
-		// convert to RGB with right colors, LABELS and borders
+		// convert to RGB with right colors, labels and borders
+		getDimensions(width, height, channels, slices, frames);
 		if (channels == 1) exit("only one channel");
 		if (channels > 5)  exit("5 channels max");
 		setBackgroundColor(255, 255, 255); //for white borders
@@ -2968,14 +3053,13 @@ function split_View(COLOR_MODE, MONTAGE_STYLE, LABELS) {
 			Stack.setDimensions(channels, slices, frames); 
 		} 
 		TILES = newArray(channels + 1);
-		getDimensions(width, height, channels, slices, frames); 
-		if (BORDER_SIZE == 0) BORDER_SIZE = round(minOf(height, width) * 0.02);
+		if (BORDER_SIZE == "Auto") BORDER_SIZE = round(minOf(height, width) * 0.02);
 		FONT_SIZE = height / 9;
 		run("Duplicate...", "title=split duplicate");
 		run("Split Channels");
 		selectWindow("image");
 		Stack.setDisplayMode("composite")
-		if (LABELS) {
+		if (LABELS == "Add labels") {
 			get_Labels_Dialog();
 			setColor("white");
 			setFont("SansSerif", FONT_SIZE, "bold antialiased");
@@ -2991,7 +3075,7 @@ function split_View(COLOR_MODE, MONTAGE_STYLE, LABELS) {
 				id = getImageID();
 				getLut(reds, greens, blues); 
 				setColor(reds[255], greens[255], blues[255]);
-				if (!COLOR_MODE) {
+				if (COLOR_MODE == "Grayscale") {
 					getMinAndMax(min, max); 
 					run("Grays"); 
 					setMinAndMax(min, max);
@@ -3016,7 +3100,7 @@ function split_View(COLOR_MODE, MONTAGE_STYLE, LABELS) {
 			close("image");
 			for (i = 1; i <= channels; i++) {
 				selectWindow("C"+i+"-split");
-				if (!COLOR_MODE) {
+				if (COLOR_MODE == "Grayscale") {
 					getMinAndMax(min, max); 
 					run("Grays"); 
 					setMinAndMax(min, max);
@@ -3026,7 +3110,7 @@ function split_View(COLOR_MODE, MONTAGE_STYLE, LABELS) {
 				TILES[i] = getTitle();	
 			}
 		}
-		BORDER_SIZE = 0;
+		BORDER_SIZE = "Auto";
 	}
 
 	function add_Borders(){
@@ -3493,7 +3577,23 @@ function show_main_Tools_Popup_Bar(){
 	add_gray_button("Slice / Frame Tool ", "save_Main_Tool('Slice / Frame Tool');", "Navigate the Z dimension (slice or frame) <br> from anywhere in the image");
 	run("Action Bar", ACTION_BAR_STRING);
 }
-
+function show_main_Tools_Regular_Bar(){
+	setup_Action_Bar_Header("Main Tools");
+	add_new_Line();
+	// add_gray_button("X (close)", "<close>", "Close this popup");
+	// add_new_Line();
+	add_gray_button("Move Windows", "save_Main_Tool('Move Windows');", "Drag anywhere on image to move image window");
+	add_gray_button("LUT Gamma", "save_Main_Tool('LUT Gamma Tool');", "Adjust the gamma of the current LUT <br> pixel values remain unchanged");
+	add_new_Line();
+	add_gray_button("Magic Wand", "save_Main_Tool('Magic Wand');", "Detects local signal in a 5 pixel box to estimate the right Wand tolerance. <br> Drag mouse laterally to adjust tolerance if needed. <br> Double click on Multi Tool to adjust parameters");
+	add_gray_button("Scale Bar", "save_Main_Tool('Scale Bar Tool');", "Adjust the length and height by dragging the mouse on the image. <br> You can remove the text on the Multitool options");
+	add_new_Line();
+	add_gray_button("Multi-channel Plot ", "save_Main_Tool('Multi-channel Plot Tool');", "Line intensity profile Plot of all active channels");
+	add_gray_button("Curtain Tool", "save_Main_Tool('Curtain Tool');", "Compare two images : first set the 'target image' <br> (the image you want to overlay) by a right click and 'set target image'");
+	add_new_Line();
+	add_gray_button("Slice / Frame Tool ", "save_Main_Tool('Slice / Frame Tool');", "Navigate the Z dimension (slice or frame) <br> from anywhere in the image");
+	run("Action Bar", ACTION_BAR_STRING);
+}
 //--------------------------------------------------------------------------------------------------------------------------------------
 
 function add_Basic_Action_Bar(){
@@ -3655,16 +3755,20 @@ function show_my_Zbeul_Action_Bar(){
 	add_gray_button("subtract", "run(\"Subtract...\");", "subtract");
 
 	add_new_Line();
-	add_gray_button("Gaussian", "run(\"Gaussian Blur...\");", "Gaussian Blur filter");
-	add_gray_button("Median", "run(\"Median...\");", "Median filter");
+	add_gray_button("gaussian", "run(\"Gaussian Blur...\");", "Gaussian Blur filter");
+	add_gray_button("median", "run(\"Median...\");", "Median filter");
 	add_gray_button("top hat", "run(\"Top Hat...\");", "top hat");
-	add_gray_button("Normalize", "signal_normalisation_BIOP();", "Square root signal normalization");
+
 
 	add_new_Line();
-	add_gray_button("Gauss correction", "gauss_Correction();", "Gaussian blur background correction");
+	add_gray_button("sharpen", "run(\"Unsharp Mask...\", \"radius=2 mask=0.30\");", "Unsharp Mask 2, 0.3");
+	add_gray_button("normalize", "signal_normalisation_BIOP();", "Square root signal normalization");
 
 	add_new_Line();
-	add_gray_button("make sub", "run(\"Make Substack...\");", "make substack");
+	add_gray_button("gauss correction", "gauss_Correction();", "Gaussian blur background correction");
+
+	add_new_Line();
+	add_gray_button("substack", "run(\"Make Substack...\");", "make substack");
 	add_gray_button("Max paste", "setPasteMode(\"Max\"); run(\"Paste\"); setPasteMode(\"Copy\"); run(\"Select None\");", "Max paste");
 	add_gray_button("Add paste", "setPasteMode(\"Add\"); run(\"Paste\"); setPasteMode(\"Copy\"); run(\"Select None\");", "Add paste");
 
@@ -3693,7 +3797,7 @@ function show_my_Zbeul_Action_Bar(){
 	add_gray_button("Test CLAHE options", "test_CLAHE_Options();", "tooltip");
 	add_gray_button("Test main filters", "test_main_Filters();", "tooltip");
 	add_new_Line();
-	add_gray_button("print", "print(GITHUB_LIBRARY);", "tooltip");
+	add_gray_button("update preview Opener", "update_Preview_Opener();", "tooltip");
 	add_Code_Library();
 	add_Bioformats_DnD();
 	run("Action Bar", ACTION_BAR_STRING);
