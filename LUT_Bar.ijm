@@ -245,6 +245,7 @@ arg=spline_LUT_maker();
 	function spline_LUT_maker(){
 		error_Check_for_LUTs();
 		getLut(reds, greens, blues);
+		id = getImageID();
 		start_Lum = get_Luminance(newArray(reds[0], greens[0], blues[0]));
 		stop_Lum =  get_Luminance(newArray(reds[255], greens[255], blues[255]));
 		steps = 4;
@@ -286,6 +287,7 @@ arg=spline_LUT_maker();
 				blues [i*(255/steps)] =  blue_Steps[i]; 
 				showProgress(i / steps);
 			}
+			selectImage(id);
 			setBatchMode(1);
 			reds =   spline_Color_2(red_Steps,steps);
 			greens = spline_Color_2(green_Steps,steps);
@@ -293,7 +295,7 @@ arg=spline_LUT_maker();
 			setLut(reds, greens, blues);
 			run("Select None");
 			run("Remove Overlay");
-			setBatchMode(0);
+			setBatchMode("exit and display");
 			plot_LUT();
 			copy_LUT();
 		}
