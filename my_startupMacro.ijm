@@ -251,7 +251,7 @@ macro "[a]"	{
 	else if (isKeyDown("alt"))		run("Select None");
 }
 macro "[A]"	{
-	if		(no_Alt_no_Space())		{ if (bitDepth() == 24) run("Enhance True Color Contrast", "saturated=0.1"); else run("Enhance Contrast", "saturated=0.1");}	
+	if		(no_Alt_no_Space())		{ if (bitDepth() == 24) run("Enhance True Color Contrast", "saturated=0"); else run("Enhance Contrast", "saturated=0.1");}	
 	else if (isKeyDown("space"))	enhance_All_Channels();
 	else if (isKeyDown("alt"))		enhance_All_Images_Contrasts();
 }
@@ -350,7 +350,7 @@ macro "[m]"	{
 macro "[n]"	{
 	if		(no_Alt_no_Space())		Hela();
 	else if (isKeyDown("space"))	make_LUT_Image();
-	else if (isKeyDown("alt"))		open("https://i.imgur.com/psSX0UR.png");
+	else if (isKeyDown("alt"))		open("https://i.imgur.com/ATZXCyT.png");
 }
 macro "[N]"	{
 	if		(no_Alt_no_Space())		show_Numerical_Keyboard_Bar();
@@ -1296,7 +1296,7 @@ function live_Gamma(){
 
 function live_Scroll() {
 	getDimensions(width, height, channels, slices, frames);
-	if(slices==1 && frames==1) exit();
+	if(slices==1 && frames==1) {fly_Mode(); exit();}
 	getCursorLoc(x, y, z, flags);
 	flags = flags%32; //remove "cursor in selection" flag
 	while(flags >= 16) {
@@ -1318,25 +1318,22 @@ function box_Auto_Contrast() {
 	run("Select None");
 }
 
-function fly_Mode(){//améliorable
+function fly_Mode(){//amélioré
+	getLocationAndSize(origin_window_x, origin_window_y, window_width, window_height);
+	getDimensions(image_width, image_height, channels, slices, frames);
 	getCursorLoc(x, y, z, flag);
-	zoom = getZoom()*100;
-	getDimensions(width, height, channels, slices, frames);
-	getCursorLoc(last_x, last_y, z, flags);
-	new_x = last_x;
-	new_y = last_y;
 	while (flag>=16) {
+		x = get_Cursor_Screen_Loc_X();
+		y = get_Cursor_Screen_Loc_Y();
+		x_rate = (x - origin_window_x) / window_width;
+		y_rate = (y - origin_window_y) / window_height;
+		new_x = x_rate * image_width;
+		new_y = y_rate * image_height;
+		zoom = getZoom()*100;
+		run("Set... ", "zoom=&zoom x=&new_x y=&new_y");
 		getCursorLoc(x, y, z, flag);
-		getDisplayedArea(area_x, area_y, area_width, area_height);
-		if (x != last_x || y != last_y) {
-			new_x = ((x - area_x) / area_width)*width;
-			new_y = ((y - area_y) / area_height)*height;
-			run("Set... ", "zoom=&zoom x=&new_x y=&new_y");
-			getCursorLoc(last_x, last_y, z, flags);
-			wait(10);
-		}
+		wait(5);
 	}
-	run("Set... ", "zoom=&zoom x=&new_x y=&new_y");
 }
 
 function magic_Wand(){
@@ -1672,37 +1669,34 @@ function display_LUTs(){
 
 function set_LUT_From_Montage() {
 	title = getTitle();
-	if (!startsWith(title, "Lookup Tables")) set_Target_Image();
-	else {
-		setBatchMode(1);
-		getCursorLoc(x, y, z, modifiers);
-		Ybloc_Size = 50;
-		Xbloc_Size = 258;
-		line_Position = floor(y / Ybloc_Size);
-		row_Position =  floor(x / Xbloc_Size);
-		x_LUTposition = 1 + (row_Position  * Xbloc_Size);
-		y_LUTposition = 1 + (line_Position * Ybloc_Size);
-		reds = newArray(1); greens = newArray(1); blues = newArray(1);
-		for (i = 0; i < 256; i++) {
-			color = getPixel(i + x_LUTposition, 1 +	y_LUTposition);
-			reds[i]   = (color>>16)&0xff; 	
-			greens[i] = (color>>8)&0xff;		
-			blues[i]  = color&0xff;
-		}
-		if (reds[100]+greens[100]+blues[100] == 765) exit(); // if white space in montage
-		if (isOpen(TARGET_IMAGE_TITLE)){
-			selectWindow(TARGET_IMAGE_TITLE);
-			setLut(reds, greens, blues);
-		}
-		else {
-			newImage("lutFromMontage", "8-bit ramp", 256, 32, 1);
-			setLut(reds, greens, blues);
-		}
-		if (isOpen("LUT Profile")) plot_LUT();
-		copy_LUT();
-		close("lutFromMontage");
-		selectWindow(title);
+	setBatchMode(1);
+	getCursorLoc(x, y, z, modifiers);
+	Ybloc_Size = 50;
+	Xbloc_Size = 258;
+	line_Position = floor(y / Ybloc_Size);
+	row_Position =  floor(x / Xbloc_Size);
+	x_LUTposition = 1 + (row_Position  * Xbloc_Size);
+	y_LUTposition = 1 + (line_Position * Ybloc_Size);
+	reds = newArray(1); greens = newArray(1); blues = newArray(1);
+	for (i = 0; i < 256; i++) {
+		color = getPixel(i + x_LUTposition, 1 +	y_LUTposition);
+		reds[i]   = (color>>16)&0xff; 	
+		greens[i] = (color>>8)&0xff;		
+		blues[i]  = color&0xff;
 	}
+	if (reds[100]+greens[100]+blues[100] == 765) exit(); // if white space in montage
+	if (isOpen(TARGET_IMAGE_TITLE)){
+		selectWindow(TARGET_IMAGE_TITLE);
+		setLut(reds, greens, blues);
+	}
+	else {
+		newImage("lutFromMontage", "8-bit ramp", 256, 32, 1);
+		setLut(reds, greens, blues);
+	}
+	if (isOpen("LUT Profile")) plot_LUT();
+	copy_LUT();
+	close("lutFromMontage");
+	selectWindow(title);
 }
 
 function select_Montage_Panel() {
@@ -1819,11 +1813,13 @@ function open_From_Preview_Opener() {
 //in their curent state.  Will close all but the montage.
 function make_Preview_Opener() {
 	if (nImages == 0) exit();
-	Dialog.createNonBlocking("Make Preview Opener");
-	Dialog.addMessage("Creates a montage with snapshots of all opened images (virtual or not).\n" +
-		"This will close all but the montage. Are you sure?");
-	Dialog.addHelp("https://kwolby.notion.site/Preview-Opener-581219eab9f748bc8269d0d8ffe9172d");
-	Dialog.show();
+	if (!isKeyDown("shift")){
+		Dialog.createNonBlocking("Make Preview Opener");
+		Dialog.addMessage("Creates a montage with snapshots of all opened images (virtual or not).\n" +
+			"This will close all but the montage. Are you sure?");
+		Dialog.addHelp("https://kwolby.notion.site/Preview-Opener-581219eab9f748bc8269d0d8ffe9172d");
+		Dialog.show();
+	}
 	setBatchMode(1);
 	all_IDs = newArray(nImages);
 	paths_List = "";
@@ -2386,9 +2382,9 @@ function my_RGB_Converter(half_or_full_colors){
 		run("Remove Slice Labels");
 	}
 	if (half_or_full_colors == "full") {
-		Stack.setChannel(2); make_LUT(255,194,0);
-		Stack.setChannel(1); make_LUT(0,255,194);
-		Stack.setChannel(3); make_LUT(194,0,255);
+		Stack.setChannel(2); make_LUT(255,153,0);
+		Stack.setChannel(1); make_LUT(30,235,193);
+		Stack.setChannel(3); make_LUT(163,60,255);
 	}
 	else {
 		Stack.setChannel(1); make_LUT(128,97,0);
@@ -2695,14 +2691,11 @@ function apply_LUTs(){
 function apply_All_LUTs(){
 	if (nImages()==0) exit();
 	setBatchMode(1);
-	all_IDs = newArray(nImages);
-	for (i=0; i<nImages ; i++) {			
-		selectImage(i+1);
-		all_IDs[i] = getImageID(); 
-	} 
 	for (i=0; i<nImages; i++) {
-		selectImage(all_IDs[i]);
+		selectImage(i+1);
 		if (bitDepth() != 24) apply_LUTs();	
+		getDimensions(width, height, channels, slices, frames);
+		if (channels > 1) Stack.setDisplayMode("composite");
 	}
 	setBatchMode(0);
 }
@@ -2920,7 +2913,7 @@ function save_All_Images_Dialog() {
 	for (i=0; i<nImages; i++) {
         selectImage(i+1);
         title = getTitle;
-        saveAs("tiff", folder + title);
+        saveAs(format, folder + title);
         print(title + " saved");
 	}
 	print("done");
@@ -3884,6 +3877,8 @@ function add_Bioformats_DnD(){
 	"path = getArgument();"+"\n"+
 	"if (endsWith(path, '.mp4')) run('Movie (FFMPEG)...', 'choose='+ path +' first_frame=0 last_frame=-1');\n"+
 	"else if (endsWith(path, '.pdf')) run('PDF ...', 'choose=' + path + ' scale=600 page=0');\n"+
+	"else if (endsWith(path, '.lif')) {run(\"Read My Lifs\"); exit();}\n"+
+	"else if (endsWith(path, '.tif')) run(\"TIFF Virtual Stack...\", 'open=[' + path + ']');\n"+
 	"else run('Bio-Formats Importer', 'open=[' + path + ']');\n"+
 	"rename(File.name);\n"+
 	"</DnDAction>\n";
