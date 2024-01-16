@@ -2670,7 +2670,7 @@ function apply_LUTs(){
 	Stack.getPosition(channel,s,f);
 	getDimensions(w,h,channels,s,f);
 	lut_list = Array.copy(CHOSEN_LUTS);
-	if (NOICE_LUTs) for(i=0; i<channels; i++) if (CHOSEN_LUTS[i] != "Grays") lut_list[i] = lut_list[i] + "_noice";
+	if (NOICE_LUTs) for(i=0; i<channels; i++) if (CHOSEN_LUTS[i] != "Grays") lut_list[i] = "KTZ_Noice_" + substring(lut_list[i], 2);
 	if (channels>1){
 		for(i=1; i<=channels; i++){
 			Stack.setChannel(i);
