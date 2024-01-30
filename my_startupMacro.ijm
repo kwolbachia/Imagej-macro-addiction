@@ -2671,7 +2671,7 @@ function get_LUTs_Dialog(){
 	Dialog.show();
 
 	for(i=0; i<channels; i++) {
-		CHOSEN_LUTS[i] = Dialog.getRadioButton();
+		CHOSEN_LUTS[i] = Dialog.getChoice();
 		save_Pref_LUT(i, CHOSEN_LUTS[i]);
 	}
 }
@@ -2681,6 +2681,7 @@ function apply_LUTs(){
 	Stack.getPosition(channel,s,f);
 	getDimensions(w,h,channels,s,f);
 	lut_list = Array.copy(CHOSEN_LUTS);
+	Array.print(lut_list);
 	if (NOICE_LUTs) for(i=0; i<channels; i++) if (CHOSEN_LUTS[i] != "Grays") lut_list[i] = "KTZ_Noice_" + substring(lut_list[i], 2);
 	if (channels>1){
 		for(i=1; i<=channels; i++){
@@ -3893,7 +3894,7 @@ function add_Bioformats_DnD(){
 	"else if (endsWith(path, '.pdf')) run('PDF ...', 'choose=' + path + ' scale=600 page=0');\n"+
 	"else if (endsWith(path, '.lif')) {run(\"Read My Lifs\"); exit();}\n"+
 	"else if (endsWith(path, '.tif')) run(\"TIFF Virtual Stack...\", 'open=[' + path + ']');\n"+
-	"else if (endsWith(path, '.ser')) run(\"TIA Reader\", '.ser-reader...=' + path);\n"+
+	"else if (endsWith(path, '.ser')) run(\"TIA Reader\", '.ser-reader...=[' + path + ']');\n"+
 	"else run('Bio-Formats Importer', 'open=[' + path + ']');\n"+
 	"rename(File.name);\n"+
 	"</DnDAction>\n";
@@ -3903,5 +3904,3 @@ function add_Bioformats_DnD(){
 
 /*
 Notes
-added is_Caps_Lock_On function
-preview opener virtual stack when caps on..
