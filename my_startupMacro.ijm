@@ -1234,11 +1234,12 @@ function move_Windows() {
 	origin_x = get_Cursor_Screen_Loc_X();
 	origin_y = get_Cursor_Screen_Loc_Y();
 	getLocationAndSize(origin_window_x, origin_window_y, width, height);
-	while (flags == 16) {
+	while (flags >= 16) {
 		x = get_Cursor_Screen_Loc_X();
 		y = get_Cursor_Screen_Loc_Y();
 		Table.setLocationAndSize(x - (origin_x - origin_window_x), y - (origin_y - origin_window_y), width, height, getTitle());
 		getCursorLoc(x, y, z, flags);
+		flags = flags%32; //remove "cursor in selection" flag
 		wait(10);
 	}
 }
@@ -2363,7 +2364,7 @@ function fast_Merge(){
 
 function CLAHE(){
 	if (nImages()==0) exit();
-	if (isKeyDown("shift")) run("Enhance Local Contrast (CLAHE)", "blocksize=20 histogram=256 maximum=1.5 mask=*None* fast_(less_accurate)");
+	if (isKeyDown("shift")) run("Enhance Local Contrast (CLAHE)", "blocksize=200 histogram=256 maximum=1.5 mask=*None* fast_(less_accurate)");
 	else run("Enhance Local Contrast (CLAHE)");
 }
 
@@ -2491,6 +2492,25 @@ function gauss_Correction(){
 	unique_Rename(TITLE + "_corrected");
 	setOption("Changes", 0);
 	setBatchMode(exit_Mode);
+}
+
+function gauss_Correction_32bit() {
+	TITLE = getTitle();
+	setBatchMode(1);
+	run("Duplicate...", "title=dup duplicate");
+	run("32-bit");
+	run("Duplicate...", "title=gaussed duplicate");
+	getDimensions(width, height, channels, slices, frames);
+	SIGMA = maxOf(height,width) / 4;
+	run("Gaussian Blur...", "sigma=" + SIGMA + " stack");
+	getStatistics(area, mean, min, max, std, histogram);
+	run("Subtract...", "value=" + max*0.15);
+	imageCalculator("Substract create stack", "dup", "gaussed");
+	unique_Rename(TITLE + "_corrected");
+	setOption("Changes", 0);
+	resetMinAndMax();
+	run("8-bit");
+	setBatchMode(0);
 }
 
 function test_CLAHE_Options() {
@@ -3770,6 +3790,8 @@ function show_my_Zbeul_Action_Bar(){
 
 	add_new_Line();
 	add_gray_button("gauss correction", "gauss_Correction();", "Gaussian blur background correction");
+	add_gray_button("gauss 32 bit", "gauss_Correction_32bit();", "Gaussian blur background correction with 32 bit");
+
 
 	add_new_Line();
 	add_gray_button("substack", "run(\"Make Substack...\");", "make substack");
@@ -3784,7 +3806,7 @@ function show_my_Zbeul_Action_Bar(){
 	add_gray_button("Correct path", "correct_Copied_Path();", "tooltip");
 	add_gray_button("Add to image info", "note_In_Infos();", "tooltip");
 
-	if (isKeyDown("alt")) {
+	if (is_Caps_Lock_On()) {
 		add_Text_Line("__________________ imgur images");
 		add_new_Line();
 		add_gray_button("3 channels", "setBatchMode(1); open(\"https://i.imgur.com/MZGVdVj.png\"); run(\"Make Composite\"); apply_LUTs(); run(\"Remove Slice Labels\"); setBatchMode(0);", "tooltip");
@@ -3808,6 +3830,7 @@ function show_my_Zbeul_Action_Bar(){
 	add_Bioformats_DnD();
 	run("Action Bar", ACTION_BAR_STRING);
 }
+
 
 //--------------------------------------------------------------------------------------------------------------------------------------
 
