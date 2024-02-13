@@ -418,12 +418,9 @@ macro "[v]"	{
 macro "[w]"  {
 	if		(no_Alt_no_Space())		{
 		//avoid "are you sure?" and stores path in case of misclick
-		if (getInfo("window.type") == "Image") {
-			path = getDirectory("image") + getTitle();
-			if (File.exists(path)) call("ij.Prefs.set","last.closed", path);
-			close();
-		}
-		else close(getInfo("window.title"));
+		path = getDirectory("image") + getTitle();
+		if (File.exists(path)) call("ij.Prefs.set","last.closed", path);
+		close();
 	}
 	else if (isKeyDown("space"))	open(call("ij.Prefs.get","last.closed",""));	
 	else if (isKeyDown("alt"))		close("\\Others");
@@ -1106,6 +1103,7 @@ function multi_Tool(){
 	if (flags == 24)				if (MAIN_TOOL=="Slice / Frame Tool") move_Windows(); else live_Scroll();	// alt + drag
 	if (flags == 25)				box_Auto_Contrast();														// shift + alt + drag
 	if (flags == 26 || flags == 28)	curtain_Tool();
+	if (flags == 19 || flags == 21)	live_MultiPlot();
 }
 
 function is_double_click() {
@@ -1330,12 +1328,12 @@ function fly_Mode(){//amélioré
 		y = get_Cursor_Screen_Loc_Y();
 		x_rate = (x - origin_window_x) / window_width;
 		y_rate = (y - origin_window_y) / window_height;
-		new_x = x_rate * image_width;
-		new_y = y_rate * image_height;
-		zoom = getZoom()*100;
-		run("Set... ", "zoom=&zoom x=&new_x y=&new_y");
+		new_x = round(x_rate * image_width);
+		new_y = round(y_rate * image_height);
+		getDisplayedArea(x, y, width, height);
+		eval("bsh", "import ij.*;import java.awt.*;import ij.gui.*;c = IJ.getImage().getCanvas();c.setSourceRect(new Rectangle(" + new_x + ", " + new_y + ", " + width + ", " + height + "));c.repaint();");
 		getCursorLoc(x, y, z, flag);
-		wait(5);
+		wait(50);
 	}
 }
 
@@ -1849,9 +1847,13 @@ function make_Preview_Opener() {
 		selectImage(all_IDs[i]); 
 		if (!is("Virtual Stack") && bitDepth()!=24) {
 			getDimensions(width, height, channels, slices, frames);
-			getLut(reds,greens,blues);
-			if (slices * frames != 1) run("Z Project...", "projection=[Max Intensity] all");
-			setLut(reds, greens, blues);
+			if (slices * frames != 1) {
+				getLut(reds,greens,blues);
+				getMinAndMax(min, max);
+				run("Z Project...", "projection=[Max Intensity] all");
+				setLut(reds, greens, blues);
+				setMinAndMax(min, max);
+			}
 		}
 		rgb_Snapshot();
 		run("Scale...", "x=- y=- width=400 height=400 interpolation=Bilinear average create");
@@ -2005,6 +2007,7 @@ function channels_Roll(){
 function live_MultiPlot() {
 	if (nImages()==0) exit();
 	// adapted from jérome Mutterer: https://gist.github.com/mutterer/4a8e226fbe55e8e682a1
+	option_Line_Width = parseInt(eval("bsh", "import ij.gui.*; Line.getWidth();"));
 	close("LUT Profile");
 	cursor_Position = "not on a line anchor point";
 	if (bitDepth() == 24){ run("Plot Profile"); exit();}
@@ -2016,7 +2019,7 @@ function live_MultiPlot() {
 		else if	(get_Distance(line_x2, line_y2, origin_x, origin_y) < 10)									cursor_Position = "end point";
 		else if	(get_Distance((line_x1 + line_x2) / 2, (line_y1 + line_y2)/2, origin_x, origin_y) < 10)		cursor_Position = "middle point";
 	}
-	id = getImageID;
+	id = getImageID();
 	getStatistics(bla, bla, min, max);
 	getPixelSize(unit, pixel_Width, pixel_Height);
 	getLine(line_x1, line_y1, line_x2, line_y2, line_Width);
@@ -2024,19 +2027,23 @@ function live_MultiPlot() {
 		call("ij.gui.ImageWindow.setNextLocation", SAVED_LOC_X, SAVED_LOC_Y);
 		run("Plots...", "width=400 height=200");
 	}
-	Plot.create("MultiPlot", "Distance ("+unit+")", "Value");
 	selectImage(id);
-	id = getImageID;
 	while (flags & 16 != 0) {
 		selectImage(id);
 		getCursorLoc(new_x, new_y, z, flags);
-		if (cursor_Position == "not on a line anchor point")	makeLine(origin_x, origin_y, new_x, new_y);
-		else if (cursor_Position == "start point")				makeLine(new_x, new_y, line_x2, line_y2);
-		else if (cursor_Position == "end point")				makeLine(line_x1, line_y1, new_x, new_y);
+		if (cursor_Position == "not on a line anchor point" && origin_x ==  new_x) { // if single clic in void
+			run("Select None");
+			close("MultiPlot");
+			exit();
+		}
+		selectImage(id);
+		if (cursor_Position == "not on a line anchor point")	makeLine(origin_x, origin_y, new_x, new_y, option_Line_Width);
+		else if (cursor_Position == "start point")				makeLine(new_x, new_y, line_x2, line_y2, option_Line_Width);
+		else if (cursor_Position == "end point")				makeLine(line_x1, line_y1, new_x, new_y, option_Line_Width);
 		else if (cursor_Position == "middle point") {
 			dx = new_x - origin_x;  
 			dy = new_y - origin_y;  
-			makeLine(line_x1 + dx, line_y1 + dy, line_x2 + dx, line_y2 + dy);
+			makeLine(line_x1 + dx, line_y1 + dy, line_x2 + dx, line_y2 + dy, option_Line_Width);
 		}
 		Stack.getDimensions(w, h, channels, z, t);
 		pre_Profile = getProfile();
@@ -2081,7 +2088,8 @@ function multi_Plot(){
 	id = getImageID();
 	if (!isOpen("MultiPlot")) call("ij.gui.ImageWindow.setNextLocation", SAVED_LOC_X, SAVED_LOC_Y);
 	run("Plots...", "width=400 height=200");
-	Plot.create("MultiPlot", "Pixels", "Grey value");
+	getPixelSize(unit, pixel_Width, pixel_Height);
+	Plot.create("MultiPlot", "Distance ("+unit+")", "Grey value");
 	for (i=1; i<=channels; i++) {
 		if (channels > 1) Stack.setChannel(i);
 		if (is_Active_Channel(i-1)) {
@@ -3926,3 +3934,4 @@ function add_Bioformats_DnD(){
 
 /*
 Notes
+*/
