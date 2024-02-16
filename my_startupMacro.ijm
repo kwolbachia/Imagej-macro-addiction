@@ -134,7 +134,7 @@ macro "Popup Menu" {
 	command = getArgument(); 
 	if 		(command == "CLAHE") 				CLAHE();
 	else if (command == "Set active path") 		set_Active_Path();
-	// else if (command == "Rajout de bout") 		rajout_De_Bout();
+	// else if (command == "test") 				gauss_Correction_32bit();
 	else if (command == "Gaussian Correction") 	gauss_Correction();
 	else if (command == "Color Blindness") 		{rgb_Snapshot(); run("Dichromacy", "simulate=Deuteranope");}
 	else if (command == "Set LUTs") 			{get_LUTs_Dialog(); apply_LUTs();}
@@ -307,7 +307,7 @@ macro "[g]"	{
 macro "[h]"	{
 	if		(no_Alt_no_Space())		run("Histogram");
 	else if (isKeyDown("space"))	open(getDir("home") + "/desktop/Lookup Tables.tif");
-	else if (isKeyDown("alt"))		open(getDir("home") + "/Nextcloud/images/_Preview Opener.tif");
+	else if (isKeyDown("alt"))		open(File.getDirectory(getDirectory("imagej")) + "/images/_Preview Opener.tif");
 }
 macro "[H]"	{	run("Show All");}
 
@@ -417,6 +417,7 @@ macro "[v]"	{
 }
 macro "[w]"  {
 	if		(no_Alt_no_Space())		{
+		if (nImages()==0) exit();
 		//avoid "are you sure?" and stores path in case of misclick
 		path = getDirectory("image") + getTitle();
 		if (File.exists(path)) call("ij.Prefs.set","last.closed", path);
@@ -1102,8 +1103,8 @@ function multi_Tool(){
 	if (flags == 18 || flags == 20)	k_Rectangle_Tool();															// ctrl + drag
 	if (flags == 24)				if (MAIN_TOOL=="Slice / Frame Tool") move_Windows(); else live_Scroll();	// alt + drag
 	if (flags == 25)				box_Auto_Contrast();														// shift + alt + drag
-	if (flags == 26 || flags == 28)	curtain_Tool();
-	if (flags == 19 || flags == 21)	live_MultiPlot();
+	if (flags == 26 || flags == 28)	curtain_Tool();																// ctrl + alt + drag
+	if (flags == 19 || flags == 21)	live_MultiPlot();															// ctrl + shift + drag
 }
 
 function is_double_click() {
@@ -1504,7 +1505,7 @@ function toggle_Channel_All(i) {
 
 //modified from https://github.com/ndefrancesco/macro-frenzy/blob/master/assorted/Colorize%20stack.ijm
 //K.Terretaz 2022
-//Max projection with color coding based on the current LUT
+//Max projection with color coding based on the copied LUT
 //to save RAM, it uses the Max copy paste mode to avoid creation of big RGB stack before projection
 // works with virtual stacks
 function color_Code_Progressive_Max(){
@@ -1525,7 +1526,9 @@ function color_Code_Progressive_Max(){
 	getLut(reds, greens, blues);
 	//paste copied LUT
 	open(getDirectory("temp")+"/copiedLut.lut");
-	//get current LUT for color coding
+	//if caps lock on , invert the LUT
+	if (is_Caps_Lock_On()) run("Invert LUT");
+	//get LUT for color coding
 	getLut(code_Reds, code_Greens, code_Blues);
 	for (k = 0; k < frames; k++) {
 		for (i = 0; i < slices; i++) {
@@ -2091,8 +2094,8 @@ function multi_Plot(){
 	getPixelSize(unit, pixel_Width, pixel_Height);
 	Plot.create("MultiPlot", "Distance ("+unit+")", "Grey value");
 	for (i=1; i<=channels; i++) {
-		if (channels > 1) Stack.setChannel(i);
 		if (is_Active_Channel(i-1)) {
+			if (channels > 1) Stack.setChannel(i);
 			profile = getProfile();
 			Array.getStatistics(profile, min, max, mean, stdDev);
 			if (normalize) for (k=0; k<profile.length; k++) profile[k] = Math.map(profile[k], min, max, 0, 1);
@@ -2502,7 +2505,7 @@ function gauss_Correction(){
 	setBatchMode(exit_Mode);
 }
 
-function gauss_Correction_32bit() {
+	function gauss_Correction_32bit() {
 	TITLE = getTitle();
 	setBatchMode(1);
 	run("Duplicate...", "title=dup duplicate");
@@ -2511,13 +2514,19 @@ function gauss_Correction_32bit() {
 	getDimensions(width, height, channels, slices, frames);
 	SIGMA = maxOf(height,width) / 4;
 	run("Gaussian Blur...", "sigma=" + SIGMA + " stack");
-	getStatistics(area, mean, min, max, std, histogram);
-	run("Subtract...", "value=" + max*0.15);
-	imageCalculator("Substract create stack", "dup", "gaussed");
-	unique_Rename(TITLE + "_corrected");
-	setOption("Changes", 0);
+	if (!is_Caps_Lock_On()){
+		getStatistics(area, mean, min, max, std, histogram);
+		run("Subtract...", "value=" + max*0.15);
+		imageCalculator("Substract create stack", "dup", "gaussed");
+		unique_Rename(TITLE + "_corrected_s");
+	}
+	else {	
+		imageCalculator("Divide create stack", "dup", "gaussed");
+		unique_Rename(TITLE + "_corrected_d");
+	}
 	resetMinAndMax();
 	run("8-bit");
+	setOption("Changes", 0);
 	setBatchMode(0);
 }
 
