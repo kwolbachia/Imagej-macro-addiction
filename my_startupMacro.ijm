@@ -7,20 +7,6 @@
 // 	showStatus(flags);
 // }
 
-macro "AutoRun" {
-	requires("1.53t");
-	setForegroundColor(255, 255, 255);
-	setBackgroundColor(0, 0, 0);
-	//set inferno as default favorite lut (numerical 0 key)
-	if (!File.exists(getDirectory("temp") + "/favoriteLUT.lut"))
-		File.copy(getDirectory("luts") + "mpl-inferno.lut", getDirectory("temp") + "/favoriteLUT.lut");
-	//set viridis as default copied lut (alt + v)
-	if (!File.exists(getDirectory("temp") + "/copiedLut.lut"))
-		File.copy(getDirectory("luts") + "mpl-viridis.lut", getDirectory("temp") + "/copiedLut.lut");
-	run("Roi Defaults...", "color=orange stroke=2 group=0");
-	setTool(15);
-}
-
 var SAVED_LOC_X = 0;
 var SAVED_LOC_Y = screenHeight() - 470;
 
@@ -45,7 +31,7 @@ var CHANNEL_LABELS = newArray("CidB","CidA","DNA","H4Ac","DIC");
 var TILES = newArray(1);
 
 // For MultiTool
-var	MAIN_TOOL = save_Main_Tool("Move Windows");
+var	MAIN_TOOL = "Move Windows";
 var MULTITOOL_LIST = newArray("Move Windows", "Slice / Frame Tool", "LUT Gamma Tool", "Curtain Tool", "Magic Wand", "Scale Bar Tool", "Multi-channel Plot Tool");
 var LAST_CLICK_TIME = 0;
 
@@ -73,7 +59,6 @@ var DO_SCROLL_LOOP = false;
 
 // for Action Bars
 var ACTION_BAR_STRING = "";
-var GITHUB_LIBRARY = File.openUrlAsString("https://raw.githubusercontent.com/kwolbachia/Imagej-macro-addiction/main/my_startupMacro.ijm");
 
 //--------------------------------------------------------------------------------------------------------------------------------------
 //		MULTI TOOL
@@ -552,7 +537,8 @@ function signal_normalisation_BIOP(){
 
 function save_Main_Tool(main_Tool) {
 	call("ij.Prefs.set","Multi_Tool.Main_Tool", main_Tool);
-	setTool(15);
+	// setTool(15);
+	showStatus("multi tool: " + main_Tool);
 	return main_Tool;
 }
 
@@ -937,9 +923,9 @@ function make_Scaled_Rectangle(size) {
 function set_Target_Image(){
 	if (nImages()==0) exit();
 	// modify the global variable TARGET_IMAGE_TITLE with the current image title 
-	showStatus("Target Image title");	
 	run("Alert ", "object=Image color=Orange duration=1000"); 
 	TARGET_IMAGE_TITLE = getTitle();
+	showStatus("target = " + TARGET_IMAGE_TITLE);	
 }
 
 function test_main_Filters() {
@@ -2484,6 +2470,7 @@ function note_In_Infos(){
 	note = String.paste();
 	setMetadata("Info", note + '\n\n' + infos);
 	run("Show Info...");
+	// Property.set("note", note);
 }
 
 function gauss_Correction(){
@@ -3804,6 +3791,7 @@ function show_my_Zbeul_Action_Bar(){
 	add_new_Line();
 	add_gray_button("sharpen", "run(\"Unsharp Mask...\", \"radius=2 mask=0.30\");", "Unsharp Mask 2, 0.3");
 	add_gray_button("normalize", "signal_normalisation_BIOP();", "Square root signal normalization");
+	add_gray_button("stack diff","run(\"Stack Difference\");", "Stack Difference");
 
 	add_new_Line();
 	add_gray_button("gauss correction", "gauss_Correction();", "Gaussian blur background correction");
@@ -3868,11 +3856,15 @@ function setup_Popup_Action_Bar_Header(main_Title){
 }
 
 function add_Code_Library() {
+	code_Library = File.openAsString(getDir("macros") + "StartupMacros.fiji.ijm");
+	if (code_Library.length == 457) code_Library = File.openUrlAsString("https://raw.githubusercontent.com/kwolbachia/Imagej-macro-addiction/main/my_startupMacro.ijm");
+	// substring to remove the autorun macro
+	code_Library = substring(code_Library, 0, lengthOf(code_Library) - 599);
 	// macros_As_String = 
-	ACTION_BAR_STRING += "<codeLibrary>\n" + GITHUB_LIBRARY + "</codeLibrary>\n";
+	ACTION_BAR_STRING += "<codeLibrary>\n" + code_Library + "</codeLibrary>\n";
 }
 
-function add_fromString(){	ACTION_BAR_STRING += "<fromString>\n<disableAltClose>\n";}
+function add_fromString(){	ACTION_BAR_STRING += "<fromString>\n<disableAltClose>\n<recordable>\n";}
 
 function add_Popup_fromString(){	ACTION_BAR_STRING += "<fromString>\n<popup>\n<onTop>\n";}
 
@@ -3939,8 +3931,16 @@ function add_Bioformats_DnD(){
 	"</DnDAction>\n";
 }
 
-
-
-/*
-Notes
-*/
+macro "AutoRun" {
+	requires("1.53t");
+	setForegroundColor(255, 255, 255);
+	setBackgroundColor(0, 0, 0);
+	//set inferno as default favorite lut (numerical 0 key)
+	if (!File.exists(getDirectory("temp") + "/favoriteLUT.lut"))
+		File.copy(getDirectory("luts") + "mpl-inferno.lut", getDirectory("temp") + "/favoriteLUT.lut");
+	//set viridis as default copied lut (alt + v)
+	if (!File.exists(getDirectory("temp") + "/copiedLut.lut"))
+		File.copy(getDirectory("luts") + "mpl-viridis.lut", getDirectory("temp") + "/copiedLut.lut");
+	run("Roi Defaults...", "color=orange stroke=2 group=0");
+	setTool(15);
+}
