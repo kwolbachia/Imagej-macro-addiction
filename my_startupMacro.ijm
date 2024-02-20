@@ -3856,6 +3856,7 @@ function setup_Popup_Action_Bar_Header(main_Title){
 }
 
 function add_Code_Library() {
+	if ( endsWith(getDirectory("ImageJ"), "ImageJ\\");)code_Library = File.openAsString(getDir("macros") + "StartupMacros.ijm");
 	code_Library = File.openAsString(getDir("macros") + "StartupMacros.fiji.ijm");
 	if (code_Library.length == 440) code_Library = File.openUrlAsString("https://raw.githubusercontent.com/kwolbachia/Imagej-macro-addiction/main/my_startupMacro.ijm");
 	// substring to remove the autorun macro
