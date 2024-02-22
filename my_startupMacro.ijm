@@ -1810,6 +1810,7 @@ function is_Caps_Lock_On() {
 
 //create a montage with snapshots of all opened images (virtual or not)
 //in their curent state.  Will close all but the montage.
+// added sort image names / order
 function make_Preview_Opener() {
 	if (nImages == 0) exit();
 	if (!isKeyDown("shift")){
@@ -1820,20 +1821,22 @@ function make_Preview_Opener() {
 		Dialog.show();
 	}
 	setBatchMode(1);
-	all_IDs = newArray(nImages);
+	n_Opened_Images = nImages();
 	paths_List = "";
+	titles = newArray(0);
 	concat_Options = "open ";
-	for (i=0; i<nImages ; i++) {
+	for (i=0; i<n_Opened_Images ; i++) {
 		selectImage(i+1);
 		if (i==0) {
 			source_Folder = getDirectory("image"); 
 			File.setDefaultDir(source_Folder);
 		}
-		all_IDs[i] = getImageID();
-		paths_List += getTitle() +",,";
+		titles[i] = getTitle();
 	}
-	for (i=0; i<all_IDs.length; i++) {
-		selectImage(all_IDs[i]); 
+	Array.sort(titles);
+	for (i=0; i<n_Opened_Images; i++) {
+		selectWindow(titles[i]);
+		paths_List += getTitle() +",,";
 		if (!is("Virtual Stack") && bitDepth()!=24) {
 			getDimensions(width, height, channels, slices, frames);
 			if (slices * frames != 1) {
