@@ -92,7 +92,7 @@ macro "Multi Tool Options" {
 //		SHORTCUTS
 //--------------------------------------------------------------------------------------------------------------------------------------
 var ShortcutsMenu = newMenu("Custom Menu Tool",
-	newArray( "Batch convert to tiff","Convert all opened images to 8-bit", "Merge Ladder and Signal WB",
+	newArray( "Batch convert to tiff","Convert all opened images to 8-bit", "Merge Ladder and Signal WB","Macro TEM Chantal",
 		 "-","Rotate 90 Degrees Right","Rotate 90 Degrees Left", "make my LUTs",
 		 "-", "Median...", "Gaussian Blur...","Gaussian Blur 3D...","Gamma...","Voronoi Threshold Labler (2D/3D)", "Start CLIJ2-Assistant"));
 // macro "Custom Menu Tool - N55C000D1aD1bD1cD1dD29D2dD39D3dD49D4dD4eD59D5eD69D75D76D77D78D79D85D88D89D94D98D99Da4Da7Da8Da9Db3Db7Db8Dc3Dc6Dc7DccDcdDd3Dd6Dd8DdbDdcDe2De3De6De8De9DeaDebDecCfffD0dD3cD5cD6dD7bD8bD8cD96D9aD9bDa5DacDadDb5DcaDd4Dd9DdaDe4CdddD0aD1eD2bD6aD74D7aD95Dc4Dc5DeeC222D8eDa3DbcC111D38D5bD6bD7dDabDbaDd7C888D66De5C666D19Db4DcbC900CbbbD0cD87DaeDb2C444D28D2aD3eD48D84Db6Dc2CaaaDb9DedC777D0bD2eD4aD6cD7cD7eD9cD9dD9eDbdDc8CcccD2cDdeDe7C333D67D68DbeDd2DddC999D4cD58D5aD5dD93DceDd5Bf0C000D03D06D0cD13D16D1bD23D26D2aD33D37D39D43D44D47D48D54D65D76D77D87D88D89D8aD8bD8cD8dD8eD9bCfffD04D08D0dD0eD14D18D19D24D28D2cD35D3bD3cD3dD3eD45D46D4aD4bD4cD4eD56D57D5aD5bD5cD5dD5eD68D69D6aD6bD6cD6dD7cD7dCdddD1cD25D63D7eD97C222D64D66D9aC111D02D0bD36C888D98C666D12D38D78C900CbbbD0aD15D1eD2dD32D34C444D22D49D55D75D86D9cD9dCaaaD05D29D53C777D27D3aCcccD09D17C333D99C999D1aD2bD58D9eB0fC000D02D03D04D05D08D09D18D27D28D36D37D45D46D54D55D63D64D71D72D80D81CfffD06D07D16D25D30D34D35D40D43D44D52D57D60D61D75D83D85CdddD10D22D32D33D42D74C222D01D13D14D73C111C888D47D70C666C900D56D66D67D76D77D78D86D87D96CbbbD12D15D19D20D23D24D41D82C444D17CaaaC777D00CcccD11D26D90C333C999D62D65Nf0C000D33D34D35D36D42D43D46D50D51D55D64D65D66D67D73D74D78D88D96D97Da4Da5Db4Dc4Dd4Dd6Dd7Dd8De3De4De6De8De9CfffD15D31D44D53D54D58D62D84D85D86D92D93Da2Db2Dc2Dd2De7CdddD63Da1Da7Dc1Dd0De2C222D75D95Db3C111C888D23D32D45Dc3C666D40D52D57C900CbbbD70D80D94C444D24D60D68D87Da3Db0CaaaD26Dc0C777D41D81D91D98Dc7De5CcccD61D72D79D83D89Dc5Dd5Dd9De1C333D25D47D56D77Da0C999D37D76D90Da6Db5Dc6Dc8Dd3" {
@@ -102,6 +102,7 @@ macro "Custom Menu Tool - C000H6580a5f5c9de8b3e4915" {
 	else if (command=="Convert all opened images to 8-bit")	for ( i = 0; i < nImages; i++) {selectImage(i+1); run("8-bit");}
 	else if (command=="Merge Ladder and Signal WB")		merge_Ladder_And_Signal_From_Licor();
 	else if (command=="make my LUTs")					make_My_LUTs();
+	else if (command=="Macro TEM Chantal")				traitement_TEM_Images_Chantal();
 	else run(command);
 }
 
@@ -268,7 +269,10 @@ macro "[e]"	{
 	else if (isKeyDown("space"))	see_All_LUTs();
 	else if (isKeyDown("alt"))		run("Edit LUT...");
 }
-macro "[E]"	{	my_Tile();}
+macro "[E]"	{	
+	if (no_Alt_no_Space()) my_Tile();
+	else if (isKeyDown("alt"))	{setKeyDown("None"); cul();}
+}
 
 macro "[F]"	{	
 	if (no_Alt_no_Space())			my_Tool_Roll();
@@ -318,7 +322,7 @@ macro "[k]"  {
 macro "[l]"	{
 	if		(no_Alt_no_Space())		run("Find Commands...");
 	else if (isKeyDown("space"))	ultimate_LUT_Generator();
-	else if (isKeyDown("alt"))		open_LUT_Bar();	
+	else if (isKeyDown("alt"))		show_LUT_Bar();	
 }
 macro "[L]"  {
 	if		(no_Alt_no_Space())		copy_Paste_All_Channels_LUTs();
@@ -511,6 +515,29 @@ function add_Shortcuts_Line(key, alone, space, alt){
 	Table.set("Alone",		SHORTCUT_LINE_INDEX, alone);
 	Table.set("with Space",	SHORTCUT_LINE_INDEX, space);
 	Table.set("with Alt",	SHORTCUT_LINE_INDEX, alt);
+}
+
+
+function traitement_TEM_Images_Chantal(){
+	for ( i = 0; i < nImages(); i++) {
+		selectImage(i+1);
+		TITLE = getTitle();
+		setBatchMode(1);
+		run("32-bit");
+		run("Duplicate...", "title=gaussed duplicate");
+		getDimensions(width, height, channels, slices, frames);
+		SIGMA = maxOf(height,width) / 4;
+		run("Gaussian Blur...", "sigma=" + SIGMA + " stack");
+		imageCalculator("Divide stack", TITLE, "gaussed");
+		selectImage(i+1);
+		rename(TITLE + "_corrected_d");
+		resetMinAndMax();
+		run("8-bit");
+		setOption("Changes", 0);
+		setBatchMode(0);	run("Enhance Local Contrast (CLAHE)", "blocksize=200 histogram=256 maximum=1.5 mask=*None* fast_(less_accurate)");
+		run("Unsharp Mask...", "radius=2 mask=0.30");
+		run("Enhance Contrast", "saturated=0.1");
+	}
 }
 
 function signal_normalisation_BIOP(){
@@ -1033,7 +1060,7 @@ function my_Tool_Roll() {
  * cursor over selection = +32
  * So e.g. if (leftclick + alt) Flags = 24
  */
-//ispired by Robert Haase Windows Position tool from clij
+//inspired by Robert Haase Windows Position tool from clij
 function multi_Tool(){
 	if (nImages == 0) exit();
 	// Double click ?
@@ -1434,6 +1461,7 @@ function see_All_LUTs(){
 	run("Select None");
 	Stack.setDisplayMode("composite");
 	Property.set("CompositeProjection", mode); 
+	unique_Rename(title + "_LUTs");
 	setOption("Changes", 0);
 	setBatchMode(0);
 }
@@ -2495,7 +2523,7 @@ function gauss_Correction(){
 	setBatchMode(exit_Mode);
 }
 
-	function gauss_Correction_32bit() {
+function gauss_Correction_32bit() {
 	TITLE = getTitle();
 	setBatchMode(1);
 	run("Duplicate...", "title=dup duplicate");
@@ -3521,37 +3549,666 @@ function rgb_LUT_To_LUT(){
 	}
 }
 
-function convert_To_iMQ_Style() {
-	if(nImages == 0) exit();
-	getLut(r,g,b); 
-	newImage("lut", "8-bit ramp", 192, 32, 1); 
-	setLut(r,g,b);
-	setBatchMode(1);
-	run("RGB Color"); rename(1);
-	newImage("iGrays", "8-bit ramp", 64, 32, 1);
-	run("Invert LUT");
-	grey  = Array.resample(newArray(120,0),256);
-	setLut(grey, grey, grey);
-	run("RGB Color");
-	rename(2);
-	run("Combine...", "stack1=2 stack2=1");
-	selectWindow("Combined Stacks");
-	R = newArray(1); G = newArray(1); B = newArray(1);
-	for (i = 0; i < 256; i++) {
-		color = getPixel(i, 2);
-		R[i] = (color>>16)&0xff; 	G[i] = (color>>8)&0xff;		B[i] = color&0xff;
-	}
-	newImage("iMQ Style LUT!", "8-bit ramp", 256, 32, 1);
-	setLut(R, G, B);
-	setBatchMode(0);
-}
-
 function get_Luminance(rgb){
 	rgb_weight = newArray(0.299,0.587,0.114);
 	luminance = 0;
 	for (i = 0; i < 3; i++) luminance += round(rgb[i]*rgb_weight[i]);
 	return luminance;
 }
+
+function rotate_LUT() {
+	setBatchMode(1);
+	getLut(reds, greens, blues);
+	newImage("r1", "8-bit color-mode", 256, 32, 6, 1, 1);
+	Stack.setChannel(1);
+	setLut(reds, greens, blues);
+	Stack.setChannel(2);
+	setLut(reds, blues, greens);
+	Stack.setChannel(3);
+	setLut(greens, reds, blues);
+	Stack.setChannel(4);
+	setLut(greens, blues, reds);
+	Stack.setChannel(5);
+	setLut(blues, greens, reds);
+	Stack.setChannel(6);
+	setLut(blues, reds, greens);
+	see_All_LUTs();
+	setBatchMode(0);
+	rename("wiiiii");
+}
+
+function rotate_LUT_and_adjust() {
+	setBatchMode(1);
+	getLut(reds, greens, blues);
+	lum_array = get_LUTinance(reds, greens, blues);
+	newImage("r1", "8-bit color-mode", 256, 32, 6, 1, 1);
+	Stack.setChannel(1);
+	setLut(reds, greens, blues);
+	imitate_LUT(lum_array);
+	Stack.setChannel(2);
+	setLut(reds, blues, greens);
+	imitate_LUT(lum_array);
+	Stack.setChannel(3);
+	setLut(greens, reds, blues);
+	imitate_LUT(lum_array);
+	Stack.setChannel(4);
+	setLut(greens, blues, reds);
+	imitate_LUT(lum_array);
+	Stack.setChannel(5);
+	setLut(blues, greens, reds);
+	imitate_LUT(lum_array);
+	Stack.setChannel(6);
+	setLut(blues, reds, greens);
+	imitate_LUT(lum_array);
+	see_All_LUTs();
+	setBatchMode(0);
+	rename("wiiiiii");
+}
+
+function see_All_LUTs(){
+	setBatchMode(1);
+	title = getTitle();
+	mode = Property.get("CompositeProjection");
+	getDimensions(width, height, channels, slices, frames);
+	id = getImageID();
+	newImage(title + "_LUTs", "8-bit color-mode", 256, 32 * (channels+1), channels, 1, 1);
+	id2 = getImageID();
+	newImage("ramp", "8-bit Ramp", 256, 32, 1);
+	run("Copy");
+	selectImage(id2);
+	y = -32;
+	for (i = 0; i < channels; i++) {
+		y += 32;
+		selectImage(id);
+		Stack.setChannel(i+1);
+		getLut(reds, greens, blues);
+		selectImage(id2);
+		Stack.setChannel(i+1);
+		setLut(reds, greens, blues);
+		makeRectangle(0, y, 256, 32);
+		run("Paste");
+		makeRectangle(0, channels*32, 256, 32);
+		run("Paste");
+	}
+	run("Select None");
+	Stack.setDisplayMode("composite");
+	Property.set("CompositeProjection", mode); 
+	setOption("Changes", 0);
+	setBatchMode(0);
+}
+
+function spline_LUT_maker(){
+	error_Check_for_LUTs();
+	getLut(reds, greens, blues);
+	id = getImageID();
+	start_Lum = get_Luminance(newArray(reds[0], greens[0], blues[0]));
+	stop_Lum =  get_Luminance(newArray(reds[255], greens[255], blues[255]));
+	steps = 4;
+	Dialog.createNonBlocking("steps");
+	Dialog.addSlider("how many steps?", 1, 8, steps);
+	Dialog.show();
+	steps =  Dialog.getNumber();
+	red_Steps = newArray(0); 
+	green_Steps = newArray(0); 
+	blue_Steps = newArray(0);
+	//extract the current colors of the LUT at every step
+	for (i = 0; i < steps; i++) {
+		red_Steps[i] =     reds[i * (255 / (steps-1))];
+		green_Steps[i] = greens[i * (255 / (steps-1))];
+		blue_Steps[i] =   blues[i * (255 / (steps-1))];
+	}
+	while (true) {
+		getLocationAndSize(x, y, width, heigth);
+		Dialog.createNonBlocking("colors");
+		
+		Dialog.addMessage("REDS", 20, lut_To_Hex(150,0,0));
+		for (i = 0; i < steps; i++) Dialog.addSlider("red " + i, 0,255, red_Steps[i]);
+
+		Dialog.addMessage("GREENS", 20, lut_To_Hex(0,150,0));
+		for (i = 0; i < steps; i++) Dialog.addSlider("green " + i, 0,255, green_Steps[i]);
+		
+		Dialog.addMessage("BLUES", 20, lut_To_Hex(0,0,150));
+		for (i = 0; i < steps; i++) Dialog.addSlider("blue " + i, 0,255, blue_Steps[i]);
+		Dialog.setLocation(x + width, y);
+		Dialog.show();
+
+		for (i = 0; i < steps; i++) red_Steps[i] = Dialog.getNumber();
+		for (i = 0; i < steps; i++) green_Steps[i] = Dialog.getNumber();
+		for (i = 0; i < steps; i++) blue_Steps[i] = Dialog.getNumber();
+
+		for(i=0; i<steps; i++) { 
+			reds  [i*(255/steps)] =   red_Steps[i];
+			greens[i*(255/steps)] = green_Steps[i];
+			blues [i*(255/steps)] =  blue_Steps[i]; 
+			showProgress(i / steps);
+		}
+		selectImage(id);
+		setBatchMode(1);
+		reds =   spline_Color_2(red_Steps,steps);
+		greens = spline_Color_2(green_Steps,steps);
+		blues =  spline_Color_2(blue_Steps,steps);
+		setLut(reds, greens, blues);
+		run("Select None");
+		run("Remove Overlay");
+		setBatchMode("exit and display");
+		plot_LUT();
+		copy_LUT();
+	}
+
+	function lut_To_Hex(red, green, blue){
+	    hex_Red =   IJ.pad(toHex(red), 2);
+	    hex_Green = IJ.pad(toHex(green), 2);
+	    hex_Blue =  IJ.pad(toHex(blue), 2);
+		return "#" + hex_Red + hex_Green + hex_Blue;
+	}
+
+	function spline_Color_2(color,steps){
+		Overlay.remove;
+		X = newArray(0); Y = newArray(0);
+		for (i = 0; i < steps; i++) X[i] = round((255 / (steps-1)) * i);
+		for (i = 0; i < steps; i++) Y[i] = color[i];
+		makeSelection("polyline", X, Y);
+		run("Fit Spline");
+		Overlay.addSelection("white");
+		getSelectionCoordinates(splined_X, splined_Y);
+		splined_Y = Array.resample(splined_Y, 256);
+		Array.getStatistics(splined_Y, min, max, mean, stdDev);
+		for (k=0; k<256; k++) splined_Y[k] = 255 - (maxOf(0, minOf(255, 255 - splined_Y[k])));
+		X = Array.resample(X, 256);
+		return splined_Y;
+	}
+}
+
+function make_LUT(red, green, blue){
+	reds = newArray(256); greens = newArray(256); blues = newArray(256);
+	for(i=0; i<256; i++) { 
+		reds[i] = (red / 256) * (i+1);
+		greens[i] = (green / 256) * (i+1);
+		blues[i] = (blue / 256) * (i+1);
+	}
+	setLut(reds, greens, blues);
+}
+
+function smooth_LUT(){
+	setBatchMode(true);
+	sigma = 2;
+	if (isKeyDown("shift")) sigma = getNumber("blurring sigma?", 2);
+	title = getTitle();
+	getLut(reds, greens, blues);
+	newImage("temp", "8-bit ramp", 256, 32, 1);
+	setLut(reds, greens, blues);
+	run("Duplicate...","duplicate");
+	run("RGB Color");
+	run("Gaussian Blur...", "sigma=&sigma");
+	for (i = 0; i < 256; i++) {
+		c = getPixel(i, 2);
+		reds[i] = (c>>16)&0xff; 	
+		greens[i] = (c>>8)&0xff;		
+		blues[i] = c&0xff;
+	}
+	selectWindow("temp");
+	unique_Rename("Smoothed_" + title);
+	setLut(reds, greens, blues);
+	setBatchMode(false);
+}
+
+function ultimate_LUT_Generator(){
+	colors = newArray("red","orange","yellow","green","cyan","blue","magenta","gray");
+	//colors = newArray("red(10-167)","green(10-225)","blue(10-175)","cyan(10-190)","magenta(10-190)","yellow(10-225)","orange(10-190)","gray(0-255)");
+	chosen_Colors = newArray("gray","gray","gray","gray","gray","gray","gray","gray");
+	start_Lum = 0;
+	stop_Lum = 255;
+	steps = 4;
+	Dialog.createNonBlocking("steps");
+	Dialog.addSlider("how many steps?", 1, 8, steps);
+	Dialog.show();
+	steps =  Dialog.getNumber();
+	Dialog.createNonBlocking("colors");
+	Dialog.addSlider("start luminance?", 0, 255, start_Lum);
+	Dialog.addSlider("stop luminance?", 0, 255, stop_Lum);
+	for (i = 0; i < steps; i++) Dialog.addRadioButtonGroup("color " + i+1, colors, 1, 8, chosen_Colors[i]);
+	Dialog.show();
+	for (i = 0; i < steps; i++) chosen_Colors[i] = Dialog.getRadioButton();
+	start_Lum = Dialog.getNumber();
+	stop_Lum = Dialog.getNumber();
+	while (true) {
+		error_Check_for_LUTs();
+		setBatchMode(1);
+		reds = newArray(256); greens = newArray(256); blues = newArray(256);
+		range = stop_Lum - start_Lum;
+		for(i=0; i<steps; i++) { 
+			targetLum = i * (range / (steps-1)) + start_Lum;
+			color = random_Color_By_Type_And_Luminance(targetLum, chosen_Colors[i]);
+			reds[i*(255/(steps-1))] = color[0];
+			greens[i*(255/(steps-1))] = color[1];
+			blues[i*(255/(steps-1))] = color[2]; 
+			showProgress(i/steps);
+		}
+		reds = spline_Color(reds,(steps-1));
+		greens = spline_Color(greens,(steps-1));
+		blues = spline_Color(blues,(steps-1));
+		setLut(reds, greens, blues);
+		run("Select None");
+		run("Remove Overlay");
+		setBatchMode(0);
+		plot_LUT();
+		copy_LUT();
+		Dialog.createNonBlocking("new roll?");
+		Dialog.addMessage("OK to reroll cancel to stop");
+		Dialog.show();
+	}
+}
+
+function lut_Spline_Fit_3_to_10(){
+	setBatchMode(1);
+	title = getTitle();
+	channels = 7;
+	getLut(reds, greens, blues);
+	id = getImageID();
+	newImage("LUTs", "8-bit color-mode", 256, 32*channels, channels, 1, 1);
+	id2 = getImageID();
+	newImage("ramp", "8-bit Ramp", 256, 32, 1);
+	run("Copy");
+	selectImage(id2);
+	y = 0;
+	for (i = 0; i < channels; i++) {
+		selectImage(id2);
+		Stack.setChannel(i+1);
+		setLut(reds, greens, blues);
+		makeRectangle(0, y, 256, 32);
+		run("Paste");
+		lut_Spline_Fit2(i+3);
+		Property.setSliceLabel(i+3);
+		y += 32;
+	}
+	run("Select None");
+	Stack.setDisplayMode("color");
+	setOption("Changes", 0);
+	setBatchMode(0);
+	
+	function lut_Spline_Fit2(steps){
+		getLut(r,g,b);
+		reds = newArray(256); greens = newArray(256); blues = newArray(256);
+		reds = spline_Color(r,steps);
+		greens = spline_Color(g,steps);
+		blues = spline_Color(b,steps);
+		setLut(reds, greens, blues);
+		run("Select None");
+		run("Remove Overlay");
+	}
+}
+
+function lut_Spline_Fit(steps){
+	error_Check_for_LUTs();
+	if (isKeyDown("shift")) steps = getNumber("how many steps?", 3);
+	getLut(r,g,b);
+	newImage("Smoothed LUT", "8-bit ramp", 256, 32, 1);
+	reds = newArray(256); greens = newArray(256); blues = newArray(256);
+	reds = spline_Color(r, steps);
+	greens = spline_Color(g, steps);
+	blues = spline_Color(b, steps);
+	setLut(reds, greens, blues);
+	run("Select None");
+	run("Remove Overlay");
+	plot_LUT();
+}
+
+function random_Awesome_LUT(steps) {
+	error_Check_for_LUTs();
+	if (isKeyDown("shift")) steps = getNumber("how many steps?", steps);
+	setBatchMode(1);
+	reds = newArray(256); greens = newArray(256); blues = newArray(256);
+	for(i=0; i<=steps; i++) { 
+		color = random_Color_By_Luminance(i*(255/steps));
+		reds[i*(255/steps)] = color[0];
+		greens[i*(255/steps)] = color[1];
+		blues[i*(255/steps)] = color[2]; 
+		showProgress(i/steps);
+	}
+	reds = spline_Color(reds,steps);
+	greens = spline_Color(greens,steps);
+	blues = spline_Color(blues,steps);
+	setLut(reds, greens, blues);
+	run("Select None");
+	run("Remove Overlay");
+	setBatchMode(0);
+	plot_LUT();
+	copy_LUT();
+} 
+
+function random_150_lum_LUT(steps) {
+	error_Check_for_LUTs();
+	if (isKeyDown("shift")) steps = getNumber("how many steps?", 3);
+	setBatchMode(1);
+	reds = newArray(256); greens = newArray(256); blues = newArray(256);
+	for(i=0; i<=steps; i++) { 
+		color = random_Color_By_Luminance(i*(150/steps)); 
+		reds[i*(255/steps)] = color[0]; reds[0] = 0;
+		greens[i*(255/steps)] = color[1]; greens[0] = 0;
+		blues[i*(255/steps)] = color[2]; blues[0] = 0;
+		showProgress(i/steps);
+	}
+	reds = spline_Color(reds, steps);
+	greens = spline_Color(greens, steps);
+	blues = spline_Color(blues, steps);
+	setLut(reds, greens, blues);
+	run("Select None");
+	run("Remove Overlay");
+	plot_LUT();
+	setBatchMode(0);
+	copy_LUT();
+}
+
+function random_Viridis(steps) {
+	error_Check_for_LUTs();
+	if (isKeyDown("shift")) steps = getNumber("how many steps?", 3);
+	reds = newArray(256); greens = newArray(256); blues = newArray(256);
+	baseColor = random_Color_By_Luminance(50);
+	for(i=0; i<=steps; i++) { 
+		color = random_Color_By_Luminance(i*(170/steps)+50);
+		reds[i*(255/steps)] = color[0]; reds[0] = baseColor[0];
+		greens[i*(255/steps)] = color[1]; greens[0] = baseColor[1];
+		blues[i*(255/steps)] = color[2]; blues[0] = baseColor[2];
+		showProgress(i/steps);
+	}
+	reds = spline_Color(reds,steps);
+	greens = spline_Color(greens,steps);
+	blues = spline_Color(blues,steps);
+	setLut(reds, greens, blues);
+	run("Select None");
+	run("Remove Overlay");
+	plot_LUT();
+	setBatchMode(0);
+	copy_LUT();
+}
+
+function create_Opposite_LUT(){
+	error_Check_for_LUTs();
+	setBatchMode(1);
+	getLut(reds, greens, blues);
+	newImage("opposite LUT", "8-bit ramp", 256, 32, 1);
+	comp = newArray(0);
+	for (i = 0; i < 256; i++) {
+		comp = get_Complentary_Color(reds[i], greens[i], blues[i]);
+		reds[i] = comp[0];
+		greens[i] = comp[1];
+		blues[i] = comp[2];
+		showProgress(i/255);
+	}
+	setLut(reds, greens, blues);
+	rename("Complementary LUT");
+	setBatchMode(0);
+	plot_LUT();
+	copy_LUT();
+}
+
+function enluminate_LUT(){
+	error_Check_for_LUTs();
+	setBatchMode(1);
+	getLut(reds, greens, blues);
+	start_Lum = get_Luminance(newArray(reds[0], greens[0], blues[0]));
+	stop_Lum = get_Luminance(newArray(reds[255], greens[255], blues[255]));
+	Dialog.createNonBlocking("colors");
+	Dialog.addSlider("start luminance?", 0, 255, start_Lum);
+	Dialog.addSlider("stop luminance?", 0, 255, stop_Lum);
+	Dialog.show();
+	start_Lum = Dialog.getNumber();
+	stop_Lum = Dialog.getNumber();
+	range = stop_Lum - start_Lum;
+	for (i = 0; i < 256; i++) { 
+		rgb = newArray(reds[i], greens[i], blues[i]);
+		color = adjust_Color_To_Luminance(rgb, ((range/256) *i) + start_Lum);
+		reds[i] = color[0];
+		greens[i] = color[1];
+		blues[i] = color[2];
+		showProgress(i/255);
+	}
+	newImage("adjusted LUT", "8-bit ramp", 256, 32, 1);
+	setLut(reds, greens, blues);
+	setBatchMode(0);
+	plot_LUT();
+	copy_LUT();
+}
+
+function imitate_LUT(lum_array){
+	error_Check_for_LUTs();
+	getLut(reds, greens, blues);
+	for (i = 0; i < 256; i++) { 
+		rgb = newArray(reds[i], greens[i], blues[i]);
+		color = adjust_Color_To_Luminance(rgb, lum_array[i]);
+		reds[i] = color[0];
+		greens[i] = color[1];
+		blues[i] = color[2];
+		showProgress(i/255);
+	}
+	setLut(reds, greens, blues);
+}
+
+function adjust_From_Target_LUT() {
+	error_Check_for_LUTs();
+	titles = getList("image.titles");
+	Dialog.createNonBlocking("source");
+	Dialog.addImageChoice("source");
+	Dialog.show();
+	source= Dialog.getImageChoice();
+	id = getImageID();
+	selectWindow(source);
+	getLut(reds, greens, blues);
+	lum_array = get_LUTinance(reds, greens, blues);
+	selectImage(id);
+	imitate_LUT(lum_array);
+}
+
+function crop_LUT(){
+	id = toolID();
+	run("Select All");
+	setTool(0);
+	waitForUser("adjust the selection to crop");
+	setBatchMode(1);
+	run("Duplicate...","duplicate");
+	run("RGB Color");
+	run("Scale...",	"x=- y=- width=256 height=65 interpolation=Bicubic average create");
+	reds = newArray(1); greens = newArray(1); blues = newArray(1);
+	for (i = 0; i < 256; i++) {
+		color = getPixel(i, 2);
+		reds[i] = (color>>16)&0xff; 	
+		greens[i] = (color>>8)&0xff;		
+		blues[i] = color&0xff;
+	}
+	newImage("new LUT", "8-bit ramp", 256, 32, 1);
+	setLut(reds, greens, blues);
+	setBatchMode(0);
+	setTool(id);
+}
+
+function random_Color_By_Type_And_Luminance(luminance, target_Color_Type) {
+	color = newArray(3); 
+	loop = 1; 
+	rgb_weight = newArray(0.299,0.587,0.114);
+	color_Type = "";
+	count = 0;
+	while (loop) {
+		if (count > 20000) exit("can't generate color "+target_Color_Type+" with a luminance of "+luminance);
+		if (target_Color_Type == "gray") color = newArray(luminance, luminance, luminance);
+		else color = random_Color_By_Luminance(luminance);
+		Array.getStatistics(color, min, max, mean, stdDev);
+		red = color[0]; 
+		green = color[1]; 
+		blue = color[2];
+		if (red==max && (blue/red) <= 0.5 && (green/red) <= 0.5) 									color_Type = "red"; // 165 max lum
+
+		if (red==max && blue==min && (blue/max) < 0.2 && (green/red) < 0.63 && (green/red) > 0.4)	color_Type = "orange"; //176
+
+		if (blue==min && (blue/max) < 0.2 && (green/red) >= 0.8 && (red/green) > 0.9) 				color_Type = "yellow"; //232
+
+		if (green==max && (red/green) < 0.85 && (blue/green) < 0.6) 								color_Type = "green"; // 231
+
+		if (green==max && red==min && (red/max) < 0.2 && (blue/green) > 0.8)						color_Type = "cyan"; //194
+
+		if (blue==max && red==min && (red/max) < 0.2 && (green/blue) < 0.85)						color_Type = "blue"; //171
+
+		if (green==min && (green/max) < 0.4 && (green/red) < 0.65 && (green/blue) < 0.75) 			color_Type = "magenta"; //164
+
+		if (red==green && blue==green) 																color_Type = "gray";
+
+		if (color_Type == target_Color_Type) loop = 0;
+		if (target_Color_Type == "any") loop = 0;
+		if (luminance < 100 && (blue > 170 || red > 200)){color_Type = ""; loop=1;} //avoid screen saturation 
+		count++;
+		showProgress(count/20000);
+	}	
+	// s=""; for (i = 0; i < red; i+=2) s+="|"; print(s,red);
+	// s=""; for (i = 0; i < green; i+=2) s+="|"; print(s,green);
+	// s=""; for (i = 0; i < blue; i+=2) s+="|"; print(s,blue);
+	// "     ";
+	return color;
+}
+
+function convert_To_iMQ_Style() {
+	if(nImages == 0) exit;
+	greyZero = 0;
+	if (isKeyDown("shift")) greyZero = 1;
+	title = getTitle();
+	getLut(reds, greens, blues);
+	newImage("lut", "8-bit ramp", 192, 32, 1);
+	setLut(reds, greens, blues);
+	setBatchMode(1);
+	run("RGB Color"); rename(1);
+	newImage("iGrays", "8-bit ramp", 64, 32, 1);
+	run("Invert LUT");
+	if (greyZero) {
+		grey  = Array.resample(newArray(120,0),256);
+		setLut(grey, grey, grey);
+	}
+	run("RGB Color");
+	rename(2);
+	run("Combine...", "stack1=2 stack2=1");
+	selectWindow("Combined Stacks");
+	for (i = 0; i < 256; i++) {
+		color = getPixel(i, 2);
+		reds[i] = (color>>16)&0xff; 	greens[i] = (color>>8)&0xff;		blues[i] = color&0xff;
+	}
+	newImage("iMQ Style LUT!", "8-bit ramp", 256, 32, 1);
+	unique_Rename("iMQ_" + title);
+	setLut(reds, greens, blues);
+	setBatchMode(0);
+}
+
+function convert_To_My_MQ(){
+	if(nImages == 0) exit;
+	title = getTitle();
+	getLut(reds, greens, blues);
+	newImage("lut", "8-bit ramp", 192, 32, 1);
+	setLut(reds, greens, blues);
+	run("Invert LUT");
+	setBatchMode(1);
+	run("RGB Color"); rename(1);
+	newImage("iGrays", "8-bit ramp", 64, 32, 1);
+	run("RGB Color");
+	rename(2);
+	run("Combine...", "stack1=2 stack2=1");
+	selectWindow("Combined Stacks");
+	for (i = 0; i < 256; i++) {
+		color = getPixel(i, 2);
+		reds[i] = (color>>16)&0xff; 	greens[i] = (color>>8)&0xff;		blues[i] = color&0xff;
+	}
+	newImage("my MQ Style LUT!", "8-bit ramp", 256, 32, 1);
+	unique_Rename("myMQ_" + title);
+	setLut(reds, greens, blues);
+	setBatchMode(0);
+}
+
+function error_Check_for_LUTs(){
+	if (nImages == 0) newImage("LUT", "8-bit ramp", 256, 32, 1);
+	if (nImages > 0) {
+		if (getTitle() == "LUT Profile") close("LUT Profile");
+		if (bitDepth()==24) newImage("LUT", "8-bit ramp", 256, 32, 1);
+	}
+}
+
+function random_Color_By_Luminance(targetLum){ 
+	rgb = newArray(3); loop=1; rgb_weight = newArray(0.299,0.587,0.114);
+	luminance = 0;
+	while (loop) {
+		if (targetLum == 0) break;
+		if (targetLum == 255) {
+			rgb = newArray(255,255,255);
+			break;
+		}
+		for (i = 0; i < 3; i++) {
+			rgb[i] = round(random*255);
+			luminance += round(rgb[i]*rgb_weight[i]);
+		}
+		if (luminance >= targetLum-1 && luminance <= targetLum+1) loop=0;
+		if (targetLum < 127 && (rgb[2] > 170 || rgb[0] > 200)){color_Type = ""; loop=1;} //avoid screen saturation 
+		luminance = 0;
+	}
+	return rgb;
+}
+
+function adjust_Color_To_Luminance(rgb, targetLum){
+	inputLum = get_Luminance(rgb); rgb_weight = newArray(0.299,0.587,0.114);
+	loop=1; luminance = 0; i=1;
+	while (loop) {
+		if (targetLum == 0) {
+			rgb = newArray(0,0,0);
+			break;
+		}
+		if (targetLum == 255) {
+			rgb = newArray(255,255,255);
+			break;
+		}
+		if (i==2) i = -1;
+		if (inputLum < targetLum) {
+			i++;
+			rgb[i]++;
+			if (rgb[i] > 255) rgb[i] = 255;
+		}
+		else if (inputLum > targetLum){
+			i++;
+			rgb[i]--;
+			if (rgb[i] < 0) rgb[i] = 0;
+		}
+		for (k = 0; k < 3; k++) luminance += round(rgb[k] * rgb_weight[k]);
+		if (luminance >= targetLum-1 && luminance <= targetLum+1) loop=0;
+		luminance = 0;
+	}
+	return rgb;
+}
+//color = reds, greens or blues from getLut
+function spline_Color(color, steps){
+	Overlay.remove;
+	X = newArray(0); Y = newArray(0);
+	for (i = 0; i <= steps; i++) X[i] = (255/steps)*i;
+	for (i = 0; i <= steps; i++) Y[i] = color[X[i]];
+	makeSelection("polyline", X,Y);
+	run("Fit Spline");
+	Overlay.addSelection("white");
+	getSelectionCoordinates(splined_X, splined_Y);
+	splined_Y = Array.resample(splined_Y,256);
+	Array.getStatistics(splined_Y, min, max, mean, stdDev);
+	for (k=0;k<256;k++) splined_Y[k] = 255-(maxOf(0,minOf(255,255-splined_Y[k])));
+	X = Array.resample(X,256);
+	return splined_Y;
+}
+
+function get_Complentary_Color(r, g, b){
+	rgb = newArray(r, g, b);
+	lum = get_Luminance(rgb);
+	Array.getStatistics(rgb, min, max, mean, stdDev);
+	third_number = (rgb[0]+rgb[1]+rgb[2])-(min+max);
+	for (i = 0; i < 3; i++) {
+		if      (rgb[i] == min) rgb[i] = max;
+		else if (rgb[i] == third_number) rgb[i] = (max+min)-third_number;
+		else if (rgb[i] == max) rgb[i] = min;
+	}
+	rgb2 = adjust_Color_To_Luminance(rgb,lum);
+	return rgb2;
+}
+//--------------------------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------
 
 //--------------------------------------------------------------------------------------------------------------------------------------
 
@@ -3608,6 +4265,7 @@ function show_main_Tools_Popup_Bar(){
 	add_gray_button("Slice / Frame Tool ", "save_Main_Tool('Slice / Frame Tool');", "Navigate the Z dimension (slice or frame) <br> from anywhere in the image");
 	run("Action Bar", ACTION_BAR_STRING);
 }
+
 function show_main_Tools_Regular_Bar(){
 	setup_Action_Bar_Header("Main Tools");
 	add_new_Line();
@@ -3625,6 +4283,31 @@ function show_main_Tools_Regular_Bar(){
 	add_gray_button("Slice / Frame Tool ", "save_Main_Tool('Slice / Frame Tool');", "Navigate the Z dimension (slice or frame) <br> from anywhere in the image");
 	run("Action Bar", ACTION_BAR_STRING);
 }
+
+function show_LUT_Bar(){
+	setup_Action_Bar_Header("LUTs");
+	add_new_Line();
+	add_gray_button("random BW", "random_Awesome_LUT(3);", "shift to choose steps");
+	add_gray_button("random 150", "random_150_lum_LUT(2);", "shift to choose steps");
+	add_gray_button("random Viridis", "random_Viridis(4);", "shift to choose steps");
+	add_new_Line();
+	add_gray_button("smooth", "smooth_LUT();", "");
+	add_gray_button("spline fit", "lut_Spline_Fit(3);", "shift to choose steps");
+	add_gray_button("spline 3-10", "lut_Spline_Fit_3_to_10();", "");
+	add_gray_button("rotate", "rotate_LUT_and_adjust();", "");
+	add_new_Line();
+	add_gray_button("linearize", "enluminate_LUT();", "");
+	add_gray_button("opposite", "create_Opposite_LUT();", "");
+	add_gray_button("crop LUT", "crop_LUT();", "");
+	add_gray_button("match lum", "adjust_From_Target_LUT();", "");
+	add_new_Line();
+	add_gray_button("iMQ", "convert_To_iMQ_Style();", "shift for gray background");
+	add_gray_button("my MQ", "convert_To_My_MQ();", "shift to choose steps");
+	add_gray_button("generator", "ultimate_LUT_Generator();", "random LUT by color and lum");
+	add_gray_button("edit splines", "spline_LUT_maker();", "");
+	run("Action Bar", ACTION_BAR_STRING);
+}
+
 //--------------------------------------------------------------------------------------------------------------------------------------
 
 function add_Basic_Action_Bar(){
@@ -3834,6 +4517,8 @@ function show_my_Zbeul_Action_Bar(){
 	}
 	add_new_Line();
 	add_gray_button("update preview Opener", "update_Preview_Opener();", "tooltip");
+	add_gray_button("cul", "cul();", "poil");
+
 	add_Code_Library();
 	add_Bioformats_DnD();
 	run("Action Bar", ACTION_BAR_STRING);
@@ -3868,7 +4553,7 @@ function add_Code_Library() {
 	ACTION_BAR_STRING += "<codeLibrary>\n" + code_Library + "</codeLibrary>\n";
 }
 
-function add_fromString(){	ACTION_BAR_STRING += "<fromString>\n<disableAltClose>\n<recordable>\n";}
+function add_fromString(){	ACTION_BAR_STRING += "<fromString>\n<disableAltClose>\n";}
 
 function add_Popup_fromString(){	ACTION_BAR_STRING += "<fromString>\n<popup>\n<onTop>\n";}
 
