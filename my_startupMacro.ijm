@@ -239,7 +239,7 @@ macro "[a]"	{
 	else if (isKeyDown("alt"))		run("Select None");
 }
 macro "[A]"	{
-	if		(no_Alt_no_Space())		{ if (bitDepth() == 24) run("Enhance True Color Contrast", "saturated=0.1"); else run("Enhance Contrast", "saturated=0.1");}	
+	if		(no_Alt_no_Space())		{ if (bitDepth() == 24) run("Enhance True Color Contrast", "saturated=0.01"); else run("Enhance Contrast", "saturated=0.1");}	
 	else if (isKeyDown("space"))	enhance_All_Channels();
 	else if (isKeyDown("alt"))		enhance_All_Images_Contrasts();
 }
@@ -321,7 +321,7 @@ macro "[k]"  {
 }
 macro "[l]"	{
 	if		(no_Alt_no_Space())		run("Find Commands...");
-	else if (isKeyDown("space"))	ultimate_LUT_Generator();
+	else if (isKeyDown("space"))	random_Awesome_LUT(5);
 	else if (isKeyDown("alt"))		show_LUT_Bar();	
 }
 macro "[L]"  {
@@ -341,11 +341,12 @@ macro "[m]"	{
 macro "[n]"	{
 	if		(no_Alt_no_Space())		Hela();
 	else if (isKeyDown("space"))	make_LUT_Image();
-	else if (isKeyDown("alt"))		open("https://i.imgur.com/ATZXCyT.png");
+	else if (isKeyDown("alt"))		open(File.getDirectory(getDirectory("imagej")) + "/images/1ch_newTestImage.tif");
 }
 macro "[N]"	{
 	if		(no_Alt_no_Space())		show_Numerical_Keyboard_Bar();
 	else if (isKeyDown("space"))	run("Text Window...", "name=Untitled width=50 height=10 menu");
+	else if (isKeyDown("alt"))		open(File.getDirectory(getDirectory("imagej")) + "/images/1ch_z_projection_test.tif");
 }
 macro "[o]"	{
 	if (nImages > 0) {
@@ -2789,12 +2790,13 @@ function set_Gamma_LUT_All_Channels(gamma){
 	if (bitDepth() == 24) exit();
 	getDimensions(w,h,channels,s,f);
 	Stack.getPosition(channel, slice, frame);
-	Stack.getDisplayMode(mode);
+	mode = "color";
+	if (channels > 1) Stack.getDisplayMode(mode);
 	if (mode == "composite") {
 		for (i=1; i<=channels; i++){
 			Stack.setChannel(i);
 			getLut(reds, greens, blues);
-			gamma_LUT(gamma,reds, greens, blues);	
+			gamma_LUT(gamma,reds, greens, blues);
 		}
 	}
 	else {
@@ -4289,8 +4291,9 @@ function show_main_Tools_Regular_Bar(){
 
 function show_LUT_Bar(){
 	setup_Action_Bar_Header("LUTs");
+	add_LUTs_DnD();
 	add_new_Line();
-	add_gray_button("random BW", "random_Awesome_LUT(3);", "shift to choose steps");
+	add_gray_button("random BW", "random_Awesome_LUT(5);", "shift to choose steps");
 	add_gray_button("random 150", "random_150_lum_LUT(2);", "shift to choose steps");
 	add_gray_button("random Viridis", "random_Viridis(4);", "shift to choose steps");
 	add_new_Line();
@@ -4309,6 +4312,10 @@ function show_LUT_Bar(){
 	add_gray_button("generator", "ultimate_LUT_Generator();", "random LUT by color and lum");
 	add_gray_button("edit splines", "spline_LUT_maker();", "");
 	run("Action Bar", ACTION_BAR_STRING);
+}
+
+function cul() {
+	saveAs("lut", getDirectory("luts")+"/other LUTs/a_" + random*100 + ".lut");
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------------
@@ -4613,13 +4620,116 @@ function add_Bioformats_DnD(){
 	// if tif : virtual stack
 	ACTION_BAR_STRING +=	"<DnDAction>"+"\n"+
 	"path = getArgument();"+"\n"+
-	"if (endsWith(path, '.mp4')) run('Movie (FFMPEG)...', 'choose='+ path +' first_frame=0 last_frame=-1');\n"+
+	"if (endsWith(path, '.mp4') || endsWith(path, '.MP4')) run('Movie (FFMPEG)...', 'choose='+ path +' first_frame=0 last_frame=-1');\n"+
 	"else if (endsWith(path, '.pdf')) run('PDF ...', 'choose=' + path + ' scale=600 page=0');\n"+
 	"else if (endsWith(path, '.lif')) {run(\"Read My Lifs\"); exit();}\n"+
 	"else if (endsWith(path, '.tif')) run(\"TIFF Virtual Stack...\", 'open=[' + path + ']');\n"+
 	"else if (endsWith(path, '.ser')) run(\"TIA Reader\", '.ser-reader...=[' + path + ']');\n"+
 	"else run('Bio-Formats Importer', 'open=[' + path + ']');\n"+
 	"rename(File.name);\n"+
+	"</DnDAction>\n";
+}
+
+function add_LUTs_DnD(){
+	// drag and drop beahavior
+	// if tif : virtual stack
+	ACTION_BAR_STRING +=	"<DnDAction>		\n"+
+	"	dropped_Path = getArgument();\n"+
+	"	if (endsWith(dropped_Path, '.tif')){\n"+
+	"		id = getImageID();\n"+
+	"		setBatchMode(1);\n"+
+	"		run('TIFF Virtual Stack...', 'open=['+dropped_Path+']');\n"+
+	"		id2 = getImageID();\n"+
+	"		getDimensions(width, height, channels, slices, frames);\n"+
+	"		for (i = 0; i < channels; i++) {\n"+
+	"			selectImage(id2);\n"+
+	"			Stack.setChannel(i+1);\n"+
+	"			getLut(reds, greens, blues);\n"+
+	"			selectImage(id);\n"+
+	"			Stack.setChannel(i+1);\n"+
+	"			setLut(reds, greens, blues);	\n"+
+	"		}\n"+
+	"		selectImage(id2);\n"+
+	"		close();\n"+
+	"	}\n"+
+	"	else make_LUT_Montage_from_Path(dropped_Path);\n"+
+	"\n"+
+	"\n"+
+	"	function make_LUT_Montage_from_Path(path){\n"+
+	"		saveSettings();\n"+
+	"		lut_Dir = path + File.separator;\n"+
+	"		file_List = getFileList(lut_Dir);\n"+
+	"		setBatchMode(true);\n"+
+	"		newImage('ramp', '8-bit Ramp', 256, 32, 1);\n"+
+	"		newImage('luts', 'RGB White', 256, 48, 1);\n"+
+	"		count = 0;\n"+
+	"		setForegroundColor(255, 255, 255);\n"+
+	"		setBackgroundColor(255, 255, 255);\n"+
+	"		//recursive processing\n"+
+	"		processFiles(lut_Dir, file_List);\n"+
+	"		run('Delete Slice');\n"+
+	"		rows = floor(count/4);\n"+
+	"		if (rows < count/4) rows++;\n"+
+	"		run('Canvas Size...', 'width=258 height=50 position=Center');\n"+
+	"		run('Make Montage...', 'columns=4 rows='+rows+' scale=1 first=1 last='+count+' increment=1 border=0 use');\n"+
+	"		rename('Lookup Tables');\n"+
+	"		setBatchMode(false);\n"+
+	"		restoreSettings();\n"+
+	"\n"+
+	"		function processFiles(folder, file_List) {\n"+
+	"			file_List = getFileList(folder);\n"+
+	"			for (i=0; i<file_List.length; i++) {\n"+
+	"				if (File.isDirectory(folder + file_List[i])) processFiles(folder + file_List[i], file_List);\n"+
+	"				else {\n"+
+	"					path = folder+file_List[i];\n"+
+	"					processFile(path);\n"+
+	"				}\n"+
+	"			}\n"+
+	"		}\n"+
+	"\n"+
+	"		function processFile(path) {\n"+
+	"			if (endsWith(path, '.lut')) {\n"+
+	"				selectWindow('ramp');\n"+
+	"				open(path);\n"+
+	"				getLut(reds, greens, blues);\n"+
+	"				selectWindow('ramp');\n"+
+	"				setLut(reds, greens, blues);\n"+
+	"				run('Copy');\n"+
+	"				selectWindow('luts');\n"+
+	"				makeRectangle(0, 0, 256, 32);\n"+
+	"				run('Paste');\n"+
+	"				setJustification('center');\n"+
+	"				setColor(0,0,0);\n"+
+	"				setFont('Arial', 11);\n"+
+	"				drawString(file_List[i], 128, 48);\n"+
+	"				run('Add Slice');\n"+
+	"				run('Select All');\n"+
+	"				run('Clear', 'slice');\n"+
+	"			}\n"+
+	"			else {\n"+
+	"				if(File.exists(path)){\n"+
+	"					open(path);\n"+
+	"					if (bitDepth()!=24) { \n"+
+	"						getLut(reds, greens, blues);\n"+
+	"						selectWindow('ramp');\n"+
+	"						setLut(reds, greens, blues);\n"+
+	"						run('Copy');\n"+
+	"						selectWindow('luts');\n"+
+	"						makeRectangle(0, 0, 256, 32);\n"+
+	"						run('Paste');\n"+
+	"						setJustification('center');\n"+
+	"						setColor(0, 0, 0);\n"+
+	"						setFont('Arial', 11);\n"+
+	"						drawString(file_List[i], 128, 48);\n"+
+	"						run('Add Slice');\n"+
+	"						run('Select All');\n"+
+	"						run('Clear', 'slice');\n"+
+	"					}\n"+
+	"				}\n"+
+	"			}\n"+
+	"			count++;\n"+
+	"		}\n"+
+	"	}\n"+
 	"</DnDAction>\n";
 }
 
