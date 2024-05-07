@@ -125,7 +125,7 @@ macro "Popup Menu" {
 	else if (command == "Color Blindness") 		{rgb_Snapshot(); run("Dichromacy", "simulate=Deuteranope");}
 	else if (command == "Set LUTs") 			{get_LUTs_Dialog(); apply_LUTs();}
 	else if (command == "Set target image") 	set_Target_Image();
-	else if (command == "Set Main Tool") 		show_main_Tools_Regular_Bar();
+	else if (command == "Set Main Tool") 		show_main_Tools_Popup_Bar();
 	else run(command); 
 }
 
@@ -1530,7 +1530,6 @@ function color_Code_Progressive_Max(){
 	title = getTitle();
 	getDimensions(width, height, channels, slices, frames);
 	Stack.getPosition(channel, slice, frame);
-	getDimensions(width, height, channels, slices, frames);
 	if (selectionType() != -1) getSelectionBounds(x, y, width, height);
 	setBatchMode(1);
 	if (slices > 1 && frames >1) steps = frames;
@@ -1586,7 +1585,6 @@ function color_Code_No_Projection(){
 	getVoxelSize(voxel_width, voxel_height, voxel_depth, unit);
 	getDimensions(width, height, channels, slices, frames);
 	Stack.getPosition(channel, slice, frame);
-	getDimensions(width, height, channels, slices, frames);
 	if (selectionType() != -1) getSelectionBounds(x, y, width, height);
 	setBatchMode(1);
 	newImage("Color Coded Projection", "RGB black", width, height, 1, slices, frames);
@@ -1987,6 +1985,7 @@ function channels_Roll(){
 	if (bitDepth()==24) run("Make Composite");
 	getDimensions(width,  height, channels, slices, frames);
 	id = getImageID();
+	title = getTitle();
 	concatenate_Text = "open";
 	if (channels == 3) order_List = newArray(123,132,312,213,321,231);
 	else order_List = newArray(1234,1243,1342,1324,1423,1432,2134,2143,2341,2314,2431,2413,3124,3142,3241,3214,3412,3421,4123,4132,4231,4213,4312,4321);
@@ -2004,7 +2003,7 @@ function channels_Roll(){
 		setBatchMode(0);
 	}
 	run("Concatenate...", concatenate_Text);
-	rename("rolled");
+	unique_Rename(title + "_rolled");
 
 	function reorderLUTs(order) {//for channels_Roll
 		Stack.getPosition(channel, slice, frame);
@@ -4258,16 +4257,16 @@ function show_main_Tools_Popup_Bar(){
 	add_new_Line();
 	add_gray_button("X (close)", "<close>", "Close this popup");
 	add_new_Line();
-	add_gray_button("Move Windows", "save_Main_Tool('Move Windows');", "Drag anywhere on image to move image window");
-	add_gray_button("LUT Gamma", "save_Main_Tool('LUT Gamma Tool');", "Adjust the gamma of the current LUT <br> pixel values remain unchanged");
+	add_maintool_button("Move Windows", "save_Main_Tool('Move Windows');", "Drag anywhere on image to move image window");
+	add_maintool_button("LUT Gamma", "save_Main_Tool('LUT Gamma Tool');", "Adjust the gamma of the current LUT <br> pixel values remain unchanged");
 	add_new_Line();
-	add_gray_button("Magic Wand", "save_Main_Tool('Magic Wand');", "Detects local signal in a 5 pixel box to estimate the right Wand tolerance. <br> Drag mouse laterally to adjust tolerance if needed. <br> Double click on Multi Tool to adjust parameters");
-	add_gray_button("Scale Bar", "save_Main_Tool('Scale Bar Tool');", "Adjust the length and height by dragging the mouse on the image. <br> You can remove the text on the Multitool options");
+	add_maintool_button("Magic Wand", "save_Main_Tool('Magic Wand');", "Detects local signal in a 5 pixel box to estimate the right Wand tolerance. <br> Drag mouse laterally to adjust tolerance if needed. <br> Double click on Multi Tool to adjust parameters");
+	add_maintool_button("Scale Bar", "save_Main_Tool('Scale Bar Tool');", "Adjust the length and height by dragging the mouse on the image. <br> You can remove the text on the Multitool options");
 	add_new_Line();
-	add_gray_button("Multi-channel Plot ", "save_Main_Tool('Multi-channel Plot Tool');", "Line intensity profile Plot of all active channels");
-	add_gray_button("Curtain Tool", "save_Main_Tool('Curtain Tool');", "Compare two images : first set the 'target image' <br> (the image you want to overlay) by a right click and 'set target image'");
+	add_maintool_button("Multi-channel Plot ", "save_Main_Tool('Multi-channel Plot Tool');", "Line intensity profile Plot of all active channels");
+	add_maintool_button("Curtain Tool", "save_Main_Tool('Curtain Tool');", "Compare two images : first set the 'target image' <br> (the image you want to overlay) by a right click and 'set target image'");
 	add_new_Line();
-	add_gray_button("Slice / Frame Tool ", "save_Main_Tool('Slice / Frame Tool');", "Navigate the Z dimension (slice or frame) <br> from anywhere in the image");
+	add_maintool_button("Slice / Frame Tool ", "save_Main_Tool('Slice / Frame Tool');", "Navigate the Z dimension (slice or frame) <br> from anywhere in the image");
 	run("Action Bar", ACTION_BAR_STRING);
 }
 
@@ -4496,8 +4495,8 @@ function show_my_Zbeul_Action_Bar(){
 
 	add_new_Line();
 	add_gray_button("substack", "run(\"Make Substack...\");", "make substack");
-	add_gray_button("Max paste", "setPasteMode(\"Max\"); run(\"Paste\"); setPasteMode(\"Copy\"); run(\"Select None\");", "Max paste");
-	add_gray_button("Add paste", "setPasteMode(\"Add\"); run(\"Paste\"); setPasteMode(\"Copy\"); run(\"Select None\");", "Add paste");
+	add_gray_button("Max paste", "setPasteMode(\"Max\"); setupUndo(); run(\"Paste\"); setPasteMode(\"Copy\"); run(\"Select None\");", "Max paste");
+	add_gray_button("Add paste", "setPasteMode(\"Add\"); setupUndo(); run(\"Paste\"); setPasteMode(\"Copy\"); run(\"Select None\");", "Add paste");
 
 	add_Text_Line("__________________ Text modifs");
 	add_new_Line();
@@ -4596,6 +4595,21 @@ function add_gray_button(label, command, tooltip){
 	"tooltip=<html>" + tooltip+ "\n"+
 	"bgcolor=lightgray\n"+
 	"arg=" + command + "\n";
+}
+function add_maintool_button(label, command, tooltip){
+	main_Tool = get_Main_Tool("Move Windows");
+	if (matches(command, ".*"+ main_Tool + ".*")) 
+		ACTION_BAR_STRING += "<button>\n"+
+		"label=<html><font color='black'><b> " + label + "\n"+
+		"tooltip=<html>" + tooltip+ "\n"+
+		"bgcolor=orange\n"+
+		"arg=" + command + "\n";
+	else 
+		ACTION_BAR_STRING += "<button>\n"+
+		"label=<html><font color='black'><b> " + label + "\n"+
+		"tooltip=<html>" + tooltip+ "\n"+
+		"bgcolor=lightgray\n"+
+		"arg=" + command + "\n";
 }
 
 function add_macro_button_with_hotKey(key, label, alt_space, tooltip){
