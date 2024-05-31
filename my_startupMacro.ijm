@@ -519,6 +519,28 @@ function add_Shortcuts_Line(key, alone, space, alt){
 }
 
 
+function max_With_a_Twist(){	
+	getDimensions(width,  height, channels, slices, frames);
+	run("Duplicate...","duplicate");
+	setBatchMode(1);
+	for (c = 1; c <= channels; c++) {
+		if (channels>0) Stack.setChannel(c);
+		for (i = 1; i < nSlices; i++) {
+			setSlice(i);
+			run("Copy");
+			setSlice(i+1);
+			setPasteMode("substract");
+			run("Paste");
+			setPasteMode("Max");
+			run("Paste");
+		}
+	}
+	setBatchMode(0);
+	setPasteMode("Copy");
+	run("Select None");
+	setOption("Changes", 0);
+}
+
 function traitement_TEM_Images_Chantal(){
 	for ( i = 0; i < nImages(); i++) {
 		selectImage(i+1);
@@ -535,7 +557,7 @@ function traitement_TEM_Images_Chantal(){
 		resetMinAndMax();
 		run("8-bit");
 		setOption("Changes", 0);
-		setBatchMode(0);	run("Enhance Local Contrast (CLAHE)", "blocksize=200 histogram=256 maximum=1.5 mask=*None* fast_(less_accurate)");
+		setBatchMode(0);	run("Enhance Local Contrast (CLAHE)", "blocksize=200 histogram=256 maximum=1.3 mask=*None* fast_(less_accurate)");
 		run("Unsharp Mask...", "radius=2 mask=0.30");
 		run("Enhance Contrast", "saturated=0.1");
 	}
@@ -1086,7 +1108,7 @@ function multi_Tool(){
 	if (flags == 8) { 
 		if      (matches(getTitle(), ".*Preview Opener.*")) open_From_Preview_Opener();  
 		else if (matches(getTitle(), ".*Lookup Tables.*")) set_LUT_From_Montage(); 
-		if (Image.height == 32 || Image.width == 256) { //lut image probably
+		if (Image.height == 32 && Image.width == 256) { //lut image probably
 			if (isOpen("LUT Profile")) plot_LUT();
 			copy_LUT();
 		}
@@ -1256,7 +1278,6 @@ function move_Windows() {
 		wait(10);
 	}
 }
-
 
 function get_Cursor_Screen_Loc_X(){ 
 	x = parseInt(eval("bsh", "import java.awt.MouseInfo; MouseInfo.getPointerInfo().getLocation().x;"));
@@ -2392,7 +2413,7 @@ function fast_Merge(){
 
 function CLAHE(){
 	if (nImages()==0) exit();
-	if (isKeyDown("shift")) run("Enhance Local Contrast (CLAHE)", "blocksize=200 histogram=256 maximum=1.5 mask=*None* fast_(less_accurate)");
+	if (isKeyDown("shift")) run("Enhance Local Contrast (CLAHE)", "blocksize=200 histogram=256 maximum=1.2 mask=*None* fast_(less_accurate)");
 	else run("Enhance Local Contrast (CLAHE)");
 }
 
@@ -2470,12 +2491,13 @@ function maximize_Image() {
 		x = (screenWidth() - newWidth) / 2;
 		y = (screenHeight() - newHeight)/1.2;
 		setLocation(x, y, newWidth, newHeight);
-		run("Set... ", "zoom="+(getZoom()*100)-2);
+		// run("Set... ", "zoom="+(getZoom()*100)-2);
 	}
 	else {
 		run("Maximize");
 		setLocation(0, 200);
 	}
+	eval("bsh", "import ij.*;import java.awt.*;import ij.gui.*;c = IJ.getImage().getCanvas();c.setSourceRect(new Rectangle(0, 0, " + width + ", " + height + "));c.repaint();");
 	Property.set("is_Maximized", "True");
 	POSITION_BACKUP_TITLE = getTitle();
 }
@@ -2486,13 +2508,16 @@ function full_Screen_Image() {
 	setLocation(0, screenHeight()/11, screenWidth(), screenHeight()*0.88);
 	run("Set... ", "zoom="+round((screenWidth()/getWidth())*100)-1);
 	setLocation(0, screenHeight()/11, screenWidth(), screenHeight()*0.88);
+	getDimensions(width, height, channels, slices, frames);
 }
 
 function restore_Image_Position(){
 	if (nImages()==0) exit();
 	setLocation(X_POSITION_BACKUP, Y_POSITION_BACKUP, WIDTH_POSITION_BACKUP, HEIGHT_POSITION_BACKUP);
-	zoom = floor(getZoom()*100);
-	run("Set... ", "zoom=&zoom");
+	// zoom = floor(getZoom()*100);
+	// run("Set... ", "zoom=&zoom");
+	getDimensions(width, height, channels, slices, frames);
+	eval("bsh", "import ij.*;import java.awt.*;import ij.gui.*;c = IJ.getImage().getCanvas();c.setSourceRect(new Rectangle(0, 0, " + width + ", " + height + "));c.repaint();");
 }
 
 function note_In_Infos(){
@@ -3116,6 +3141,7 @@ function split_View(MONTAGE_STYLE, COLOR_MODE, LABELS) {
 			Stack.setDimensions(channels, slices, frames); 
 		} 
 		TILES = newArray(channels + 1);
+		getDimensions(width, height, channels, slices, frames);
 		if (BORDER_SIZE == "Auto") BORDER_SIZE = round(minOf(height, width) * 0.02);
 		FONT_SIZE = height / 9;
 		run("Duplicate...", "title=split duplicate");
@@ -4213,7 +4239,6 @@ function get_Complentary_Color(r, g, b){
 //--------------------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------------------------------
-
 //--------------------------------------------------------------------------------------------------------------------------------------
 
 function show_All_Macros_Action_Bar(){
@@ -4311,10 +4336,6 @@ function show_LUT_Bar(){
 	add_gray_button("generator", "ultimate_LUT_Generator();", "random LUT by color and lum");
 	add_gray_button("edit splines", "spline_LUT_maker();", "");
 	run("Action Bar", ACTION_BAR_STRING);
-}
-
-function cul() {
-	saveAs("lut", getDirectory("luts")+"/other LUTs/a_" + random*100 + ".lut");
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------------
@@ -4478,35 +4499,35 @@ function show_my_Zbeul_Action_Bar(){
 	add_gray_button("subtract", "run(\"Subtract...\");", "subtract");
 
 	add_new_Line();
-	add_gray_button("gaussian", "run(\"Gaussian Blur...\");", "Gaussian Blur filter");
-	add_gray_button("median", "run(\"Median...\");", "Median filter");
+	add_gray_button("gaussian", "if (isKeyDown(\"shift\")) run(\"Gaussian Blur 3D...\"); else run(\"Gaussian Blur...\");", "Gaussian Blur filter");
+	add_gray_button("median", "if (isKeyDown(\"shift\")) run(\"Median 3D...\"); else run(\"Median...\");", "Median filter");
 	add_gray_button("top hat", "run(\"Top Hat...\");", "top hat");
-
 
 	add_new_Line();
 	add_gray_button("sharpen", "run(\"Unsharp Mask...\", \"radius=2 mask=0.30\");", "Unsharp Mask 2, 0.3");
 	add_gray_button("normalize", "signal_normalisation_BIOP();", "Square root signal normalization");
+	add_gray_button("max twist", "max_With_a_Twist();", "Max animation with a twist");
 	add_gray_button("stack diff","run(\"Stack Difference\");", "Stack Difference");
 
 	add_new_Line();
 	add_gray_button("gauss correction", "gauss_Correction();", "Gaussian blur background correction");
 	add_gray_button("gauss 32 bit", "gauss_Correction_32bit();", "Gaussian blur background correction with 32 bit");
 
-
 	add_new_Line();
-	add_gray_button("substack", "run(\"Make Substack...\");", "make substack");
+	add_gray_button("make substack", "run(\"Make Substack...\");", "make substack");
 	add_gray_button("Max paste", "setPasteMode(\"Max\"); setupUndo(); run(\"Paste\"); setPasteMode(\"Copy\"); run(\"Select None\");", "Max paste");
 	add_gray_button("Add paste", "setPasteMode(\"Add\"); setupUndo(); run(\"Paste\"); setPasteMode(\"Copy\"); run(\"Select None\");", "Add paste");
 
-	add_Text_Line("__________________ Text modifs");
-	add_new_Line();
-	add_gray_button("To string", "clipboard_To_String();", "tooltip");
-	add_gray_button("To completion", "clipboard_To_Completion();", "tooltip");
-	add_new_Line();
-	add_gray_button("Correct path", "correct_Copied_Path();", "tooltip");
-	add_gray_button("Add to image info", "note_In_Infos();", "tooltip");
 
 	if (is_Caps_Lock_On()) {
+		add_Text_Line("__________________ Text modifs");
+		add_new_Line();
+		add_gray_button("To string", "clipboard_To_String();", "tooltip");
+		add_gray_button("To completion", "clipboard_To_Completion();", "tooltip");
+		add_new_Line();
+		add_gray_button("Correct path", "correct_Copied_Path();", "tooltip");
+		add_gray_button("Add to image info", "note_In_Infos();", "tooltip");
+
 		add_Text_Line("__________________ imgur images");
 		add_new_Line();
 		add_gray_button("3 channels", "setBatchMode(1); open(\"https://i.imgur.com/MZGVdVj.png\"); run(\"Make Composite\"); apply_LUTs(); run(\"Remove Slice Labels\"); setBatchMode(0);", "tooltip");
@@ -4526,13 +4547,16 @@ function show_my_Zbeul_Action_Bar(){
 	}
 	add_new_Line();
 	add_gray_button("update preview Opener", "update_Preview_Opener();", "tooltip");
-	add_gray_button("cul", "cul();", "poil");
+	add_gray_button("cul", "cul();", "save lut to 'other luts'");
 
 	add_Code_Library();
 	add_Bioformats_DnD();
 	run("Action Bar", ACTION_BAR_STRING);
 }
 
+function cul() {
+	saveAs("lut", getDirectory("luts")+"/other LUTs/a_" + random*100 + ".lut");
+}
 
 //--------------------------------------------------------------------------------------------------------------------------------------
 
@@ -4574,11 +4598,11 @@ function add_noGrid(){	ACTION_BAR_STRING += "<noGrid>\n";}
 
 function add_Text_Line(text){	
 	add_new_Line();
-	ACTION_BAR_STRING += "<text>" + text + "\n";
+	ACTION_BAR_STRING += "<text><html><font size='2'><b>" + text + "\n";
 }
 
 function add_Text(text){	
-	ACTION_BAR_STRING += "<text>" + text + "\n";
+	ACTION_BAR_STRING += "<text><html><font size='2'><font color='black'><b>" + text + "\n";
 }
 
 function add_button(color, label, command, tooltip){
@@ -4591,7 +4615,7 @@ function add_button(color, label, command, tooltip){
 
 function add_gray_button(label, command, tooltip){
 	ACTION_BAR_STRING += "<button>\n"+
-	"label=<html><font color='black'><b> " + label + "\n"+
+	"label=<html><font size='3'><font color='black'><b> " + label + "\n"+
 	"tooltip=<html>" + tooltip+ "\n"+
 	"bgcolor=lightgray\n"+
 	"arg=" + command + "\n";
