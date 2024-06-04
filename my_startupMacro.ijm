@@ -103,6 +103,7 @@ macro "Custom Menu Tool - C000H6580a5f5c9de8b3e4915" {
 	else if (command=="Merge Ladder and Signal WB")		merge_Ladder_And_Signal_From_Licor();
 	else if (command=="make my LUTs")					make_My_LUTs();
 	else if (command=="Macro TEM Chantal")				traitement_TEM_Images_Chantal();
+	else if (command=="count table backup")				open(getDirectory("temp") + "count.csv");
 	else run(command);
 }
 
@@ -668,9 +669,9 @@ function add_Fields(s) {
 
 function count_Button(column_Name, color){
 	if (nImages==0) exit();
-	if(!isOpen("count")){
+	if(!isOpen("count.csv")){
 		COUNT_LINE = 0;
-		Table.create("count");
+		Table.create("count.csv");
 		Table.setLocationAndSize(0, 50, 230, 120);
 		Table.set("Type 1", COUNT_LINE, 0);
 		Table.set("Type 2", COUNT_LINE, 0);
@@ -701,6 +702,7 @@ function count_Button(column_Name, color){
 		Table.set(column_Name, COUNT_LINE, n+1);
 	}
 	Table.update;
+	saveAs("Results", getDir("temp") + "count.csv");
 }
 
 function remove_Selected_Overlay(){ 
