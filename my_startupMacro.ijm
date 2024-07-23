@@ -251,7 +251,7 @@ macro "[b]"	{
 }
 macro "[B]"	{	
 	if		(no_Alt_no_Space())		switch_Composite_Mode();
-	else if (isKeyDown("space"))	quick_Scale_Bar();
+	else if (isKeyDown("space"))	quick_Scale_Bar(100);
 }
 macro "[C]" {	run("Brightness/Contrast...");}
 
@@ -740,12 +740,12 @@ function arrange_Channels() {
 
 // Add scale bar to image in 1-2-5 series size
 // adapted from there https://forum.image.sc/t/automatic-scale-bar-in-fiji-imagej/60774?u=k_taz
-function quick_Scale_Bar(){
+function quick_Scale_Bar(factor){
 	if (nImages()==0) exit();
 	if ( Overlay.size > 0) {run("Remove Overlay"); exit();}
 	color = "White";
 	// approximate size of the scale bar relative to image width :
-	scalebar_Size = 0.23;
+	scalebar_Size = 0.13;
 	getPixelSize(unit, pixel_Width, pixel_Height);
 	if (unit == "pixels") exit("Image not spatially calibrated");
 	// image width in measurement units
@@ -757,10 +757,10 @@ function quick_Scale_Bar(){
 	while (scalebar_Length < shortest_Image_Edge * scalebar_Size) 
 		scalebar_Length = round((scalebar_Length*2.3)/(Math.pow(10,(floor(Math.log10(abs(scalebar_Length*2.3)))))))*(Math.pow(10,(floor(Math.log10(abs(scalebar_Length*2.3))))));
 	if (REMOVE_SCALEBAR_TEXT) {
-		scalebar_Settings_String = " height=" + minOf(Image.width, Image.height)/30 + " font=" + maxOf(Image.width, Image.height)/30 + " color="+color+" hide overlay";
+		scalebar_Settings_String = " height=" + minOf(Image.width, Image.height)/factor + " color="+color+" hide overlay";
 		print("Scale Bar length = " + scalebar_Length);
 	}
-	else scalebar_Settings_String = " height=" + minOf(Image.width, Image.height)/30 + " font=" + minOf(Image.width, Image.height)/15 + " color="+color+" bold overlay";
+	else scalebar_Settings_String = " height=" + minOf(Image.width, Image.height)/factor + " font=" + minOf(Image.width, Image.height)/(factor/2) + " color="+color+" bold overlay";
 	run("Scale Bar...", "width=&scalebar_Length " + scalebar_Settings_String);
 	string_To_Recorder("run(\"Scale Bar...\", \"width=" + scalebar_Length  + scalebar_Settings_String + "\"");
 }
@@ -2224,62 +2224,44 @@ function plot_LUT(){
 	id = getImageID();
 	lutinance = newArray(0); //luminance of LUT...
 	getLut(reds, greens, blues);
-	setBatchMode(1);
-		//LUT snapshot
-		newImage("temp", "8-bit ramp", 385, 32, 1);
-		setLut(reds, greens, blues);
-		run("RGB Color");
-		rename("temp");
-		temp_1 = getImageID();
-		run("Copy");
-		newImage("temp", "RGB", 385, 32, 2);
-		setSlice(1); 
-		run("Paste");
-		temp_2 = getImageID();
-		selectImage(temp_1);
-		run("Duplicate...","title=temp duplicate");
-		simulate_Full_Deuteranopia();	
-		rename("temp");
-		run("Copy");
-		selectImage(temp_2);	
-		setSlice(2);	
-		run("Paste");
-		run("Make Montage...", "columns=1 rows=2 scale=1 border=0");
-		rename("temp");
-		setColor(45,45,45);
-		setLineWidth(4);
-		drawLine(0, 34, 385, 34);
-		run("Copy");
-		close("temp");
-	setBatchMode(0);
 	if (!isOpen("LUT Profile")) call("ij.gui.ImageWindow.setNextLocation", SAVED_LOC_X, SAVED_LOC_Y);
-	run("Plots...", "width=400 height=265");
+	run("Plots...", "width=360 height=265");
 	Plot.create("LUT Profile", "Grey Value", "value");
+	Plot.setColor("lightgray"); 
+	Plot.drawLine(0, 0, 255, 255);
 	lutinance = get_LUTinance(reds, greens, blues);
 	Plot.setColor("white"); 
 	Plot.setLineWidth(2);
 	Plot.add("line", lutinance);
 	Plot.setColor("#ff4a4a");
-	Plot.setLineWidth(2);
 	Plot.add("line", reds);
 	Plot.setColor("#8ce400");
-	Plot.setLineWidth(2);
 	Plot.add("line", greens);
 	Plot.setColor("#60c3ff");
-	Plot.setLineWidth(2);
 	Plot.add("line", blues);
 	Plot.setBackgroundColor("#2f2f2f");
-	Plot.setAxisLabelSize(14.0, "bold");
+	Plot.setAxisLabelSize(14.0, "");
 	Plot.setFormatFlags("0");
 	Plot.addLegend("1__luminance " + lutinance[0] + "-" + lutinance[255] + "\n1__reds\n2__greens\n3__blues", "Top-Left Transparent");
+	for (i=0; i<360; i++) {
+		j = i*(256/360);
+		color = lut_To_Hex(reds[j],greens[j],blues[j]);
+		Plot.setColor(color);
+		Plot.setLineWidth(1);
+		Plot.drawLine(j, -1, j, -40);
+		colorblind_color = newArray(3);
+		colorblind_color = rgb_To_Full_Deuteranopia(reds[j],greens[j],blues[j]);
+		colorblind_color = lut_To_Hex(colorblind_color[0],colorblind_color[1],colorblind_color[2]);
+		Plot.setColor(colorblind_color);
+		Plot.setLineWidth(1);
+		Plot.drawLine(j, -43, j, -80);
+	}
+	Plot.setLimits(0, 256, -80, 256);
 	Plot.update();
-	selectWindow("LUT Profile");
-	Plot.setLimits(-5, 260, -100, 260);
-	Plot.freeze(1);
-	makeRectangle(81, 214, 385, 64);
-	run("Paste"); run("Select None"); 
+	// selectWindow("LUT Profile");
+	// Plot.freeze(1);
 	// run("Set... ", "zoom=75");
-	setOption("Changes", 0);
+	// setOption("Changes", 0);
 	selectImage(id);
 }
 
@@ -2292,47 +2274,30 @@ function get_LUTinance(reds,greens,blues){
 	return lutinance;
 }
 
-function simulate_Full_Deuteranopia(){
-	if (nImages==0) exit("No Image");
-	getDimensions(width, height, channels, slices, frames);
-	rgb_Snapshot();
-
+function rgb_To_Full_Deuteranopia(red, green, blue){
 	rgb2lms = newArray(0); lms2rgb = newArray(0); gammaRGB = newArray(0);
 	a1=0.0; b1=0.0; c1=0.0; a2=0.0; b2=0.0; c2=0.0; inflection=0.0;
-
 	rgb2lms[0] = 0.05059983; rgb2lms[1] = 0.08585369; rgb2lms[2] = 0.00952420;
 	rgb2lms[3] = 0.01893033; rgb2lms[4] = 0.08925308; rgb2lms[5] = 0.01370054;
 	rgb2lms[6] = 0.00292202; rgb2lms[7] = 0.00975732; rgb2lms[8] = 0.07145979;
-
 	lms2rgb[0] = 30.830854; lms2rgb[1] = -29.832659; lms2rgb[2] = 1.610474;
 	lms2rgb[3] = -6.481468; lms2rgb[4] = 17.715578; lms2rgb[5] = -2.532642; 
 	lms2rgb[6] = -0.375690; lms2rgb[7] = -1.199062; lms2rgb[8] = 14.273846;
-
 	gammaRGB[0] = 2.0; 
 	gammaRGB[1] = 2.0; 
 	gammaRGB[2] = 2.0; 
-
 	anchor_e= newArray(0);
 	anchor= newArray(0);
 
-	/*
-	Load the LMS anchor-point values for lambda = 475 & 485 nm (for
-	protans & deutans) and the LMS values for lambda = 575 & 660 nm
-	(for tritans)
-	*/
+	// Load the LMS anchor-point values for lambda = 475 & 485 nm (for	protans & deutans) and the LMS values for lambda = 575 & 660 nm	(for tritans)
 	anchor[0] = 0.08008;  anchor[1]  = 0.1579;    anchor[2]  = 0.5897;
 	anchor[3] = 0.1284;   anchor[4]  = 0.2237;    anchor[5]  = 0.3636;
 	anchor[6] = 0.9856;   anchor[7]  = 0.7325;    anchor[8]  = 0.001079;
 	anchor[9] = 0.0914;   anchor[10] = 0.007009;  anchor[11] = 0.0;
-
-	/* We also need LMS for RGB=(1,1,1)- the equal-energy point (one of
-	* our anchors) (we can just peel this out of the rgb2lms transform
-	* matrix)
-	*/
+	// We also need LMS for RGB=(1,1,1)- the equal-energy point (one of our anchors) (we can just peel this out of the rgb2lms transform matrix)
 	anchor_e[0] = rgb2lms[0] + rgb2lms[1] + rgb2lms[2];
 	anchor_e[1] = rgb2lms[3] + rgb2lms[4] + rgb2lms[5];
 	anchor_e[2] = rgb2lms[6] + rgb2lms[7] + rgb2lms[8];
-
 	/*  Deuteranope */
 	a1 = anchor_e[1] * anchor[8] - anchor_e[2] * anchor[7]; 
 	b1 = anchor_e[2] * anchor[6] - anchor_e[0] * anchor[8];
@@ -2341,59 +2306,42 @@ function simulate_Full_Deuteranopia(){
 	b2 = anchor_e[2] * anchor[0] - anchor_e[0] * anchor[2];
 	c2 = anchor_e[0] * anchor[1] - anchor_e[1] * anchor[0];
 	inflection = (anchor_e[2] / anchor_e[0]);
+		
+	// processing
+	new_rgb = newArray(3); 
+	/* GL: Apply (not remove!) phosphor gamma to RGB intensities */
+	// GL:  This is a Gimp/Scribus code bug, this way it returns values similar to those of Vischeck:
+	red = Math.pow(red/255.0,  gammaRGB[0]);
+	green = Math.pow(green/255.0, gammaRGB[1]);
+	blue = Math.pow(blue/255.0,  gammaRGB[2]);
+	redOld = red;
+	greenOld = green;
+	red = redOld * rgb2lms[0] + greenOld * rgb2lms[1] + blue * rgb2lms[2];
+	green = redOld * rgb2lms[3] + greenOld * rgb2lms[4] + blue * rgb2lms[5];
+	blue  = redOld * rgb2lms[6] + greenOld * rgb2lms[7] + blue * rgb2lms[8];
+	tmp = blue / red;
+	/* See which side of the inflection line we fall... */
+	if (tmp < inflection)	green = -(a1 * red + c1 * blue) / b1;
+	else 					green = -(a2 * red + c2 * blue) / b2;
 			
-	// process the image
-	for (x = 0; x < width; x++) {
-		showProgress(x/width);
-		for (y = 0; y < height; y++) {
-			i = getPixel(x, y);
-			red = ((i & 0xff0000)>>16);
-			green = ((i & 0xff00)>>8) ;
-			blue = (i & 0xff);
+	/* Convert back to RGB (cross product with transform matrix) */
+	redOld = red;
+	greenOld = green;
+	red = redOld * lms2rgb[0] + greenOld * lms2rgb[1] + blue * lms2rgb[2];
+	green = redOld * lms2rgb[3] + greenOld * lms2rgb[4] + blue * lms2rgb[5];
+	blue = redOld * lms2rgb[6] + greenOld * lms2rgb[7] + blue * lms2rgb[8];
+	/* GL Remove (not apply!) phosphor gamma to go back to original intensities */
+	// GL:  This is a Gimp/Scribus code bug, this way it returns values similar to those of Vischeck:
+	ired =		Math.round(Math.pow(red,	1.0/gammaRGB[0])*255.0);
+	igreen =	Math.round(Math.pow(green,	1.0/gammaRGB[1])*255.0);
+	iblue =		Math.round(Math.pow(blue,	1.0/gammaRGB[2])*255.0);
+	/* Ensure that we stay within the RGB gamut */
+	/* *** FIX THIS: it would be better to desaturate than blindly clip. */
+	new_rgb[0] = Math.constrain(ired, 0, 255);
+	new_rgb[1] = Math.constrain(igreen, 0, 255);
+	new_rgb[2] = Math.constrain(iblue, 0, 255);
 
-			/* GL: Apply (not remove!) phosphor gamma to RGB intensities */
-			// GL:  This is a Gimp/Scribus code bug, this way it returns values similar to those of Vischeck:
-			red = Math.pow(red/255.0,  gammaRGB[0]);
-			green = Math.pow(green/255.0, gammaRGB[1]);
-			blue = Math.pow(blue/255.0,  gammaRGB[2]);
-
-			redOld = red;
-			greenOld = green;
-
-			red = redOld * rgb2lms[0] + greenOld * rgb2lms[1] + blue * rgb2lms[2];
-			green = redOld * rgb2lms[3] + greenOld * rgb2lms[4] + blue * rgb2lms[5];
-			blue  = redOld * rgb2lms[6] + greenOld * rgb2lms[7] + blue * rgb2lms[8];
-
-			tmp = blue / red;
-			/* See which side of the inflection line we fall... */
-			if (tmp < inflection)	green = -(a1 * red + c1 * blue) / b1;
-			else 					green = -(a2 * red + c2 * blue) / b2;
-					
-
-			/* Convert back to RGB (cross product with transform matrix) */
-			redOld = red;
-			greenOld = green;
-
-			red = redOld * lms2rgb[0] + greenOld * lms2rgb[1] + blue * lms2rgb[2];
-			green = redOld * lms2rgb[3] + greenOld * lms2rgb[4] + blue * lms2rgb[5];
-			blue = redOld * lms2rgb[6] + greenOld * lms2rgb[7] + blue * lms2rgb[8];
-
-			/* GL Remove (not apply!) phosphor gamma to go back to original intensities */
-			// GL:  This is a Gimp/Scribus code bug, this way it returns values similar to those of Vischeck:
-			ired =		Math.round(Math.pow(red,	1.0/gammaRGB[0])*255.0);
-			igreen =	Math.round(Math.pow(green,	1.0/gammaRGB[1])*255.0);
-			iblue =		Math.round(Math.pow(blue,	1.0/gammaRGB[2])*255.0);
-
-			/* Ensure that we stay within the RGB gamut */
-			/* *** FIX THIS: it would be better to desaturate than blindly clip. */
-			ired = Math.constrain(ired, 0, 255);
-			igreen = Math.constrain(igreen, 0, 255);
-			iblue = Math.constrain(iblue, 0, 255);
-
-			i = ((ired & 0xff)<<16)+((igreen & 0xff)<<8 )+(iblue & 0xff);
-			setPixel(x, y, i);
-		}
-	}
+	return new_rgb;
 }
 
 function fast_Merge(){
@@ -4209,18 +4157,17 @@ function adjust_Color_To_Luminance(rgb, targetLum){
 }
 //color = reds, greens or blues from getLut
 function spline_Color(color, steps){
-	Overlay.remove;
+	setBatchMode(1);
 	X = newArray(0); Y = newArray(0);
 	for (i = 0; i <= steps; i++) X[i] = (255/steps)*i;
 	for (i = 0; i <= steps; i++) Y[i] = color[X[i]];
 	makeSelection("polyline", X,Y);
 	run("Fit Spline");
-	Overlay.addSelection("white");
 	getSelectionCoordinates(splined_X, splined_Y);
 	splined_Y = Array.resample(splined_Y,256);
 	Array.getStatistics(splined_Y, min, max, mean, stdDev);
 	for (k=0;k<256;k++) splined_Y[k] = 255-(maxOf(0,minOf(255,255-splined_Y[k])));
-	X = Array.resample(X,256);
+	setBatchMode(0);
 	return splined_Y;
 }
 
@@ -4495,18 +4442,18 @@ function show_my_Zbeul_Action_Bar(){
 	setup_Action_Bar_Header("my Zbeul");
 	add_Text_Line("__________________ K");
 	add_new_Line();
-	add_gray_button("8-bit", "if (isKeyDown(\"shift\")) {	for ( i = 0; i < nImages; i++) {selectImage(i+1);run(\"8-bit\");}}else run(\"8-bit\");", "convert to 8 bit");
+	add_gray_button("8-bit", "if (isKeyDown(\"shift\")) {	for ( i = 0; i < nImages; i++) {selectImage(i+1);run(\"8-bit\");}}else run(\"8-bit\");", "convert to 8 bit, shift for all images");
 	add_gray_button("delete", "run(\"Delete Slice\");", "delete slice");
 	add_gray_button("calculator", "run(\"Image Calculator...\");", "Image Calculator");
 	add_gray_button("subtract", "run(\"Subtract...\");", "subtract");
 
 	add_new_Line();
-	add_gray_button("gaussian", "if (isKeyDown(\"shift\")) run(\"Gaussian Blur 3D...\"); else run(\"Gaussian Blur...\");", "Gaussian Blur filter");
-	add_gray_button("median", "if (isKeyDown(\"shift\")) run(\"Median 3D...\"); else run(\"Median...\");", "Median filter");
+	add_gray_button("gaussian", "if (isKeyDown(\"shift\")) run(\"Gaussian Blur 3D...\"); else run(\"Gaussian Blur...\");", "Gaussian Blur filter, shift for 3D");
+	add_gray_button("median", "if (isKeyDown(\"shift\")) run(\"Median 3D...\"); else run(\"Median...\");", "Median filter, shift for 3D");
 	add_gray_button("top hat", "run(\"Top Hat...\");", "top hat");
 
 	add_new_Line();
-	add_gray_button("sharpen", "run(\"Unsharp Mask...\", \"radius=2 mask=0.30\");", "Unsharp Mask 2, 0.3");
+	add_gray_button("sharpen", "if (isKeyDown(\"shift\")) run(\"Unsharp Mask...\"); else run(\"Unsharp Mask...\", \"radius=2 mask=0.30\");", "Unsharp Mask 2, 0.3, shift for dialog");
 	add_gray_button("normalize", "signal_normalisation_BIOP();", "Square root signal normalization");
 	add_gray_button("max twist", "max_With_a_Twist();", "Max animation with a twist");
 	add_gray_button("stack diff","run(\"Stack Difference\");", "Stack Difference");
@@ -4548,7 +4495,8 @@ function show_my_Zbeul_Action_Bar(){
 		add_gray_button("Test main filters", "test_main_Filters();", "tooltip");
 	}
 	add_new_Line();
-	add_gray_button("update preview Opener", "update_Preview_Opener();", "tooltip");
+	// add_gray_button("update preview Opener", "update_Preview_Opener();", "tooltip");
+	add_gray_button("Spline LUT", "run('Spline LUT');", "tooltip");
 	add_gray_button("cul", "cul();", "save lut to 'other luts'");
 
 	add_Code_Library();
@@ -4566,6 +4514,7 @@ function setup_Action_Bar_Header(main_Title){
 	ACTION_BAR_STRING = "";
 	if (isOpen(main_Title)) run("Close AB", main_Title);
 	add_fromString();
+	// ACTION_BAR_STRING += "<sticky>\n";
 	add_main_title(main_Title);
 	add_Code_Library();
 }
@@ -4665,6 +4614,7 @@ function add_Bioformats_DnD(){
 	"else if (endsWith(path, '.lif')) {run(\"Read My Lifs\"); exit();}\n"+
 	"else if (endsWith(path, '.tif')) run(\"TIFF Virtual Stack...\", 'open=[' + path + ']');\n"+
 	"else if (endsWith(path, '.ser')) run(\"TIA Reader\", '.ser-reader...=[' + path + ']');\n"+
+	"else if (endsWith(path, '.json')) run('make PAE images');\n"+
 	"else run('Bio-Formats Importer', 'open=[' + path + ']');\n"+
 	"rename(File.name);\n"+
 	"</DnDAction>\n";
