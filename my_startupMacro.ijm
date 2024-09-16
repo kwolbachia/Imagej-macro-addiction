@@ -92,18 +92,20 @@ macro "Multi Tool Options" {
 //		SHORTCUTS
 //--------------------------------------------------------------------------------------------------------------------------------------
 var ShortcutsMenu = newMenu("Custom Menu Tool",
-	newArray( "Batch convert to tiff","Convert all opened images to 8-bit", "Count table backup", "Merge Ladder and Signal WB","Macro TEM Chantal",
+	newArray( "Batch convert to tiff","Convert all opened images to 8-bit", "Convert all opened images to 16-bit", "Count table backup", "Merge Ladder and Signal WB","Macro TEM Chantal",
 		 "-","Rotate 90 Degrees Right","Rotate 90 Degrees Left", "make my LUTs",
-		 "-", "Median...", "Gaussian Blur...","Gaussian Blur 3D...","Gamma...","Voronoi Threshold Labler (2D/3D)", "Scale Bar...","Start CLIJ2-Assistant"));
+		 "-", "Gaussian Blur 3D...","Gamma...","Voronoi Threshold Labler (2D/3D)", "Scale Bar...","Long image to square"));
 // macro "Custom Menu Tool - N55C000D1aD1bD1cD1dD29D2dD39D3dD49D4dD4eD59D5eD69D75D76D77D78D79D85D88D89D94D98D99Da4Da7Da8Da9Db3Db7Db8Dc3Dc6Dc7DccDcdDd3Dd6Dd8DdbDdcDe2De3De6De8De9DeaDebDecCfffD0dD3cD5cD6dD7bD8bD8cD96D9aD9bDa5DacDadDb5DcaDd4Dd9DdaDe4CdddD0aD1eD2bD6aD74D7aD95Dc4Dc5DeeC222D8eDa3DbcC111D38D5bD6bD7dDabDbaDd7C888D66De5C666D19Db4DcbC900CbbbD0cD87DaeDb2C444D28D2aD3eD48D84Db6Dc2CaaaDb9DedC777D0bD2eD4aD6cD7cD7eD9cD9dD9eDbdDc8CcccD2cDdeDe7C333D67D68DbeDd2DddC999D4cD58D5aD5dD93DceDd5Bf0C000D03D06D0cD13D16D1bD23D26D2aD33D37D39D43D44D47D48D54D65D76D77D87D88D89D8aD8bD8cD8dD8eD9bCfffD04D08D0dD0eD14D18D19D24D28D2cD35D3bD3cD3dD3eD45D46D4aD4bD4cD4eD56D57D5aD5bD5cD5dD5eD68D69D6aD6bD6cD6dD7cD7dCdddD1cD25D63D7eD97C222D64D66D9aC111D02D0bD36C888D98C666D12D38D78C900CbbbD0aD15D1eD2dD32D34C444D22D49D55D75D86D9cD9dCaaaD05D29D53C777D27D3aCcccD09D17C333D99C999D1aD2bD58D9eB0fC000D02D03D04D05D08D09D18D27D28D36D37D45D46D54D55D63D64D71D72D80D81CfffD06D07D16D25D30D34D35D40D43D44D52D57D60D61D75D83D85CdddD10D22D32D33D42D74C222D01D13D14D73C111C888D47D70C666C900D56D66D67D76D77D78D86D87D96CbbbD12D15D19D20D23D24D41D82C444D17CaaaC777D00CcccD11D26D90C333C999D62D65Nf0C000D33D34D35D36D42D43D46D50D51D55D64D65D66D67D73D74D78D88D96D97Da4Da5Db4Dc4Dd4Dd6Dd7Dd8De3De4De6De8De9CfffD15D31D44D53D54D58D62D84D85D86D92D93Da2Db2Dc2Dd2De7CdddD63Da1Da7Dc1Dd0De2C222D75D95Db3C111C888D23D32D45Dc3C666D40D52D57C900CbbbD70D80D94C444D24D60D68D87Da3Db0CaaaD26Dc0C777D41D81D91D98Dc7De5CcccD61D72D79D83D89Dc5Dd5Dd9De1C333D25D47D56D77Da0C999D37D76D90Da6Db5Dc6Dc8Dd3" {
 macro "Custom Menu Tool - C000H6580a5f5c9de8b3e4915" {
 	command = getArgument(); 
 	if 		(command=="Batch convert to tiff") 			batch_ims_To_tif();
 	else if (command=="Convert all opened images to 8-bit")	for ( i = 0; i < nImages; i++) {selectImage(i+1); run("8-bit");}
+	else if (command=="Convert all opened images to 16-bit")	for ( i = 0; i < nImages; i++) {selectImage(i+1); run("16-bit");}
 	else if (command=="Merge Ladder and Signal WB")		merge_Ladder_And_Signal_From_Licor();
 	else if (command=="make my LUTs")					make_My_LUTs();
 	else if (command=="Macro TEM Chantal")				traitement_TEM_Images_Chantal();
-	else if (command=="Count table backup")				open(getDirectory("temp") + "count.csv");
+	else if (command=="make my LUTs")					make_My_LUTs();
+	else if (command=="Long image to square")			square_Montage();
 	else run(command);
 }
 
@@ -285,7 +287,7 @@ macro "[f]"	{
 	else if (isKeyDown("alt"))		run("Gaussian Blur 3D...","x=0.5 y=0.5 z=0.5");
 }
 macro "[G]"	{
-	if		(no_Alt_no_Space())		run("Z Project...", "projection=[Max Intensity] all");
+	if		(no_Alt_no_Space())		{ run("Z Project...", "projection=[Max Intensity] all"); string_To_Recorder("run(\"Z Project...\", \"projection=[Max Intensity] all\");");}
 	else if (isKeyDown("space"))	z_Project_All();
 	else if (isKeyDown("alt"))		run("Z Project...", "projection=[Sum Slices] all");
 }
@@ -519,6 +521,17 @@ function add_Shortcuts_Line(key, alone, space, alt){
 	Table.set("with Alt",	SHORTCUT_LINE_INDEX, alt);
 }
 
+function square_Montage(){
+	getDimensions(width, height, channels, slices, frames);
+	title = getTitle();
+	column  = round(sqrt(width/height));
+	if (column <= 1) exit(); 
+	setBatchMode(1);
+	run("Montage to Stack...", "columns=&column rows=1 border=0");
+	run("Make Montage...", "columns=1 rows=&column scale=1");
+	unique_Rename(title + "_montage");
+	setBatchMode(0);
+}
 
 function max_With_a_Twist(){	
 	getDimensions(width,  height, channels, slices, frames);
@@ -547,20 +560,22 @@ function traitement_TEM_Images_Chantal(){
 		selectImage(i+1);
 		TITLE = getTitle();
 		setBatchMode(1);
-		run("32-bit");
-		run("Duplicate...", "title=gaussed duplicate");
-		getDimensions(width, height, channels, slices, frames);
-		SIGMA = maxOf(height,width) / 4;
-		run("Gaussian Blur...", "sigma=" + SIGMA + " stack");
-		imageCalculator("Divide stack", TITLE, "gaussed");
-		selectImage(i+1);
-		rename(TITLE + "_corrected_d");
+		// run("32-bit");
+		// run("Duplicate...", "title=gaussed duplicate");
+		// getDimensions(width, height, channels, slices, frames);
+		// SIGMA = maxOf(height,width) / 4;
+		// run("Gaussian Blur...", "sigma=" + SIGMA + " stack");
+		// imageCalculator("Divide stack", TITLE, "gaussed");
+		// selectImage(i+1);
+		run("Bandpass Filter...", "filter_large=500 filter_small=0 suppress=None tolerance=5");
 		resetMinAndMax();
 		run("8-bit");
-		setOption("Changes", 0);
-		setBatchMode(0);	run("Enhance Local Contrast (CLAHE)", "blocksize=200 histogram=256 maximum=1.3 mask=*None* fast_(less_accurate)");
+		rename(TITLE + "_corrected_d");
+		setBatchMode(0);	
+		run("Enhance Local Contrast (CLAHE)", "blocksize=200 histogram=256 maximum=1.3 mask=*None* fast_(less_accurate)");
 		run("Unsharp Mask...", "radius=2 mask=0.30");
 		run("Enhance Contrast", "saturated=0.1");
+		setOption("Changes", 0);
 	}
 }
 
@@ -1552,6 +1567,7 @@ function color_Code_Progressive_Max(){
 	setPasteMode("Max");
 	title = getTitle();
 	getDimensions(width, height, channels, slices, frames);
+	getVoxelSize(voxel_width, voxel_height, voxel_depth, unit);
 	Stack.getPosition(channel, slice, frame);
 	if (selectionType() != -1) getSelectionBounds(x, y, width, height);
 	setBatchMode(1);
@@ -1597,6 +1613,7 @@ function color_Code_Progressive_Max(){
 	unique_Rename(title + "_Max_colored");
 	setBatchMode("exit and display");
 	restoreSettings();
+	setVoxelSize(voxel_width, voxel_height, voxel_depth, unit);
 	setOption("Changes", 0);
 }
 
@@ -2227,9 +2244,9 @@ function plot_LUT(){
 	if (!isOpen("LUT Profile")) call("ij.gui.ImageWindow.setNextLocation", SAVED_LOC_X, SAVED_LOC_Y);
 	run("Plots...", "width=360 height=265");
 	Plot.create("LUT Profile", "Grey Value", "value");
-	Plot.setColor("lightgray"); 
-	Plot.drawLine(0, 0, 255, 255);
 	lutinance = get_LUTinance(reds, greens, blues);
+	Plot.setColor("lightgray"); 
+	Plot.drawLine(0, lutinance[0], 255, lutinance[255]);
 	Plot.setColor("white"); 
 	Plot.setLineWidth(2);
 	Plot.add("line", lutinance);
@@ -2675,9 +2692,9 @@ function batch_ims_To_tif(){
 Set LUTs
 --------*/
 function get_My_LUTs(){
-	if (nImages()==0) exit();
 	LUT_list = newArray("k_Blue","k_Orange","k_Magenta","k_Green","Grays" ,"copied" ,"fav");
-	getDimensions(width, height, channels, slices, frames);
+	if (nImages == 0) channels = 5;
+	else getDimensions(width, height, channels, slices, frames);
 	// Dialog
 	Dialog.create("Set all LUTs");
 	for(i=0; i<channels; i++) { Dialog.setInsets(0, 0, 0); Dialog.addRadioButtonGroup("LUT " + (i+1), LUT_list, 2, 4, CHOSEN_LUTS[i]);}
@@ -2694,7 +2711,8 @@ function get_My_LUTs(){
 
 function get_LUTs_Dialog(){
 	LUT_list = newArray("k_Blue","k_Magenta","k_Orange","k_Green","Grays","Cyan","Magenta","Yellow","Red","Green","Blue");
-	getDimensions(width, height, channels, slices, frames);
+	if (nImages == 0) channels = 5;
+	else getDimensions(width, height, channels, slices, frames);
 	// Dialog
 	Dialog.create("Set all LUTs");
 	for(i=0; i<channels; i++) Dialog.addChoice("LUT " + (i+1),LUT_list, CHOSEN_LUTS[i]);
@@ -4191,6 +4209,8 @@ function get_Complentary_Color(r, g, b){
 //--------------------------------------------------------------------------------------------------------------------------------------
 
 function show_All_Macros_Action_Bar(){
+	call("ij.Prefs.set","actionbar.xloc","1000");
+	call("ij.Prefs.set","actionbar.yloc","0");
 	setup_Action_Bar_Header("Main Keyboard Macros");
 	add_new_Line();
 	add_macro_button_with_hotKey("E", "Arrange windows as Tiles", "none", "Fit all windows in screen");
@@ -4202,17 +4222,9 @@ function show_All_Macros_Action_Bar(){
 	run("Action Bar", ACTION_BAR_STRING);
 }
 
-function show_Basic_Macros_Action_Bar(){
-	setup_Action_Bar_Header("Utilities Macros");
-	add_new_Line();
-	add_macro_button_with_hotKey("E", "Arrange windows as Tiles", "none", "Fit all windows in screen");
-	add_macro_button_with_hotKey("H", "Show All", "none", "Bring all imageJ windows to front");
-	add_Basic_Action_Bar();
-	add_Bioformats_DnD();
-	run("Action Bar", ACTION_BAR_STRING);
-}
-
 function show_SplitView_Bar(){
+	call("ij.Prefs.set","actionbar.xloc","1000");
+	call("ij.Prefs.set","actionbar.yloc","0");
 	setup_Action_Bar_Header("Splitview Macros");
 	add_SplitView_Action_Bar();
 	add_Bioformats_DnD();
@@ -4220,6 +4232,8 @@ function show_SplitView_Bar(){
 }
 
 function show_Numerical_Keyboard_Bar(){
+	call("ij.Prefs.set","actionbar.xloc","1000");
+	call("ij.Prefs.set","actionbar.yloc","0");
 	setup_Action_Bar_Header("Numerical Keyboard Macros");
 	add_Numerical_Keyboard();
 	add_Bioformats_DnD();
@@ -4263,6 +4277,8 @@ function show_main_Tools_Regular_Bar(){
 }
 
 function show_LUT_Bar(){
+	call("ij.Prefs.set","actionbar.xloc","1300");
+	call("ij.Prefs.set","actionbar.yloc","0");
 	setup_Action_Bar_Header("LUTs");
 	add_LUTs_DnD();
 	add_new_Line();
@@ -4389,6 +4405,8 @@ function add_Numerical_Keyboard() {
 }
 
 function show_Other_Macros(){
+	call("ij.Prefs.set","actionbar.xloc","1000");
+	call("ij.Prefs.set","actionbar.yloc","0");
 	setup_Action_Bar_Header("Other Macros");
 	add_new_Line();
 	add_macro_button_with_hotKey("F", "MultiTool switch", "none", "Switch between current Tool (default is rectangle) and MultiTool icon");
@@ -4439,8 +4457,10 @@ function show_Other_Macros(){
 }
 
 function show_my_Zbeul_Action_Bar(){
+	call("ij.Prefs.set","actionbar.xloc","1000");
+	call("ij.Prefs.set","actionbar.yloc","0");
 	setup_Action_Bar_Header("my Zbeul");
-	add_Text_Line("__________________ K");
+	// add_Text_Line("__________________ K");
 	add_new_Line();
 	add_gray_button("8-bit", "if (isKeyDown(\"shift\")) {	for ( i = 0; i < nImages; i++) {selectImage(i+1);run(\"8-bit\");}}else run(\"8-bit\");", "convert to 8 bit, shift for all images");
 	add_gray_button("delete", "run(\"Delete Slice\");", "delete slice");
@@ -4451,6 +4471,7 @@ function show_my_Zbeul_Action_Bar(){
 	add_gray_button("gaussian", "if (isKeyDown(\"shift\")) run(\"Gaussian Blur 3D...\"); else run(\"Gaussian Blur...\");", "Gaussian Blur filter, shift for 3D");
 	add_gray_button("median", "if (isKeyDown(\"shift\")) run(\"Median 3D...\"); else run(\"Median...\");", "Median filter, shift for 3D");
 	add_gray_button("top hat", "run(\"Top Hat...\");", "top hat");
+	add_gray_button("true color", "run(\"Enhance True Color Contrast\");", "tRUE cOLOR cONTRAST");
 
 	add_new_Line();
 	add_gray_button("sharpen", "if (isKeyDown(\"shift\")) run(\"Unsharp Mask...\"); else run(\"Unsharp Mask...\", \"radius=2 mask=0.30\");", "Unsharp Mask 2, 0.3, shift for dialog");
@@ -4477,13 +4498,7 @@ function show_my_Zbeul_Action_Bar(){
 		add_gray_button("Correct path", "correct_Copied_Path();", "tooltip");
 		add_gray_button("Add to image info", "note_In_Infos();", "tooltip");
 
-		add_Text_Line("__________________ imgur images");
-		add_new_Line();
-		add_gray_button("3 channels", "setBatchMode(1); open(\"https://i.imgur.com/MZGVdVj.png\"); run(\"Make Composite\"); apply_LUTs(); run(\"Remove Slice Labels\"); setBatchMode(0);", "tooltip");
-		add_gray_button("Microtubules", "open(\"https://i.imgur.com/LDO1rVL.png\");", "tooltip");
-		add_gray_button("Brain stack", "setBatchMode(1); open(\"https://i.imgur.com/DYIF55D.jpg\"); run(\"Montage to Stack...\", \"columns=20 rows=18 border=0\"); rename(\"brain\"); setBatchMode(0);", "tooltip");
-
-		add_Text_Line("__________________ Wheels and tests");
+		add_Text_Line("__________________ Wheels and testers");
 		add_new_Line();
 		add_gray_button("Jeromes RGB Wheel", "Jeromes_Wheel();", "tooltip");
 		add_gray_button("RGB time Is Over", "RGB_time_Is_Over();", "tooltip");
@@ -4495,16 +4510,17 @@ function show_my_Zbeul_Action_Bar(){
 		add_gray_button("Test main filters", "test_main_Filters();", "tooltip");
 	}
 	add_new_Line();
-	// add_gray_button("update preview Opener", "update_Preview_Opener();", "tooltip");
+	add_gray_button("update preview Opener", "update_Preview_Opener();", "tooltip");
+	add_new_Line();
 	add_gray_button("Spline LUT", "run('Spline LUT');", "tooltip");
-	add_gray_button("cul", "cul();", "save lut to 'other luts'");
+	add_gray_button("save LUT", "to_Other_LUTs();", "save lut to 'other luts'");
 
 	add_Code_Library();
 	add_Bioformats_DnD();
 	run("Action Bar", ACTION_BAR_STRING);
 }
 
-function cul() {
+function to_Other_LUTs() {
 	saveAs("lut", getDirectory("luts")+"/other LUTs/a_" + random*100 + ".lut");
 }
 
@@ -4549,11 +4565,11 @@ function add_noGrid(){	ACTION_BAR_STRING += "<noGrid>\n";}
 
 function add_Text_Line(text){	
 	add_new_Line();
-	ACTION_BAR_STRING += "<text><html><font size='2'><b>" + text + "\n";
+	ACTION_BAR_STRING += "<text><html><b>" + text + "\n";
 }
 
 function add_Text(text){	
-	ACTION_BAR_STRING += "<text><html><font size='2'><font color='black'><b>" + text + "\n";
+	ACTION_BAR_STRING += "<text><html><font color='black'><b>" + text + "\n";
 }
 
 function add_button(color, label, command, tooltip){
@@ -4609,7 +4625,7 @@ function add_Bioformats_DnD(){
 	// if tif : virtual stack
 	ACTION_BAR_STRING +=	"<DnDAction>"+"\n"+
 	"path = getArgument();"+"\n"+
-	"if (endsWith(path, '.mp4') || endsWith(path, '.MP4')) run('Movie (FFMPEG)...', 'choose='+ path +' first_frame=0 last_frame=-1');\n"+
+	"if (endsWith(path, '.mp4') || endsWith(path, '.MP4')) run('Movie (FFMPEG)...', 'choose=[' + path + '] first_frame=0 last_frame=-1');\n"+
 	"else if (endsWith(path, '.pdf')) run('PDF ...', 'choose=' + path + ' scale=600 page=0');\n"+
 	"else if (endsWith(path, '.lif')) {run(\"Read My Lifs\"); exit();}\n"+
 	"else if (endsWith(path, '.tif')) run(\"TIFF Virtual Stack...\", 'open=[' + path + ']');\n"+
