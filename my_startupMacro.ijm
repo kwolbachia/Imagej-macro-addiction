@@ -128,7 +128,7 @@ macro "Popup Menu" {
 	else if (command == "Color Blindness") 		{rgb_Snapshot(); run("Dichromacy", "simulate=Deuteranope");}
 	else if (command == "Set LUTs") 			{get_LUTs_Dialog(); apply_LUTs();}
 	else if (command == "Set target image") 	set_Target_Image();
-	else if (command == "Set Main Tool") 		show_main_Tools_Popup_Bar();
+	else if (command == "Set Main Tool") 		show_main_Tools_Regular_Bar();
 	else run(command); 
 }
 
@@ -168,11 +168,11 @@ macro "[f5]" {	scroll_Loop(); }
 //NUMPAD KEYS
 macro "[n0]"{ if (isKeyDown("space")) set_Favorite_LUT();	else if (isKeyDown("alt")) convert_To_iMQ_Style();	else paste_Favorite_LUT();}
 macro "[n1]"{ if (isKeyDown("space")) toggle_Channel(1); 	else if (isKeyDown("alt")) toggle_Channel_All(1); 	else run("Grays");}
-macro "[n2]"{ if (isKeyDown("space")) toggle_Channel(2); 	else if (isKeyDown("alt")) toggle_Channel_All(2); 	else run("k_Green");	}
+macro "[n2]"{ if (isKeyDown("space")) toggle_Channel(2); 	else if (isKeyDown("alt")) toggle_Channel_All(2); 	else run("KTZ Noice Green");	}
 macro "[n3]"{ if (isKeyDown("space")) toggle_Channel(3); 	else if (isKeyDown("alt")) toggle_Channel_All(3); 	else run("Red");}
-macro "[n4]"{ if (isKeyDown("space")) toggle_Channel(4); 	else if (isKeyDown("alt")) toggle_Channel_All(4); 	else run("k_Blue");	}
-macro "[n5]"{ if (isKeyDown("space")) toggle_Channel(5); 	else if (isKeyDown("alt")) toggle_Channel_All(5); 	else run("k_Magenta");	}
-macro "[n6]"{ if (isKeyDown("space")) toggle_Channel(6); 	else if (isKeyDown("alt")) toggle_Channel_All(6); 	else run("k_Orange");	}
+macro "[n4]"{ if (isKeyDown("space")) toggle_Channel(4); 	else if (isKeyDown("alt")) toggle_Channel_All(4); 	else run("KTZ Noice Blue");	}
+macro "[n5]"{ if (isKeyDown("space")) toggle_Channel(5); 	else if (isKeyDown("alt")) toggle_Channel_All(5); 	else run("KTZ Noice Magenta");	}
+macro "[n6]"{ if (isKeyDown("space")) toggle_Channel(6); 	else if (isKeyDown("alt")) toggle_Channel_All(6); 	else run("KTZ Noice Orange");	}
 macro "[n7]"{ if (isKeyDown("space")) toggle_Channel(7);	else if (isKeyDown("alt")) toggle_Channel_All(7); 	else run("Cyan");	}
 macro "[n8]"{ if (isKeyDown("space")) run("8-bit"); 		else if (isKeyDown("alt")) run("16-bit");		 	else run("Magenta");	}
 macro "[n9]"{ if (isKeyDown("space")) run("glasbey_on_dark");													else run("Yellow");}
@@ -265,7 +265,7 @@ macro "[d]"	{
 macro "[D]"	{
 	if		(no_Alt_no_Space())		{run("Duplicate...", "duplicate"); string_To_Recorder("run(\"Duplicate...\", \"duplicate\");");}
 	else if (isKeyDown("space"))	open_Memory_And_Recorder();
-	// else if (isKeyDown("alt"))		
+	else if (isKeyDown("alt"))		run("Rotate 90 Degrees Left");		
 }
 macro "[e]"	{
 	if		(no_Alt_no_Space())		plot_LUT();
@@ -431,7 +431,7 @@ macro "[y]"	{
 macro "[Z]" {	
 	if		(no_Alt_no_Space())		run("Channels Tool...");
 	else if (isKeyDown("space"))	run("LUT Channels Tool");
-	else if (isKeyDown("alt"))		{setKeyDown("None"); run("LUT Panel");}
+	else if (isKeyDown("alt"))		{setKeyDown("None"); run("LUTs Finder");}
 }
 macro "[n/]" {
 	show_Shortcuts_Table();
@@ -963,6 +963,7 @@ function duplicate_The_Way_I_Want() {
 		run("Duplicate...", "duplicate title=title channels=&channel frames=frame");
 		string_To_Recorder("run(\"Duplicate...\", \"duplicate title=" + title + " channels=" + channel + " frames=" + frame + "\");");
 	}
+	unique_Rename(title);
 }
 
 function force_black_canvas(){
@@ -1157,7 +1158,7 @@ function multi_Tool(){
 	if (flags == 24)				if (MAIN_TOOL=="Slice / Frame Tool") move_Windows(); else live_Scroll();	// alt + drag
 	if (flags == 25)				box_Auto_Contrast();														// shift + alt + drag
 	if (flags == 26 || flags == 28)	curtain_Tool();																// ctrl + alt + drag
-	if (flags == 19 || flags == 21)	live_MultiPlot();															// ctrl + shift + drag
+	if (flags == 19 || flags == 21)	magic_Wand(); //live_MultiPlot();															// ctrl + shift + drag
 }
 
 function is_double_click() {
@@ -1310,6 +1311,7 @@ function live_Contrast() {
 	if (bitDepth() == 24) exit();
 	resetMinAndMax();
 	getMinAndMax(min, max);
+	getMinAndMax(last_min, last_max);
 	getCursorLoc(x, y, z, flags);
 	flags = flags%32; //remove "cursor in selection" flag
 	while (flags >= 16) {			
@@ -1321,9 +1323,14 @@ function live_Contrast() {
 		if (new_Max < 0) new_Max = 0;
 		if (new_Min < 0) new_Min = 0;
 		if (new_Min > new_Max) new_Min = new_Max;
-		setMinAndMax(new_Min, new_Max);
-		call("ij.plugin.frame.ContrastAdjuster.update");
+		if (new_Min != last_min || new_Max != last_max) {
+			setMinAndMax(new_Min, new_Max);
+			call("ij.plugin.frame.ContrastAdjuster.update");
+		}
+		last_min = new_Min; 
+		last_max = new_Max;
 		wait(10);
+
 	}
 }
 
@@ -1397,7 +1404,7 @@ function magic_Wand(){
 		run("ROI Manager...");
 		roiManager("show all without labels");
 	}
-	if (flags == 16) { //left click
+	if (flags >= 16) { //left click
 		adjust_Tolerance();
 	}
 	if (FIT_MODE != "None"){
@@ -1725,7 +1732,6 @@ function display_LUTs(){
 }
 
 function set_LUT_From_Montage() {
-	title = getTitle();
 	setBatchMode(1);
 	getCursorLoc(x, y, z, modifiers);
 	Ybloc_Size = 50;
@@ -1749,11 +1755,11 @@ function set_LUT_From_Montage() {
 	else {
 		newImage("lutFromMontage", "8-bit ramp", 256, 32, 1);
 		setLut(reds, greens, blues);
+		if (is_Caps_Lock_On()) run("Invert LUT");
 	}
 	if (isOpen("LUT Profile")) plot_LUT();
 	copy_LUT();
 	close("lutFromMontage");
-	selectWindow(title);
 }
 
 function select_Montage_Panel() {
@@ -2419,7 +2425,7 @@ function my_RGB_Converter(half_or_full_colors){
 		Stack.setChannel(2); make_LUT(0,128,97);
 		Stack.setChannel(3); make_LUT(97,0,128);
 	}
-	Property.set("CompositeProjection", "Max");
+	// Property.set("CompositeProjection", "Max");
 	setOption("Changes", 0);
 	setBatchMode(0);
 }
@@ -2677,7 +2683,7 @@ function batch_ims_To_tif(){
 	for (i = 0; i < lengthOf(fileList); i++) {
 		current_imagePath = directory + fileList[i];
 		print("opening "+ fileList[i]);
-		run("Bio-Formats Importer", "open=&current_imagePath");
+		run("Bio-Formats Importer", "open=[" + current_imagePath + "]");
 		rename(fileList[i]);
 		saveAs("tiff", directory + fileList[i]);
 		run("Z Project...", "projection=[Max Intensity] all");
@@ -2729,7 +2735,8 @@ function apply_LUTs(){
 	Stack.getPosition(channel,s,f);
 	getDimensions(w,h,channels,s,f);
 	lut_list = Array.copy(CHOSEN_LUTS);
-	if (NOICE_LUTs) for(i=0; i<channels; i++) if (CHOSEN_LUTS[i] != "Grays") lut_list[i] = "KTZ_Noice_" + substring(lut_list[i], 2);
+	if (NOICE_LUTs) for(i=0; i<channels; i++) if (!((CHOSEN_LUTS[i] == "Grays")||(CHOSEN_LUTS[i] == "fav")||(CHOSEN_LUTS[i] == "copied")))
+		lut_list[i] = "KTZ_Noice_" + substring(lut_list[i], 2);
 	if (channels>1){
 		for(i=1; i<=channels; i++){
 			Stack.setChannel(i);
@@ -3439,7 +3446,7 @@ function Jeromes_Wheel(){
 	hues=30;
 	setBatchMode(1);
 	run("Duplicate...","title=temp");
-	run("Size...", "width="+Image.width+" height="+Image.height+" depth="+hues+" constrain average interpolation=Bilinear");
+	run("Size...", "depth="+hues+" constrain");
 	run("HSB Stack");
 	Stack.getDimensions(width, height, channels, slices, frames);
 	Stack.setChannel(1);
@@ -4460,7 +4467,6 @@ function show_my_Zbeul_Action_Bar(){
 	call("ij.Prefs.set","actionbar.xloc","1000");
 	call("ij.Prefs.set","actionbar.yloc","0");
 	setup_Action_Bar_Header("my Zbeul");
-	// add_Text_Line("__________________ K");
 	add_new_Line();
 	add_gray_button("8-bit", "if (isKeyDown(\"shift\")) {	for ( i = 0; i < nImages; i++) {selectImage(i+1);run(\"8-bit\");}}else run(\"8-bit\");", "convert to 8 bit, shift for all images");
 	add_gray_button("delete", "run(\"Delete Slice\");", "delete slice");
@@ -4510,9 +4516,7 @@ function show_my_Zbeul_Action_Bar(){
 		add_gray_button("Test main filters", "test_main_Filters();", "tooltip");
 	}
 	add_new_Line();
-	add_gray_button("update preview Opener", "update_Preview_Opener();", "tooltip");
-	add_new_Line();
-	add_gray_button("Spline LUT", "run('Spline LUT');", "tooltip");
+	add_gray_button("update Opener", "update_Preview_Opener();", "tooltip");
 	add_gray_button("save LUT", "to_Other_LUTs();", "save lut to 'other luts'");
 
 	add_Code_Library();
@@ -4521,7 +4525,7 @@ function show_my_Zbeul_Action_Bar(){
 }
 
 function to_Other_LUTs() {
-	saveAs("lut", getDirectory("luts")+"/other LUTs/a_" + random*100 + ".lut");
+	saveAs("lut", getDirectory("luts")+"/other LUTs/" + get_Time_Stamp("long") + ".lut");
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------------
@@ -4658,6 +4662,7 @@ function add_LUTs_DnD(){
 	"		selectImage(id2);\n"+
 	"		close();\n"+
 	"	}\n"+
+	"	else if (endsWith(dropped_Path, '.ims')) run(\"Open 3D image\", \"open=[\"+dropped_Path+\"]\");\n"+
 	"	else make_LUT_Montage_from_Path(dropped_Path);\n"+
 	"\n"+
 	"\n"+
