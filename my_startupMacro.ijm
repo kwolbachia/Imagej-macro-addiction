@@ -169,11 +169,11 @@ macro "[f5]" {	scroll_Loop(); }
 macro "[n0]"{ if (isKeyDown("space")) set_Favorite_LUT();	else if (isKeyDown("alt")) convert_To_iMQ_Style();	else paste_Favorite_LUT();}
 macro "[n1]"{ if (isKeyDown("space")) toggle_Channel(1); 	else if (isKeyDown("alt")) toggle_Channel_All(1); 	else run("Grays");}
 macro "[n2]"{ if (isKeyDown("space")) toggle_Channel(2); 	else if (isKeyDown("alt")) toggle_Channel_All(2); 	else run("KTZ Noice Green");	}
-macro "[n3]"{ if (isKeyDown("space")) toggle_Channel(3); 	else if (isKeyDown("alt")) toggle_Channel_All(3); 	else run("Red");}
+macro "[n3]"{ if (isKeyDown("space")) toggle_Channel(3); 	else if (isKeyDown("alt")) toggle_Channel_All(3); 	else run("KTZ Noice Red");}
 macro "[n4]"{ if (isKeyDown("space")) toggle_Channel(4); 	else if (isKeyDown("alt")) toggle_Channel_All(4); 	else run("KTZ Noice Blue");	}
 macro "[n5]"{ if (isKeyDown("space")) toggle_Channel(5); 	else if (isKeyDown("alt")) toggle_Channel_All(5); 	else run("KTZ Noice Magenta");	}
 macro "[n6]"{ if (isKeyDown("space")) toggle_Channel(6); 	else if (isKeyDown("alt")) toggle_Channel_All(6); 	else run("KTZ Noice Orange");	}
-macro "[n7]"{ if (isKeyDown("space")) toggle_Channel(7);	else if (isKeyDown("alt")) toggle_Channel_All(7); 	else run("Cyan");	}
+macro "[n7]"{ if (isKeyDown("space")) toggle_Channel(7);	else if (isKeyDown("alt")) toggle_Channel_All(7); 	else run("KTZ Noice Cyan");	}
 macro "[n8]"{ if (isKeyDown("space")) run("8-bit"); 		else if (isKeyDown("alt")) run("16-bit");		 	else run("Magenta");	}
 macro "[n9]"{ if (isKeyDown("space")) run("glasbey_on_dark");													else run("Yellow");}
 
@@ -523,6 +523,7 @@ function add_Shortcuts_Line(key, alone, space, alt){
 
 function square_Montage(){
 	getDimensions(width, height, channels, slices, frames);
+	getPixelSize(unit, pixelWidth, pixelHeight);
 	title = getTitle();
 	column  = round(sqrt(width/height));
 	if (column <= 1) exit(); 
@@ -530,6 +531,7 @@ function square_Montage(){
 	run("Montage to Stack...", "columns=&column rows=1 border=0");
 	run("Make Montage...", "columns=1 rows=&column scale=1");
 	unique_Rename(title + "_montage");
+	setVoxelSize(pixelWidth, pixelHeight, 1, unit);
 	setBatchMode(0);
 }
 
@@ -865,7 +867,7 @@ function clij_Stack_Focuser(){
 	// Modified for gpu memory saving 
 	
 	//initialise GPU
-	run("CLIJ2 Macro Extensions", "cl_device=[...]");
+	run("CLIJ2 Macro Extensions", "cl_device=");
 	Ext.CLIJ2_clear();
 	//Get image information
 	slice_Number = nSlices;
@@ -937,6 +939,7 @@ function make_LUT_Image() {
 		newImage("lut"+round(random*100), "8-bit ramp", 256, 32, 1); 
 		exit();
 	}
+	infos = getMetadata("Info");
 	if (bitDepth()==24) {
 		newImage("lut"+round(random*100), "8-bit ramp", 256, 32, 1); 
 		exit();
@@ -944,6 +947,7 @@ function make_LUT_Image() {
 	getLut(reds, greens, blues);
 	newImage("lut"+round(random*100), "8-bit ramp", 256, 32, 1); 
 	setLut(reds, greens, blues);
+	setMetadata("Info", infos);
 }
 
 function open_LUT_Bar(){
@@ -1151,7 +1155,8 @@ function multi_Tool(){
 		else if (MAIN_TOOL == "Scale Bar Tool")				scale_Bar_Tool();
 		else if (MAIN_TOOL == "Multi-channel Plot Tool")	live_MultiPlot();
 	}
-	if (flags == 9) 				if (bitDepth()!=24) paste_LUT();											// shift + middle click
+	if (flags == 9) 				if (bitDepth()!=24) paste_LUT(); 
+									else if (matches(getTitle(), ".*Lookup Tables.*")) set_LUT_From_Montage(); // shift + middle click
 	if (flags == 10 || flags == 14)	if (bitDepth()!=24) paste_Favorite_LUT();									// ctrl + middle click
 	if (flags == 17)				live_Contrast();															// shift + drag
 	if (flags == 18 || flags == 20)	k_Rectangle_Tool();															// ctrl + drag
@@ -1259,15 +1264,18 @@ function curtain_Tool() {
 	setBatchMode(true);
 	id = getImageID();
 	while (flags&16>0) {
+		setKeyDown("none");
 		selectImage(id);
 		getCursorLoc(x, y, z, flags);
 		if (x != last_x) {
 			if (x < 0) x = 0;
 			if (isOpen(TARGET_IMAGE_TITLE)) selectWindow(TARGET_IMAGE_TITLE);
 			else exit();
-			setKeyDown("none");
 			makeRectangle(x, 0, width-x, height);
 			run("Duplicate...","title=part");
+			// run("Copy to System");
+			// run("System Clipboard");
+			// rename("part");
 			selectImage(id);
 			run("Add Image...", "image=part x="+ x +" y=0 opacity=100"); //zero
 			while (Overlay.size>1) Overlay.removeSelection(0);
@@ -1755,7 +1763,7 @@ function set_LUT_From_Montage() {
 	else {
 		newImage("lutFromMontage", "8-bit ramp", 256, 32, 1);
 		setLut(reds, greens, blues);
-		if (is_Caps_Lock_On()) run("Invert LUT");
+		if (isKeyDown("shift")) run("Invert LUT");
 	}
 	if (isOpen("LUT Profile")) plot_LUT();
 	copy_LUT();
@@ -2281,10 +2289,10 @@ function plot_LUT(){
 	}
 	Plot.setLimits(0, 256, -80, 256);
 	Plot.update();
-	// selectWindow("LUT Profile");
-	// Plot.freeze(1);
+	selectWindow("LUT Profile");
+	Plot.freeze(1);
 	// run("Set... ", "zoom=75");
-	// setOption("Changes", 0);
+	setOption("Changes", 0);
 	selectImage(id);
 }
 
@@ -2698,12 +2706,12 @@ function batch_ims_To_tif(){
 Set LUTs
 --------*/
 function get_My_LUTs(){
-	LUT_list = newArray("k_Blue","k_Orange","k_Magenta","k_Green","Grays" ,"copied" ,"fav");
+	LUT_list = newArray("k_Blue","k_Orange","k_Magenta","k_Green", "Red", "Cyan", "Grays" ,"copied" ,"fav");
 	if (nImages == 0) channels = 5;
 	else getDimensions(width, height, channels, slices, frames);
 	// Dialog
 	Dialog.create("Set all LUTs");
-	for(i=0; i<channels; i++) { Dialog.setInsets(0, 0, 0); Dialog.addRadioButtonGroup("LUT " + (i+1), LUT_list, 2, 4, CHOSEN_LUTS[i]);}
+	for(i=0; i<channels; i++) { Dialog.setInsets(0, 0, 0); Dialog.addRadioButtonGroup("LUT " + (i+1), LUT_list, 2, 3, CHOSEN_LUTS[i]);}
 	Dialog.addCheckbox("noice?", NOICE_LUTs);
 	Dialog.show();
 
@@ -2735,8 +2743,9 @@ function apply_LUTs(){
 	Stack.getPosition(channel,s,f);
 	getDimensions(w,h,channels,s,f);
 	lut_list = Array.copy(CHOSEN_LUTS);
-	if (NOICE_LUTs) for(i=0; i<channels; i++) if (!((CHOSEN_LUTS[i] == "Grays")||(CHOSEN_LUTS[i] == "fav")||(CHOSEN_LUTS[i] == "copied")))
-		lut_list[i] = "KTZ_Noice_" + substring(lut_list[i], 2);
+	if (NOICE_LUTs) for(i=0; i<channels; i++) if (!((lut_list[i] == "Grays")||(lut_list[i] == "fav")||(lut_list[i] == "copied")))
+		if (!(lut_list[i] == "Red") && !(lut_list[i] == "Cyan")) lut_list[i] = "KTZ_Noice_" + substring(lut_list[i], 2);
+		else lut_list[i] = "KTZ_Noice_" + lut_list[i];
 	if (channels>1){
 		for(i=1; i<=channels; i++){
 			Stack.setChannel(i);
@@ -3780,13 +3789,20 @@ function ultimate_LUT_Generator(){
 		error_Check_for_LUTs();
 		setBatchMode(1);
 		reds = newArray(256); greens = newArray(256); blues = newArray(256);
+		reds_string = ""; greens_string = ""; blues_string = "";
 		range = stop_Lum - start_Lum;
 		for(i=0; i<steps; i++) { 
 			targetLum = i * (range / (steps-1)) + start_Lum;
 			color = random_Color_By_Type_And_Luminance(targetLum, chosen_Colors[i]);
 			reds[i*(255/(steps-1))] = color[0];
+			if (i>0) reds_string += "," + color[0];
+			else reds_string += ""+color[0];
 			greens[i*(255/(steps-1))] = color[1];
-			blues[i*(255/(steps-1))] = color[2]; 
+			if (i>0) greens_string += "," + color[1];
+			else greens_string += ""+color[1];
+			blues[i*(255/(steps-1))] = color[2];
+			if (i>0) blues_string += "," + color[2];
+			else blues_string += ""+color[2]; 
 			showProgress(i/steps);
 		}
 		reds = spline_Color(reds,(steps-1));
@@ -3796,6 +3812,9 @@ function ultimate_LUT_Generator(){
 		run("Select None");
 		run("Remove Overlay");
 		setBatchMode(0);
+		Property.set("Channel 1: Red Values", reds_string);
+		Property.set("Channel 1: Green Values", greens_string);
+		Property.set("Channel 1: Blue Values", blues_string);
 		plot_LUT();
 		copy_LUT();
 		Dialog.createNonBlocking("new roll?");
@@ -4488,6 +4507,8 @@ function show_my_Zbeul_Action_Bar(){
 	add_new_Line();
 	add_gray_button("gauss correction", "gauss_Correction();", "Gaussian blur background correction");
 	add_gray_button("gauss 32 bit", "gauss_Correction_32bit();", "Gaussian blur background correction with 32 bit");
+	add_gray_button("Gauss Focus", "run(\"Gaussian-based stack focuser\", \"radius_of_gaussian_blur=5\");run(\"Make Composite\", \"display=Composite\");", "Gaussian based focuser r=5");
+
 
 	add_new_Line();
 	add_gray_button("make substack", "run(\"Make Substack...\");", "make substack");
@@ -4632,7 +4653,6 @@ function add_Bioformats_DnD(){
 	"if (endsWith(path, '.mp4') || endsWith(path, '.MP4')) run('Movie (FFMPEG)...', 'choose=[' + path + '] first_frame=0 last_frame=-1');\n"+
 	"else if (endsWith(path, '.pdf')) run('PDF ...', 'choose=' + path + ' scale=600 page=0');\n"+
 	"else if (endsWith(path, '.lif')) {run(\"Read My Lifs\"); exit();}\n"+
-	"else if (endsWith(path, '.tif')) run(\"TIFF Virtual Stack...\", 'open=[' + path + ']');\n"+
 	"else if (endsWith(path, '.ser')) run(\"TIA Reader\", '.ser-reader...=[' + path + ']');\n"+
 	"else if (endsWith(path, '.json')) run('make PAE images');\n"+
 	"else run('Bio-Formats Importer', 'open=[' + path + ']');\n"+
