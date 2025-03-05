@@ -19,7 +19,7 @@ var HEIGHT_POSITION_BACKUP = 400;
 
 // for quick Set LUTs
 var CHOSEN_LUTS = get_Pref_LUTs_List(newArray("k_Blue","k_Magenta","k_Orange","k_Green","Grays","Cyan","Magenta","Yellow"));
-var NOICE_LUTs = 0;
+var NOICE_LUTs = 1;
 
 // For split_View
 var	COLOR_MODE = "Colored";
@@ -38,8 +38,8 @@ var LAST_CLICK_TIME = 0;
 //For wand tool
 var WAND_BOX_SIZE = 5;
 var ADD_TO_MANAGER = 0;
-var TOLERANCE_THRESHOLD = 40;
-var EXPONENT = 2;
+var TOLERANCE_THRESHOLD = 30;
+var EXPONENT = 1;
 var FIT_MODE = "None";
 
 // title of the assigned target image : space + [7] key 
@@ -213,8 +213,8 @@ macro "[5]"	{
 }
 macro "[6]"	{
 	if		(no_Alt_no_Space())		force_black_canvas();
-	else if (isKeyDown("space"))	show_my_Zbeul_Action_Bar();
-	else if (isKeyDown("alt"))		show_my_Zbeul_Action_Bar();
+	else if (isKeyDown("space"))	show_my_Zbeul_Action_Bar("bite");
+	// else if (isKeyDown("alt"))		show_my_Zbeul_Action_Bar();
 }
 macro "[7]" {
 	if		(no_Alt_no_Space())		set_Target_Image();
@@ -242,7 +242,7 @@ macro "[a]"	{
 	else if (isKeyDown("alt"))		run("Select None");
 }
 macro "[A]"	{
-	if		(no_Alt_no_Space())		{ if (bitDepth() == 24) run("Enhance True Color Contrast", "saturated=0.01"); else run("Enhance Contrast", "saturated=0.1");}	
+	if		(no_Alt_no_Space())		{ if (bitDepth() == 24) run("Enhance True Color Contrast", "saturated=0.1"); else run("Enhance Contrast", "saturated=0.1");}	
 	else if (isKeyDown("space"))	enhance_All_Channels();
 	else if (isKeyDown("alt"))		enhance_All_Images_Contrasts();
 }
@@ -348,7 +348,7 @@ macro "[n]"	{
 }
 macro "[N]"	{
 	if		(no_Alt_no_Space())		show_Numerical_Keyboard_Bar();
-	else if (isKeyDown("space"))	run("Text Window...", "name=Untitled width=50 height=10 menu");
+	else if (isKeyDown("space"))	run("Bat Cochlea Volume");
 	else if (isKeyDown("alt"))		open(File.getDirectory(getDirectory("imagej")) + "/images/1ch_z_projection_test.tif");
 }
 macro "[o]"	{
@@ -519,6 +519,41 @@ function add_Shortcuts_Line(key, alone, space, alt){
 	Table.set("Alone",		SHORTCUT_LINE_INDEX, alone);
 	Table.set("with Space",	SHORTCUT_LINE_INDEX, space);
 	Table.set("with Alt",	SHORTCUT_LINE_INDEX, alt);
+}
+
+function gaussian_focuser(){
+	getVoxelSize(width, height, depth, unit);
+	run("Gaussian-based stack focuser", "radius_of_gaussian_blur=7");
+	run("Make Composite", "display=Composite");
+	setVoxelSize(width, height, depth, unit);
+}
+
+
+function gaussian_focuser_all_images(){
+	if (nImages()==0) exit();
+	all_IDs = newArray(nImages);
+	
+	for (i=0; i<nImages ; i++) {			
+		selectImage(i+1);
+		all_IDs[i] = getImageID(); 
+	} 
+	setBatchMode(1);
+	for (i=0; i<all_IDs.length; i++) {
+		selectImage(all_IDs[i]);
+		getDimensions(w, h, channels, slices, frames);
+		getVoxelSize(width, height, depth, unit);
+		if (channels*slices*frames!=1) 	run("Gaussian-based stack focuser", "radius_of_gaussian_blur=7");
+		run("Make Composite", "display=Composite");
+		setVoxelSize(width, height, depth, unit);
+		showProgress(i / all_IDs.length);
+	}
+	for (i=0; i<all_IDs.length ; i++) {	//Close not projected images
+		selectImage(all_IDs[i]);
+		getDimensions(w, h, channels, slices, frames);
+		if (channels*slices*frames!=1) close();
+	}
+	setBatchMode("exit and display");
+	run("Tile");
 }
 
 function square_Montage(){
@@ -1758,7 +1793,7 @@ function set_LUT_From_Montage() {
 	if (reds[100]+greens[100]+blues[100] == 765) exit(); // if white space in montage
 	if (isOpen(TARGET_IMAGE_TITLE)){
 		selectWindow(TARGET_IMAGE_TITLE);
-		setLut(reds, greens, blues);
+		if (bitDepth() != 24) setLut(reds, greens, blues);
 	}
 	else {
 		newImage("lutFromMontage", "8-bit ramp", 256, 32, 1);
@@ -1998,7 +2033,7 @@ function update_Preview_Opener() {
 	setMetadata("Info", paths_List + "\n" + infos);
 	close("\\Others");
 	setBatchMode(0);
-	saveAs("tiff", source_Folder + "_New Preview Opener");
+	saveAs("tiff", source_Folder + "_Preview Opener");
 }
 
 //Supposed to create an RGB snapshot of any kind of opened image
@@ -2749,18 +2784,22 @@ function apply_LUTs(){
 	if (channels>1){
 		for(i=1; i<=channels; i++){
 			Stack.setChannel(i);
+			getMinAndMax(min, max);
 			if (lut_list[i-1]=="fav") paste_Favorite_LUT();
 			else if (lut_list[i-1]=="copied") paste_LUT();
 			else run(lut_list[i-1]);
+			setMinAndMax(min, max);
 		}
-		Stack.setChannel(channel);
-		updateDisplay();
 	}
-	else {
+	else {			
+		getMinAndMax(min, max);
 		if (lut_list[0]=="fav") paste_Favorite_LUT();
 		else if (lut_list[0]=="copied") paste_LUT();
 		else  run(lut_list[0]);
+		setMinAndMax(min, max);
 	}
+	Stack.setChannel(channel);
+	updateDisplay();
 }
 
 function apply_All_LUTs(){
@@ -3106,7 +3145,7 @@ function split_View(MONTAGE_STYLE, COLOR_MODE, LABELS) {
 	if (MONTAGE_STYLE == "Square")		square_SplitView();
 	if (MONTAGE_STYLE == "Vertical")	vertical_SplitView();
 	//output
-	unique_Rename(title + "_SplitView");
+	unique_Rename("SplitView_" + title);
 	setOption("Changes", 0);
 	setBatchMode("exit and display");
 
@@ -3769,12 +3808,12 @@ function smooth_LUT(){
 function ultimate_LUT_Generator(){
 	colors = newArray("red","orange","yellow","green","cyan","blue","magenta","gray");
 	//colors = newArray("red(10-167)","green(10-225)","blue(10-175)","cyan(10-190)","magenta(10-190)","yellow(10-225)","orange(10-190)","gray(0-255)");
-	chosen_Colors = newArray("gray","gray","gray","gray","gray","gray","gray","gray");
-	start_Lum = 0;
-	stop_Lum = 255;
-	steps = 4;
+	chosen_Colors = newArray("blue","blue","blue","red","orange","yellow","cyan","cyan", "cyan");
+	start_Lum = 50;
+	stop_Lum = 170;
+	steps = 9;
 	Dialog.createNonBlocking("steps");
-	Dialog.addSlider("how many steps?", 1, 8, steps);
+	Dialog.addSlider("how many steps?", 1, 9, steps);
 	Dialog.show();
 	steps =  Dialog.getNumber();
 	Dialog.createNonBlocking("colors");
@@ -4067,7 +4106,7 @@ function random_Color_By_Type_And_Luminance(luminance, target_Color_Type) {
 
 		if (green==max && (red/green) < 0.85 && (blue/green) < 0.6) 								color_Type = "green"; // 231
 
-		if (green==max && red==min && (red/max) < 0.2 && (blue/green) > 0.8)						color_Type = "cyan"; //194
+		if (green==max && red==min && (red/max) < 0.4 && (blue/green) > 0.7)						color_Type = "cyan"; //194
 
 		if (blue==max && red==min && (red/max) < 0.2 && (green/blue) < 0.85)						color_Type = "blue"; //171
 
@@ -4164,7 +4203,7 @@ function random_Color_By_Luminance(targetLum){
 			luminance += round(rgb[i]*rgb_weight[i]);
 		}
 		if (luminance >= targetLum-1 && luminance <= targetLum+1) loop=0;
-		if (targetLum < 127 && (rgb[2] > 170 || rgb[0] > 200)){color_Type = ""; loop=1;} //avoid screen saturation 
+		// if (targetLum < 127 && (rgb[2] > 170 || rgb[0] > 200)){color_Type = ""; loop=1;} //avoid screen saturation 
 		luminance = 0;
 	}
 	return rgb;
@@ -4482,7 +4521,7 @@ function show_Other_Macros(){
 	run("Action Bar", ACTION_BAR_STRING);
 }
 
-function show_my_Zbeul_Action_Bar(){
+function show_my_Zbeul_Action_Bar(cul){
 	call("ij.Prefs.set","actionbar.xloc","1000");
 	call("ij.Prefs.set","actionbar.yloc","0");
 	setup_Action_Bar_Header("my Zbeul");
@@ -4496,7 +4535,7 @@ function show_my_Zbeul_Action_Bar(){
 	add_gray_button("gaussian", "if (isKeyDown(\"shift\")) run(\"Gaussian Blur 3D...\"); else run(\"Gaussian Blur...\");", "Gaussian Blur filter, shift for 3D");
 	add_gray_button("median", "if (isKeyDown(\"shift\")) run(\"Median 3D...\"); else run(\"Median...\");", "Median filter, shift for 3D");
 	add_gray_button("top hat", "run(\"Top Hat...\");", "top hat");
-	add_gray_button("true color", "run(\"Enhance True Color Contrast\");", "tRUE cOLOR cONTRAST");
+	add_gray_button("true color", "if (isKeyDown(\"shift\")) run(\"Enhance True Color Contrast\"); else run(\"Enhance True Color Contrast\", \"saturated=0.2\");", "tRUE cOLOR cONTRAST 0.2, shift for dialog");
 
 	add_new_Line();
 	add_gray_button("sharpen", "if (isKeyDown(\"shift\")) run(\"Unsharp Mask...\"); else run(\"Unsharp Mask...\", \"radius=2 mask=0.30\");", "Unsharp Mask 2, 0.3, shift for dialog");
@@ -4507,16 +4546,20 @@ function show_my_Zbeul_Action_Bar(){
 	add_new_Line();
 	add_gray_button("gauss correction", "gauss_Correction();", "Gaussian blur background correction");
 	add_gray_button("gauss 32 bit", "gauss_Correction_32bit();", "Gaussian blur background correction with 32 bit");
-	add_gray_button("Gauss Focus", "run(\"Gaussian-based stack focuser\", \"radius_of_gaussian_blur=5\");run(\"Make Composite\", \"display=Composite\");", "Gaussian based focuser r=5");
-
-
+	add_gray_button("Gauss Focus", "if (isKeyDown('shift')) gaussian_focuser_all_images(); else gaussian_focuser();", "Gaussian based focuser r=7, shift all images");
+	
 	add_new_Line();
 	add_gray_button("make substack", "run(\"Make Substack...\");", "make substack");
 	add_gray_button("Max paste", "setPasteMode(\"Max\"); setupUndo(); run(\"Paste\"); setPasteMode(\"Copy\"); run(\"Select None\");", "Max paste");
 	add_gray_button("Add paste", "setPasteMode(\"Add\"); setupUndo(); run(\"Paste\"); setPasteMode(\"Copy\"); run(\"Select None\");", "Add paste");
 
+	if (cul != "poil") {
+		add_new_Line();
+		add_gray_button("expand", "show_my_Zbeul_Action_Bar('poil');", "more buttons");
+	}
 
-	if (is_Caps_Lock_On()) {
+	if (cul == "poil") {
+
 		add_Text_Line("__________________ Text modifs");
 		add_new_Line();
 		add_gray_button("To string", "clipboard_To_String();", "tooltip");
@@ -4535,10 +4578,11 @@ function show_my_Zbeul_Action_Bar(){
 		add_new_Line();
 		add_gray_button("Test CLAHE options", "test_CLAHE_Options();", "tooltip");
 		add_gray_button("Test main filters", "test_main_Filters();", "tooltip");
+
+		add_new_Line();
+		add_gray_button("update Opener", "update_Preview_Opener();", "tooltip");
+		add_gray_button("save LUT", "to_Other_LUTs();", "save lut to 'other luts'");
 	}
-	add_new_Line();
-	add_gray_button("update Opener", "update_Preview_Opener();", "tooltip");
-	add_gray_button("save LUT", "to_Other_LUTs();", "save lut to 'other luts'");
 
 	add_Code_Library();
 	add_Bioformats_DnD();
@@ -4611,6 +4655,7 @@ function add_gray_button(label, command, tooltip){
 	"tooltip=<html>" + tooltip+ "\n"+
 	"bgcolor=lightgray\n"+
 	"arg=" + command + "\n";
+	// string_To_Recorder(command);
 }
 function add_maintool_button(label, command, tooltip){
 	main_Tool = get_Main_Tool("Move Windows");
