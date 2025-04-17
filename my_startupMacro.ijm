@@ -1791,15 +1791,9 @@ function set_LUT_From_Montage() {
 		blues[i]  = color&0xff;
 	}
 	if (reds[100]+greens[100]+blues[100] == 765) exit(); // if white space in montage
-	if (isOpen(TARGET_IMAGE_TITLE)){
-		selectWindow(TARGET_IMAGE_TITLE);
-		if (bitDepth() != 24) setLut(reds, greens, blues);
-	}
-	else {
-		newImage("lutFromMontage", "8-bit ramp", 256, 32, 1);
-		setLut(reds, greens, blues);
-		if (isKeyDown("shift")) run("Invert LUT");
-	}
+	newImage("lutFromMontage", "8-bit ramp", 256, 32, 1);
+	setLut(reds, greens, blues);
+	if (isKeyDown("shift")) run("Invert LUT");
 	if (isOpen("LUT Profile")) plot_LUT();
 	copy_LUT();
 	close("lutFromMontage");
