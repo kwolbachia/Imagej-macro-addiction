@@ -19,7 +19,7 @@ var HEIGHT_POSITION_BACKUP = 400;
 
 // for quick Set LUTs
 var CHOSEN_LUTS = get_Pref_LUTs_List(newArray("k_Blue","k_Magenta","k_Orange","k_Green","Grays","Cyan","Magenta","Yellow"));
-var NOICE_LUTs = 1;
+var NOICE_LUTs = File.exists(getDir("imagej") + "/luts/KTZ_Noice_Blue.lut");
 
 // For split_View
 var	COLOR_MODE = "Colored";
