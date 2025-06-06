@@ -105,7 +105,7 @@ macro "Custom Menu Tool - C000H6580a5f5c9de8b3e4915" {
 	else if (command=="make my LUTs")					make_My_LUTs();
 	else if (command=="Macro TEM Chantal")				traitement_TEM_Images_Chantal();
 	else if (command=="make my LUTs")					make_My_LUTs();
-	else if (command=="Long image to square")			square_Montage();
+	else if (command=="Long image to square")			filaire_Montage();
 	else run(command);
 }
 
@@ -556,18 +556,36 @@ function gaussian_focuser_all_images(){
 	run("Tile");
 }
 
+function filaire_Montage() {
+	getDimensions(width, height, channels, slices, frames);
+	if (slices*frames!=1) exit("won't work with stacks");
+	setBatchMode(1);
+	if (channels > 1) {
+		run("Duplicate...", "duplicate");
+		title = getTitle();
+		run("Split Channels");
+		merge_string = "";
+		for (i = 1; i <= channels; i++) {
+			selectWindow("C" + i + "-" + title);
+			square_Montage();
+			merge_string += "c"+i+"=C"+i+"-"+title+"_montage ";
+		}
+		run("Merge Channels...", "" + merge_string + " create");
+	}
+	else square_Montage();
+	setBatchMode(0);
+}
+
 function square_Montage(){
 	getDimensions(width, height, channels, slices, frames);
 	getPixelSize(unit, pixelWidth, pixelHeight);
 	title = getTitle();
 	column  = round(sqrt(width/height));
 	if (column <= 1) exit(); 
-	setBatchMode(1);
 	run("Montage to Stack...", "columns=&column rows=1 border=0");
 	run("Make Montage...", "columns=1 rows=&column scale=1");
-	unique_Rename(title + "_montage");
+	rename(title + "_montage");
 	setVoxelSize(pixelWidth, pixelHeight, 1, unit);
-	setBatchMode(0);
 }
 
 function max_With_a_Twist(){	
@@ -1624,15 +1642,16 @@ function color_Code_Progressive_Max(){
 	if (slices > 1 && frames >1) steps = frames;
 	else steps = 1;
 	newImage("Color Coded Projection", "RGB black", width, height, steps);
-	selectWindow(title);
-	// copy for backup :
-	getLut(reds, greens, blues);
+	newImage("cul", "8-bit", 1, 1, 1);
 	//paste copied LUT
 	open(getDirectory("temp")+"/copiedLut.lut");
 	//if caps lock on , invert the LUT
 	if (is_Caps_Lock_On()) run("Invert LUT");
 	//get LUT for color coding
 	getLut(code_Reds, code_Greens, code_Blues);
+	selectWindow(title);
+	// copy for backup :
+	getLut(reds, greens, blues);
 	for (k = 0; k < frames; k++) {
 		for (i = 0; i < slices; i++) {
 			selectWindow(title);
@@ -1661,7 +1680,7 @@ function color_Code_Progressive_Max(){
 	selectWindow("Color Coded Projection");
 	run("Select None");
 	unique_Rename(title + "_Max_colored");
-	setBatchMode("exit and display");
+	setBatchMode(0);
 	restoreSettings();
 	setVoxelSize(voxel_width, voxel_height, voxel_depth, unit);
 	setOption("Changes", 0);
