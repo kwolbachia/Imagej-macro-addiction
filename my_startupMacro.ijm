@@ -92,10 +92,27 @@ macro "Multi Tool Options" {
 //		SHORTCUTS
 //--------------------------------------------------------------------------------------------------------------------------------------
 var ShortcutsMenu = newMenu("Custom Menu Tool",
-	newArray( "Batch convert to tiff","Convert all opened images to 8-bit", "Convert all opened images to 16-bit", "Count table backup", "Merge Ladder and Signal WB","Macro TEM Chantal",
-		 "-","Rotate 90 Degrees Right","Rotate 90 Degrees Left", "make my LUTs",
-		 "-", "Gaussian Blur 3D...","Gamma...","Voronoi Threshold Labler (2D/3D)", "Scale Bar...",
-		 "-", "smooth freehand line", "Straighten...", "montage Filaires"));
+	newArray( 
+		"Batch convert to tiff",
+		"Convert all opened images to 8-bit", 
+		"Convert all opened images to 16-bit", 
+		"Count table backup", 
+		// "Merge Ladder and Signal WB",
+		"Macro TEM Chantal",
+		"-",
+		"Rotate 90 Degrees Right",
+		"Rotate 90 Degrees Left", 
+		"make my LUTs",
+		"-", 
+		"Gaussian Blur 3D...",
+		"Gamma...",
+		"Voronoi Threshold Labler (2D/3D)", 
+		"Scale Bar...",
+		"-", 
+		"Smooth freehand line", 
+		"Auto polyline tracer", 
+		"Straighten...", 
+		"Montage Filaires"));
 // macro "Custom Menu Tool - N55C000D1aD1bD1cD1dD29D2dD39D3dD49D4dD4eD59D5eD69D75D76D77D78D79D85D88D89D94D98D99Da4Da7Da8Da9Db3Db7Db8Dc3Dc6Dc7DccDcdDd3Dd6Dd8DdbDdcDe2De3De6De8De9DeaDebDecCfffD0dD3cD5cD6dD7bD8bD8cD96D9aD9bDa5DacDadDb5DcaDd4Dd9DdaDe4CdddD0aD1eD2bD6aD74D7aD95Dc4Dc5DeeC222D8eDa3DbcC111D38D5bD6bD7dDabDbaDd7C888D66De5C666D19Db4DcbC900CbbbD0cD87DaeDb2C444D28D2aD3eD48D84Db6Dc2CaaaDb9DedC777D0bD2eD4aD6cD7cD7eD9cD9dD9eDbdDc8CcccD2cDdeDe7C333D67D68DbeDd2DddC999D4cD58D5aD5dD93DceDd5Bf0C000D03D06D0cD13D16D1bD23D26D2aD33D37D39D43D44D47D48D54D65D76D77D87D88D89D8aD8bD8cD8dD8eD9bCfffD04D08D0dD0eD14D18D19D24D28D2cD35D3bD3cD3dD3eD45D46D4aD4bD4cD4eD56D57D5aD5bD5cD5dD5eD68D69D6aD6bD6cD6dD7cD7dCdddD1cD25D63D7eD97C222D64D66D9aC111D02D0bD36C888D98C666D12D38D78C900CbbbD0aD15D1eD2dD32D34C444D22D49D55D75D86D9cD9dCaaaD05D29D53C777D27D3aCcccD09D17C333D99C999D1aD2bD58D9eB0fC000D02D03D04D05D08D09D18D27D28D36D37D45D46D54D55D63D64D71D72D80D81CfffD06D07D16D25D30D34D35D40D43D44D52D57D60D61D75D83D85CdddD10D22D32D33D42D74C222D01D13D14D73C111C888D47D70C666C900D56D66D67D76D77D78D86D87D96CbbbD12D15D19D20D23D24D41D82C444D17CaaaC777D00CcccD11D26D90C333C999D62D65Nf0C000D33D34D35D36D42D43D46D50D51D55D64D65D66D67D73D74D78D88D96D97Da4Da5Db4Dc4Dd4Dd6Dd7Dd8De3De4De6De8De9CfffD15D31D44D53D54D58D62D84D85D86D92D93Da2Db2Dc2Dd2De7CdddD63Da1Da7Dc1Dd0De2C222D75D95Db3C111C888D23D32D45Dc3C666D40D52D57C900CbbbD70D80D94C444D24D60D68D87Da3Db0CaaaD26Dc0C777D41D81D91D98Dc7De5CcccD61D72D79D83D89Dc5Dd5Dd9De1C333D25D47D56D77Da0C999D37D76D90Da6Db5Dc6Dc8Dd3" {
 macro "Custom Menu Tool - C000H6580a5f5c9de8b3e4915" {
 	command = getArgument(); 
@@ -106,8 +123,10 @@ macro "Custom Menu Tool - C000H6580a5f5c9de8b3e4915" {
 	else if (command=="make my LUTs")					make_My_LUTs();
 	else if (command=="Macro TEM Chantal")				traitement_TEM_Images_Chantal();
 	else if (command=="make my LUTs")					make_My_LUTs();
-	else if (command=="montage Filaires")				filaire_Montage();
-	else if (command=="smooth freehand line")			smooth_Freehand();
+	else if (command=="Montage Filaires")				filaire_Montage();
+	else if (command=="Smooth freehand line")			smooth_Freehand();
+	else if (command=="Auto polyline tracer")			ovary_Tracer();
+	else if (command=="Straighten...")					{getVoxelSize(width, height, depth, unit); run("Straighten..."); setVoxelSize(width, height, depth, unit);}
 
 	else run(command);
 }
@@ -207,7 +226,7 @@ macro "[3]"	{
 macro "[4]"	{
 	if		(no_Alt_no_Space())		{ run("Make Montage...", "scale=1"); setOption("Changes", 0); }
 	else if (isKeyDown("space"))	run("Montage to Stack...");
-	// else if (isKeyDown("alt"))		
+	else if (isKeyDown("alt"))		filaire_Montage();	
 }
 macro "[5]"	{
 	if		(no_Alt_no_Space())		make_Scaled_Rectangle(25);
@@ -268,7 +287,7 @@ macro "[d]"	{
 macro "[D]"	{
 	if		(no_Alt_no_Space())		{run("Duplicate...", "duplicate"); string_To_Recorder("run(\"Duplicate...\", \"duplicate\");");}
 	else if (isKeyDown("space"))	open_Memory_And_Recorder();
-	else if (isKeyDown("alt"))		run("Rotate 90 Degrees Left");		
+	else if (isKeyDown("alt"))		run("Rotate 90 Degrees Right");		
 }
 macro "[e]"	{
 	if		(no_Alt_no_Space())		plot_LUT();
@@ -524,6 +543,30 @@ function add_Shortcuts_Line(key, alone, space, alt){
 	Table.set("with Alt",	SHORTCUT_LINE_INDEX, alt);
 }
 
+function ovary_Tracer()  {
+	getDimensions(width, height, channels, slices, frames);
+	n = getNumber("how many points?", 60);
+	step = width/ n;
+	xpoints = newArray(n);
+	ypoints = newArray(n);
+	for (i = 0; i <= n; i++) {
+		makeLine(round(i*step), 0, i*step, height, 10); // last value is line width
+		ypoints[i] = fit();
+		xpoints[i] = i*step;
+	}
+	makeSelection("polyline", Array.slice(xpoints,1,n), Array.slice(ypoints,1,n));
+	run("Fit Spline");
+	setTool(5);
+}
+
+function fit(){
+	k = getProfile();
+	Fit.doFit("Gaussian", Array.getSequence(k.length), k);
+	cul = Fit.p(2); // this is the peak position
+	if (isNaN(cul)) cul = 0;
+	return cul;
+}
+
 function smooth_Freehand(){
 	// Simplify freehand line to a 12 points spline
 	nodes_number = 12;
@@ -594,10 +637,19 @@ function square_Montage(){
 	getPixelSize(unit, pixelWidth, pixelHeight);
 	title = getTitle();
 	column  = round(sqrt(width/height));
-	if (column <= 1) exit(); 
+	// if (is_Caps_Lock_On()) column--;
+	if (column <= 1) column = 2;
 	run("Montage to Stack...", "columns=&column rows=1 border=0");
+	if (!is_Caps_Lock_On()){
+		setSlice(1);
+		run("Add Slice");
+		setSlice(1);
+		run("Cut");
+		setSlice(2);
+		run("Paste");
+	}
 	run("Make Montage...", "columns=1 rows=&column scale=1");
-	rename(title + "_montage");
+	unique_Rename(title + "_montage");
 	setVoxelSize(pixelWidth, pixelHeight, 1, unit);
 }
 
@@ -2325,11 +2377,11 @@ function plot_LUT(){
 	Plot.setColor("white"); 
 	Plot.setLineWidth(2);
 	Plot.add("line", lutinance);
-	Plot.setColor("#ff4a4a");
+	Plot.setColor("#cf5140");
 	Plot.add("line", reds);
-	Plot.setColor("#8ce400");
+	Plot.setColor("#a5e442");
 	Plot.add("line", greens);
-	Plot.setColor("#60c3ff");
+	Plot.setColor("#22acff");
 	Plot.add("line", blues);
 	Plot.setBackgroundColor("#2f2f2f");
 	Plot.setAxisLabelSize(14.0, "");
