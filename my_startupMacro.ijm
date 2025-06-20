@@ -544,19 +544,27 @@ function add_Shortcuts_Line(key, alone, space, alt){
 }
 
 function ovary_Tracer()  {
+	getLine(x1, y1, x2, y2, lineWidth);
+	if(x1 == -1) exit("draw a line from start to finish, touch the signal");
 	getDimensions(width, height, channels, slices, frames);
-	n = getNumber("how many points?", 60);
-	step = width/ n;
+	getSelectionBounds(null, null, width, null);
+	n = width/150;
+	if (isKeyDown("shift")) n = getNumber("how many points?", n);
 	xpoints = newArray(n);
 	ypoints = newArray(n);
+	range =  x2-x1;
+	step = range / n;
 	for (i = 0; i <= n; i++) {
-		makeLine(round(i*step), 0, i*step, height, 10); // last value is line width
+		makeLine(round(i*step)+x1, 0, round(i*step)+x1, height, 10); // last value is line width
 		ypoints[i] = fit();
-		xpoints[i] = i*step;
+		xpoints[i] = (i*step)+x1;
 	}
-	makeSelection("polyline", Array.slice(xpoints,1,n), Array.slice(ypoints,1,n));
+	xpoints[0] = x1;
+	ypoints[0] = y1;
+	xpoints[n] = x2;
+	ypoints[n] = y2;
+	makeSelection("polyline",xpoints, ypoints);
 	run("Fit Spline");
-	setTool(5);
 }
 
 function fit(){
@@ -614,6 +622,7 @@ function filaire_Montage() {
 	getDimensions(width, height, channels, slices, frames);
 	if (slices*frames!=1) exit("won't work with stacks");
 	setBatchMode(1);
+	original_title = getTitle();
 	if (channels > 1) {
 		run("Duplicate...", "duplicate");
 		title = getTitle();
@@ -629,6 +638,7 @@ function filaire_Montage() {
 		// setMetadata("Info", "Montage\n\n" + infos);
 	}
 	else square_Montage();
+	unique_Rename(original_title + "_montage");
 	setBatchMode(0);
 }
 
@@ -636,7 +646,7 @@ function square_Montage(){
 	getDimensions(width, height, channels, slices, frames);
 	getPixelSize(unit, pixelWidth, pixelHeight);
 	title = getTitle();
-	column  = round(sqrt(width/height));
+	column  = round(sqrt(width/height))-1;
 	// if (is_Caps_Lock_On()) column--;
 	if (column <= 1) column = 2;
 	run("Montage to Stack...", "columns=&column rows=1 border=0");
@@ -647,6 +657,7 @@ function square_Montage(){
 		run("Cut");
 		setSlice(2);
 		run("Paste");
+		column++;
 	}
 	run("Make Montage...", "columns=1 rows=&column scale=1");
 	unique_Rename(title + "_montage");
@@ -1446,8 +1457,10 @@ function live_Contrast() {
 		flags = flags%32; //remove "cursor in selection" flag
 		new_Max = ((x - area_x) / width) * max;
 		new_Min = ((height - (y - area_y)) / height) * max / 2;
-		if (new_Max < 0) new_Max = 0;
-		if (new_Min < 0) new_Min = 0;
+		if (bitDepth() != 32) {
+			if (new_Max < 0) new_Max = 0;
+			if (new_Min < 0) new_Min = 0;
+		}
 		if (new_Min > new_Max) new_Min = new_Max;
 		if (new_Min != last_min || new_Max != last_max) {
 			setMinAndMax(new_Min, new_Max);
@@ -1711,7 +1724,7 @@ function color_Code_Progressive_Max(){
 	//paste copied LUT
 	open(getDirectory("temp")+"/copiedLut.lut");
 	//if caps lock on , invert the LUT
-	if (is_Caps_Lock_On()) run("Invert LUT");
+	// if (is_Caps_Lock_On()) run("Invert LUT");
 	//get LUT for color coding
 	getLut(code_Reds, code_Greens, code_Blues);
 	selectWindow(title);
@@ -1881,6 +1894,10 @@ function set_LUT_From_Montage() {
 	if (isOpen("LUT Profile")) plot_LUT();
 	copy_LUT();
 	close("lutFromMontage");
+	if (is_Caps_Lock_On() && isOpen(TARGET_IMAGE_TITLE)) {
+		selectWindow(TARGET_IMAGE_TITLE);
+		color_Code_Progressive_Max();
+	}
 }
 
 function select_Montage_Panel() {
