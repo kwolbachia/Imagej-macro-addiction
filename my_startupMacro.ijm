@@ -646,8 +646,7 @@ function square_Montage(){
 	getDimensions(width, height, channels, slices, frames);
 	getPixelSize(unit, pixelWidth, pixelHeight);
 	title = getTitle();
-	column  = round(sqrt(width/height))-1;
-	// if (is_Caps_Lock_On()) column--;
+	column  = round(sqrt(width/height));
 	if (column <= 1) column = 2;
 	run("Montage to Stack...", "columns=&column rows=1 border=0");
 	if (!is_Caps_Lock_On()){
