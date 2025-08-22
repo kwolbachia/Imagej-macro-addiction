@@ -181,10 +181,10 @@ macro "Action Bars Menu Tool - B00C000D00D01D02D03D05D06D07D08D0aD0bD0cD0dD10D13
 //--------------------------------------------------------------------------------------------------------------------------------------
 
 //FUNCTIONS KEYS
-macro "[f1]" {	count_Button("Type 1", "green"); }
-macro "[f2]" {	count_Button("Type 2", "magenta"); }
-macro "[f3]" {	count_Button("Type 3", "orange"); }
-macro "[f4]" {	count_Button("Type 4", "#00b9ff"); }
+macro "[f1]" {	sex_to_results("Female");} // count_Button("Type 1", "green"); }
+macro "[f2]" {	sex_to_results("Male");} // count_Button("Type 2", "magenta"); }
+macro "[f3]" {	sex_to_results("no sperm");} // count_Button("Type 3", "orange"); }
+macro "[f4]" {	sex_to_results("juvenile");} // count_Button("Type 4", "#00b9ff"); }
 macro "[f5]" {	scroll_Loop(); }
 
 //NUMPAD KEYS
@@ -219,9 +219,9 @@ macro "[2]"	{
 	else if (isKeyDown("alt"))		full_Screen_Image();
 }
 macro "[3]"	{
-	if		(no_Alt_no_Space())		my_3D_projection();
-	else if (isKeyDown("space"))	fancy_3D_montage();
-	// else if (isKeyDown("alt"))		
+	if		(no_Alt_no_Space())		show_History();  // my_3D_projection();
+	else if (isKeyDown("space"))	{setupUndo(); run("Unsharp Mask...", "radius=2 mask=0.30"); add_To_History("Unsharp Mask 2, 0.3");}// fancy_3D_montage(); à virer / mettre de côté
+	else if (isKeyDown("alt"))		{setKeyDown("shift"); CLAHE(); exit();}	
 }
 macro "[4]"	{
 	if		(no_Alt_no_Space())		{ run("Make Montage...", "scale=1"); setOption("Changes", 0); }
@@ -398,6 +398,7 @@ macro "[R]"	{
 	else if (isKeyDown("alt"))		propagate_Contrasts_All_Images();
 }
 macro "[r]"	{
+	// if		(no_Alt_no_Space())		run("Reset Channels Display");
 	if		(no_Alt_no_Space())		adjust_Contrast();
 	else if (isKeyDown("space"))	{run("Install...","install=["+getDirectory("macros")+"/StartupMacros.fiji.ijm]"); setTool(15);}
 	else if (isKeyDown("alt"))		reduce_Contrast();
@@ -543,6 +544,24 @@ function add_Shortcuts_Line(key, alone, space, alt){
 	Table.set("with Alt",	SHORTCUT_LINE_INDEX, alt);
 }
 
+function add_To_History(string) {
+	history = Property.get("History");
+	history += "\n" + string;
+	Property.set("History", history)
+}
+
+function get_History() {
+	return Property.get("History");
+}
+
+function set_History(history) {
+	Property.set("History", history)
+}
+
+function show_History() {
+	print("history:"+Property.get("History"));
+}
+
 function ovary_Tracer()  {
 	getLine(x1, y1, x2, y2, lineWidth);
 	if(x1 == -1) exit("draw a line from start to finish, touch the signal");
@@ -589,6 +608,7 @@ function gaussian_focuser(){
 	run("Gaussian-based stack focuser", "radius_of_gaussian_blur=7");
 	run("Make Composite", "display=Composite");
 	setVoxelSize(width, height, depth, unit);
+	add_To_History("Gaussian focussing radius 7");
 }
 
 function gaussian_focuser_all_images(){
@@ -812,6 +832,11 @@ function add_Fields(s) {
 	return result_String;
 }
 
+function sex_to_results(value){
+	row = getValue("results.count")-1;
+	setResult("sex", row, value);
+}
+
 function count_Button(column_Name, color){
 	if (nImages==0) exit();
 	if(!isOpen("count.csv")){
@@ -889,6 +914,7 @@ function quick_Scale_Bar(factor){
 	if (nImages()==0) exit();
 	if ( Overlay.size > 0) {run("Remove Overlay"); exit();}
 	color = "White";
+	if (my_is_inverting_LUT()) color = "Black";
 	// approximate size of the scale bar relative to image width :
 	scalebar_Size = 0.13;
 	getPixelSize(unit, pixel_Width, pixel_Height);
@@ -948,11 +974,12 @@ function save_As_LZW_compressed_tif(){
 
 function multichannel_CliJ_Stack_Focuser(){
 	if (bitDepth()==24) run("Make Composite");
-	setBatchMode(1);
 	title = getTitle();
 	info = getMetadata("Info");
 	getVoxelSize(pixel_width, pixel_height, depth, unit);
 	getDimensions(width, height, channels, slices, frames);
+	// run("GPU Memory Display");
+	setBatchMode(1);
 	if (channels > 1) {
 		for (i = 0; i < channels; i++) {
 			selectWindow(title);
@@ -960,12 +987,12 @@ function multichannel_CliJ_Stack_Focuser(){
 			getLut(reds, greens, blues);
 			clij_Stack_Focuser();
 			setLut(reds, greens, blues);
-			rename(title+i+1);
+			rename(title+ "_" + (i+1));
 			resetMinAndMax();
 		}
 		txt = "";
 		for (i=0; i<channels; i++) {
-			txt = txt + "c" + i+1 + "=[" + title+i+1 + "] ";
+			txt = txt + "c" + i+1 + "=[" + title + "_" + (i+1) + "] ";
 		}
 		run("Merge Channels...", txt + "create");
 	}
@@ -996,6 +1023,8 @@ function clij_Stack_Focuser(){
 	
 	//initialise GPU
 	run("CLIJ2 Macro Extensions", "cl_device=");
+	Ext.CLIJ2_getGPUProperties(String_GPU_name, Number_global_memory_in_bytes, Number_OpenCL_version);
+	if (String_GPU_name == "Intel(R) UHD Graphics 630") run("Change OpenCL device", "cl_device=[NVIDIA GeForce RTX 2080 SUPER]");	if (String_GPU_name == "UHD Graphics 630") run("Change OpenCL device", "cl_device=[NVIDIA GeForce RTX 2080 SUPER]");
 	Ext.CLIJ2_clear();
 	//Get image information
 	slice_Number = nSlices;
@@ -1199,6 +1228,7 @@ function switch_Composite_Mode(){
 }
 
 function my_is_inverting_LUT() {
+	if (bitDepth()==24) return false;
 	is_inverting_LUT = false;
 	getLut(reds, greens, blues);
 	if (reds[0] + greens[0] + blues[0] > 20) is_inverting_LUT = true;
@@ -2523,8 +2553,10 @@ function fast_Merge(){
 
 function CLAHE(){
 	if (nImages()==0) exit();
+	setupUndo();
 	if (isKeyDown("shift")) run("Enhance Local Contrast (CLAHE)", "blocksize=200 histogram=256 maximum=1.2 mask=*None* fast_(less_accurate)");
 	else run("Enhance Local Contrast (CLAHE)");
+	add_To_History("CLAHE, 200, 1.2");
 }
 
 function set_Active_Path() { File.setDefaultDir(getDirectory("image")); }
@@ -2805,6 +2837,8 @@ function fancy_3D_montage() {
 
 function my_3D_projection() {
 	if (nImages()==0) exit();
+	getDimensions(width, height, channels, slices, frames);
+	if (slices*frames==1) exit;
 	showStatus("3D project");
 	run("3D Project...", "projection=[Mean Value] initial=312 total=96 rotation=6 interpolate");
 	run("Animation Options...", "speed=14 loop start");
@@ -2991,6 +3025,7 @@ function reduce_Contrast(){
 }
 
 function auto_Contrast_All_Channels() {
+	// run("Reset Channels Display");
 	if (nImages()==0) exit();
 	getDimensions(width, height, channels, slices, frames);
 	Stack.getPosition(channel, slice, frame);
@@ -3122,6 +3157,7 @@ function save_All_Images_Dialog() {
 	Dialog.show();
 	format = Dialog.getChoice();
 	folder = getDirectory("Choose a Directory");
+	print("path: " + folder);
 	for (i=0; i<nImages; i++) {
         selectImage(i+1);
         title = getTitle;
@@ -3133,6 +3169,10 @@ function save_All_Images_Dialog() {
 
 function my_Tile() {
 	if (nImages() == 0) exit();
+	if (nImages() > 10){
+		run("Tile");
+		exit;
+	}
 	for (i=0; i<nImages ; i++) {			
 		selectImage(i+1);
 		Stack.getPosition(channel, slice, frame);
@@ -4632,7 +4672,7 @@ function show_my_Zbeul_Action_Bar(cul){
 	add_gray_button("true color", "if (isKeyDown(\"shift\")) run(\"Enhance True Color Contrast\"); else run(\"Enhance True Color Contrast\", \"saturated=0.2\");", "tRUE cOLOR cONTRAST 0.2, shift for dialog");
 
 	add_new_Line();
-	add_gray_button("sharpen", "if (isKeyDown(\"shift\")) run(\"Unsharp Mask...\"); else run(\"Unsharp Mask...\", \"radius=2 mask=0.30\");", "Unsharp Mask 2, 0.3, shift for dialog");
+	add_gray_button("sharpen", "if (isKeyDown(\"shift\")) run(\"Unsharp Mask...\"); else run(\"Unsharp Mask...\", \"radius=2 mask=0.30\"); add_To_History(\"Unsharp Mask 2, 0.3\");", "Unsharp Mask 2, 0.3, shift for dialog");
 	add_gray_button("normalize", "signal_normalisation_BIOP();", "Square root signal normalization");
 	add_gray_button("max twist", "max_With_a_Twist();", "Max animation with a twist");
 	add_gray_button("stack diff","run(\"Stack Difference\");", "Stack Difference");
